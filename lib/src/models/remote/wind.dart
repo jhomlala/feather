@@ -10,6 +10,10 @@ class Wind {
   }
 
   void setupDegCode() {
+    if (_deg == null){
+      _degCode = "N";
+      return;
+    }
     if (_deg >= 0 && _deg < 45) {
       _degCode = "N";
     } else if (_deg >= 45 && _deg < 90) {

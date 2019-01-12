@@ -33,8 +33,9 @@ class WeatherApiProvider {
       } else {
         return WeatherResponse.withErrorCode("ERROR_API_ERROR");
       }
-    } catch (exc){
-      Logger.log(_tag,"Exception occured: " + exc.toString());
+    } catch (exc, stacktrace){
+      Logger.log(_tag,"Exception occured: " + stacktrace.toString());
+
       return WeatherResponse.withErrorCode("ERROR_CONNECTION_ERROR");
     }
   }

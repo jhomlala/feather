@@ -12,6 +12,7 @@ import 'package:feather/src/ui/widget/widget_helper.dart';
 import 'package:feather/src/utils/types_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 
 class WeatherForecastWidget extends StatelessWidget {
   final WeatherForecastHolder holder;
@@ -51,15 +52,29 @@ class WeatherForecastWidget extends StatelessWidget {
           Text(_getMaxMinTemperatureText(),
               style: Theme.of(context).textTheme.subtitle),
           WidgetHelper.buildPadding(top: 30),
-          ChartWidget(
-            height: height,
-            width: width,
-            points: points,
-            pointLabels: pointLabels,
-            axes: axes,
-          ),
-          WidgetHelper.buildPadding(top: 10),
-          imagesUnderChartRowWidget
+          SizedBox(
+              height: 300,
+              child: Swiper(
+                itemBuilder: (BuildContext context, int index) {
+                  return Center(
+                      child: Column(children: [
+                    ChartWidget(
+                      height: height,
+                      width: width,
+                      points: points,
+                      pointLabels: pointLabels,
+                      axes: axes,
+                    ),
+                    WidgetHelper.buildPadding(top: 10),
+                    imagesUnderChartRowWidget
+                  ]));
+                },
+                itemCount: 3,
+                pagination: SwiperPagination(
+                    builder: new DotSwiperPaginationBuilder(
+                        color: Colors.black, activeColor: Colors.green)),
+              ))
+
         ],
       ),
     );
@@ -72,7 +87,6 @@ class WeatherForecastWidget extends StatelessWidget {
   String _getMinTemperatureText() {
     return "↓${TypesHelper.formatTemperature(temperature: holder.minTemperature, positions: 1, round: false)}";
   }
-
 
   String _getMaxMinTemperatureText() {
     return "${_getMaxTemperatureText()}   ${_getMinTemperatureText()}";
