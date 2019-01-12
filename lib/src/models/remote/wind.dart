@@ -1,11 +1,13 @@
+import 'package:feather/src/utils/types_helper.dart';
+
 class Wind {
   double _speed;
   double _deg;
   String _degCode;
 
   Wind(Map<String, dynamic> data) {
-    _speed = data["speed"];
-    _deg = data["deg"];
+    _speed = TypesHelper.getDouble(data["speed"]);
+    _deg = TypesHelper.getDouble(data["deg"]);
     setupDegCode();
   }
 

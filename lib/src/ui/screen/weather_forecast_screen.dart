@@ -4,7 +4,6 @@ import 'package:feather/src/ui/widget/weather_forecast_widget.dart';
 import 'package:feather/src/ui/widget/widget_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
 
 class WeatherForecastScreen extends StatelessWidget {
   final WeatherForecastHolder _holder;

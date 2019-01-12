@@ -1,6 +1,7 @@
 import 'dart:core';
 import 'dart:math';
 
+import 'package:feather/src/models/internal/chart_data.dart';
 import 'package:feather/src/models/internal/line_axis.dart';
 import 'package:feather/src/models/internal/point.dart';
 import 'package:feather/src/models/internal/weather_forecast_holder.dart';
@@ -56,25 +57,36 @@ class WeatherForecastWidget extends StatelessWidget {
               height: 300,
               child: Swiper(
                 itemBuilder: (BuildContext context, int index) {
-                  return Center(
-                      child: Column(children: [
-                    ChartWidget(
-                      height: height,
-                      width: width,
-                      points: points,
-                      pointLabels: pointLabels,
-                      axes: axes,
-                    ),
-                    WidgetHelper.buildPadding(top: 10),
-                    imagesUnderChartRowWidget
-                  ]));
+                  if (index == 1) {
+                    ChartData chartData = holder.setupChartData(
+                        ChartDataType.wind, width, height);
+                    return Center(
+                        child: ChartWidget(
+                            points: chartData.points,
+                            pointLabels: chartData.pointLabels,
+                            width: width,
+                            height: height,
+                            axes: chartData.axes));
+                  } else {
+                    return Center(
+                        child: Column(children: [
+                      ChartWidget(
+                        height: height,
+                        width: width,
+                        points: points,
+                        pointLabels: pointLabels,
+                        axes: axes,
+                      ),
+                      WidgetHelper.buildPadding(top: 10),
+                      imagesUnderChartRowWidget
+                    ]));
+                  }
                 },
                 itemCount: 3,
                 pagination: SwiperPagination(
                     builder: new DotSwiperPaginationBuilder(
                         color: Colors.black, activeColor: Colors.green)),
               ))
-
         ],
       ),
     );
