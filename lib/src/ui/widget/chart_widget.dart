@@ -1,6 +1,5 @@
 import 'package:feather/src/models/internal/line_axis.dart';
 import 'package:feather/src/models/internal/point.dart';
-import 'package:feather/src/ui/widget/widget_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:logging/logging.dart';

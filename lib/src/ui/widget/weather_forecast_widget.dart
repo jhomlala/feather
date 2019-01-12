@@ -7,7 +7,7 @@ import 'package:feather/src/models/internal/weather_forecast_holder.dart';
 import 'package:feather/src/models/remote/weather_forecast_response.dart';
 import 'package:feather/src/resources/app_const.dart';
 import 'package:feather/src/resources/weather_manager.dart';
-import 'package:feather/src/ui/widget/chart_painter_widget.dart';
+import 'package:feather/src/ui/widget/chart_widget.dart';
 import 'package:feather/src/ui/widget/widget_helper.dart';
 import 'package:feather/src/utils/types_helper.dart';
 import 'package:flutter/material.dart';
@@ -65,8 +65,17 @@ class WeatherForecastWidget extends StatelessWidget {
     );
   }
 
+  String _getMaxTemperatureText() {
+    return "↑${TypesHelper.formatTemperature(temperature: holder.maxTemperature, positions: 1, round: false)}";
+  }
+
+  String _getMinTemperatureText() {
+    return "↓${TypesHelper.formatTemperature(temperature: holder.minTemperature, positions: 1, round: false)}";
+  }
+
+
   String _getMaxMinTemperatureText() {
-    return "↑${TypesHelper.formatTemperature(temperature: holder.maxTemperature, positions: 1, round: false)}    ↓${TypesHelper.formatTemperature(temperature: holder.minTemperature, positions: 1, round: false)}";
+    return "${_getMaxTemperatureText()}   ${_getMinTemperatureText()}";
   }
 
   List<Point> _getPoints() {
