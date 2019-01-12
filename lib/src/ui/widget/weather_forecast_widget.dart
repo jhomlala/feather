@@ -26,6 +26,14 @@ class WeatherForecastWidget extends StatelessWidget {
     List<Point> points = _getPoints();
     List<String> pointLabels = _getPointLabels();
     List<LineAxis> axes = getAxes(points);
+    Widget imagesUnderChartRowWidget;
+    if (points.length > 2) {
+      imagesUnderChartRowWidget = Row(
+        children: getWeatherImages(points),
+      );
+    } else {
+      imagesUnderChartRowWidget = Row();
+    }
 
     return Center(
       child: Column(
@@ -41,7 +49,7 @@ class WeatherForecastWidget extends StatelessWidget {
               child: Image.asset(holder.weatherCodeAsset,
                   width: 100, height: 100)),
           WidgetHelper.buildPadding(top: 30),
-          ChartPainterWidget(
+          ChartWidget(
             height: height,
             width: width,
             points: points,
@@ -49,9 +57,7 @@ class WeatherForecastWidget extends StatelessWidget {
             axes: axes,
           ),
           WidgetHelper.buildPadding(top: 10),
-          Row(
-            children: getWeatherImages(points),
-          )
+          imagesUnderChartRowWidget
         ],
       ),
     );
@@ -139,14 +145,14 @@ class WeatherForecastWidget extends StatelessWidget {
     List<Widget> widgets = new List();
     if (points.length > 1) {
       double padding = points[1].x - points[0].x - 30;
-      widgets.add(WidgetHelper.buildPadding(left:15,top:5));
+      widgets.add(WidgetHelper.buildPadding(left: 15, top: 5));
       for (int index = 0; index < points.length; index++) {
         widgets.add(Image.asset(
             WeatherManager.getWeatherIcon(
                 holder.forecastList[index].overallWeatherData[0].id),
             width: 30,
             height: 30));
-        widgets.add(WidgetHelper.buildPadding(left:padding));
+        widgets.add(WidgetHelper.buildPadding(left: padding));
       }
       widgets.removeLast();
     }
