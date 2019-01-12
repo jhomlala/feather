@@ -3,7 +3,9 @@ import 'package:feather/src/models/remote/weather_forecast_response.dart';
 import 'package:feather/src/resources/weather_manager.dart';
 
 class WeatherForecastHolder {
-  double _temperature;
+  double _averageTemperature;
+  double _maxTemperature;
+  double _minTemperature;
   String _dateShortFormatted;
   String _dateFullFormatted;
   int _weatherCode;
@@ -13,7 +15,9 @@ class WeatherForecastHolder {
 
   WeatherForecastHolder(List<WeatherForecastResponse> forecastList, City city) {
     setupDateFormatted(forecastList[0].dateTime);
-    setupTemperature(forecastList);
+    _calculateAverageTemperature(forecastList);
+    _calculateMaxTemperature(forecastList);
+    _calculateMinTemperature(forecastList);
     setupWeatherCode(forecastList);
     _forecastList = forecastList;
     _city = city;
@@ -40,12 +44,35 @@ class WeatherForecastHolder {
     _dateFullFormatted = _dateShortFormatted + "/" + dateTime.year.toString();
   }
 
-  void setupTemperature(List<WeatherForecastResponse> forecastList) {
+  void _calculateAverageTemperature(
+      List<WeatherForecastResponse> forecastList) {
     double sum = 0;
     for (WeatherForecastResponse response in forecastList) {
       sum += response.mainWeatherData.temp;
     }
-    _temperature = sum / forecastList.length;
+    _averageTemperature = sum / forecastList.length;
+  }
+
+  void _calculateMaxTemperature(List<WeatherForecastResponse> forecastList) {
+    double max = forecastList[0].mainWeatherData.temp;
+    for (WeatherForecastResponse response in forecastList) {
+      double temperature = response.mainWeatherData.temp;
+      if (temperature > max) {
+        max = temperature;
+      }
+    }
+    _maxTemperature = max;
+  }
+
+  void _calculateMinTemperature(List<WeatherForecastResponse> forecastList) {
+    double min = forecastList[0].mainWeatherData.temp;
+    for (WeatherForecastResponse response in forecastList) {
+      double temperature = response.mainWeatherData.temp;
+      if (temperature < min) {
+        min = temperature;
+      }
+    }
+    _minTemperature = min;
   }
 
   void setupWeatherCode(List<WeatherForecastResponse> forecastList) {
@@ -66,7 +93,11 @@ class WeatherForecastHolder {
 
   int get weatherCode => _weatherCode;
 
-  double get temperature => _temperature;
+  double get averageTemperature => _averageTemperature;
+
+  double get minTemperature => _minTemperature;
+
+  double get maxTemperature => _maxTemperature;
 
   String get dateFullFormatted => _dateFullFormatted;
 

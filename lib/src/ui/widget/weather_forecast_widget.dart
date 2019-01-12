@@ -25,11 +25,11 @@ class WeatherForecastWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Point> points = _getPoints();
     List<String> pointLabels = _getPointLabels();
-    List<LineAxis> axes = getAxes(points);
+    List<LineAxis> axes = _getAxes(points);
     Widget imagesUnderChartRowWidget;
     if (points.length > 2) {
       imagesUnderChartRowWidget = Row(
-        children: getWeatherImages(points),
+        children: _getWeatherImages(points),
       );
     } else {
       imagesUnderChartRowWidget = Row();
@@ -48,6 +48,8 @@ class WeatherForecastWidget extends StatelessWidget {
               tag: AppConst.imageWeatherHeroTag + holder.dateShortFormatted,
               child: Image.asset(holder.weatherCodeAsset,
                   width: 100, height: 100)),
+          Text(_getMaxMinTemperatureText(),
+              style: Theme.of(context).textTheme.subtitle),
           WidgetHelper.buildPadding(top: 30),
           ChartWidget(
             height: height,
@@ -63,14 +65,18 @@ class WeatherForecastWidget extends StatelessWidget {
     );
   }
 
+  String _getMaxMinTemperatureText() {
+    return "↑${TypesHelper.formatTemperature(temperature: holder.maxTemperature, positions: 1, round: false)}    ↓${TypesHelper.formatTemperature(temperature: holder.minTemperature, positions: 1, round: false)}";
+  }
+
   List<Point> _getPoints() {
     List<Point> points = List();
     double halfHeight = (height - AppConst.chartPadding) / 2;
     double widthStep = width / (holder.forecastList.length - 1);
     double currentX = 0;
 
-    List<double> temperatures = getTemperaturesList();
-    double maxTemperature = getMax(temperatures);
+    List<double> temperatures = _getTemperaturesList();
+    double maxTemperature = _getAbsoluteMax(temperatures);
 
     for (double temp in temperatures) {
       var y = halfHeight - (halfHeight * temp / maxTemperature);
@@ -80,9 +86,9 @@ class WeatherForecastWidget extends StatelessWidget {
     return points;
   }
 
-  List<double> getTemperaturesList() {
+  List<double> _getTemperaturesList() {
     List<double> temperatures = new List();
-    double averageTemperature = holder.temperature;
+    double averageTemperature = holder.averageTemperature;
     for (WeatherForecastResponse forecastResponse in holder.forecastList) {
       double temperatureDiff =
           forecastResponse.mainWeatherData.temp - averageTemperature;
@@ -91,7 +97,7 @@ class WeatherForecastWidget extends StatelessWidget {
     return temperatures;
   }
 
-  double getMax(List<double> values) {
+  double _getAbsoluteMax(List<double> values) {
     double maxValue = 0;
     for (double value in values) {
       maxValue = max(maxValue, value.abs());
@@ -99,10 +105,11 @@ class WeatherForecastWidget extends StatelessWidget {
     return maxValue;
   }
 
-  List<LineAxis> getAxes(List<Point> points) {
+  List<LineAxis> _getAxes(List<Point> points) {
     List<LineAxis> list = new List();
     list.add(LineAxis(
-        TypesHelper.formatTemperature(temperature: holder.temperature, positions: 1, round: false),
+        TypesHelper.formatTemperature(
+            temperature: holder.averageTemperature, positions: 1, round: false),
         Offset(-25, height / 2 - 15),
         Offset(-5, (height - AppConst.chartPadding) / 2),
         Offset(width + 5, (height - AppConst.chartPadding) / 2)));
@@ -132,15 +139,13 @@ class WeatherForecastWidget extends StatelessWidget {
 
   List<String> _getPointLabels() {
     List<String> points = List();
-    double averageTemperature = holder.temperature;
-
     for (WeatherForecastResponse forecastResponse in holder.forecastList) {
       points.add(forecastResponse.mainWeatherData.temp.toStringAsFixed(1));
     }
     return points;
   }
 
-  List<Widget> getWeatherImages(List<Point> points) {
+  List<Widget> _getWeatherImages(List<Point> points) {
     List<Widget> widgets = new List();
     if (points.length > 1) {
       double padding = points[1].x - points[0].x - 30;
