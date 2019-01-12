@@ -67,7 +67,9 @@ class WeatherWidgetState extends State<WeatherWidget> {
           width: 100,
           height: 100,
         ),
-        Text(TypesHelper.formatTemperature(snapshot.data.mainWeatherData.temp),
+        Text(
+            TypesHelper.formatTemperature(
+                temperature: snapshot.data.mainWeatherData.temp),
             style: Theme.of(context).textTheme.headline),
         WidgetHelper.buildPadding(top: 50),
         Text(_getMaxMinTemperatureRow(snapshot.data),
@@ -85,7 +87,7 @@ class WeatherWidgetState extends State<WeatherWidget> {
   }
 
   String _getMaxMinTemperatureRow(WeatherResponse weatherResponse) {
-    return "↑ ${TypesHelper.formatTemperature(weatherResponse.mainWeatherData.tempMax)}    ↓${TypesHelper.formatTemperature(weatherResponse.mainWeatherData.tempMin)}";
+    return "↑ ${TypesHelper.formatTemperature(temperature: weatherResponse.mainWeatherData.tempMax)}    ↓${TypesHelper.formatTemperature(temperature: weatherResponse.mainWeatherData.tempMin)}";
   }
 
   String _getPressureAndHumidityRow(WeatherResponse weatherResponse) {

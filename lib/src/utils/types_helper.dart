@@ -9,8 +9,11 @@ class TypesHelper {
     }
   }
 
-  static String formatTemperature(double temperature){
-    temperature = temperature.ceil().toDouble();
-    return temperature.toStringAsFixed(0) + "°C";
+
+  static String formatTemperature({double temperature, int positions = 0, round = true}){
+    if (round){
+      temperature = temperature.floor().toDouble();
+    }
+    return temperature.toStringAsFixed(positions) + "°C";
   }
 }

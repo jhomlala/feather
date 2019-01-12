@@ -30,7 +30,7 @@ class WeatherForecastThumbnailWidget extends StatelessWidget {
                     child: Image.asset(_holder.weatherCodeAsset,
                         width: 30, height: 30)),
                 WidgetHelper.buildPadding(top: 5),
-                Text(TypesHelper.formatTemperature(_holder.temperature),
+                Text(TypesHelper.formatTemperature(temperature: _holder.temperature, round: true),
                     style: Theme.of(context).textTheme.body1),
                 WidgetHelper.buildPadding(top: 5),
               ],
