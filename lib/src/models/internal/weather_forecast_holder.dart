@@ -43,7 +43,7 @@ class WeatherForecastHolder {
   void setupTemperature(List<WeatherForecastResponse> forecastList) {
     double sum = 0;
     for (WeatherForecastResponse response in forecastList) {
-      sum = response.mainWeatherData.temp;
+      sum += response.mainWeatherData.temp;
     }
     _temperature = sum / forecastList.length;
   }

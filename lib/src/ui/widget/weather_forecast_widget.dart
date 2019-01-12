@@ -85,7 +85,7 @@ class WeatherForecastWidget extends StatelessWidget {
     double averageTemperature = holder.temperature;
     for (WeatherForecastResponse forecastResponse in holder.forecastList) {
       double temperatureDiff =
-          averageTemperature - forecastResponse.mainWeatherData.temp;
+          forecastResponse.mainWeatherData.temp - averageTemperature;
       temperatures.add(temperatureDiff);
     }
     return temperatures;
@@ -102,7 +102,7 @@ class WeatherForecastWidget extends StatelessWidget {
   List<LineAxis> getAxes(List<Point> points) {
     List<LineAxis> list = new List();
     list.add(LineAxis(
-        TypesHelper.formatTemperature(holder.temperature),
+        TypesHelper.formatTemperature(temperature: holder.temperature, positions: 1, round: false),
         Offset(-25, height / 2 - 15),
         Offset(-5, (height - AppConst.chartPadding) / 2),
         Offset(width + 5, (height - AppConst.chartPadding) / 2)));
@@ -135,8 +135,7 @@ class WeatherForecastWidget extends StatelessWidget {
     double averageTemperature = holder.temperature;
 
     for (WeatherForecastResponse forecastResponse in holder.forecastList) {
-      double diff = averageTemperature - forecastResponse.mainWeatherData.temp;
-      points.add(diff.toStringAsFixed(1));
+      points.add(forecastResponse.mainWeatherData.temp.toStringAsFixed(1));
     }
     return points;
   }
