@@ -8,6 +8,8 @@ import 'package:feather/src/models/internal/weather_forecast_holder.dart';
 import 'package:feather/src/models/remote/weather_forecast_response.dart';
 import 'package:feather/src/resources/app_const.dart';
 import 'package:feather/src/resources/weather_manager.dart';
+import 'package:feather/src/ui/screen/weather_forecast_temperature_page.dart';
+import 'package:feather/src/ui/screen/weather_forecast_wind_page.dart';
 import 'package:feather/src/ui/widget/chart_widget.dart';
 import 'package:feather/src/ui/widget/widget_helper.dart';
 import 'package:feather/src/utils/types_helper.dart';
@@ -46,46 +48,27 @@ class WeatherForecastWidget extends StatelessWidget {
           Text(holder.dateFullFormatted,
               style: Theme.of(context).textTheme.subtitle),
           WidgetHelper.buildPadding(top: 20),
-          Hero(
+          /*Hero(
               tag: AppConst.imageWeatherHeroTag + holder.dateShortFormatted,
               child: Image.asset(holder.weatherCodeAsset,
-                  width: 100, height: 100)),
-          Text(_getMaxMinTemperatureText(),
+                  width: 100, height: 100)),*/
+          /*Text(_getMaxMinTemperatureText(),
               style: Theme.of(context).textTheme.subtitle),
-          WidgetHelper.buildPadding(top: 30),
+          WidgetHelper.buildPadding(top: 30),*/
           SizedBox(
-              height: 300,
+              height: 450,
               child: Swiper(
                 itemBuilder: (BuildContext context, int index) {
                   if (index == 1) {
-                    ChartData chartData = holder.setupChartData(
-                        ChartDataType.wind, width, height);
-                    return Center(
-                        child: ChartWidget(
-                            points: chartData.points,
-                            pointLabels: chartData.pointLabels,
-                            width: width,
-                            height: height,
-                            axes: chartData.axes));
+                    return WeatherForecastWindPage(holder:holder, width: width,height: height,);
                   } else {
-                    return Center(
-                        child: Column(children: [
-                      ChartWidget(
-                        height: height,
-                        width: width,
-                        points: points,
-                        pointLabels: pointLabels,
-                        axes: axes,
-                      ),
-                      WidgetHelper.buildPadding(top: 10),
-                      imagesUnderChartRowWidget
-                    ]));
+                    return WeatherForecastTemperaturePage(holder: holder,width: width, height: height);
                   }
                 },
-                itemCount: 3,
+                itemCount: 2,
                 pagination: SwiperPagination(
                     builder: new DotSwiperPaginationBuilder(
-                        color: Colors.black, activeColor: Colors.green)),
+                        color: Colors.black, activeColor: Colors.white)),
               ))
         ],
       ),

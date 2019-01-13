@@ -85,8 +85,6 @@ class WeatherForecastHolder {
   }
 
   double _calculateAverage(List<double> values) {
-    print("Values: " + values.toString());
-    print(" _temps: " + _temperatures.toString());
     double sum = 0;
     for (var value in values) {
       sum += value;
@@ -261,7 +259,7 @@ class WeatherForecastHolder {
             temperature: averageValue, positions: 1, round: false);
         break;
       case ChartDataType.wind:
-        text = "$averageValue m/s";
+        text = "${averageValue.toStringAsFixed(1)} m/s";
         break;
       case ChartDataType.rain:
         text = "";
@@ -269,6 +267,25 @@ class WeatherForecastHolder {
     }
     return text;
   }
+
+  List<String> getWindDirectionList(){
+    List<String> windDirections = new List();
+    for (WeatherForecastResponse response in forecastList) {
+      windDirections.add(response.wind.degCode);
+    }
+    return windDirections;
+  }
+
+
+
+  String _getMaxTemperatureText() {
+    return "↑${TypesHelper.formatTemperature(temperature: maxTemperature, positions: 1, round: false)}";
+  }
+
+  String _getMinTemperatureText() {
+    return "↓${TypesHelper.formatTemperature(temperature: minTemperature, positions: 1, round: false)}";
+  }
+
 
   String get weatherCodeAsset => _weatherCodeAsset;
 
@@ -287,4 +304,16 @@ class WeatherForecastHolder {
   List<WeatherForecastResponse> get forecastList => _forecastList;
 
   City get city => _city;
+
+  double get minWind => _minWind;
+
+  double get maxWind => _maxWind;
+
+  double get averageWind => _averageWind;
+
+  List<double> get winds => _winds;
+
+  List<double> get temperatures => _temperatures;
+
+
 }
