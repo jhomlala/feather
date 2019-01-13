@@ -48,21 +48,15 @@ class WeatherForecastWidget extends StatelessWidget {
           Text(holder.dateFullFormatted,
               style: Theme.of(context).textTheme.subtitle),
           WidgetHelper.buildPadding(top: 20),
-          /*Hero(
-              tag: AppConst.imageWeatherHeroTag + holder.dateShortFormatted,
-              child: Image.asset(holder.weatherCodeAsset,
-                  width: 100, height: 100)),*/
-          /*Text(_getMaxMinTemperatureText(),
-              style: Theme.of(context).textTheme.subtitle),
-          WidgetHelper.buildPadding(top: 30),*/
+
           SizedBox(
               height: 450,
               child: Swiper(
                 itemBuilder: (BuildContext context, int index) {
-                  if (index == 1) {
-                    return WeatherForecastWindPage(holder:holder, width: width,height: height,);
+                  if (index == 0) {
+                    return WeatherForecastTemperaturePage(holder,  width, height);
                   } else {
-                    return WeatherForecastTemperaturePage(holder: holder,width: width, height: height);
+                    return WeatherForecastWindPage(holder,  width, height,);
                   }
                 },
                 itemCount: 2,
