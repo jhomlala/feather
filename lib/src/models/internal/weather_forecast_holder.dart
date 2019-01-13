@@ -129,7 +129,6 @@ class WeatherForecastHolder {
     if (_chartDataCache.containsKey(chartDataType)){
       return _chartDataCache[chartDataType];
     }
-
     List<double> values = _getChartValues(chartDataType);
     double averageValue = _getChartAverageValue(chartDataType);
     List<Point> points = _getPoints(values, averageValue, width, height);

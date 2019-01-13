@@ -21,7 +21,6 @@ class WeatherForecastResponse {
     _mainWeatherData = MainWeatherData(data["main"]);
     _wind = Wind(data["wind"]);
     _clouds = Clouds(data["clouds"]);
-    print(data["dt_txt"]);
     _dateTime = DateTime.parse(data["dt_txt"]);
     if (data.containsKey("rain")) {
       _rain = Rain(data["rain"]);

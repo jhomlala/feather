@@ -16,7 +16,7 @@ class WeatherForecastWindPage extends WeatherForecastBasePage {
   Row getBottomRowWidget(BuildContext context) {
     List<Widget> rowElements = new List();
     List<Point> points = getChartData().points;
-    if (points.length > 1) {
+    if (points.length > 2) {
       double padding = points[1].x - points[0].x - 30;
 
       rowElements.add(WidgetHelper.buildPadding(left: 15));

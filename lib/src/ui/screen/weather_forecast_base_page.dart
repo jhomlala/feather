@@ -27,7 +27,8 @@ abstract class WeatherForecastBasePage extends StatelessWidget {
       WidgetHelper.buildPadding(top: 20),
       getPageSubtitleWidget(context),
       WidgetHelper.buildPadding(top: 40),
-      ChartWidget(chartData:chartData),
+      ChartWidget(chartData: chartData),
+      WidgetHelper.buildPadding(top: 10),
       getBottomRowWidget(context)
     ]));
   }

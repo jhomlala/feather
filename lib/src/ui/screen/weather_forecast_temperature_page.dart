@@ -3,7 +3,6 @@ import 'package:feather/src/models/internal/point.dart';
 import 'package:feather/src/models/internal/weather_forecast_holder.dart';
 import 'package:feather/src/resources/weather_manager.dart';
 import 'package:feather/src/ui/screen/weather_forecast_base_page.dart';
-import 'package:feather/src/ui/widget/chart_widget.dart';
 import 'package:feather/src/ui/widget/widget_helper.dart';
 import 'package:feather/src/utils/types_helper.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +17,7 @@ class WeatherForecastTemperaturePage extends WeatherForecastBasePage {
   Row getBottomRowWidget(BuildContext context) {
     List<Point> points = getChartData().points;
     List<Widget> widgets = new List();
-    if (points.length > 1) {
+    if (points.length > 2) {
       double padding = points[1].x - points[0].x - 30;
       widgets.add(WidgetHelper.buildPadding(left: 15, top: 5));
       for (int index = 0; index < points.length; index++) {

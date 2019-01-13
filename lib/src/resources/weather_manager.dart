@@ -5,7 +5,6 @@ import 'package:feather/src/models/remote/weather_forecast_response.dart';
 class WeatherManager {
   static String getWeatherIcon(int code) {
     String asset = "assets/icon_cloud.png";
-    print("Weather code: " + code.toString());
     if (code >= 200 && code <= 299) {
       asset = "assets/icon_thunder.png";
     } else if (code >= 300 && code <= 399) {
