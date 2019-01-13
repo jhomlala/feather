@@ -49,11 +49,11 @@ class WeatherForecastWindPage extends WeatherForecastBasePage {
         text: TextSpan(children: [
           TextSpan(text: 'min ', style: Theme.of(context).textTheme.body2),
           TextSpan(
-              text: "${holder.minWind.toStringAsFixed(1)} m/s",
+              text: "${holder.minWind.toStringAsFixed(1)} km/h",
               style: Theme.of(context).textTheme.subtitle),
           TextSpan(text: '   max ', style: Theme.of(context).textTheme.body2),
           TextSpan(
-              text: "${holder.maxWind.toStringAsFixed(1)} m/s",
+              text: "${holder.maxWind.toStringAsFixed(1)} km/h",
               style: Theme.of(context).textTheme.subtitle)
         ]));
   }

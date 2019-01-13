@@ -6,7 +6,7 @@ class Wind {
   String _degCode;
 
   Wind(Map<String, dynamic> data) {
-    _speed = TypesHelper.getDouble(data["speed"]);
+    _speed = changeToKilometersPerHour(TypesHelper.getDouble(data["speed"]));
     _deg = TypesHelper.getDouble(data["deg"]);
     setupDegCode();
   }
@@ -34,6 +34,15 @@ class Wind {
       _degCode = "NW";
     }
   }
+
+  double changeToKilometersPerHour(double value){
+    if (value != null) {
+      return value * 3.6;
+    } else {
+      return 0;
+    }
+  }
+
 
   double get deg => _deg;
 

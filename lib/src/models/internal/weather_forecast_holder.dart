@@ -266,7 +266,7 @@ class WeatherForecastHolder {
             temperature: averageValue, positions: 1, round: false);
         break;
       case ChartDataType.wind:
-        text = "${averageValue.toStringAsFixed(1)} m/s";
+        text = "${averageValue.toStringAsFixed(1)} km/h";
         break;
       case ChartDataType.rain:
         text = "";
