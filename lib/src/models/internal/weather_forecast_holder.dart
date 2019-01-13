@@ -27,8 +27,10 @@ class WeatherForecastHolder {
   String _weatherCodeAsset;
   List<WeatherForecastResponse> _forecastList;
   City _city;
+  Map<ChartDataType, ChartData> _chartDataCache;
 
   WeatherForecastHolder(List<WeatherForecastResponse> forecastList, City city) {
+    _chartDataCache = new Map();
     _forecastList = forecastList;
     _temperatures = _getTemperaturesList();
 
@@ -124,6 +126,10 @@ class WeatherForecastHolder {
 
   ChartData setupChartData(
       ChartDataType chartDataType, double width, double height) {
+    if (_chartDataCache.containsKey(chartDataType)){
+      return _chartDataCache[chartDataType];
+    }
+
     List<double> values = _getChartValues(chartDataType);
     double averageValue = _getChartAverageValue(chartDataType);
     List<Point> points = _getPoints(values, averageValue, width, height);
@@ -132,7 +138,9 @@ class WeatherForecastHolder {
     String mainAxisText = _getMainAxisText(chartDataType, averageValue);
     List<LineAxis> axes =
         _getAxes(points, dateTimes, height, width, mainAxisText);
-    return ChartData(points, pointsLabel, width, height, axes);
+    var chartData = ChartData(points, pointsLabel, width, height, axes);
+    _chartDataCache[chartDataType] = chartData;
+    return chartData;
   }
 
   List<double> _getChartValues(ChartDataType chartDataType) {
@@ -276,15 +284,6 @@ class WeatherForecastHolder {
     return windDirections;
   }
 
-
-
-  String _getMaxTemperatureText() {
-    return "↑${TypesHelper.formatTemperature(temperature: maxTemperature, positions: 1, round: false)}";
-  }
-
-  String _getMinTemperatureText() {
-    return "↓${TypesHelper.formatTemperature(temperature: minTemperature, positions: 1, round: false)}";
-  }
 
 
   String get weatherCodeAsset => _weatherCodeAsset;

@@ -1,3 +1,4 @@
+import 'package:feather/src/models/internal/chart_data.dart';
 import 'package:feather/src/models/internal/line_axis.dart';
 import 'package:feather/src/models/internal/point.dart';
 import 'package:flutter/material.dart';
@@ -5,20 +6,12 @@ import 'package:flutter/widgets.dart';
 import 'package:logging/logging.dart';
 
 class ChartWidget extends StatefulWidget {
-  ChartWidget(
-      {Key key,
-      this.points,
-      this.pointLabels,
-      this.width,
-      this.height,
-      this.axes})
-      : super(key: key);
+  final ChartData chartData;
 
-  final List<Point> points;
-  final List<String> pointLabels;
-  final double width;
-  final double height;
-  final List<LineAxis> axes;
+  ChartWidget({
+    Key key,
+    this.chartData,
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _ChartWidgetState();
@@ -49,23 +42,28 @@ class _ChartWidgetState extends State<ChartWidget>
   @override
   Widget build(BuildContext context) {
     Widget chartWidget;
-    if (widget.points.length < 3) {
+    if (widget.chartData.points.length < 3) {
       chartWidget = _getChartUnavailableWidget(context);
     } else {
       chartWidget = _getChartWidget();
     }
 
     return Container(
-      width: widget.width,
-      height: widget.height,
+      width: widget.chartData.width,
+      height: widget.chartData.height,
       child: chartWidget,
     );
   }
 
   Widget _getChartWidget() {
     return CustomPaint(
-        painter: _ChartPainter(widget.points, widget.pointLabels, widget.width,
-            widget.height, widget.axes, _fraction));
+        painter: _ChartPainter(
+            widget.chartData.points,
+            widget.chartData.pointLabels,
+            widget.chartData.width,
+            widget.chartData.height,
+            widget.chartData.axes,
+            _fraction));
   }
 
   Widget _getChartUnavailableWidget(BuildContext context) {
