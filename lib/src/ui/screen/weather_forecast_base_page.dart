@@ -47,7 +47,7 @@ abstract class WeatherForecastBasePage extends StatelessWidget {
 
   RichText getPageSubtitleWidget(BuildContext context);
 
-  Row getBottomRowWidget(BuildContext context);
+  Widget getBottomRowWidget(BuildContext context);
 
   ChartData getChartData();
 }

@@ -8,6 +8,11 @@ class AppConst{
 
   /// strings
   static String imageWeatherHeroTag = "imageWeather";
+  static String temperaturePage = "temperature_page";
+  static String windPage = "wind_page";
+  static String rainPage = "rain_page";
+  static String storageLocationKey = "feather_location";
+
 
   // dimensions
   static int chartPadding = 15;

@@ -2,6 +2,7 @@ import 'package:feather/src/ui/screen/weather_main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:logging/logging.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(MyApp());
 
@@ -10,6 +11,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIOverlays([]);
     _configureLogger();
+    _configureSharedPreferences();
     return MaterialApp(
         home: WeatherMainScreen(),
         debugShowCheckedModeBanner: false,
@@ -26,7 +28,11 @@ class MyApp extends StatelessWidget {
     Logger.root.level = Level.ALL;
     Logger.root.onRecord.listen((LogRecord rec) {
       print(
-          '[${rec.level.name}][${rec.loggerName}][${rec.time}]: ${rec.message}');
+          '[${rec.level.name}][${rec.time}][${rec.loggerName}]: ${rec.message}');
     });
+  }
+
+  _configureSharedPreferences(){
+    //SharedPreferences.setMockInitialValues({});
   }
 }

@@ -14,12 +14,12 @@ class WeatherForecastTemperaturePage extends WeatherForecastBasePage {
       : super(holder: holder, width: width, height: height);
 
   @override
-  Row getBottomRowWidget(BuildContext context) {
+  Widget getBottomRowWidget(BuildContext context) {
     List<Point> points = getChartData().points;
     List<Widget> widgets = new List();
     if (points.length > 2) {
       double padding = points[1].x - points[0].x - 30;
-      widgets.add(WidgetHelper.buildPadding(left: 15, top: 5));
+      widgets.add(WidgetHelper.buildPadding( top: 5));
       for (int index = 0; index < points.length; index++) {
         widgets.add(Image.asset(
             WeatherManager.getWeatherIcon(
@@ -31,7 +31,7 @@ class WeatherForecastTemperaturePage extends WeatherForecastBasePage {
       widgets.removeLast();
     }
 
-    return Row(children: widgets);
+    return Row(mainAxisAlignment: MainAxisAlignment.center,children: widgets);
   }
 
   @override

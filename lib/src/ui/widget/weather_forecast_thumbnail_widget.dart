@@ -1,5 +1,4 @@
 import 'package:feather/src/models/internal/weather_forecast_holder.dart';
-import 'package:feather/src/resources/app_const.dart';
 import 'package:feather/src/ui/screen/weather_forecast_screen.dart';
 import 'package:feather/src/ui/widget/widget_helper.dart';
 import 'package:feather/src/utils/types_helper.dart';
@@ -24,13 +23,11 @@ class WeatherForecastThumbnailWidget extends StatelessWidget {
                 Text(_holder.dateShortFormatted,
                     style: Theme.of(context).textTheme.body1),
                 WidgetHelper.buildPadding(top: 5),
-                Hero(
-                    tag: AppConst.imageWeatherHeroTag +
-                        _holder.dateShortFormatted,
-                    child: Image.asset(_holder.weatherCodeAsset,
-                        width: 30, height: 30)),
+                Image.asset(_holder.weatherCodeAsset, width: 30, height: 30),
                 WidgetHelper.buildPadding(top: 5),
-                Text(TypesHelper.formatTemperature(temperature: _holder.averageTemperature, round: true),
+                Text(
+                    TypesHelper.formatTemperature(
+                        temperature: _holder.averageTemperature, round: true),
                     style: Theme.of(context).textTheme.body1),
                 WidgetHelper.buildPadding(top: 5),
               ],

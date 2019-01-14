@@ -1,18 +1,22 @@
 import 'dart:async';
 
+import 'package:feather/src/models/internal/geo_position.dart';
 import 'package:feather/src/models/remote/weather_forecast_list_response.dart';
 import 'package:feather/src/models/remote/weather_response.dart';
 import 'package:feather/src/resources/location_manager.dart';
+import 'package:feather/src/resources/storage_manager.dart';
 import 'package:feather/src/resources/weather_repository.dart';
+import 'package:logging/logging.dart';
 import 'package:rxdart/rxdart.dart';
 
 class WeatherBloc {
   final _weatherRepository = WeatherRepository();
   final _locationManager = LocationManager();
+  final _storageManager = StorageManager();
   final _weatherFetcher = PublishSubject<WeatherResponse>();
   final _weatherForecastFetcher = PublishSubject<WeatherForecastListResponse>();
   final _weatherRefreshTimeInSeconds = 900;
-  Timer _timer;
+  final _logger = new Logger("WeatherBloc");
 
   Observable<WeatherResponse> get weather => _weatherFetcher.stream;
 
@@ -20,31 +24,37 @@ class WeatherBloc {
       _weatherForecastFetcher.stream;
 
   fetchWeatherForUserLocation() async {
-    print("Fetch weather for user location");
-    var positionOptional = await _locationManager.getLocation();
-    if (positionOptional.isPresent) {
-      var position = positionOptional.value;
-      fetchWeather(position.latitude, position.longitude);
+    _logger.log(Level.FINE, "Fetch weather for user location");
+
+    GeoPosition geoPosition = await _getPosition();
+    if (geoPosition != null){
+      fetchWeather(geoPosition.lat, geoPosition.long);
     } else {
+      _logger.log(
+          Level.WARNING,
+          "Fetch weather failed because location not selected");
       _weatherFetcher.sink
           .add(WeatherResponse.withErrorCode("ERROR_LOCATION_NOT_SELECTED"));
     }
+
   }
 
   fetchWeather(double latitude, double longitude) async {
-    print("Fetch weather");
+    _logger.log(Level.FINE, "Fetch weather");
     WeatherResponse weatherResponse =
         await _weatherRepository.fetchWeather(latitude, longitude);
     _weatherFetcher.sink.add(weatherResponse);
   }
 
   fetchWeatherForecastForUserLocation() async {
-    print("Fetch weather forecast for user location");
-    var positionOptional = await _locationManager.getLocation();
-    if (positionOptional.isPresent) {
-      var position = positionOptional.value;
-      fetchWeatherForecast(position.latitude, position.longitude);
+    _logger.log(Level.FINE, "Fetch weather forecast for user location");
+
+    GeoPosition geoPosition = await _getPosition();
+    if (geoPosition != null){
+      fetchWeatherForecast(geoPosition.lat, geoPosition.long);
     } else {
+      _logger.log(Level.WARNING,
+          "Fetch weather forecast for user location failed because location not selected");
       _weatherForecastFetcher.sink.add(
           WeatherForecastListResponse.withErrorCode(
               "ERROR_LOCATION_NOT_SELECTED"));
@@ -52,26 +62,42 @@ class WeatherBloc {
   }
 
   fetchWeatherForecast(double latitude, double longitude) async {
-    print("Fetch weather forecast");
+    _logger.log(Level.FINE, "Fetch weather forecast");
     WeatherForecastListResponse weatherForecastResponse =
         await _weatherRepository.fetchWeatherForecast(latitude, longitude);
     _weatherForecastFetcher.sink.add(weatherForecastResponse);
   }
 
   setupTimer() {
-    print("Setup timer");
+    _logger.log(Level.FINE, "Setup timer");
     var duration = Duration(seconds: _weatherRefreshTimeInSeconds);
-    _timer = new Timer(duration, handleTimerTimeout);
+    var timer = new Timer(duration, handleTimerTimeout);
   }
 
   handleTimerTimeout() {
-    print("handle timer timeout");
+    _logger.log(Level.FINE, "handle timer timeout");
     setupTimer();
     fetchWeatherForUserLocation();
+    fetchWeatherForecastForUserLocation();
+  }
+
+
+  Future<GeoPosition> _getPosition() async {
+    var positionOptional = await _locationManager.getLocation();
+    if (positionOptional.isPresent) {
+      _logger.fine("Position is present!");
+      var position = positionOptional.value;
+      GeoPosition geoPosition = GeoPosition.fromPosition(position);
+      _storageManager.saveLocation(geoPosition);
+      return geoPosition;
+    } else {
+      _logger.fine("Position is not present!");
+      return _storageManager.getLocation();
+    }
   }
 
   dispose() {
-    print("Dispose");
+    _logger.log(Level.FINE, "Dispose");
     _weatherFetcher.close();
     _weatherForecastFetcher.close();
   }

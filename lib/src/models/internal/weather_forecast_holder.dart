@@ -21,6 +21,12 @@ class WeatherForecastHolder {
   double _maxWind;
   double _minWind;
 
+  List<double> _rains;
+  double _averageRain;
+  double _maxRain;
+  double _minRain;
+
+
   String _dateShortFormatted;
   String _dateFullFormatted;
   int _weatherCode;
@@ -42,6 +48,11 @@ class WeatherForecastHolder {
     _averageWind = _calculateAverage(_winds);
     _maxWind = _calculateMax(_winds);
     _minWind = _calculateMin(_winds);
+
+    _rains = _getRainList();
+    _averageRain = _calculateAverage(_rains);
+    _maxRain = _calculateMax(_rains);
+    _minRain = _calculateMin(_rains);
 
     setupDateFormatted(forecastList[0].dateTime);
 
@@ -152,7 +163,7 @@ class WeatherForecastHolder {
         dataSet = _winds;
         break;
       case ChartDataType.rain:
-        dataSet = _temperatures;
+        dataSet = _rains;
         break;
     }
     return dataSet;
@@ -168,7 +179,7 @@ class WeatherForecastHolder {
         averageValue = _averageWind;
         break;
       case ChartDataType.rain:
-        averageValue = _averageTemperature;
+        averageValue = _averageRain;
         break;
     }
     return averageValue;
@@ -269,7 +280,7 @@ class WeatherForecastHolder {
         text = "${averageValue.toStringAsFixed(1)} km/h";
         break;
       case ChartDataType.rain:
-        text = "";
+        text = "${averageValue.toStringAsFixed(1)} mm/h";
         break;
     }
     return text;
@@ -282,6 +293,23 @@ class WeatherForecastHolder {
     }
     return windDirections;
   }
+
+  List<double> _getRainList() {
+    List<double> rainList = new List();
+    for (WeatherForecastResponse response in forecastList) {
+      double rainSum = 0;
+      if (response.rain != null && response.rain.amount != null){
+        rainSum = response.rain.amount;
+      }
+      if (response.snow != null && response.snow.amount != null){
+        rainSum += response.snow.amount;
+      }
+      rainList.add(rainSum);
+    }
+    return rainList;
+  }
+
+
 
 
 
@@ -312,6 +340,14 @@ class WeatherForecastHolder {
   List<double> get winds => _winds;
 
   List<double> get temperatures => _temperatures;
+
+  double get minRain => _minRain;
+
+  double get maxRain => _maxRain;
+
+  double get averageRain => _averageRain;
+
+  List<double> get rains => _rains;
 
 
 }

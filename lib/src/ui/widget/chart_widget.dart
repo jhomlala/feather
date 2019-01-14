@@ -109,30 +109,58 @@ class _ChartPainter extends CustomPainter {
             startPoint.y + diffY * lastLineFractionPercentage);
         canvas.drawLine(startOffset, endOffset, paint);
         _drawText(
-            canvas, textOffset, pointLabels[index], lastLineFractionPercentage);
+            canvas, textOffset, pointLabels[index], lastLineFractionPercentage,true);
       } else {
         canvas.drawLine(_getOffsetFromPoint(points[index]),
             _getOffsetFromPoint(points[index + 1]), paint);
-        _drawText(canvas, textOffset, pointLabels[index], 1);
+        _drawText(canvas, textOffset, pointLabels[index], 1,true);
       }
     }
     if (fraction > 0.99) {
       Offset textOffset = Offset(
           points[points.length - 1].x - 5, points[points.length - 1].y - 15);
-      _drawText(canvas, textOffset, pointLabels[points.length - 1], 1);
+      _drawText(canvas, textOffset, pointLabels[points.length - 1], 1,true);
     }
   }
 
-  void _drawText(
-      Canvas canvas, Offset offset, String text, double alphaFraction) {
-    Color color = Color.fromARGB((179 * alphaFraction).floor(), 255, 255, 255);
-    TextSpan textSpan = TextSpan(
-        style: new TextStyle(color: color, fontSize: 10, letterSpacing: 0),
-        text: text);
+  void _drawText(Canvas canvas, Offset offset, String text,
+      double alphaFraction, bool textShadow) {
+    TextStyle textStyle = _getTextStyle(alphaFraction, textShadow);
+    TextSpan textSpan = TextSpan(style: textStyle, text: text);
     TextPainter textPainter =
         TextPainter(text: textSpan, textDirection: TextDirection.ltr);
     textPainter.layout();
     textPainter.paint(canvas, offset);
+  }
+
+  TextStyle _getTextStyle(double alphaFraction, bool textShadow) {
+    Color color = Color.fromARGB((220 * alphaFraction).floor(), 255, 255, 255);
+    if (textShadow) {
+      return new TextStyle(
+          color: color,
+          fontSize: 10,
+          letterSpacing: 0,
+          shadows: [
+            Shadow(
+                // bottomLeft
+                offset: Offset(-1.0, -1.0),
+                color: Colors.black38),
+            Shadow(
+                // bottomRight
+                offset: Offset(1.0, -1.0),
+                color: Colors.black38),
+            Shadow(
+                // topRight
+                offset: Offset(1.0, 1.0),
+                color: Colors.black38),
+            Shadow(
+                // topLeft
+                offset: Offset(-1.0, 1.0),
+                color: Colors.black38),
+          ]);
+    } else {
+      return new TextStyle(color: color, fontSize: 10, letterSpacing: 0);
+    }
   }
 
   @override
@@ -151,7 +179,7 @@ class _ChartPainter extends CustomPainter {
       for (LineAxis lineAxis in axes) {
         canvas.drawLine(
             lineAxis.lineStartOffset, lineAxis.lineEndOffset, axesPaint);
-        _drawText(canvas, lineAxis.textOffset, lineAxis.label, 1);
+        _drawText(canvas, lineAxis.textOffset, lineAxis.label, 1, false);
       }
     }
   }
