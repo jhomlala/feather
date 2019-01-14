@@ -41,7 +41,7 @@ class WeatherForecastTemperaturePage extends WeatherForecastBasePage {
 
   @override
   String getIcon() {
-    return holder.weatherCodeAsset;
+    return "assets/icon_thermometer.png";
   }
 
   @override

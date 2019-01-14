@@ -11,9 +11,11 @@ class AppConst{
   static String temperaturePage = "temperature_page";
   static String windPage = "wind_page";
   static String rainPage = "rain_page";
+  static String pressurePage = "pressure_page";
   static String storageLocationKey = "feather_location";
 
 
   // dimensions
   static int chartPadding = 15;
+
 }

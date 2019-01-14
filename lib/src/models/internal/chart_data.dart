@@ -12,5 +12,5 @@ class ChartData{
 }
 
 enum ChartDataType{
-  temperature,wind,rain
+  temperature,wind,rain,pressure
 }

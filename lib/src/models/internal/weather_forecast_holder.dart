@@ -26,6 +26,11 @@ class WeatherForecastHolder {
   double _maxRain;
   double _minRain;
 
+  List<double> _pressures;
+  double _averagePressure;
+  double _maxPressure;
+  double _minPressure;
+
 
   String _dateShortFormatted;
   String _dateFullFormatted;
@@ -53,6 +58,11 @@ class WeatherForecastHolder {
     _averageRain = _calculateAverage(_rains);
     _maxRain = _calculateMax(_rains);
     _minRain = _calculateMin(_rains);
+
+    _pressures = _getPressureList();
+    _averagePressure = _calculateAverage(_pressures);
+    _maxPressure = _calculateMax(_pressures);
+    _minPressure = _calculateMin(_pressures);
 
     setupDateFormatted(forecastList[0].dateTime);
 
@@ -165,6 +175,9 @@ class WeatherForecastHolder {
       case ChartDataType.rain:
         dataSet = _rains;
         break;
+      case ChartDataType.pressure:
+        dataSet = _pressures;
+        break;
     }
     return dataSet;
   }
@@ -180,6 +193,9 @@ class WeatherForecastHolder {
         break;
       case ChartDataType.rain:
         averageValue = _averageRain;
+        break;
+      case ChartDataType.pressure:
+        averageValue = _averagePressure;
         break;
     }
     return averageValue;
@@ -282,6 +298,8 @@ class WeatherForecastHolder {
       case ChartDataType.rain:
         text = "${averageValue.toStringAsFixed(1)} mm/h";
         break;
+      case ChartDataType.pressure:
+        text ="${averageValue.toStringAsFixed(0)} hPa";
     }
     return text;
   }
@@ -309,8 +327,13 @@ class WeatherForecastHolder {
     return rainList;
   }
 
-
-
+  List<double> _getPressureList(){
+    List<double> pressureList = new List();
+    for (WeatherForecastResponse response in forecastList) {
+      pressureList.add(response.mainWeatherData.pressure);
+    }
+    return pressureList;
+  }
 
 
   String get weatherCodeAsset => _weatherCodeAsset;
@@ -348,6 +371,14 @@ class WeatherForecastHolder {
   double get averageRain => _averageRain;
 
   List<double> get rains => _rains;
+
+  double get minPressure => _minPressure;
+
+  double get maxPressure => _maxPressure;
+
+  double get averagePressure => _averagePressure;
+
+  List<double> get pressures => _pressures;
 
 
 }
