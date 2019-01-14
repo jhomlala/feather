@@ -12,11 +12,32 @@ class WeatherForecastThumbnailWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-        onTap: () {
-          _onWeatherForecastClicked(context);
-        },
-        child: Container(
+    return Material(
+        color: Colors.transparent,
+        child: InkWell(
+            onTap: () {
+              _onWeatherForecastClicked(context);
+            },
+            child: Container(
+                padding:
+                    WidgetHelper.buildEdgeInsets(left: 5, right: 5, top: 10),
+                child: Column(
+                  children: <Widget>[
+                    Text(_holder.dateShortFormatted,
+                        style: Theme.of(context).textTheme.body1),
+                    WidgetHelper.buildPadding(top: 5),
+                    Image.asset(_holder.weatherCodeAsset,
+                        width: 30, height: 30),
+                    WidgetHelper.buildPadding(top: 5),
+                    Text(
+                        TypesHelper.formatTemperature(
+                            temperature: _holder.averageTemperature,
+                            round: true),
+                        style: Theme.of(context).textTheme.body1),
+                    WidgetHelper.buildPadding(top: 5),
+                  ],
+                ))));
+    /*child: Container(
             padding: WidgetHelper.buildEdgeInsets(left: 10, top: 30),
             child: Column(
               children: <Widget>[
@@ -31,7 +52,7 @@ class WeatherForecastThumbnailWidget extends StatelessWidget {
                     style: Theme.of(context).textTheme.body1),
                 WidgetHelper.buildPadding(top: 5),
               ],
-            )));
+            )));*/
   }
 
   _onWeatherForecastClicked(BuildContext context) {
