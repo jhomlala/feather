@@ -1,3 +1,4 @@
+import 'package:feather/src/resources/app_const.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -37,8 +38,22 @@ class WidgetHelper {
   static Widget buildErrorWidget(BuildContext context, String error) {
     return Center(
         child: Text(
-          error,
-          style: Theme.of(context).textTheme.subtitle,
-        ));
+      error,
+      style: Theme.of(context).textTheme.subtitle,
+    ));
+  }
+
+  static LinearGradient buildGradientBasedOnDayCycle(int sunrise, int sunset) {
+    int currentTime = DateTime.now().millisecondsSinceEpoch;
+    int sunriseMs = sunrise * 1000;
+    int sunsetMs = sunset * 1000;
+
+    if (currentTime > sunriseMs && currentTime < sunsetMs) {
+      return buildGradient(
+          AppConst.dayStartGradientColor, AppConst.dayEndGradientColor);
+    } else {
+      return buildGradient(
+          AppConst.nightStartGradientColor, AppConst.nightEndGradient);
+    }
   }
 }

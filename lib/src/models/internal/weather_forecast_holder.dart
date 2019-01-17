@@ -4,6 +4,7 @@ import 'package:feather/src/models/internal/chart_data.dart';
 import 'package:feather/src/models/internal/line_axis.dart';
 import 'package:feather/src/models/internal/point.dart';
 import 'package:feather/src/models/remote/city.dart';
+import 'package:feather/src/models/remote/system.dart';
 import 'package:feather/src/models/remote/weather_forecast_response.dart';
 import 'package:feather/src/resources/app_const.dart';
 import 'package:feather/src/resources/weather_manager.dart';
@@ -38,9 +39,11 @@ class WeatherForecastHolder {
   String _weatherCodeAsset;
   List<WeatherForecastResponse> _forecastList;
   City _city;
+  System _system;
+
   Map<ChartDataType, ChartData> _chartDataCache;
 
-  WeatherForecastHolder(List<WeatherForecastResponse> forecastList, City city) {
+  WeatherForecastHolder(List<WeatherForecastResponse> forecastList, City city, System system) {
     _chartDataCache = new Map();
     _forecastList = forecastList;
     _temperatures = _getTemperaturesList();
@@ -68,6 +71,7 @@ class WeatherForecastHolder {
 
     setupWeatherCode(forecastList);
     _city = city;
+    _system = system;
   }
 
   List<double> _getTemperaturesList() {
@@ -118,15 +122,20 @@ class WeatherForecastHolder {
   double _calculateMax(List<double> values) {
     double maxValue = values[0];
     for (var value in values) {
-      maxValue = max(maxValue, value);
+      if (value >= maxValue){
+        maxValue = value;
+      }
     }
+
     return maxValue;
   }
 
   double _calculateMin(List<double> values) {
     double minValue = values[0];
     for (var value in values) {
-      minValue = min(minValue, value);
+      if (value <= minValue){
+        minValue = value;
+      }
     }
     return minValue;
   }
@@ -307,7 +316,7 @@ class WeatherForecastHolder {
   List<String> getWindDirectionList(){
     List<String> windDirections = new List();
     for (WeatherForecastResponse response in forecastList) {
-      windDirections.add(response.wind.degCode);
+      windDirections.add(response.wind.getDegCode());
     }
     return windDirections;
   }
@@ -379,6 +388,8 @@ class WeatherForecastHolder {
   double get averagePressure => _averagePressure;
 
   List<double> get pressures => _pressures;
+
+  System get system => _system;
 
 
 }

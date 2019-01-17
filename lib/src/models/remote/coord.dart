@@ -1,17 +1,18 @@
 import 'package:feather/src/utils/types_helper.dart';
 
 class Coordinates {
-  double _longitude;
-  double _latitude;
+  final double longitude;
+  final double latitude;
 
-  Coordinates(Map<String, dynamic> data) {
-    _longitude = TypesHelper.getDouble(data["lon"]);
-    _latitude = TypesHelper.getDouble(data["lat"]);
-  }
+  Coordinates(this.longitude, this.latitude);
 
-  double get latitude => _latitude;
+  Coordinates.fromJson(Map<String, dynamic> json)
+      : longitude = TypesHelper.getDouble(json["lon"]),
+        latitude = TypesHelper.getDouble(json["lat"]);
 
-  double get longitude => _longitude;
-
+  Map<String,dynamic> toJson() => {
+    "longitude":longitude,
+    "latitude":latitude
+  };
 
 }

@@ -11,7 +11,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIOverlays([]);
     _configureLogger();
-    _configureSharedPreferences();
     return MaterialApp(
         home: WeatherMainScreen(),
         debugShowCheckedModeBanner: false,
@@ -32,7 +31,4 @@ class MyApp extends StatelessWidget {
     });
   }
 
-  _configureSharedPreferences(){
-    //SharedPreferences.setMockInitialValues({});
-  }
 }

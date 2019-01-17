@@ -35,7 +35,7 @@ class WeatherForecastPressurePage extends WeatherForecastBasePage {
               style: Theme.of(context).textTheme.subtitle),
           TextSpan(text: '   max ', style: Theme.of(context).textTheme.body2),
           TextSpan(
-              text: "${holder.maxRain.toStringAsFixed(0)} hPa",
+              text: "${holder.maxPressure.toStringAsFixed(0)} hPa",
               style: Theme.of(context).textTheme.subtitle)
         ]));
   }

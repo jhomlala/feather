@@ -1,8 +1,11 @@
-class Clouds{
-  int _all;
-  Clouds(Map<String,dynamic> data){
-    _all = data["all"];
-  }
+class Clouds {
+  final int all;
 
-  int get all => _all;
+  Clouds(this.all);
+
+  Clouds.fromJson(Map<String, dynamic> json) : all = json["all"];
+
+  Map<String, dynamic> toJson() => {
+        "all": all,
+      };
 }

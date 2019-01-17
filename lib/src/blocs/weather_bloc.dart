@@ -43,6 +43,15 @@ class WeatherBloc {
     _logger.log(Level.FINE, "Fetch weather");
     WeatherResponse weatherResponse =
         await _weatherRepository.fetchWeather(latitude, longitude);
+    if (weatherResponse.errorCode == null) {
+      _storageManager.saveWeather(weatherResponse);
+    } else {
+      _logger.info("Selected weather from storage");
+      WeatherResponse weatherResponseStorage =  await _storageManager.getWeather();
+      if (weatherResponseStorage != null){
+        weatherResponse = weatherResponseStorage;
+      }
+    }
     _weatherFetcher.sink.add(weatherResponse);
   }
 
@@ -65,13 +74,23 @@ class WeatherBloc {
     _logger.log(Level.FINE, "Fetch weather forecast");
     WeatherForecastListResponse weatherForecastResponse =
         await _weatherRepository.fetchWeatherForecast(latitude, longitude);
+    if (weatherForecastResponse.errorCode == null){
+      _storageManager.saveWeatherForecast(weatherForecastResponse);
+    } else {
+      WeatherForecastListResponse weatherForecastResponseStorage = await _storageManager.getWeatherForecast();
+      if (weatherForecastResponseStorage != null){
+        weatherForecastResponse = weatherForecastResponseStorage;
+        _logger.info("Using weather forecast data from storage");
+      }
+    }
+
     _weatherForecastFetcher.sink.add(weatherForecastResponse);
   }
 
   setupTimer() {
     _logger.log(Level.FINE, "Setup timer");
     var duration = Duration(seconds: _weatherRefreshTimeInSeconds);
-    var timer = new Timer(duration, handleTimerTimeout);
+    new Timer(duration, handleTimerTimeout);
   }
 
   handleTimerTimeout() {
@@ -96,11 +115,15 @@ class WeatherBloc {
     }
   }
 
+
+
   dispose() {
     _logger.log(Level.FINE, "Dispose");
     _weatherFetcher.close();
     _weatherForecastFetcher.close();
   }
+
+
 }
 
 final bloc = WeatherBloc();

@@ -29,12 +29,13 @@ class WeatherApiProvider {
       final response = await http.get(url);
       _logger.log(Level.INFO,"Received status code: " + response.statusCode.toString());
       if (response.statusCode == 200) {
-        return WeatherResponse(json.decode(response.body));
+        return WeatherResponse.fromJson(json.decode(response.body));
       } else {
         return WeatherResponse.withErrorCode("ERROR_API_ERROR");
       }
     } catch (exc, stacktrace){
-      _logger.log(Level.INFO,"Exception occured: " + stacktrace.toString());
+      _logger.log(Level.INFO,"Exception occured: $exc stack trace: ${stacktrace.toString()}");
+
       return WeatherResponse.withErrorCode("ERROR_CONNECTION_ERROR");
     }
   }
@@ -54,7 +55,7 @@ class WeatherApiProvider {
       final response = await http.get(url);
       _logger.log(Level.INFO, "Received status code: " + response.statusCode.toString());
       if (response.statusCode == 200) {
-        return WeatherForecastListResponse(json.decode(response.body));
+        return WeatherForecastListResponse.fromJson(json.decode(response.body));
       } else {
         return WeatherForecastListResponse.withErrorCode("ERROR_API_ERROR");
       }

@@ -1,33 +1,33 @@
+import 'dart:convert';
+
 import 'package:feather/src/models/remote/city.dart';
 import 'package:feather/src/models/remote/weather_forecast_response.dart';
 
 class WeatherForecastListResponse {
-  List<WeatherForecastResponse> _data;
-  City _city;
+  final List<WeatherForecastResponse> list;
+  final City city;
   String _errorCode;
 
-  WeatherForecastListResponse(Map<String, dynamic> data) {
-    if (data.length == 0){
-      return;
-    }
-    _data = (data["list"] as List)
-        .map((i) => new WeatherForecastResponse(i))
-        .toList();
-    if (data.containsKey("city")){
-      _city = City(data["city"]);
-    }
-  }
+  WeatherForecastListResponse(this.list, this.city);
 
-  static WeatherForecastListResponse withErrorCode(String errorCode){
-    WeatherForecastListResponse response = new WeatherForecastListResponse(new Map<String,dynamic>());
+  WeatherForecastListResponse.fromJson(Map<String, dynamic> json)
+      : list = (json["list"] as List)
+            .map((i) => new WeatherForecastResponse.fromJson(i))
+            .toList(),
+        city = City.fromJson(json["city"]);
+
+  Map<String, dynamic> toJson() => {"list": list, "city": city};
+
+  
+
+  static WeatherForecastListResponse withErrorCode(String errorCode) {
+    WeatherForecastListResponse response =
+        new WeatherForecastListResponse(null, null);
     response._errorCode = errorCode;
     return response;
   }
 
-  List<WeatherForecastResponse> get data => _data;
-
-  City get city => _city;
-
   String get errorCode => _errorCode;
+
 
 }

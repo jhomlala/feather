@@ -2,6 +2,7 @@ import 'package:feather/src/blocs/weather_bloc.dart';
 import 'package:feather/src/models/remote/overall_weather_data.dart';
 import 'package:feather/src/models/remote/weather_response.dart';
 import 'package:feather/src/resources/weather_manager.dart';
+import 'package:feather/src/ui/screen/weather_main_screen.dart';
 import 'package:feather/src/ui/widget/weather_forecast_thumbnail_list_widget.dart';
 import 'package:feather/src/ui/widget/widget_helper.dart';
 import 'package:feather/src/utils/types_helper.dart';
@@ -11,6 +12,10 @@ import 'package:intl/intl.dart';
 import 'package:logging/logging.dart';
 
 class WeatherWidget extends StatefulWidget {
+  final WeatherMainScreenState weatherMainScreenState;
+
+  WeatherWidget(this.weatherMainScreenState);
+
   @override
   State<StatefulWidget> createState() {
     return WeatherWidgetState();
@@ -44,6 +49,7 @@ class WeatherWidgetState extends State<WeatherWidget> {
             return WidgetHelper.buildErrorWidget(
                 context, snapshot.data.errorCode);
           }
+
           return buildWeatherContainer(snapshot);
         } else if (snapshot.hasError) {
           return WidgetHelper.buildErrorWidget(context, snapshot.error);
@@ -54,32 +60,38 @@ class WeatherWidgetState extends State<WeatherWidget> {
   }
 
   Widget buildWeatherContainer(AsyncSnapshot<WeatherResponse> snapshot) {
-    return Center(
-        child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Text(snapshot.data.name, style: Theme.of(context).textTheme.title),
-        Text(_getCurrentDateFormatted(),
-            style: Theme.of(context).textTheme.subtitle),
-        WidgetHelper.buildPadding(top: 50),
-        Image.asset(
-          _getWeatherImage(snapshot.data),
-          width: 100,
-          height: 100,
-        ),
-        Text(
-            TypesHelper.formatTemperature(
-                temperature: snapshot.data.mainWeatherData.temp),
-            style: Theme.of(context).textTheme.headline),
-        WidgetHelper.buildPadding(top: 50),
-        Text(_getMaxMinTemperatureRow(snapshot.data),
-            style: Theme.of(context).textTheme.subtitle),
-        WidgetHelper.buildPadding(top: 5),
-        Text(_getPressureAndHumidityRow(snapshot.data),
-            style: Theme.of(context).textTheme.subtitle),
-        WeatherForecastThumbnailListWidget()
-      ],
-    ));
+
+    return Container(
+        decoration: BoxDecoration(
+            gradient: WeatherManager.getGradient(
+                sunriseTime: snapshot.data.system.sunrise,
+                sunsetTime: snapshot.data.system.sunset)),
+        child: Center(
+            child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(snapshot.data.name, style: Theme.of(context).textTheme.title),
+            Text(_getCurrentDateFormatted(),
+                style: Theme.of(context).textTheme.subtitle),
+            WidgetHelper.buildPadding(top: 50),
+            Image.asset(
+              _getWeatherImage(snapshot.data),
+              width: 100,
+              height: 100,
+            ),
+            Text(
+                TypesHelper.formatTemperature(
+                    temperature: snapshot.data.mainWeatherData.temp),
+                style: Theme.of(context).textTheme.headline),
+            WidgetHelper.buildPadding(top: 50),
+            Text(_getMaxMinTemperatureRow(snapshot.data),
+                style: Theme.of(context).textTheme.subtitle),
+            WidgetHelper.buildPadding(top: 5),
+            Text(_getPressureAndHumidityRow(snapshot.data),
+                style: Theme.of(context).textTheme.subtitle),
+            WeatherForecastThumbnailListWidget(system:snapshot.data.system)
+          ],
+        )));
   }
 
   String _getCurrentDateFormatted() {

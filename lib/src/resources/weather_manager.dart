@@ -1,6 +1,9 @@
 import 'dart:collection';
 
 import 'package:feather/src/models/remote/weather_forecast_response.dart';
+import 'package:feather/src/resources/app_const.dart';
+import 'package:feather/src/ui/widget/widget_helper.dart';
+import 'package:flutter/material.dart';
 
 class WeatherManager {
   static String getWeatherIcon(int code) {
@@ -41,5 +44,14 @@ class WeatherManager {
 
   static String _getDayKey(DateTime dateTime) {
     return "${dateTime.day.toString()}-${dateTime.month.toString()}-${dateTime.year.toString()}";
+  }
+
+  static LinearGradient getGradient({sunriseTime = 0, sunsetTime = 0}) {
+    if (sunriseTime == 0 && sunsetTime == 0) {
+      return WidgetHelper.buildGradient(
+          AppConst.nightStartGradientColor, AppConst.nightEndGradient);
+    } else {
+      return WidgetHelper.buildGradientBasedOnDayCycle(sunriseTime, sunsetTime);
+    }
   }
 }

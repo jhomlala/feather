@@ -1,5 +1,6 @@
 import 'package:feather/src/blocs/weather_bloc.dart';
 import 'package:feather/src/models/internal/weather_forecast_holder.dart';
+import 'package:feather/src/models/remote/system.dart';
 import 'package:feather/src/models/remote/weather_forecast_list_response.dart';
 import 'package:feather/src/models/remote/weather_forecast_response.dart';
 import 'package:feather/src/resources/weather_manager.dart';
@@ -9,6 +10,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class WeatherForecastThumbnailListWidget extends StatefulWidget {
+  final System system;
+
+  const WeatherForecastThumbnailListWidget({Key key, this.system})
+      : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return WeatherForecastThumbnailListWidgetState();
@@ -50,20 +56,21 @@ class WeatherForecastThumbnailListWidgetState
 
   Widget buildForecastWeatherContainer(
       AsyncSnapshot<WeatherForecastListResponse> snapshot) {
-    List<WeatherForecastResponse> forecastList = snapshot.data.data;
+    List<WeatherForecastResponse> forecastList = snapshot.data.list;
     var map = WeatherManager.mapForecastsForSameDay(forecastList);
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: buildForecastWeatherWidgets(map,snapshot.data),
+      children: buildForecastWeatherWidgets(map, snapshot.data),
     );
   }
 
   List<Widget> buildForecastWeatherWidgets(
-      Map<String, List<WeatherForecastResponse>> map, WeatherForecastListResponse data) {
+      Map<String, List<WeatherForecastResponse>> map,
+      WeatherForecastListResponse data) {
     List<Widget> forecastWidgets = new List();
     map.forEach((key, value) {
-      forecastWidgets.add(
-          new WeatherForecastThumbnailWidget(new WeatherForecastHolder(value,data.city)));
+      forecastWidgets.add(new WeatherForecastThumbnailWidget(
+          new WeatherForecastHolder(value, data.city,widget.system)));
     });
     return forecastWidgets;
   }

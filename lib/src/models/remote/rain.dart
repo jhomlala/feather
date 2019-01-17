@@ -1,13 +1,15 @@
 import 'package:feather/src/utils/types_helper.dart';
 
 class Rain{
-  double _amount;
+  final double amount;
 
-  Rain(Map<String,dynamic> map){
-    _amount = TypesHelper.getDouble(map["3h"]);
-  }
+  Rain(this.amount);
 
-  double get amount => _amount;
+  Rain.fromJson(Map<String,dynamic> json): amount = TypesHelper.getDouble(json["3h"]);
+
+  Map<String,dynamic> toJson() => {
+    "3h": amount
+  };
 
 
 }

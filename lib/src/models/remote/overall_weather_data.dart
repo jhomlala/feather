@@ -1,19 +1,22 @@
-class OverallWeatherData{
-  int _id;
-  String _main;
-  String _description;
-  String _icon;
+class OverallWeatherData {
+  final int id;
+  final String main;
+  final String description;
+  final String icon;
 
-  OverallWeatherData(Map<String,dynamic> data){
-    _id = data["id"];
-    _main = data["main"];
-    _description = data["description"];
-    _icon = data["icon"];
+  OverallWeatherData(this.id, this.main, this.description, this.icon);
+
+  OverallWeatherData.fromJson(Map<String, dynamic> json)
+      : id = json["id"],
+        main = json["main"],
+        description = json["description"],
+        icon = json["icon"];
+
+  Map<String, dynamic> toJson() =>
+      {"id": id, "main": main, "description": description, "icon": icon};
+
+  @override
+  String toString() {
+    return toJson().toString();
   }
-
-  String get icon => _icon;
-  String get description => _description;
-  String get main => _main;
-  int get id => _id;
-
 }

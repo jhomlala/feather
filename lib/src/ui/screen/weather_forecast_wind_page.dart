@@ -19,6 +19,7 @@ class WeatherForecastWindPage extends WeatherForecastBasePage {
     if (points.length > 2) {
       double padding = points[1].x - points[0].x - 30;
       for (String direction in holder.getWindDirectionList()) {
+
         rowElements.add(SizedBox(
             width: 30,
             child: Center(

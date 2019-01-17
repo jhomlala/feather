@@ -21,12 +21,13 @@ class _ChartWidgetState extends State<ChartWidget>
     with SingleTickerProviderStateMixin {
   double _fraction = 0.0;
   Animation<double> animation;
+  AnimationController controller;
 
   @override
   void initState() {
     super.initState();
     super.initState();
-    var controller = AnimationController(
+    controller = AnimationController(
         duration: Duration(milliseconds: 1000), vsync: this);
 
     animation = Tween(begin: 0.0, end: 1.0).animate(controller)
@@ -53,7 +54,11 @@ class _ChartWidgetState extends State<ChartWidget>
       height: widget.chartData.height,
       child: chartWidget,
     );
+
+
   }
+
+
 
   Widget _getChartWidget() {
     return CustomPaint(
@@ -71,6 +76,12 @@ class _ChartWidgetState extends State<ChartWidget>
         child: Text("Chart unavailable",
             style: Theme.of(context).textTheme.body1));
   }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 }
 
 class _ChartPainter extends CustomPainter {
@@ -87,6 +98,7 @@ class _ChartPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+
     Paint paint = _getLinePaint(Colors.white);
     _drawAxes(canvas);
 
@@ -116,7 +128,7 @@ class _ChartPainter extends CustomPainter {
         _drawText(canvas, textOffset, pointLabels[index], 1,true);
       }
     }
-    if (fraction > 0.99) {
+    if (fraction > 0.999) {
       Offset textOffset = Offset(
           points[points.length - 1].x - 5, points[points.length - 1].y - 15);
       _drawText(canvas, textOffset, pointLabels[points.length - 1], 1,true);

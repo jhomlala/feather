@@ -1,41 +1,45 @@
 import 'package:feather/src/utils/types_helper.dart';
 
 class Wind {
-  double _speed;
-  double _deg;
-  String _degCode;
+  final double speed;
+  final double deg;
 
-  Wind(Map<String, dynamic> data) {
-    _speed = changeToKilometersPerHour(TypesHelper.getDouble(data["speed"]));
-    _deg = TypesHelper.getDouble(data["deg"]);
-    setupDegCode();
+  Wind(this.speed, this.deg);
+
+  Wind.fromJson(Map<String,dynamic> json): speed = changeToKilometersPerHour(TypesHelper.getDouble(json["speed"])), deg = TypesHelper.getDouble(json["deg"]);
+
+  Map<String,dynamic> toJson () =>{
+    "speed": speed,
+    "deg": deg,
+  };
+
+  String getDegCode(){
+    if (deg == null){
+      return "N";
+    }
+    if (deg >= 0 && deg < 45) {
+      return "N";
+    } else if (deg >= 45 && deg < 90) {
+      return"NE";
+    } else if (deg >= 90 && deg < 135) {
+      return"E";
+    } else if (deg >= 135 && deg < 180) {
+      return"SE";
+    } else if (deg >= 180 && deg < 225) {
+      return "S";
+    } else if (deg >= 225 && deg < 270) {
+      return "SW";
+    } else if (deg >= 270 && deg < 315) {
+      return "W";
+    } else if (deg >= 315 && deg <= 360) {
+      return "NW";
+    } else {
+      return "N";
+    }
   }
 
-  void setupDegCode() {
-    if (_deg == null){
-      _degCode = "N";
-      return;
-    }
-    if (_deg >= 0 && _deg < 45) {
-      _degCode = "N";
-    } else if (_deg >= 45 && _deg < 90) {
-      _degCode = "NE";
-    } else if (_deg >= 90 && _deg < 135) {
-      _degCode = "E";
-    } else if (_deg >= 135 && _deg < 180) {
-      _degCode = "SE";
-    } else if (_deg >= 180 && _deg < 225) {
-      _degCode = "S";
-    } else if (_deg >= 225 && _deg < 270) {
-      _degCode = "SW";
-    } else if (_deg >= 270 && _deg < 315) {
-      _degCode = "W";
-    } else if (_deg >= 315 && deg <= 360) {
-      _degCode = "NW";
-    }
-  }
 
-  double changeToKilometersPerHour(double value){
+  static double changeToKilometersPerHour(double value){
     if (value != null) {
       return value * 3.6;
     } else {
@@ -43,10 +47,4 @@ class Wind {
     }
   }
 
-
-  double get deg => _deg;
-
-  double get speed => _speed;
-
-  String get degCode => _degCode;
 }
