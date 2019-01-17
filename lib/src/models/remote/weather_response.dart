@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:feather/src/models/remote/clouds.dart';
-import 'package:feather/src/models/remote/coord.dart';
+import 'package:feather/src/models/remote/coordinates.dart';
 import 'package:feather/src/models/remote/main_weather_data.dart';
 import 'package:feather/src/models/remote/overall_weather_data.dart';
 import 'package:feather/src/models/remote/system.dart';
