@@ -4,7 +4,7 @@
 ## :cloud: Features
 :heavy_check_mark: Beatiful UI and great UX  
 :heavy_check_mark: Current weather: current temperature, max and min temperature, humidity, pressure, wind 
-:heavy_check_mark: Weather forecast for 5 days  (temperature, wind, rain and pressure)
+:heavy_check_mark: Weather forecast for 5 days  (temperature, wind, rain and pressure)  
 :heavy_check_mark: Custom-written chart with animation  
 :heavy_check_mark: App background based day cycle (light for day, dark for night)  
 :heavy_check_mark: Automatically picks user location  
