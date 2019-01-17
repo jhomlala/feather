@@ -47,7 +47,6 @@ class WidgetHelper {
     int currentTime = DateTime.now().millisecondsSinceEpoch;
     int sunriseMs = sunrise * 1000;
     int sunsetMs = sunset * 1000;
-
     if (currentTime > sunriseMs && currentTime < sunsetMs) {
       return buildGradient(
           AppConst.dayStartGradientColor, AppConst.dayEndGradientColor);

@@ -2,7 +2,6 @@ import 'package:feather/src/blocs/weather_bloc.dart';
 import 'package:feather/src/models/remote/overall_weather_data.dart';
 import 'package:feather/src/models/remote/weather_response.dart';
 import 'package:feather/src/resources/weather_manager.dart';
-import 'package:feather/src/ui/screen/weather_main_screen.dart';
 import 'package:feather/src/ui/widget/weather_forecast_thumbnail_list_widget.dart';
 import 'package:feather/src/ui/widget/widget_helper.dart';
 import 'package:feather/src/utils/types_helper.dart';
@@ -12,9 +11,6 @@ import 'package:intl/intl.dart';
 import 'package:logging/logging.dart';
 
 class WeatherWidget extends StatefulWidget {
-  final WeatherMainScreenState weatherMainScreenState;
-
-  WeatherWidget(this.weatherMainScreenState);
 
   @override
   State<StatefulWidget> createState() {
@@ -89,6 +85,7 @@ class WeatherWidgetState extends State<WeatherWidget> {
             WidgetHelper.buildPadding(top: 5),
             Text(_getPressureAndHumidityRow(snapshot.data),
                 style: Theme.of(context).textTheme.subtitle),
+            WidgetHelper.buildPadding(top: 20),
             WeatherForecastThumbnailListWidget(system:snapshot.data.system)
           ],
         )));
