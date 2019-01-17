@@ -2,7 +2,7 @@
 Beautiful flutter weather application
 
 ### :camera: Screenshots 
-
+<img width="250px" src="https://github.com/jhomlala/feather/blob/master/screenshots/feather.gif">
 Day mode
 <table>
   <tr>
