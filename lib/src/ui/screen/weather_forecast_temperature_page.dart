@@ -19,7 +19,7 @@ class WeatherForecastTemperaturePage extends WeatherForecastBasePage {
     List<Widget> widgets = new List();
     if (points.length > 2) {
       double padding = points[1].x - points[0].x - 30;
-      widgets.add(WidgetHelper.buildPadding( top: 5));
+      widgets.add(WidgetHelper.buildPadding(top: 5));
       for (int index = 0; index < points.length; index++) {
         widgets.add(Image.asset(
             WeatherManager.getWeatherIcon(
@@ -31,7 +31,10 @@ class WeatherForecastTemperaturePage extends WeatherForecastBasePage {
       widgets.removeLast();
     }
 
-    return Row(mainAxisAlignment: MainAxisAlignment.center,children: widgets);
+    return Row(
+        key: Key("weather_forecast_temperature_page_bottom_row"),
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: widgets);
   }
 
   @override
@@ -47,18 +50,20 @@ class WeatherForecastTemperaturePage extends WeatherForecastBasePage {
   @override
   RichText getPageSubtitleWidget(BuildContext context) {
     return RichText(
+        key: Key("weather_forecast_temperature_page_subtitle"),
+        textDirection: TextDirection.ltr,
         text: TextSpan(children: [
-      TextSpan(text: 'min ', style: Theme.of(context).textTheme.body2),
-      TextSpan(
-          text:
-              "${TypesHelper.formatTemperature(temperature: holder.maxTemperature, positions: 1, round: false)}",
-          style: Theme.of(context).textTheme.subtitle),
-      TextSpan(text: '   max ', style: Theme.of(context).textTheme.body2),
-      TextSpan(
-          text:
-              "${TypesHelper.formatTemperature(temperature: holder.minTemperature, positions: 1, round: false)}",
-          style: Theme.of(context).textTheme.subtitle)
-    ]));
+          TextSpan(text: 'min ', style: Theme.of(context).textTheme.body2),
+          TextSpan(
+              text:
+                  "${TypesHelper.formatTemperature(temperature: holder.maxTemperature, positions: 1, round: false)}",
+              style: Theme.of(context).textTheme.subtitle),
+          TextSpan(text: '   max ', style: Theme.of(context).textTheme.body2),
+          TextSpan(
+              text:
+                  "${TypesHelper.formatTemperature(temperature: holder.minTemperature, positions: 1, round: false)}",
+              style: Theme.of(context).textTheme.subtitle)
+        ]));
   }
 
   @override

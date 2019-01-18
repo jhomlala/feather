@@ -11,7 +11,6 @@ class WeatherForecastWindPage extends WeatherForecastBasePage {
       WeatherForecastHolder holder, double width, double height)
       : super(holder: holder, width: width, height: height);
 
-
   @override
   Row getBottomRowWidget(BuildContext context) {
     List<Widget> rowElements = new List();
@@ -19,22 +18,23 @@ class WeatherForecastWindPage extends WeatherForecastBasePage {
     if (points.length > 2) {
       double padding = points[1].x - points[0].x - 30;
       for (String direction in holder.getWindDirectionList()) {
-
         rowElements.add(SizedBox(
             width: 30,
             child: Center(
                 child: Text(direction,
+                    textDirection: TextDirection.ltr,
                     style: Theme.of(context).textTheme.body2))));
         rowElements.add(WidgetHelper.buildPadding(left: padding));
       }
       rowElements.removeLast();
     }
-    return Row(mainAxisAlignment: MainAxisAlignment.center,children: rowElements);
+    return Row( key: Key("weather_forecast_wind_page_bottom_row"),
+        mainAxisAlignment: MainAxisAlignment.center, children: rowElements);
   }
 
   @override
   ChartData getChartData() {
-   return super.holder.setupChartData(ChartDataType.wind, width, height);
+    return super.holder.setupChartData(ChartDataType.wind, width, height);
   }
 
   @override
@@ -45,6 +45,8 @@ class WeatherForecastWindPage extends WeatherForecastBasePage {
   @override
   RichText getPageSubtitleWidget(BuildContext context) {
     return RichText(
+        key: Key("weather_forecast_wind_page_subtitle"),
+        textDirection: TextDirection.ltr,
         text: TextSpan(children: [
           TextSpan(text: 'min ', style: Theme.of(context).textTheme.body2),
           TextSpan(

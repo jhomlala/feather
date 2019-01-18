@@ -46,12 +46,5 @@ class WeatherManager {
     return "${dateTime.day.toString()}-${dateTime.month.toString()}-${dateTime.year.toString()}";
   }
 
-  static LinearGradient getGradient({sunriseTime = 0, sunsetTime = 0}) {
-    if (sunriseTime == 0 && sunsetTime == 0) {
-      return WidgetHelper.buildGradient(
-          AppConst.nightStartGradientColor, AppConst.nightEndGradient);
-    } else {
-      return WidgetHelper.buildGradientBasedOnDayCycle(sunriseTime, sunsetTime);
-    }
-  }
+
 }

@@ -8,10 +8,8 @@ import 'package:logging/logging.dart';
 class ChartWidget extends StatefulWidget {
   final ChartData chartData;
 
-  ChartWidget({
-    Key key,
-    this.chartData,
-  }) : super(key: key);
+  const ChartWidget({Key key, this.chartData}) : super(key: key);
+
 
   @override
   State<StatefulWidget> createState() => _ChartWidgetState();
@@ -50,15 +48,12 @@ class _ChartWidgetState extends State<ChartWidget>
     }
 
     return Container(
+      key: Key("chart_widget_container"),
       width: widget.chartData.width,
       height: widget.chartData.height,
       child: chartWidget,
     );
-
-
   }
-
-
 
   Widget _getChartWidget() {
     return CustomPaint(
@@ -74,6 +69,7 @@ class _ChartWidgetState extends State<ChartWidget>
   Widget _getChartUnavailableWidget(BuildContext context) {
     return Center(
         child: Text("Chart unavailable",
+            textDirection: TextDirection.ltr,
             style: Theme.of(context).textTheme.body1));
   }
 
@@ -98,7 +94,6 @@ class _ChartPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-
     Paint paint = _getLinePaint(Colors.white);
     _drawAxes(canvas);
 
@@ -120,18 +115,18 @@ class _ChartPainter extends CustomPainter {
             startPoint.x + diffX * lastLineFractionPercentage,
             startPoint.y + diffY * lastLineFractionPercentage);
         canvas.drawLine(startOffset, endOffset, paint);
-        _drawText(
-            canvas, textOffset, pointLabels[index], lastLineFractionPercentage,true);
+        _drawText(canvas, textOffset, pointLabels[index],
+            lastLineFractionPercentage, true);
       } else {
         canvas.drawLine(_getOffsetFromPoint(points[index]),
             _getOffsetFromPoint(points[index + 1]), paint);
-        _drawText(canvas, textOffset, pointLabels[index], 1,true);
+        _drawText(canvas, textOffset, pointLabels[index], 1, true);
       }
     }
     if (fraction > 0.999) {
       Offset textOffset = Offset(
           points[points.length - 1].x - 5, points[points.length - 1].y - 15);
-      _drawText(canvas, textOffset, pointLabels[points.length - 1], 1,true);
+      _drawText(canvas, textOffset, pointLabels[points.length - 1], 1, true);
     }
   }
 
