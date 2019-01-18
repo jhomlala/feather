@@ -1,6 +1,4 @@
 import 'package:feather/src/models/internal/weather_forecast_holder.dart';
-import 'package:feather/src/resources/app_const.dart';
-import 'package:feather/src/resources/weather_manager.dart';
 import 'package:feather/src/ui/widget/weather_forecast_widget.dart';
 import 'package:feather/src/ui/widget/widget_helper.dart';
 import 'package:flutter/material.dart';

@@ -9,15 +9,17 @@ class WeatherForecastRainPage extends WeatherForecastBasePage {
       WeatherForecastHolder holder, double width, double height)
       : super(holder: holder, width: width, height: height);
 
-
   @override
   Row getBottomRowWidget(BuildContext context) {
-    return Row();
+    return Row(
+      key: Key("weather_forecast_rain_page_bottom_row"),
+      mainAxisAlignment: MainAxisAlignment.center,
+    );
   }
 
   @override
   ChartData getChartData() {
-   return super.holder.setupChartData(ChartDataType.rain, width, height);
+    return super.holder.setupChartData(ChartDataType.rain, width, height);
   }
 
   @override
@@ -28,6 +30,8 @@ class WeatherForecastRainPage extends WeatherForecastBasePage {
   @override
   RichText getPageSubtitleWidget(BuildContext context) {
     return RichText(
+        key: Key("weather_forecast_rain_page_subtitle"),
+        textDirection: TextDirection.ltr,
         text: TextSpan(children: [
           TextSpan(text: 'min ', style: Theme.of(context).textTheme.body2),
           TextSpan(
