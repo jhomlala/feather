@@ -7,11 +7,13 @@ Beautiful Flutter weather application. Entirely written in Dart and Flutter. App
 :heavy_check_mark: Current weather: current temperature, max and min temperature, humidity, pressure, wind  
 :heavy_check_mark: Weather forecast for 5 days  (temperature, wind, rain and pressure)  
 :heavy_check_mark: Custom-written chart with animation  
-:heavy_check_mark: App background based day cycle (light for day, dark for night)  
+:heavy_check_mark: App background based on day cycle (light for day, dark for night)  
 :heavy_check_mark: Automatically picks user location  
 :heavy_check_mark: Persist location and weather data  
 :heavy_check_mark: Works offline (user need to download data before)  
 :heavy_check_mark: Automatically refresh data every 15 minutes  
+:heavy_check_mark: Unit and widget tests
+:heavy_check_mark: Travis CI
 
 ### :camera: Screenshots 
 <img width="250px" src="https://github.com/jhomlala/feather/blob/master/screenshots/feather.gif">
