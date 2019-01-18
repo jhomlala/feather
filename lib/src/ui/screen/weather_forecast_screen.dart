@@ -16,7 +16,7 @@ class WeatherForecastScreen extends StatelessWidget {
     return Scaffold(
         body: Container(
             decoration: BoxDecoration(
-                gradient: WeatherManager.getGradient(
+                gradient: WidgetHelper.getGradient(
                     sunriseTime: _holder.system.sunrise,
                     sunsetTime: _holder.system.sunset)),
             child: WeatherForecastWidget(

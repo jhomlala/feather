@@ -50,6 +50,7 @@ class WeatherApiProvider {
           longitude.toString() +
           "&units=metric";
       url = _addApiKey(url);
+
       _logger.log(Level.INFO, "Fetch weather forecast with url: " + url);
       final response = await http.get(url);
       _logger.log(Level.INFO, "Received status code: " + response.statusCode.toString());

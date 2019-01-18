@@ -97,9 +97,12 @@ void main() {
 
   group("Weather forecast test", () {
     WeatherForecastListResponse response;
+    WeatherForecastResponse forecastResponse;
+
     setUpAll(() async {
       response =
       await weatherApiProvider.fetchWeatherForecast(0, 0);
+      forecastResponse = response.list[0];
     });
 
     test("Weather forecast object not null and not empty", () {
@@ -114,10 +117,59 @@ void main() {
       expect(response.city.id != null, true);
     });
 
-    group("Weather forecast element object not null and noty empty", (){
-      WeatherForecastResponse responseElement = response.list[0];
-      
+
+    test("Weather forecast element object not null and noty empty",(){
+      expect(forecastResponse.overallWeatherData != null , true);
+      expect(forecastResponse.clouds != null, true);
+      expect(forecastResponse.wind != null, true);
+      expect(forecastResponse.mainWeatherData != null , true);
+      expect(forecastResponse.snow != null, true);
+      expect(forecastResponse.rain != null, true);
+      expect(forecastResponse.dateTime != null, true);
+    });
+
+    test("Weather forecast element object overal weather data not null and not empty",(){
+      List<OverallWeatherData> overallWeatherDataList =
+          forecastResponse.overallWeatherData;
+      expect(overallWeatherDataList != null, true);
+      expect(overallWeatherDataList.length > 0, true);
+      for (OverallWeatherData overallWeatherData in overallWeatherDataList) {
+        expect(overallWeatherData.id != null, true);
+        expect(overallWeatherData.description != null, true);
+        expect(overallWeatherData.icon != null, true);
+        expect(overallWeatherData.main != null, true);
+      }
+    });
+
+    test("Weather forecast element object main data object not null and not empty", () {
+      MainWeatherData mainWeatherData = forecastResponse.mainWeatherData;
+      expect(mainWeatherData.pressure != null, true);
+      expect(mainWeatherData.temp != null, true);
+      expect(mainWeatherData.humidity != null, true);
+      expect(mainWeatherData.tempMax != null, true);
+      expect(mainWeatherData.tempMin != null, true);
+      expect(mainWeatherData.pressure > 0, true);
+      expect(mainWeatherData.temp > 0, true);
+      expect(mainWeatherData.humidity > 0, true);
+      expect(mainWeatherData.tempMax > 0, true);
+      expect(mainWeatherData.tempMin > 0, true);
+    });
+
+    test("Weather forecast element object wind not null and not empty", () {
+      Wind wind = forecastResponse.wind;
+      expect(wind != null, true);
+      expect(wind.speed != null, true);
+      expect(wind.deg != null, true);
+      expect(wind.deg >= 0 && wind.deg <= 360, true);
+      expect(wind.speed >= 0, true);
+    });
+
+    test("Weather forecast element object clouds not null and not empty", () {
+      Clouds clouds = forecastResponse.clouds;
+      expect(clouds != null, true);
+      expect(clouds.all != null, true);
     });
 
   });
+
 }

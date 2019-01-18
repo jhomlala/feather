@@ -1,7 +1,9 @@
 import 'package:feather/src/utils/optional.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:logging/logging.dart';
 
 class LocationManager {
+  Logger _logger = Logger("LocationManager");
   Position _lastPosition;
 
   Future<Optional<Position>> getLocation() async {
@@ -13,7 +15,8 @@ class LocationManager {
           .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
       _lastPosition = positionSelected;
       return Optional.of(_lastPosition);
-    } catch (exc) {
+    } catch (exc, stackTrace) {
+      _logger.warning("Excepton occured: $exc in $stackTrace");
       return Optional.absent();
     }
   }

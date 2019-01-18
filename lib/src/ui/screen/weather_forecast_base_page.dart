@@ -27,18 +27,23 @@ abstract class WeatherForecastBasePage extends StatelessWidget {
       WidgetHelper.buildPadding(top: 20),
       getPageSubtitleWidget(context),
       WidgetHelper.buildPadding(top: 40),
-      ChartWidget(chartData: chartData),
+      ChartWidget(
+          key: Key("weather_forecast_base_page_chart"), chartData: chartData),
       WidgetHelper.buildPadding(top: 10),
       getBottomRowWidget(context)
     ]));
   }
 
   Image getPageIconWidget() {
-    return Image.asset(getIcon(), width: 100, height: 100);
+    return Image.asset(getIcon(),
+        key: Key("weather_forecast_base_page_icon"), width: 100, height: 100);
   }
 
   Widget getPageTitleWidget(BuildContext context) {
-    return Text(getTitleText(), style: Theme.of(context).textTheme.subtitle);
+    return Text(getTitleText(),
+        key: Key("weather_forecast_base_page_title"),
+        textDirection: TextDirection.ltr,
+        style: Theme.of(context).textTheme.subtitle);
   }
 
   String getIcon();

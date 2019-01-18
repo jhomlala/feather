@@ -59,7 +59,7 @@ class WeatherWidgetState extends State<WeatherWidget> {
 
     return Container(
         decoration: BoxDecoration(
-            gradient: WeatherManager.getGradient(
+            gradient: WidgetHelper.getGradient(
                 sunriseTime: snapshot.data.system.sunrise,
                 sunsetTime: snapshot.data.system.sunset)),
         child: Center(

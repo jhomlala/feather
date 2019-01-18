@@ -55,4 +55,13 @@ class WidgetHelper {
           AppConst.nightStartGradientColor, AppConst.nightEndGradient);
     }
   }
+
+  static LinearGradient getGradient({sunriseTime = 0, sunsetTime = 0}) {
+    if (sunriseTime == 0 && sunsetTime == 0) {
+      return WidgetHelper.buildGradient(
+          AppConst.nightStartGradientColor, AppConst.nightEndGradient);
+    } else {
+      return buildGradientBasedOnDayCycle(sunriseTime, sunsetTime);
+    }
+  }
 }
