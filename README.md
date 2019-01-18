@@ -12,8 +12,8 @@ Beautiful Flutter weather application. Entirely written in Dart and Flutter. App
 :heavy_check_mark: Persist location and weather data  
 :heavy_check_mark: Works offline (user need to download data before)  
 :heavy_check_mark: Automatically refresh data every 15 minutes  
-:heavy_check_mark: Unit and widget tests
-:heavy_check_mark: Travis CI
+:heavy_check_mark: Unit and widget tests  
+:heavy_check_mark: Travis CI  
 
 ### :camera: Screenshots 
 <img width="250px" src="https://github.com/jhomlala/feather/blob/master/screenshots/feather.gif">
