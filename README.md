@@ -1,5 +1,5 @@
 # :sunny: Feather
-[![Build Status](https://travis-ci.org/jhomlala/feather.svg?branch=master)](https://travis-ci.org/jhomlala/feather)
+[![Build Status](https://travis-ci.org/jhomlala/feather.svg?branch=master)](https://travis-ci.org/jhomlala/feather)  
 Beautiful Flutter weather application. Entirely written in Dart and Flutter. Application is ready for Android and iOS.
 
 ## :cloud: Features
