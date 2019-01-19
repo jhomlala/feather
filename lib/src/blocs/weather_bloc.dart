@@ -17,6 +17,7 @@ class WeatherBloc {
   final weatherForecastSubject = PublishSubject<WeatherForecastListResponse>();
   final _weatherRefreshTimeInSeconds = 900;
   final _logger = new Logger("WeatherBloc");
+  Timer _timer;
 
   Observable<WeatherResponse> get weather => weatherSubject.stream;
 
@@ -27,16 +28,14 @@ class WeatherBloc {
     _logger.log(Level.FINE, "Fetch weather for user location");
 
     GeoPosition geoPosition = await _getPosition();
-    if (geoPosition != null){
+    if (geoPosition != null) {
       fetchWeather(geoPosition.lat, geoPosition.long);
     } else {
       _logger.log(
-          Level.WARNING,
-          "Fetch weather failed because location not selected");
+          Level.WARNING, "Fetch weather failed because location not selected");
       weatherSubject.sink
           .add(WeatherResponse.withErrorCode("ERROR_LOCATION_NOT_SELECTED"));
     }
-
   }
 
   fetchWeather(double latitude, double longitude) async {
@@ -47,8 +46,9 @@ class WeatherBloc {
       _storageManager.saveWeather(weatherResponse);
     } else {
       _logger.info("Selected weather from storage");
-      WeatherResponse weatherResponseStorage =  await _storageManager.getWeather();
-      if (weatherResponseStorage != null){
+      WeatherResponse weatherResponseStorage =
+          await _storageManager.getWeather();
+      if (weatherResponseStorage != null) {
         weatherResponse = weatherResponseStorage;
       }
     }
@@ -59,14 +59,13 @@ class WeatherBloc {
     _logger.log(Level.FINE, "Fetch weather forecast for user location");
 
     GeoPosition geoPosition = await _getPosition();
-    if (geoPosition != null){
+    if (geoPosition != null) {
       fetchWeatherForecast(geoPosition.lat, geoPosition.long);
     } else {
       _logger.log(Level.WARNING,
           "Fetch weather forecast for user location failed because location not selected");
-      weatherForecastSubject.sink.add(
-          WeatherForecastListResponse.withErrorCode(
-              "ERROR_LOCATION_NOT_SELECTED"));
+      weatherForecastSubject.sink.add(WeatherForecastListResponse.withErrorCode(
+          "ERROR_LOCATION_NOT_SELECTED"));
     }
   }
 
@@ -74,11 +73,12 @@ class WeatherBloc {
     _logger.log(Level.FINE, "Fetch weather forecast");
     WeatherForecastListResponse weatherForecastResponse =
         await _weatherRepository.fetchWeatherForecast(latitude, longitude);
-    if (weatherForecastResponse.errorCode == null){
+    if (weatherForecastResponse.errorCode == null) {
       _storageManager.saveWeatherForecast(weatherForecastResponse);
     } else {
-      WeatherForecastListResponse weatherForecastResponseStorage = await _storageManager.getWeatherForecast();
-      if (weatherForecastResponseStorage != null){
+      WeatherForecastListResponse weatherForecastResponseStorage =
+          await _storageManager.getWeatherForecast();
+      if (weatherForecastResponseStorage != null) {
         weatherForecastResponse = weatherForecastResponseStorage;
         _logger.info("Using weather forecast data from storage");
       }
@@ -89,17 +89,22 @@ class WeatherBloc {
 
   setupTimer() {
     _logger.log(Level.FINE, "Setup timer");
-    var duration = Duration(seconds: _weatherRefreshTimeInSeconds);
-    new Timer(duration, handleTimerTimeout);
+    if (_timer != null) {
+      var duration = Duration(seconds: _weatherRefreshTimeInSeconds);
+      _timer = new Timer(duration, handleTimerTimeout);
+    } else {
+      _logger.warning(
+          "Could not setup new timer, because previous isn't finished");
+    }
   }
 
   handleTimerTimeout() {
     _logger.log(Level.FINE, "handle timer timeout");
+    _timer = null;
     setupTimer();
     fetchWeatherForUserLocation();
     fetchWeatherForecastForUserLocation();
   }
-
 
   Future<GeoPosition> _getPosition() async {
     try {
@@ -114,21 +119,17 @@ class WeatherBloc {
         _logger.fine("Position is not present!");
         return _storageManager.getLocation();
       }
-    } catch (exc, stackTrace){
+    } catch (exc, stackTrace) {
       _logger.warning("Exception: $exc in stackTrace: $stackTrace");
       return null;
     }
   }
-
-
 
   dispose() {
     _logger.log(Level.FINE, "Dispose");
     weatherSubject.close();
     weatherForecastSubject.close();
   }
-
-
 }
 
 final bloc = WeatherBloc();

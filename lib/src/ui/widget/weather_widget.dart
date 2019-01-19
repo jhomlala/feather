@@ -2,7 +2,7 @@ import 'package:feather/src/blocs/weather_bloc.dart';
 import 'package:feather/src/models/remote/overall_weather_data.dart';
 import 'package:feather/src/models/remote/weather_response.dart';
 import 'package:feather/src/resources/weather_manager.dart';
-import 'package:feather/src/ui/widget/date_helper.dart';
+import 'package:feather/src/utils/date_helper.dart';
 import 'package:feather/src/ui/widget/weather_forecast_thumbnail_list_widget.dart';
 import 'package:feather/src/ui/widget/widget_helper.dart';
 import 'package:feather/src/utils/types_helper.dart';
@@ -26,14 +26,12 @@ class WeatherWidgetState extends State<WeatherWidget> {
   void initState() {
     super.initState();
     log.fine("Init weather widget state");
-    print("Init state");
     bloc.setupTimer();
     bloc.fetchWeatherForUserLocation();
   }
 
   @override
   void dispose() {
-    //bloc.dispose();
     super.dispose();
   }
 
@@ -42,8 +40,6 @@ class WeatherWidgetState extends State<WeatherWidget> {
     return StreamBuilder(
       stream: bloc.weather,
       builder: (context, AsyncSnapshot<WeatherResponse> snapshot) {
-        print(snapshot.connectionState);
-
         if (snapshot.hasData) {
           if (snapshot.data.errorCode != null) {
             return WidgetHelper.buildErrorWidget(
