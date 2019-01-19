@@ -34,10 +34,10 @@ class WeatherForecastWidget extends StatelessWidget {
         page = WeatherForecastTemperaturePage(holder, width, height);
       } else if (key == AppConst.windPage) {
         page = WeatherForecastWindPage(holder, width, height);
-      } else if (key == AppConst.rainPage){
+      } else if (key == AppConst.rainPage) {
         page = WeatherForecastRainPage(holder, width, height);
-      } else if (key == AppConst.pressurePage){
-        page = WeatherForecastPressurePage(holder,width,height);
+      } else if (key == AppConst.pressurePage) {
+        page = WeatherForecastPressurePage(holder, width, height);
       }
       _pageMap[key] = page;
       return page;
@@ -47,27 +47,36 @@ class WeatherForecastWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
+        child: Directionality(
+      textDirection: TextDirection.ltr,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
+        key: Key("weather_forecast_container"),
         children: <Widget>[
           Text(holder.getLocationName(),
+              textDirection: TextDirection.ltr,
+              key: Key("weather_forecast_location_name"),
               style: Theme.of(context).textTheme.title),
           Text(holder.dateFullFormatted,
+              textDirection: TextDirection.ltr,
+              key: Key("weather_forecast_date_formatted"),
               style: Theme.of(context).textTheme.subtitle),
           WidgetHelper.buildPadding(top: 20),
           SizedBox(
               height: 450,
               child: Swiper(
+                key: Key("weather_forecast_swiper"),
                 itemBuilder: (BuildContext context, int index) {
                   if (index == 0) {
                     return _getPage(
                         AppConst.temperaturePage, holder, width, height);
                   } else if (index == 1) {
                     return _getPage(AppConst.windPage, holder, width, height);
-                  } else if (index == 2){
+                  } else if (index == 2) {
                     return _getPage(AppConst.rainPage, holder, width, height);
                   } else {
-                    return _getPage(AppConst.pressurePage, holder, width, height);
+                    return _getPage(
+                        AppConst.pressurePage, holder, width, height);
                   }
                 },
                 itemCount: 4,
@@ -77,6 +86,6 @@ class WeatherForecastWidget extends StatelessWidget {
               ))
         ],
       ),
-    );
+    ));
   }
 }
