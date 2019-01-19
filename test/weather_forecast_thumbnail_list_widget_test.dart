@@ -41,7 +41,7 @@ main() {
       await tester.pumpWidget(widget);
       expect(find.byKey(Key("progress_indicator")), findsOneWidget);
       await tester.idle();
-      await tester.pump(new Duration(seconds: 5));
+      await tester.pump(new Duration(seconds: 10));
       expect(
           find.byKey(Key("weather_forecast_thumbnail_list_widget_container")),
           findsOneWidget);
