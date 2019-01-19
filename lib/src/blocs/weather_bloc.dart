@@ -13,15 +13,15 @@ class WeatherBloc {
   final _weatherRepository = WeatherRepository();
   final _locationManager = LocationManager();
   final _storageManager = StorageManager();
-  final _weatherFetcher = PublishSubject<WeatherResponse>();
-  final _weatherForecastFetcher = PublishSubject<WeatherForecastListResponse>();
+  final weatherSubject = BehaviorSubject<WeatherResponse>();
+  final weatherForecastSubject = PublishSubject<WeatherForecastListResponse>();
   final _weatherRefreshTimeInSeconds = 900;
   final _logger = new Logger("WeatherBloc");
 
-  Observable<WeatherResponse> get weather => _weatherFetcher.stream;
+  Observable<WeatherResponse> get weather => weatherSubject.stream;
 
   Observable<WeatherForecastListResponse> get weatherForecast =>
-      _weatherForecastFetcher.stream;
+      weatherForecastSubject.stream;
 
   fetchWeatherForUserLocation() async {
     _logger.log(Level.FINE, "Fetch weather for user location");
@@ -33,7 +33,7 @@ class WeatherBloc {
       _logger.log(
           Level.WARNING,
           "Fetch weather failed because location not selected");
-      _weatherFetcher.sink
+      weatherSubject.sink
           .add(WeatherResponse.withErrorCode("ERROR_LOCATION_NOT_SELECTED"));
     }
 
@@ -52,7 +52,7 @@ class WeatherBloc {
         weatherResponse = weatherResponseStorage;
       }
     }
-    _weatherFetcher.sink.add(weatherResponse);
+    weatherSubject.sink.add(weatherResponse);
   }
 
   fetchWeatherForecastForUserLocation() async {
@@ -64,7 +64,7 @@ class WeatherBloc {
     } else {
       _logger.log(Level.WARNING,
           "Fetch weather forecast for user location failed because location not selected");
-      _weatherForecastFetcher.sink.add(
+      weatherForecastSubject.sink.add(
           WeatherForecastListResponse.withErrorCode(
               "ERROR_LOCATION_NOT_SELECTED"));
     }
@@ -84,7 +84,7 @@ class WeatherBloc {
       }
     }
 
-    _weatherForecastFetcher.sink.add(weatherForecastResponse);
+    weatherForecastSubject.sink.add(weatherForecastResponse);
   }
 
   setupTimer() {
@@ -102,16 +102,21 @@ class WeatherBloc {
 
 
   Future<GeoPosition> _getPosition() async {
-    var positionOptional = await _locationManager.getLocation();
-    if (positionOptional.isPresent) {
-      _logger.fine("Position is present!");
-      var position = positionOptional.value;
-      GeoPosition geoPosition = GeoPosition.fromPosition(position);
-      _storageManager.saveLocation(geoPosition);
-      return geoPosition;
-    } else {
-      _logger.fine("Position is not present!");
-      return _storageManager.getLocation();
+    try {
+      var positionOptional = await _locationManager.getLocation();
+      if (positionOptional.isPresent) {
+        _logger.fine("Position is present!");
+        var position = positionOptional.value;
+        GeoPosition geoPosition = GeoPosition.fromPosition(position);
+        _storageManager.saveLocation(geoPosition);
+        return geoPosition;
+      } else {
+        _logger.fine("Position is not present!");
+        return _storageManager.getLocation();
+      }
+    } catch (exc, stackTrace){
+      _logger.warning("Exception: $exc in stackTrace: $stackTrace");
+      return null;
     }
   }
 
@@ -119,8 +124,8 @@ class WeatherBloc {
 
   dispose() {
     _logger.log(Level.FINE, "Dispose");
-    _weatherFetcher.close();
-    _weatherForecastFetcher.close();
+    weatherSubject.close();
+    weatherForecastSubject.close();
   }
 
 

@@ -30,17 +30,20 @@ class WidgetHelper {
 
   static Widget buildProgressIndicator() {
     return Center(
+        key: Key("progress_indicator"),
         child: CircularProgressIndicator(
-      valueColor: new AlwaysStoppedAnimation<Color>(Colors.white),
-    ));
+          valueColor: new AlwaysStoppedAnimation<Color>(Colors.white),
+        ));
   }
 
   static Widget buildErrorWidget(BuildContext context, String error) {
     return Center(
+        key: Key("error_widget"),
         child: Text(
-      error,
-      style: Theme.of(context).textTheme.subtitle,
-    ));
+          error,
+          textDirection: TextDirection.ltr,
+          style: Theme.of(context).textTheme.subtitle,
+        ));
   }
 
   static LinearGradient buildGradientBasedOnDayCycle(int sunrise, int sunset) {

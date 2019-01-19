@@ -19,13 +19,18 @@ class StorageManager {
   }
 
   Future<GeoPosition> getLocation() async {
-    var sharedPreferences = await SharedPreferences.getInstance();
-    String jsonData = sharedPreferences.getString(AppConst.storageLocationKey);
-    _logger.log(Level.FINE, "Returned user location: $jsonData");
-    if (jsonData != null) {
-      return GeoPosition.fromJson(json.decode(jsonData));
-    } else {
-      return null;
+    try {
+      var sharedPreferences = await SharedPreferences.getInstance();
+      String jsonData = sharedPreferences.getString(
+          AppConst.storageLocationKey);
+      _logger.log(Level.FINE, "Returned user location: $jsonData");
+      if (jsonData != null) {
+        return GeoPosition.fromJson(json.decode(jsonData));
+      } else {
+        return null;
+      }
+    } catch (exc, stackTrace){
+      _logger.warning("Exception: $exc stack trace: $stackTrace");
     }
   }
 
