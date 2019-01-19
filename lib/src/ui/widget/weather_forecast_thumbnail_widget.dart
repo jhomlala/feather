@@ -13,46 +13,39 @@ class WeatherForecastThumbnailWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
+        key: Key("weather_forecast_thumbnail_widget"),
         color: Colors.transparent,
-        child: InkWell(
-            onTap: () {
-              _onWeatherForecastClicked(context);
-            },
-            child: Container(
-                padding:
-                    WidgetHelper.buildEdgeInsets(left: 5, right: 5, top: 10),
-                child: Column(
-                  children: <Widget>[
-                    Text(_holder.dateShortFormatted,
-                        style: Theme.of(context).textTheme.body1),
-                    WidgetHelper.buildPadding(top: 5),
-                    Image.asset(_holder.weatherCodeAsset,
-                        width: 30, height: 30),
-                    WidgetHelper.buildPadding(top: 5),
-                    Text(
-                        TypesHelper.formatTemperature(
-                            temperature: _holder.averageTemperature,
-                            round: true),
-                        style: Theme.of(context).textTheme.body1),
-                    WidgetHelper.buildPadding(top: 5),
-                  ],
-                ))));
-    /*child: Container(
-            padding: WidgetHelper.buildEdgeInsets(left: 10, top: 30),
-            child: Column(
-              children: <Widget>[
-                Text(_holder.dateShortFormatted,
-                    style: Theme.of(context).textTheme.body1),
-                WidgetHelper.buildPadding(top: 5),
-                Image.asset(_holder.weatherCodeAsset, width: 30, height: 30),
-                WidgetHelper.buildPadding(top: 5),
-                Text(
-                    TypesHelper.formatTemperature(
-                        temperature: _holder.averageTemperature, round: true),
-                    style: Theme.of(context).textTheme.body1),
-                WidgetHelper.buildPadding(top: 5),
-              ],
-            )));*/
+        child: Directionality(
+            textDirection: TextDirection.ltr,
+            child: InkWell(
+                onTap: () {
+                  _onWeatherForecastClicked(context);
+                },
+                child: Container(
+                    padding: WidgetHelper.buildEdgeInsets(
+                        left: 5, right: 5, top: 10),
+                    child: Column(
+                      children: <Widget>[
+                        Text(_holder.dateShortFormatted,
+                            key: Key("weather_forecast_thumbnail_date"),
+                            textDirection: TextDirection.ltr,
+                            style: Theme.of(context).textTheme.body1),
+                        WidgetHelper.buildPadding(top: 5),
+                        Image.asset(_holder.weatherCodeAsset,
+                            key: Key("weather_forecast_thumbnail_icon"),
+                            width: 30,
+                            height: 30),
+                        WidgetHelper.buildPadding(top: 5),
+                        Text(
+                            TypesHelper.formatTemperature(
+                                temperature: _holder.averageTemperature,
+                                round: true),
+                            key: Key("weather_forecast_thumbnai_temperature"),
+                            textDirection: TextDirection.ltr,
+                            style: Theme.of(context).textTheme.body1),
+                        WidgetHelper.buildPadding(top: 5),
+                      ],
+                    )))));
   }
 
   _onWeatherForecastClicked(BuildContext context) {

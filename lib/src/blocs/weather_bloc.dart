@@ -13,30 +13,29 @@ class WeatherBloc {
   final _weatherRepository = WeatherRepository();
   final _locationManager = LocationManager();
   final _storageManager = StorageManager();
-  final _weatherFetcher = PublishSubject<WeatherResponse>();
-  final _weatherForecastFetcher = PublishSubject<WeatherForecastListResponse>();
+  final weatherSubject = BehaviorSubject<WeatherResponse>();
+  final weatherForecastSubject = BehaviorSubject<WeatherForecastListResponse>();
   final _weatherRefreshTimeInSeconds = 900;
   final _logger = new Logger("WeatherBloc");
+  Timer _timer;
 
-  Observable<WeatherResponse> get weather => _weatherFetcher.stream;
+  Observable<WeatherResponse> get weather => weatherSubject.stream;
 
   Observable<WeatherForecastListResponse> get weatherForecast =>
-      _weatherForecastFetcher.stream;
+      weatherForecastSubject.stream;
 
   fetchWeatherForUserLocation() async {
     _logger.log(Level.FINE, "Fetch weather for user location");
 
     GeoPosition geoPosition = await _getPosition();
-    if (geoPosition != null){
+    if (geoPosition != null) {
       fetchWeather(geoPosition.lat, geoPosition.long);
     } else {
       _logger.log(
-          Level.WARNING,
-          "Fetch weather failed because location not selected");
-      _weatherFetcher.sink
+          Level.WARNING, "Fetch weather failed because location not selected");
+      weatherSubject.sink
           .add(WeatherResponse.withErrorCode("ERROR_LOCATION_NOT_SELECTED"));
     }
-
   }
 
   fetchWeather(double latitude, double longitude) async {
@@ -47,26 +46,26 @@ class WeatherBloc {
       _storageManager.saveWeather(weatherResponse);
     } else {
       _logger.info("Selected weather from storage");
-      WeatherResponse weatherResponseStorage =  await _storageManager.getWeather();
-      if (weatherResponseStorage != null){
+      WeatherResponse weatherResponseStorage =
+          await _storageManager.getWeather();
+      if (weatherResponseStorage != null) {
         weatherResponse = weatherResponseStorage;
       }
     }
-    _weatherFetcher.sink.add(weatherResponse);
+    weatherSubject.sink.add(weatherResponse);
   }
 
   fetchWeatherForecastForUserLocation() async {
     _logger.log(Level.FINE, "Fetch weather forecast for user location");
 
     GeoPosition geoPosition = await _getPosition();
-    if (geoPosition != null){
+    if (geoPosition != null) {
       fetchWeatherForecast(geoPosition.lat, geoPosition.long);
     } else {
       _logger.log(Level.WARNING,
           "Fetch weather forecast for user location failed because location not selected");
-      _weatherForecastFetcher.sink.add(
-          WeatherForecastListResponse.withErrorCode(
-              "ERROR_LOCATION_NOT_SELECTED"));
+      weatherForecastSubject.sink.add(WeatherForecastListResponse.withErrorCode(
+          "ERROR_LOCATION_NOT_SELECTED"));
     }
   }
 
@@ -74,56 +73,63 @@ class WeatherBloc {
     _logger.log(Level.FINE, "Fetch weather forecast");
     WeatherForecastListResponse weatherForecastResponse =
         await _weatherRepository.fetchWeatherForecast(latitude, longitude);
-    if (weatherForecastResponse.errorCode == null){
+    if (weatherForecastResponse.errorCode == null) {
       _storageManager.saveWeatherForecast(weatherForecastResponse);
     } else {
-      WeatherForecastListResponse weatherForecastResponseStorage = await _storageManager.getWeatherForecast();
-      if (weatherForecastResponseStorage != null){
+      WeatherForecastListResponse weatherForecastResponseStorage =
+          await _storageManager.getWeatherForecast();
+      if (weatherForecastResponseStorage != null) {
         weatherForecastResponse = weatherForecastResponseStorage;
         _logger.info("Using weather forecast data from storage");
       }
     }
 
-    _weatherForecastFetcher.sink.add(weatherForecastResponse);
+    weatherForecastSubject.sink.add(weatherForecastResponse);
   }
 
   setupTimer() {
     _logger.log(Level.FINE, "Setup timer");
-    var duration = Duration(seconds: _weatherRefreshTimeInSeconds);
-    new Timer(duration, handleTimerTimeout);
+    if (_timer != null) {
+      var duration = Duration(seconds: _weatherRefreshTimeInSeconds);
+      _timer = new Timer(duration, handleTimerTimeout);
+    } else {
+      _logger.warning(
+          "Could not setup new timer, because previous isn't finished");
+    }
   }
 
   handleTimerTimeout() {
     _logger.log(Level.FINE, "handle timer timeout");
+    _timer = null;
     setupTimer();
     fetchWeatherForUserLocation();
     fetchWeatherForecastForUserLocation();
   }
 
-
   Future<GeoPosition> _getPosition() async {
-    var positionOptional = await _locationManager.getLocation();
-    if (positionOptional.isPresent) {
-      _logger.fine("Position is present!");
-      var position = positionOptional.value;
-      GeoPosition geoPosition = GeoPosition.fromPosition(position);
-      _storageManager.saveLocation(geoPosition);
-      return geoPosition;
-    } else {
-      _logger.fine("Position is not present!");
-      return _storageManager.getLocation();
+    try {
+      var positionOptional = await _locationManager.getLocation();
+      if (positionOptional.isPresent) {
+        _logger.fine("Position is present!");
+        var position = positionOptional.value;
+        GeoPosition geoPosition = GeoPosition.fromPosition(position);
+        _storageManager.saveLocation(geoPosition);
+        return geoPosition;
+      } else {
+        _logger.fine("Position is not present!");
+        return _storageManager.getLocation();
+      }
+    } catch (exc, stackTrace) {
+      _logger.warning("Exception: $exc in stackTrace: $stackTrace");
+      return null;
     }
   }
 
-
-
   dispose() {
     _logger.log(Level.FINE, "Dispose");
-    _weatherFetcher.close();
-    _weatherForecastFetcher.close();
+    weatherSubject.close();
+    weatherForecastSubject.close();
   }
-
-
 }
 
 final bloc = WeatherBloc();

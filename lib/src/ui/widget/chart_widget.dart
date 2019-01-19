@@ -10,7 +10,6 @@ class ChartWidget extends StatefulWidget {
 
   const ChartWidget({Key key, this.chartData}) : super(key: key);
 
-
   @override
   State<StatefulWidget> createState() => _ChartWidgetState();
 }
@@ -57,6 +56,7 @@ class _ChartWidgetState extends State<ChartWidget>
 
   Widget _getChartWidget() {
     return CustomPaint(
+        key: Key("chart_widget_custom_paint"),
         painter: _ChartPainter(
             widget.chartData.points,
             widget.chartData.pointLabels,
@@ -68,6 +68,7 @@ class _ChartWidgetState extends State<ChartWidget>
 
   Widget _getChartUnavailableWidget(BuildContext context) {
     return Center(
+        key: Key("chart_widget_unavailable"),
         child: Text("Chart unavailable",
             textDirection: TextDirection.ltr,
             style: Theme.of(context).textTheme.body1));

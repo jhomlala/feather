@@ -6,38 +6,19 @@ import 'package:feather/src/models/remote/rain.dart';
 import 'package:feather/src/models/remote/system.dart';
 import 'package:feather/src/models/remote/weather_forecast_response.dart';
 import 'package:feather/src/models/remote/wind.dart';
-import 'package:feather/src/ui/screen/weather_forecast_rain_page.dart';
+import 'package:feather/src/ui/widget/weather_forecast_thumbnail_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 main() {
-  testWidgets("Rain page should contains widgets", (WidgetTester tester) async {
+  testWidgets("Weather forecast thumbnail widget should display widgets",
+      (WidgetTester tester) async {
     await tester.pumpWidget(
-        WeatherForecastRainPage(setupWeatherForecastHolder(), 300, 100));
-
-    expect(find.byKey(Key("weather_forecast_base_page_icon")), findsOneWidget);
-    expect(find.byKey(Key("weather_forecast_base_page_title")), findsOneWidget);
-    expect(
-        find.byKey(Key("weather_forecast_rain_page_subtitle")), findsOneWidget);
-    expect(find.byKey(Key("weather_forecast_rain_page_bottom_row")),
+        WeatherForecastThumbnailWidget(setupWeatherForecastHolder()));
+    expect(find.byKey(Key("weather_forecast_thumbnail_date")), findsOneWidget);
+    expect(find.byKey(Key("weather_forecast_thumbnail_icon")), findsOneWidget);
+    expect(find.byKey(Key("weather_forecast_thumbnai_temperature")),
         findsOneWidget);
-    expect(find.byKey(Key("weather_forecast_base_page_title")), findsOneWidget);
-    expect(find.byKey(Key("chart_widget_container")), findsOneWidget);
-
-    Text title =
-        tester.widget(find.byKey(Key("weather_forecast_base_page_title")));
-    expect(title.data, "Rain");
-
-    RichText subtitle =
-        tester.widget(find.byKey(Key("weather_forecast_rain_page_subtitle")));
-    TextSpan textSpan = subtitle.text;
-    expect(textSpan.text == null, true);
-    expect(textSpan.children.length == 4, true);
-    expect(textSpan.children[0].text.contains("min"), true);
-    expect(textSpan.children[1].text.contains("mm/h"), true);
-    expect(textSpan.children[2].text.contains("max"), true);
-    expect(textSpan.children[3].text.contains("mm/h"), true);
-
   });
 }
 
