@@ -1,4 +1,4 @@
-import 'package:feather/src/blocs/weather_bloc.dart';
+import 'package:feather/src/blocs/weather_forecast_bloc.dart';
 import 'package:feather/src/models/internal/weather_forecast_holder.dart';
 import 'package:feather/src/models/remote/system.dart';
 import 'package:feather/src/models/remote/weather_forecast_list_response.dart';
@@ -37,7 +37,7 @@ class WeatherForecastThumbnailListWidgetState
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-        stream: bloc.weatherForecast,
+        stream: bloc.weatherForecastStream,
         builder:
             (context, AsyncSnapshot<WeatherForecastListResponse> snapshot) {
           if (snapshot.hasData) {
