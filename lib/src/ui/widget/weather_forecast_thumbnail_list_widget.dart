@@ -31,7 +31,6 @@ class WeatherForecastThumbnailListWidgetState
 
   @override
   void dispose() {
-    bloc.dispose();
     super.dispose();
   }
 
@@ -59,6 +58,8 @@ class WeatherForecastThumbnailListWidgetState
     List<WeatherForecastResponse> forecastList = snapshot.data.list;
     var map = WeatherManager.mapForecastsForSameDay(forecastList);
     return Row(
+      key: Key("weather_forecast_thumbnail_list_widget_container"),
+      textDirection: TextDirection.ltr,
       mainAxisAlignment: MainAxisAlignment.center,
       children: buildForecastWeatherWidgets(map, snapshot.data),
     );

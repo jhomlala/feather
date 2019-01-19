@@ -13,6 +13,7 @@ class WeatherForecastThumbnailWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
+        key: Key("weather_forecast_thumbnail_widget"),
         color: Colors.transparent,
         child: Directionality(
             textDirection: TextDirection.ltr,

@@ -14,7 +14,7 @@ class WeatherBloc {
   final _locationManager = LocationManager();
   final _storageManager = StorageManager();
   final weatherSubject = BehaviorSubject<WeatherResponse>();
-  final weatherForecastSubject = PublishSubject<WeatherForecastListResponse>();
+  final weatherForecastSubject = BehaviorSubject<WeatherForecastListResponse>();
   final _weatherRefreshTimeInSeconds = 900;
   final _logger = new Logger("WeatherBloc");
   Timer _timer;
