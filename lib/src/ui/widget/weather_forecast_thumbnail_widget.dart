@@ -1,7 +1,7 @@
 import 'package:feather/src/models/internal/weather_forecast_holder.dart';
+import 'package:feather/src/resources/weather_helper.dart';
 import 'package:feather/src/ui/screen/weather_forecast_screen.dart';
 import 'package:feather/src/ui/widget/widget_helper.dart';
-import 'package:feather/src/utils/types_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -37,7 +37,7 @@ class WeatherForecastThumbnailWidget extends StatelessWidget {
                             height: 30),
                         WidgetHelper.buildPadding(top: 5),
                         Text(
-                            TypesHelper.formatTemperature(
+                            WeatherHelper.formatTemperature(
                                 temperature: _holder.averageTemperature,
                                 round: true),
                             key: Key("weather_forecast_thumbnai_temperature"),

@@ -1,11 +1,10 @@
 import 'package:feather/src/blocs/weather_bloc.dart';
 import 'package:feather/src/models/remote/overall_weather_data.dart';
 import 'package:feather/src/models/remote/weather_response.dart';
-import 'package:feather/src/resources/weather_manager.dart';
+import 'package:feather/src/resources/weather_helper.dart';
 import 'package:feather/src/utils/date_helper.dart';
 import 'package:feather/src/ui/widget/weather_forecast_thumbnail_list_widget.dart';
 import 'package:feather/src/ui/widget/widget_helper.dart';
-import 'package:feather/src/utils/types_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:logging/logging.dart';
@@ -83,7 +82,7 @@ class WeatherWidgetState extends State<WeatherWidget> {
               height: 100,
             ),
             Text(
-                TypesHelper.formatTemperature(
+                WeatherHelper.formatTemperature(
                     temperature: snapshot.data.mainWeatherData.temp),
                 key: Key("weather_widget_temperature"),
                 textDirection: TextDirection.ltr,
@@ -111,7 +110,7 @@ class WeatherWidgetState extends State<WeatherWidget> {
   }
 
   String _getMaxMinTemperatureRow(WeatherResponse weatherResponse) {
-    return "↑ ${TypesHelper.formatTemperature(temperature: weatherResponse.mainWeatherData.tempMax)}    ↓${TypesHelper.formatTemperature(temperature: weatherResponse.mainWeatherData.tempMin)}";
+    return "↑ ${WeatherHelper.formatTemperature(temperature: weatherResponse.mainWeatherData.tempMax)}    ↓${WeatherHelper.formatTemperature(temperature: weatherResponse.mainWeatherData.tempMin)}";
   }
 
   String _getPressureAndHumidityRow(WeatherResponse weatherResponse) {
@@ -122,6 +121,6 @@ class WeatherWidgetState extends State<WeatherWidget> {
     OverallWeatherData overallWeatherData =
         weatherResponse.overallWeatherData[0];
     int code = overallWeatherData.id;
-    return WeatherManager.getWeatherIcon(code);
+    return WeatherHelper.getWeatherIcon(code);
   }
 }

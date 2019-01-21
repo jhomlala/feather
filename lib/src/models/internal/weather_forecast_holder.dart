@@ -7,8 +7,7 @@ import 'package:feather/src/models/remote/city.dart';
 import 'package:feather/src/models/remote/system.dart';
 import 'package:feather/src/models/remote/weather_forecast_response.dart';
 import 'package:feather/src/resources/config/app_const.dart';
-import 'package:feather/src/resources/weather_manager.dart';
-import 'package:feather/src/utils/types_helper.dart';
+import 'package:feather/src/resources/weather_helper.dart';
 import 'package:flutter/material.dart';
 
 class WeatherForecastHolder {
@@ -143,7 +142,7 @@ class WeatherForecastHolder {
   void setupWeatherCode(List<WeatherForecastResponse> forecastList) {
     int index = (forecastList.length / 2).floor();
     _weatherCode = forecastList[index].overallWeatherData[0].id;
-    _weatherCodeAsset = WeatherManager.getWeatherIcon(_weatherCode);
+    _weatherCodeAsset = WeatherHelper.getWeatherIcon(_weatherCode);
   }
 
   String getLocationName() {
@@ -301,7 +300,7 @@ class WeatherForecastHolder {
     String text;
     switch (chartDataType) {
       case ChartDataType.temperature:
-        text = TypesHelper.formatTemperature(
+        text = WeatherHelper.formatTemperature(
             temperature: averageValue, positions: 1, round: false);
         break;
       case ChartDataType.wind:

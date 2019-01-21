@@ -2,7 +2,7 @@ import 'dart:collection';
 import 'package:feather/src/models/remote/weather_forecast_response.dart';
 import 'package:feather/src/resources/config/assets.dart';
 
-class WeatherManager {
+class WeatherHelper {
   static String getWeatherIcon(int code) {
     String asset = Assets.iconCloud;
     if (code >= 200 && code <= 299) {
@@ -41,5 +41,12 @@ class WeatherManager {
 
   static String _getDayKey(DateTime dateTime) {
     return "${dateTime.day.toString()}-${dateTime.month.toString()}-${dateTime.year.toString()}";
+  }
+
+  static String formatTemperature({double temperature, int positions = 0, round = true}){
+    if (round){
+      temperature = temperature.floor().toDouble();
+    }
+    return temperature.toStringAsFixed(positions) + "°C";
   }
 }

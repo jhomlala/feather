@@ -3,7 +3,7 @@ import 'package:feather/src/models/internal/weather_forecast_holder.dart';
 import 'package:feather/src/models/remote/system.dart';
 import 'package:feather/src/models/remote/weather_forecast_list_response.dart';
 import 'package:feather/src/models/remote/weather_forecast_response.dart';
-import 'package:feather/src/resources/weather_manager.dart';
+import 'package:feather/src/resources/weather_helper.dart';
 import 'package:feather/src/ui/widget/weather_forecast_thumbnail_widget.dart';
 import 'package:feather/src/ui/widget/widget_helper.dart';
 import 'package:flutter/material.dart';
@@ -59,7 +59,7 @@ class WeatherForecastThumbnailListWidgetState
   Widget buildForecastWeatherContainer(
       AsyncSnapshot<WeatherForecastListResponse> snapshot) {
     List<WeatherForecastResponse> forecastList = snapshot.data.list;
-    var map = WeatherManager.mapForecastsForSameDay(forecastList);
+    var map = WeatherHelper.mapForecastsForSameDay(forecastList);
     return Row(
       key: Key("weather_forecast_thumbnail_list_widget_container"),
       textDirection: TextDirection.ltr,
