@@ -37,39 +37,41 @@ class WidgetHelper {
         ));
   }
 
-  static Widget buildErrorWidget(BuildContext context, ApplicationError applicationError,VoidCallback voidCallback ) {
+  static Widget buildErrorWidget(BuildContext context,
+      ApplicationError applicationError, VoidCallback voidCallback) {
     String errorText = "";
     if (applicationError == ApplicationError.locationNotSelectedError) {
       errorText =
-      "Couldn't select your location. Please make sure that you have given location permission.";
+          "Couldn't select your location. Please make sure that you have given location permission.";
     } else if (applicationError == ApplicationError.connectionError) {
       errorText =
-      "Couldn't connect to server. Please check your internet connection.";
+          "Couldn't connect to server. Please check your internet connection.";
     } else if (applicationError == ApplicationError.apiError) {
       errorText = "Server error.";
     } else {
       errorText = "Unknown error";
     }
-    return Center(
-      key: Key("error_widget"),
-        child: SizedBox(
-            width: 250,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  errorText,
-                  textDirection: TextDirection.ltr,
-                  textAlign: TextAlign.center,
-                ),
-                FlatButton(
-                  child: Text("Retry",
-                      style: Theme.of(context).textTheme.subtitle),
-
-                 onPressed: voidCallback ,
-                )
-              ],
-            )));
+    return Directionality(
+      textDirection: TextDirection.ltr,
+        child: Center(
+            key: Key("error_widget"),
+            child: SizedBox(
+                width: 250,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      errorText,
+                      textDirection: TextDirection.ltr,
+                      textAlign: TextAlign.center,
+                    ),
+                    FlatButton(
+                      child: Text("Retry",
+                          style: Theme.of(context).textTheme.subtitle),
+                      onPressed: voidCallback,
+                    )
+                  ],
+                ))));
   }
 
   static LinearGradient buildGradientBasedOnDayCycle(int sunrise, int sunset) {
@@ -93,8 +95,4 @@ class WidgetHelper {
       return buildGradientBasedOnDayCycle(sunriseTime, sunsetTime);
     }
   }
-
-
-
-
 }
