@@ -1,5 +1,4 @@
 import 'package:feather/src/blocs/weather_bloc.dart';
-import 'package:feather/src/models/internal/application_error.dart';
 import 'package:feather/src/models/remote/overall_weather_data.dart';
 import 'package:feather/src/models/remote/weather_response.dart';
 import 'package:feather/src/resources/weather_manager.dart';

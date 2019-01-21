@@ -1,5 +1,6 @@
 import 'package:feather/src/models/internal/application_error.dart';
-import 'package:feather/src/resources/app_const.dart';
+import 'package:feather/src/resources/config/app_const.dart';
+import 'package:feather/src/resources/config/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -41,15 +42,13 @@ class WidgetHelper {
       ApplicationError applicationError, VoidCallback voidCallback) {
     String errorText = "";
     if (applicationError == ApplicationError.locationNotSelectedError) {
-      errorText =
-          "Couldn't select your location. Please make sure that you have given location permission.";
+      errorText = Strings.errorLocationNotSelected;
     } else if (applicationError == ApplicationError.connectionError) {
-      errorText =
-          "Couldn't connect to server. Please check your internet connection.";
+      errorText = Strings.errorServerConnection;
     } else if (applicationError == ApplicationError.apiError) {
-      errorText = "Server error.";
+      errorText = Strings.errorServer;
     } else {
-      errorText = "Unknown error";
+      errorText = Strings.unknownError;
     }
     return Directionality(
       textDirection: TextDirection.ltr,

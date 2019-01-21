@@ -6,7 +6,7 @@ import 'package:feather/src/models/internal/point.dart';
 import 'package:feather/src/models/remote/city.dart';
 import 'package:feather/src/models/remote/system.dart';
 import 'package:feather/src/models/remote/weather_forecast_response.dart';
-import 'package:feather/src/resources/app_const.dart';
+import 'package:feather/src/resources/config/app_const.dart';
 import 'package:feather/src/resources/weather_manager.dart';
 import 'package:feather/src/utils/types_helper.dart';
 import 'package:flutter/material.dart';

@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:feather/src/models/internal/geo_position.dart';
 import 'package:feather/src/models/remote/weather_forecast_list_response.dart';
 import 'package:feather/src/models/remote/weather_response.dart';
-import 'package:feather/src/resources/app_const.dart';
+import 'package:feather/src/resources/config/app_const.dart';
 import 'package:logging/logging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
