@@ -1,12 +1,11 @@
-import 'dart:convert';
-
+import 'package:feather/src/models/internal/application_error.dart';
 import 'package:feather/src/models/remote/city.dart';
 import 'package:feather/src/models/remote/weather_forecast_response.dart';
 
 class WeatherForecastListResponse {
   final List<WeatherForecastResponse> list;
   final City city;
-  String _errorCode;
+  ApplicationError _errorCode;
 
   WeatherForecastListResponse(this.list, this.city);
 
@@ -18,16 +17,12 @@ class WeatherForecastListResponse {
 
   Map<String, dynamic> toJson() => {"list": list, "city": city};
 
-  
-
-  static WeatherForecastListResponse withErrorCode(String errorCode) {
+  static WeatherForecastListResponse withErrorCode(ApplicationError errorCode) {
     WeatherForecastListResponse response =
         new WeatherForecastListResponse(null, null);
     response._errorCode = errorCode;
     return response;
   }
 
-  String get errorCode => _errorCode;
-
-
+  ApplicationError get errorCode => _errorCode;
 }

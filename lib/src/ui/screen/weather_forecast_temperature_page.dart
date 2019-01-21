@@ -1,6 +1,7 @@
 import 'package:feather/src/models/internal/chart_data.dart';
 import 'package:feather/src/models/internal/point.dart';
 import 'package:feather/src/models/internal/weather_forecast_holder.dart';
+import 'package:feather/src/resources/config/assets.dart';
 import 'package:feather/src/resources/weather_manager.dart';
 import 'package:feather/src/ui/screen/weather_forecast_base_page.dart';
 import 'package:feather/src/ui/widget/widget_helper.dart';
@@ -44,7 +45,7 @@ class WeatherForecastTemperaturePage extends WeatherForecastBasePage {
 
   @override
   String getIcon() {
-    return "assets/icon_thermometer.png";
+    return Assets.iconThermometer;
   }
 
   @override

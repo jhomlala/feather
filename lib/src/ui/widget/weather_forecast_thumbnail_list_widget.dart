@@ -37,17 +37,20 @@ class WeatherForecastThumbnailListWidgetState
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-        stream: bloc.weatherForecastStream,
+        stream: bloc.weatherForecastSubject.stream,
         builder:
             (context, AsyncSnapshot<WeatherForecastListResponse> snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data.errorCode != null) {
               return WidgetHelper.buildErrorWidget(
-                  context, snapshot.data.errorCode);
+                  context,
+                  snapshot.data.errorCode,
+                  () => bloc.fetchWeatherForecastForUserLocation());
             }
             return buildForecastWeatherContainer(snapshot);
           } else if (snapshot.hasError) {
-            return WidgetHelper.buildErrorWidget(context, snapshot.error);
+            return WidgetHelper.buildErrorWidget(context, snapshot.error,
+                () => bloc.fetchWeatherForecastForUserLocation());
           }
           return WidgetHelper.buildProgressIndicator();
         });
@@ -71,7 +74,7 @@ class WeatherForecastThumbnailListWidgetState
     List<Widget> forecastWidgets = new List();
     map.forEach((key, value) {
       forecastWidgets.add(new WeatherForecastThumbnailWidget(
-          new WeatherForecastHolder(value, data.city,widget.system)));
+          new WeatherForecastHolder(value, data.city, widget.system)));
     });
     return forecastWidgets;
   }

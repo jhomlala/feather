@@ -1,4 +1,5 @@
 import 'package:feather/src/blocs/weather_bloc.dart';
+import 'package:feather/src/models/internal/application_error.dart';
 import 'package:feather/src/models/remote/overall_weather_data.dart';
 import 'package:feather/src/models/remote/weather_response.dart';
 import 'package:feather/src/resources/weather_manager.dart';
@@ -38,16 +39,19 @@ class WeatherWidgetState extends State<WeatherWidget> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: bloc.weather,
+      stream: bloc.weatherSubject.stream,
       builder: (context, AsyncSnapshot<WeatherResponse> snapshot) {
         if (snapshot.hasData) {
           if (snapshot.data.errorCode != null) {
             return WidgetHelper.buildErrorWidget(
-                context, snapshot.data.errorCode);
+                context,
+                snapshot.data.errorCode,
+                () => bloc.fetchWeatherForUserLocation());
           }
           return buildWeatherContainer(snapshot);
         } else if (snapshot.hasError) {
-          return WidgetHelper.buildErrorWidget(context, snapshot.error);
+          return WidgetHelper.buildErrorWidget(context, snapshot.error,
+              () => bloc.fetchWeatherForUserLocation());
         }
         return WidgetHelper.buildProgressIndicator();
       },

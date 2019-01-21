@@ -223,6 +223,9 @@ class WeatherForecastHolder {
 
     for (double averageDifferenceValue in averageDifferenceValues) {
       var y = halfHeight - (halfHeight * averageDifferenceValue / maxValue);
+      if (y.isNaN){
+        y = halfHeight;
+      }
       points.add(Point(currentX, y));
       currentX += widthStep;
     }

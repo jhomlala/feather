@@ -1,8 +1,8 @@
 import 'package:feather/src/models/remote/weather_forecast_list_response.dart';
 import 'package:feather/src/models/remote/weather_response.dart';
-import 'package:feather/src/resources/weather_api_provider.dart';
+import 'package:feather/src/resources/repository/remote/weather_api_provider.dart';
 
-class WeatherRepository{
+class WeatherRemoteRepository{
   final weatherApiProvider = WeatherApiProvider();
 
   Future<WeatherResponse> fetchWeather(double latitude,double longitude){

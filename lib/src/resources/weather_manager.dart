@@ -2,28 +2,29 @@ import 'dart:collection';
 
 import 'package:feather/src/models/remote/weather_forecast_response.dart';
 import 'package:feather/src/resources/app_const.dart';
+import 'package:feather/src/resources/config/assets.dart';
 import 'package:feather/src/ui/widget/widget_helper.dart';
 import 'package:flutter/material.dart';
 
 class WeatherManager {
   static String getWeatherIcon(int code) {
-    String asset = "assets/icon_cloud.png";
+    String asset = Assets.iconCloud;
     if (code >= 200 && code <= 299) {
-      asset = "assets/icon_thunder.png";
+      asset = Assets.iconThunder;
     } else if (code >= 300 && code <= 399) {
-      asset = "assets/icon_cloud_little_rain.png";
+      asset = Assets.iconCloudLittleRain;
     } else if (code >= 500 && code <= 599) {
-      asset = "assets/icon_rain.png";
+      asset = Assets.iconRain;
     } else if (code >= 600 && code <= 699) {
-      asset = "assets/icon_snow.png";
+      asset = Assets.iconSnow;
     } else if (code >= 700 && code <= 799) {
-      asset = "assets/icon_dust.png";
+      asset = Assets.iconDust;
     } else if (code == 800) {
-      asset = "assets/icon_sun.png";
+      asset = Assets.iconSun;
     } else if (code == 801) {
-      asset = "assets/icon_cloud_sun.png";
+      asset = Assets.iconCloudSun;
     } else if (code >= 802) {
-      asset = "assets/icon_cloud.png";
+      asset = Assets.iconCloud;
     }
     return asset;
   }

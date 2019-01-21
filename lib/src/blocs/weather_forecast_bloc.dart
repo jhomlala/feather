@@ -1,15 +1,39 @@
+import 'dart:async';
+
 import 'package:feather/src/blocs/base_bloc.dart';
+import 'package:feather/src/models/internal/application_error.dart';
 import 'package:feather/src/models/internal/geo_position.dart';
 import 'package:feather/src/models/remote/weather_forecast_list_response.dart';
 import 'package:logging/logging.dart';
 import 'package:rxdart/rxdart.dart';
 
 class WeatherForecastBloc extends BaseBloc {
-  final weatherForecastSubject = BehaviorSubject<WeatherForecastListResponse>();
   final Logger _logger = Logger("WeatherForecastBloc");
-  Observable<WeatherForecastListResponse> get weatherForecastStream =>
-      weatherForecastSubject.stream;
+  final weatherForecastSubject = BehaviorSubject<WeatherForecastListResponse>();
+  Timer _timer;
 
+  @override
+  setupTimer() {
+    _logger.log(Level.FINE, "Setup timer");
+    if (_timer != null) {
+      var duration = Duration(seconds: timerTimeout);
+      _timer = new Timer(duration, handleTimerTimeout);
+    } else {
+      _logger.warning(
+          "Could not setup new timer, because previous isn't finished");
+    }
+  }
+
+  @override
+  void handleTimerTimeout() {
+    _timer = null;
+    setupTimer();
+  }
+
+  @override
+  void dispose() {
+    weatherForecastSubject.close();
+  }
 
   fetchWeatherForecastForUserLocation() async {
     _logger.log(Level.FINE, "Fetch weather forecast for user location");
@@ -21,31 +45,26 @@ class WeatherForecastBloc extends BaseBloc {
       _logger.log(Level.WARNING,
           "Fetch weather forecast for user location failed because location not selected");
       weatherForecastSubject.sink.add(WeatherForecastListResponse.withErrorCode(
-          "ERROR_LOCATION_NOT_SELECTED"));
+          ApplicationError.locationNotSelectedError));
     }
   }
 
   fetchWeatherForecast(double latitude, double longitude) async {
     _logger.log(Level.FINE, "Fetch weather forecast");
     WeatherForecastListResponse weatherForecastResponse =
-    await weatherRepository.fetchWeatherForecast(latitude, longitude);
+        await weatherRemoteRepository.fetchWeatherForecast(latitude, longitude);
     if (weatherForecastResponse.errorCode == null) {
-      storageManager.saveWeatherForecast(weatherForecastResponse);
+      weatherLocalRepository.saveWeatherForecast(weatherForecastResponse);
     } else {
       WeatherForecastListResponse weatherForecastResponseStorage =
-      await storageManager.getWeatherForecast();
+          await weatherLocalRepository.getWeatherForecast();
       if (weatherForecastResponseStorage != null) {
         weatherForecastResponse = weatherForecastResponseStorage;
         _logger.info("Using weather forecast data from storage");
       }
     }
+
     weatherForecastSubject.sink.add(weatherForecastResponse);
-  }
-
-
-  dispose(){
-    _logger.log(Level.FINE, "Dispose");
-    weatherForecastSubject.close();
   }
 }
 

@@ -1,5 +1,4 @@
-import 'dart:convert';
-
+import 'package:feather/src/models/internal/application_error.dart';
 import 'package:feather/src/models/remote/clouds.dart';
 import 'package:feather/src/models/remote/coordinates.dart';
 import 'package:feather/src/models/remote/main_weather_data.dart';
@@ -18,7 +17,7 @@ class WeatherResponse {
   final String name;
   final int cod;
   final String station;
-  String _errorCode;
+  ApplicationError _errorCode;
 
   WeatherResponse(
       {this.cord,
@@ -59,11 +58,11 @@ class WeatherResponse {
         "station": station,
       };
 
-  static WeatherResponse withErrorCode(String errorCode) {
+  static WeatherResponse withErrorCode(ApplicationError errorCode) {
     WeatherResponse response = new WeatherResponse();
     response._errorCode = errorCode;
     return response;
   }
 
-  String get errorCode => _errorCode;
+  ApplicationError get errorCode => _errorCode;
 }
