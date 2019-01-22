@@ -49,4 +49,21 @@ class WeatherHelper {
     }
     return temperature.toStringAsFixed(positions) + "°C";
   }
+
+  static String formatPressure(double pressure){
+    return "${pressure.toStringAsFixed(0)} hPa";
+  }
+
+  static String formatRain(double rain){
+    return "${rain.toStringAsFixed(2)} mm/h";
+  }
+
+  static String formatWind(double wind){
+    return "${wind.toStringAsFixed(1)} km/h";
+  }
+
+  static String formatHumidity(double humidity){
+    return "${humidity.toStringAsFixed(0)}%";
+  }
+
 }

@@ -45,7 +45,7 @@ class WeatherBloc extends BaseBloc {
 
   setupTimer() {
     _logger.log(Level.FINE, "Setup timer");
-    if (_timer != null) {
+    if (_timer == null) {
       var duration = Duration(seconds: timerTimeout);
       _timer = new Timer(duration, handleTimerTimeout);
     } else {

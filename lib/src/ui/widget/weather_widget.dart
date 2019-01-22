@@ -110,11 +110,15 @@ class WeatherWidgetState extends State<WeatherWidget> {
   }
 
   String _getMaxMinTemperatureRow(WeatherResponse weatherResponse) {
-    return "↑ ${WeatherHelper.formatTemperature(temperature: weatherResponse.mainWeatherData.tempMax)}    ↓${WeatherHelper.formatTemperature(temperature: weatherResponse.mainWeatherData.tempMin)}";
+    return "↑ ${WeatherHelper.formatTemperature(temperature: weatherResponse.mainWeatherData.tempMax)}" +
+        "    ↓${WeatherHelper.formatTemperature(temperature: weatherResponse.mainWeatherData.tempMin)}";
   }
 
   String _getPressureAndHumidityRow(WeatherResponse weatherResponse) {
-    return "${weatherResponse.mainWeatherData.pressure.toStringAsFixed(0)} hPa    ${weatherResponse.mainWeatherData.humidity.toString()}%";
+    return WeatherHelper.formatPressure(
+            weatherResponse.mainWeatherData.pressure) +
+        "    " +
+        WeatherHelper.formatHumidity(weatherResponse.mainWeatherData.humidity);
   }
 
   String _getWeatherImage(WeatherResponse weatherResponse) {

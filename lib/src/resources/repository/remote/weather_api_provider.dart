@@ -48,8 +48,6 @@ class WeatherApiProvider {
             "lon=" + longitude.toString(),
             "units=metric"
           ]));
-      print("aaaa");
-      print("Url: " + url);
       _logger.log(Level.INFO, "Fetch weather forecast with url: " + url);
       final response = await http.get(url);
       _logger.log(Level.INFO,

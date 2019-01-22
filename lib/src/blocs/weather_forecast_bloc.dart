@@ -15,7 +15,7 @@ class WeatherForecastBloc extends BaseBloc {
   @override
   setupTimer() {
     _logger.log(Level.FINE, "Setup timer");
-    if (_timer != null) {
+    if (_timer == null) {
       var duration = Duration(seconds: timerTimeout);
       _timer = new Timer(duration, handleTimerTimeout);
     } else {
@@ -28,6 +28,7 @@ class WeatherForecastBloc extends BaseBloc {
   void handleTimerTimeout() {
     _timer = null;
     setupTimer();
+    fetchWeatherForecastForUserLocation();
   }
 
   @override

@@ -9,7 +9,4 @@ class City{
     "id":id,
     "name":name
   };
-
-
-
 }

@@ -3,6 +3,7 @@ import 'package:feather/src/models/internal/point.dart';
 import 'package:feather/src/models/internal/weather_forecast_holder.dart';
 import 'package:feather/src/resources/config/assets.dart';
 import 'package:feather/src/resources/config/strings.dart';
+import 'package:feather/src/resources/weather_helper.dart';
 import 'package:feather/src/ui/screen/weather_forecast_base_page.dart';
 import 'package:feather/src/ui/widget/widget_helper.dart';
 import 'package:flutter/material.dart';
@@ -30,8 +31,10 @@ class WeatherForecastWindPage extends WeatherForecastBasePage {
       }
       rowElements.removeLast();
     }
-    return Row( key: Key("weather_forecast_wind_page_bottom_row"),
-        mainAxisAlignment: MainAxisAlignment.center, children: rowElements);
+    return Row(
+        key: Key("weather_forecast_wind_page_bottom_row"),
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: rowElements);
   }
 
   @override
@@ -52,11 +55,11 @@ class WeatherForecastWindPage extends WeatherForecastBasePage {
         text: TextSpan(children: [
           TextSpan(text: 'min ', style: Theme.of(context).textTheme.body2),
           TextSpan(
-              text: "${holder.minWind.toStringAsFixed(1)} km/h",
+              text: WeatherHelper.formatWind(holder.minWind),
               style: Theme.of(context).textTheme.subtitle),
           TextSpan(text: '   max ', style: Theme.of(context).textTheme.body2),
           TextSpan(
-              text: "${holder.maxWind.toStringAsFixed(1)} km/h",
+              text: WeatherHelper.formatWind(holder.maxWind),
               style: Theme.of(context).textTheme.subtitle)
         ]));
   }

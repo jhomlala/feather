@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:feather/src/models/internal/chart_data.dart';
-import 'package:feather/src/models/internal/line_axis.dart';
+import 'package:feather/src/models/internal/chart_line.dart';
 import 'package:feather/src/models/internal/point.dart';
 import 'package:feather/src/models/remote/city.dart';
 import 'package:feather/src/models/remote/system.dart';
@@ -164,7 +164,7 @@ class WeatherForecastHolder {
     List<String> pointsLabel = _getPointLabels(values);
     List<DateTime> dateTimes = _getDateTimes();
     String mainAxisText = _getMainAxisText(chartDataType, averageValue);
-    List<LineAxis> axes =
+    List<ChartLine> axes =
         _getAxes(points, dateTimes, height, width, mainAxisText);
     var chartData = ChartData(points, pointsLabel, width, height, axes);
     _chartDataCache[chartDataType] = chartData;
@@ -264,10 +264,10 @@ class WeatherForecastHolder {
     return dateTimes;
   }
 
-  List<LineAxis> _getAxes(List<Point> points, List<DateTime> dateTimes,
+  List<ChartLine> _getAxes(List<Point> points, List<DateTime> dateTimes,
       double height, double width, String mainAxisText) {
-    List<LineAxis> list = new List();
-    list.add(LineAxis(
+    List<ChartLine> list = new List();
+    list.add(ChartLine(
         mainAxisText,
         Offset(-25, height / 2 - 15),
         Offset(-5, (height - AppConst.chartPadding) / 2),
@@ -276,7 +276,7 @@ class WeatherForecastHolder {
     for (int index = 0; index < points.length; index++) {
       Point point = points[index];
       DateTime dateTime = dateTimes[index];
-      list.add(LineAxis(
+      list.add(ChartLine(
           _getPointAxisLabel(dateTime),
           Offset(point.x - 10, height - 10),
           Offset(point.x, 0),

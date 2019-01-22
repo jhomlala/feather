@@ -7,8 +7,10 @@ import 'package:flutter/widgets.dart';
 
 class WeatherForecastThumbnailWidget extends StatelessWidget {
   final WeatherForecastHolder _holder;
+  final WeatherForecastScreen _screen;
 
-  WeatherForecastThumbnailWidget(this._holder);
+  WeatherForecastThumbnailWidget(this._holder)
+      : _screen = WeatherForecastScreen(_holder);
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +53,7 @@ class WeatherForecastThumbnailWidget extends StatelessWidget {
   _onWeatherForecastClicked(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (_) => WeatherForecastScreen(_holder)),
+      MaterialPageRoute(builder: (_) => _screen),
     );
   }
 }
