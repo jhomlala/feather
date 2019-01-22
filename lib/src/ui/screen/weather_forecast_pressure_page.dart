@@ -38,11 +38,11 @@ class WeatherForecastPressurePage extends WeatherForecastBasePage {
         text: TextSpan(children: [
           TextSpan(text: 'min ', style: Theme.of(context).textTheme.body2),
           TextSpan(
-              text: WeatherHelper.formatRain(holder.minPressure),
+              text: WeatherHelper.formatPressure(holder.minPressure),
               style: Theme.of(context).textTheme.subtitle),
           TextSpan(text: '   max ', style: Theme.of(context).textTheme.body2),
           TextSpan(
-              text: WeatherHelper.formatRain(holder.maxPressure),
+              text: WeatherHelper.formatPressure(holder.maxPressure),
               style: Theme.of(context).textTheme.subtitle)
         ]));
   }
