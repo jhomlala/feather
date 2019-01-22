@@ -1,4 +1,6 @@
-import 'package:feather/src/blocs/weather_bloc.dart';
+
+import 'package:feather/src/blocs/weather_forecast_bloc.dart';
+import 'package:feather/src/models/internal/application_error.dart';
 import 'package:feather/src/models/remote/city.dart';
 import 'package:feather/src/models/remote/clouds.dart';
 import 'package:feather/src/models/remote/main_weather_data.dart';
@@ -16,7 +18,7 @@ main() {
       (WidgetTester tester) async {
     await tester.runAsync(() async {
       bloc.weatherForecastSubject.sink
-          .add(WeatherForecastListResponse.withErrorCode("ERROR_TEST"));
+          .add(WeatherForecastListResponse.withErrorCode(ApplicationError.apiError));
       await tester.pump(new Duration(seconds: 5));
       WeatherForecastThumbnailListWidget widget =
           WeatherForecastThumbnailListWidget();

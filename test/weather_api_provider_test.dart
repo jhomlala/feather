@@ -7,7 +7,7 @@ import 'package:feather/src/models/remote/weather_forecast_list_response.dart';
 import 'package:feather/src/models/remote/weather_forecast_response.dart';
 import 'package:feather/src/models/remote/weather_response.dart';
 import 'package:feather/src/models/remote/wind.dart';
-import 'package:feather/src/resources/weather_api_provider.dart';
+import 'package:feather/src/resources/repository/remote/weather_api_provider.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -100,8 +100,10 @@ void main() {
     WeatherForecastResponse forecastResponse;
 
     setUpAll(() async {
+      print("setup");
       response =
       await weatherApiProvider.fetchWeatherForecast(0, 0);
+      print("Response: " + response.toString());
       forecastResponse = response.list[0];
     });
 

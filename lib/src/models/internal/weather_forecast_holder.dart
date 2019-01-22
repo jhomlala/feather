@@ -1,14 +1,13 @@
 import 'dart:math';
 
 import 'package:feather/src/models/internal/chart_data.dart';
-import 'package:feather/src/models/internal/line_axis.dart';
+import 'package:feather/src/models/internal/chart_line.dart';
 import 'package:feather/src/models/internal/point.dart';
 import 'package:feather/src/models/remote/city.dart';
 import 'package:feather/src/models/remote/system.dart';
 import 'package:feather/src/models/remote/weather_forecast_response.dart';
-import 'package:feather/src/resources/app_const.dart';
-import 'package:feather/src/resources/weather_manager.dart';
-import 'package:feather/src/utils/types_helper.dart';
+import 'package:feather/src/resources/config/app_const.dart';
+import 'package:feather/src/resources/weather_helper.dart';
 import 'package:flutter/material.dart';
 
 class WeatherForecastHolder {
@@ -143,7 +142,7 @@ class WeatherForecastHolder {
   void setupWeatherCode(List<WeatherForecastResponse> forecastList) {
     int index = (forecastList.length / 2).floor();
     _weatherCode = forecastList[index].overallWeatherData[0].id;
-    _weatherCodeAsset = WeatherManager.getWeatherIcon(_weatherCode);
+    _weatherCodeAsset = WeatherHelper.getWeatherIcon(_weatherCode);
   }
 
   String getLocationName() {
@@ -165,7 +164,7 @@ class WeatherForecastHolder {
     List<String> pointsLabel = _getPointLabels(values);
     List<DateTime> dateTimes = _getDateTimes();
     String mainAxisText = _getMainAxisText(chartDataType, averageValue);
-    List<LineAxis> axes =
+    List<ChartLine> axes =
         _getAxes(points, dateTimes, height, width, mainAxisText);
     var chartData = ChartData(points, pointsLabel, width, height, axes);
     _chartDataCache[chartDataType] = chartData;
@@ -223,6 +222,9 @@ class WeatherForecastHolder {
 
     for (double averageDifferenceValue in averageDifferenceValues) {
       var y = halfHeight - (halfHeight * averageDifferenceValue / maxValue);
+      if (y.isNaN){
+        y = halfHeight;
+      }
       points.add(Point(currentX, y));
       currentX += widthStep;
     }
@@ -262,10 +264,10 @@ class WeatherForecastHolder {
     return dateTimes;
   }
 
-  List<LineAxis> _getAxes(List<Point> points, List<DateTime> dateTimes,
+  List<ChartLine> _getAxes(List<Point> points, List<DateTime> dateTimes,
       double height, double width, String mainAxisText) {
-    List<LineAxis> list = new List();
-    list.add(LineAxis(
+    List<ChartLine> list = new List();
+    list.add(ChartLine(
         mainAxisText,
         Offset(-25, height / 2 - 15),
         Offset(-5, (height - AppConst.chartPadding) / 2),
@@ -274,7 +276,7 @@ class WeatherForecastHolder {
     for (int index = 0; index < points.length; index++) {
       Point point = points[index];
       DateTime dateTime = dateTimes[index];
-      list.add(LineAxis(
+      list.add(ChartLine(
           _getPointAxisLabel(dateTime),
           Offset(point.x - 10, height - 10),
           Offset(point.x, 0),
@@ -298,7 +300,7 @@ class WeatherForecastHolder {
     String text;
     switch (chartDataType) {
       case ChartDataType.temperature:
-        text = TypesHelper.formatTemperature(
+        text = WeatherHelper.formatTemperature(
             temperature: averageValue, positions: 1, round: false);
         break;
       case ChartDataType.wind:

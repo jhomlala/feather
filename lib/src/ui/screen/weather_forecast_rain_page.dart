@@ -1,5 +1,8 @@
 import 'package:feather/src/models/internal/chart_data.dart';
 import 'package:feather/src/models/internal/weather_forecast_holder.dart';
+import 'package:feather/src/resources/config/assets.dart';
+import 'package:feather/src/resources/config/strings.dart';
+import 'package:feather/src/resources/weather_helper.dart';
 import 'package:feather/src/ui/screen/weather_forecast_base_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -24,7 +27,7 @@ class WeatherForecastRainPage extends WeatherForecastBasePage {
 
   @override
   String getIcon() {
-    return "assets/icon_rain.png";
+    return Assets.iconRain;
   }
 
   @override
@@ -35,17 +38,17 @@ class WeatherForecastRainPage extends WeatherForecastBasePage {
         text: TextSpan(children: [
           TextSpan(text: 'min ', style: Theme.of(context).textTheme.body2),
           TextSpan(
-              text: "${holder.minRain.toStringAsFixed(2)} mm/h",
+              text: WeatherHelper.formatRain(holder.minRain),
               style: Theme.of(context).textTheme.subtitle),
           TextSpan(text: '   max ', style: Theme.of(context).textTheme.body2),
           TextSpan(
-              text: "${holder.maxRain.toStringAsFixed(2)} mm/h",
+              text: WeatherHelper.formatRain(holder.maxRain),
               style: Theme.of(context).textTheme.subtitle)
         ]));
   }
 
   @override
   String getTitleText() {
-    return "Rain";
+    return Strings.rain;
   }
 }

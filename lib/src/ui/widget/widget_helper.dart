@@ -1,4 +1,6 @@
-import 'package:feather/src/resources/app_const.dart';
+import 'package:feather/src/models/internal/application_error.dart';
+import 'package:feather/src/resources/config/app_const.dart';
+import 'package:feather/src/resources/config/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -36,14 +38,39 @@ class WidgetHelper {
         ));
   }
 
-  static Widget buildErrorWidget(BuildContext context, String error) {
-    return Center(
-        key: Key("error_widget"),
-        child: Text(
-          error,
-          textDirection: TextDirection.ltr,
-          style: Theme.of(context).textTheme.subtitle,
-        ));
+  static Widget buildErrorWidget(BuildContext context,
+      ApplicationError applicationError, VoidCallback voidCallback) {
+    String errorText = "";
+    if (applicationError == ApplicationError.locationNotSelectedError) {
+      errorText = Strings.errorLocationNotSelected;
+    } else if (applicationError == ApplicationError.connectionError) {
+      errorText = Strings.errorServerConnection;
+    } else if (applicationError == ApplicationError.apiError) {
+      errorText = Strings.errorServer;
+    } else {
+      errorText = Strings.unknownError;
+    }
+    return Directionality(
+      textDirection: TextDirection.ltr,
+        child: Center(
+            key: Key("error_widget"),
+            child: SizedBox(
+                width: 250,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      errorText,
+                      textDirection: TextDirection.ltr,
+                      textAlign: TextAlign.center,
+                    ),
+                    FlatButton(
+                      child: Text("Retry",
+                          style: Theme.of(context).textTheme.subtitle),
+                      onPressed: voidCallback,
+                    )
+                  ],
+                ))));
   }
 
   static LinearGradient buildGradientBasedOnDayCycle(int sunrise, int sunset) {

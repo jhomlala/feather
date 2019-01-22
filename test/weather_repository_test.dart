@@ -1,14 +1,14 @@
 import 'package:feather/src/models/remote/weather_forecast_list_response.dart';
 import 'package:feather/src/models/remote/weather_forecast_response.dart';
 import 'package:feather/src/models/remote/weather_response.dart';
-import 'package:feather/src/resources/weather_repository.dart';
+import 'package:feather/src/resources/repository/remote/weather_remote_repository.dart';
 import 'package:test/test.dart';
 
 main() {
-  WeatherRepository weatherRepository;
+  WeatherRemoteRepository weatherRepository;
 
   setUpAll(() {
-    weatherRepository = new WeatherRepository();
+    weatherRepository = new WeatherRemoteRepository();
   });
 
   test("Fetched weather not null and not empty", () async {

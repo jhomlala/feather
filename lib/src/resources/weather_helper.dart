@@ -1,29 +1,26 @@
 import 'dart:collection';
-
 import 'package:feather/src/models/remote/weather_forecast_response.dart';
-import 'package:feather/src/resources/app_const.dart';
-import 'package:feather/src/ui/widget/widget_helper.dart';
-import 'package:flutter/material.dart';
+import 'package:feather/src/resources/config/assets.dart';
 
-class WeatherManager {
+class WeatherHelper {
   static String getWeatherIcon(int code) {
-    String asset = "assets/icon_cloud.png";
+    String asset = Assets.iconCloud;
     if (code >= 200 && code <= 299) {
-      asset = "assets/icon_thunder.png";
+      asset = Assets.iconThunder;
     } else if (code >= 300 && code <= 399) {
-      asset = "assets/icon_cloud_little_rain.png";
+      asset = Assets.iconCloudLittleRain;
     } else if (code >= 500 && code <= 599) {
-      asset = "assets/icon_rain.png";
+      asset = Assets.iconRain;
     } else if (code >= 600 && code <= 699) {
-      asset = "assets/icon_snow.png";
+      asset = Assets.iconSnow;
     } else if (code >= 700 && code <= 799) {
-      asset = "assets/icon_dust.png";
+      asset = Assets.iconDust;
     } else if (code == 800) {
-      asset = "assets/icon_sun.png";
+      asset = Assets.iconSun;
     } else if (code == 801) {
-      asset = "assets/icon_cloud_sun.png";
+      asset = Assets.iconCloudSun;
     } else if (code >= 802) {
-      asset = "assets/icon_cloud.png";
+      asset = Assets.iconCloud;
     }
     return asset;
   }
@@ -46,5 +43,27 @@ class WeatherManager {
     return "${dateTime.day.toString()}-${dateTime.month.toString()}-${dateTime.year.toString()}";
   }
 
+  static String formatTemperature({double temperature, int positions = 0, round = true}){
+    if (round){
+      temperature = temperature.floor().toDouble();
+    }
+    return temperature.toStringAsFixed(positions) + "°C";
+  }
+
+  static String formatPressure(double pressure){
+    return "${pressure.toStringAsFixed(0)} hPa";
+  }
+
+  static String formatRain(double rain){
+    return "${rain.toStringAsFixed(2)} mm/h";
+  }
+
+  static String formatWind(double wind){
+    return "${wind.toStringAsFixed(1)} km/h";
+  }
+
+  static String formatHumidity(double humidity){
+    return "${humidity.toStringAsFixed(0)}%";
+  }
 
 }

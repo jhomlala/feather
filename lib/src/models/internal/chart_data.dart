@@ -1,4 +1,4 @@
-import 'package:feather/src/models/internal/line_axis.dart';
+import 'package:feather/src/models/internal/chart_line.dart';
 import 'package:feather/src/models/internal/point.dart';
 
 class ChartData{
@@ -6,7 +6,7 @@ class ChartData{
   final List<String> pointLabels;
   final double width;
   final double height;
-  final List<LineAxis> axes;
+  final List<ChartLine> axes;
 
   ChartData(this.points, this.pointLabels, this.width, this.height, this.axes);
 }

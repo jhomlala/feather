@@ -1,7 +1,7 @@
 import 'dart:core';
 
 import 'package:feather/src/models/internal/weather_forecast_holder.dart';
-import 'package:feather/src/resources/app_const.dart';
+import 'package:feather/src/resources/config/app_const.dart';
 import 'package:feather/src/ui/screen/weather_forecast_base_page.dart';
 import 'package:feather/src/ui/screen/weather_forecast_pressure_page.dart';
 import 'package:feather/src/ui/screen/weather_forecast_rain_page.dart';

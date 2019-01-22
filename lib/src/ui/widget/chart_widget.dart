@@ -1,5 +1,5 @@
 import 'package:feather/src/models/internal/chart_data.dart';
-import 'package:feather/src/models/internal/line_axis.dart';
+import 'package:feather/src/models/internal/chart_line.dart';
 import 'package:feather/src/models/internal/point.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -89,7 +89,7 @@ class _ChartPainter extends CustomPainter {
   final List<String> pointLabels;
   final double width;
   final double height;
-  final List<LineAxis> axes;
+  final List<ChartLine> axes;
   final double fraction;
   final Logger log = new Logger('ChartPainter');
 
@@ -184,7 +184,7 @@ class _ChartPainter extends CustomPainter {
     Paint axesPaint = _getLinePaint(Colors.white30);
 
     if (axes != null) {
-      for (LineAxis lineAxis in axes) {
+      for (ChartLine lineAxis in axes) {
         canvas.drawLine(
             lineAxis.lineStartOffset, lineAxis.lineEndOffset, axesPaint);
         _drawText(canvas, lineAxis.textOffset, lineAxis.label, 1, false);

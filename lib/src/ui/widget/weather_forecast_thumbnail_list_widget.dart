@@ -1,9 +1,9 @@
-import 'package:feather/src/blocs/weather_bloc.dart';
+import 'package:feather/src/blocs/weather_forecast_bloc.dart';
 import 'package:feather/src/models/internal/weather_forecast_holder.dart';
 import 'package:feather/src/models/remote/system.dart';
 import 'package:feather/src/models/remote/weather_forecast_list_response.dart';
 import 'package:feather/src/models/remote/weather_forecast_response.dart';
-import 'package:feather/src/resources/weather_manager.dart';
+import 'package:feather/src/resources/weather_helper.dart';
 import 'package:feather/src/ui/widget/weather_forecast_thumbnail_widget.dart';
 import 'package:feather/src/ui/widget/widget_helper.dart';
 import 'package:flutter/material.dart';
@@ -37,17 +37,20 @@ class WeatherForecastThumbnailListWidgetState
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-        stream: bloc.weatherForecast,
+        stream: bloc.weatherForecastSubject.stream,
         builder:
             (context, AsyncSnapshot<WeatherForecastListResponse> snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data.errorCode != null) {
               return WidgetHelper.buildErrorWidget(
-                  context, snapshot.data.errorCode);
+                  context,
+                  snapshot.data.errorCode,
+                  () => bloc.fetchWeatherForecastForUserLocation());
             }
             return buildForecastWeatherContainer(snapshot);
           } else if (snapshot.hasError) {
-            return WidgetHelper.buildErrorWidget(context, snapshot.error);
+            return WidgetHelper.buildErrorWidget(context, snapshot.error,
+                () => bloc.fetchWeatherForecastForUserLocation());
           }
           return WidgetHelper.buildProgressIndicator();
         });
@@ -56,7 +59,7 @@ class WeatherForecastThumbnailListWidgetState
   Widget buildForecastWeatherContainer(
       AsyncSnapshot<WeatherForecastListResponse> snapshot) {
     List<WeatherForecastResponse> forecastList = snapshot.data.list;
-    var map = WeatherManager.mapForecastsForSameDay(forecastList);
+    var map = WeatherHelper.mapForecastsForSameDay(forecastList);
     return Row(
       key: Key("weather_forecast_thumbnail_list_widget_container"),
       textDirection: TextDirection.ltr,
@@ -71,7 +74,7 @@ class WeatherForecastThumbnailListWidgetState
     List<Widget> forecastWidgets = new List();
     map.forEach((key, value) {
       forecastWidgets.add(new WeatherForecastThumbnailWidget(
-          new WeatherForecastHolder(value, data.city,widget.system)));
+          new WeatherForecastHolder(value, data.city, widget.system)));
     });
     return forecastWidgets;
   }
