@@ -48,11 +48,11 @@ class WeatherMainSunPathPageState extends State<WeatherMainSunPathPage> {
           textDirection: TextDirection.ltr,
           style: Theme.of(context).textTheme.subtitle));
     } else if (mode == 1) {
-      widgets.add(Text("Moon: ${_getPathPercentage().toStringAsFixed(0)}%",
+      widgets.add(Text("Night: ${_getPathPercentage().toStringAsFixed(0)}%",
           textDirection: TextDirection.ltr,
           style: Theme.of(context).textTheme.title));
       widgets.add(WidgetHelper.buildPadding(top: 10));
-      widgets.add(Text("Sunrise: ${getTimeUntilSunset()}",
+      widgets.add(Text("Sunrise: ${getTimeUntilSunrise()}",
           textDirection: TextDirection.ltr,
           style: Theme.of(context).textTheme.subtitle));
     }
@@ -107,9 +107,10 @@ class WeatherMainSunPathPageState extends State<WeatherMainSunPathPage> {
     if (now >= sunrise && now <= sunset) {
       return ((now - sunrise) / (sunset - sunrise) * 100);
     } else if (now >= sunset) {
+
       DateTime nextSunrise =
           DateTime.fromMillisecondsSinceEpoch(sunrise + 24 * 60 * 60 * 1000);
-      return (now - sunset) / (nextSunrise.millisecondsSinceEpoch - sunset);
+      return  (now - sunset) / (nextSunrise.millisecondsSinceEpoch - sunset) * 100;
     } else {
       return 0;
     }
@@ -132,6 +133,39 @@ class WeatherMainSunPathPageState extends State<WeatherMainSunPathPage> {
     return DateTime.now().millisecondsSinceEpoch;
   }
 
+  String getTimeUntilSunrise(){
+    int hourMs = 60 * 60 * 1000;
+    int minuteMs = 60 * 1000;
+    int secondMs = 1000;
+
+    DateTime nextSunrise =
+    DateTime.fromMillisecondsSinceEpoch(widget.system.sunrise * 1000
+        + 24 * 60 * 60 * 1000);
+
+    int timeLeft =
+        nextSunrise.millisecondsSinceEpoch - DateTime.now().millisecondsSinceEpoch;
+    print("time left: " + timeLeft.toString());
+    int hours = (timeLeft / (hourMs)).floor();
+    int minutes = ((timeLeft - hours * hourMs) / minuteMs).floor();
+    int seconds =
+    ((timeLeft - hours * hourMs - minutes * minuteMs) / secondMs).floor();
+
+    String text = "";
+    if (hours > 0 ){
+      text += hours.toString() + "h ";
+    }
+    if (minutes > 0){
+      text+= minutes.toString() + "m ";
+    }
+    if (seconds >= 0){
+      text+= seconds.toString()+"s";
+    }
+
+    return text;
+
+
+  }
+
   String getTimeUntilSunset() {
     int hourMs = 60 * 60 * 1000;
     int minuteMs = 60 * 1000;
@@ -145,6 +179,17 @@ class WeatherMainSunPathPageState extends State<WeatherMainSunPathPage> {
     int seconds =
         ((timeLeft - hours * hourMs - minutes * minuteMs) / secondMs).floor();
 
-    return "$hours h $minutes m $seconds s";
+    String text = "";
+    if (hours > 0 ){
+      text += hours.toString() + "h ";
+    }
+    if (minutes > 0){
+      text+= minutes.toString() + "m ";
+    }
+    if (seconds >= 0){
+      text+= seconds.toString()+"s";
+    }
+
+    return text;
   }
 }
