@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'package:feather/src/models/remote/system.dart';
 import 'package:feather/src/models/remote/weather_forecast_response.dart';
 import 'package:feather/src/resources/config/assets.dart';
 
@@ -65,5 +66,21 @@ class WeatherHelper {
   static String formatHumidity(double humidity){
     return "${humidity.toStringAsFixed(0)}%";
   }
+
+  static int getDayMode(System system) {
+    int sunrise = system.sunrise * 1000;
+    int sunset = system.sunset * 1000;
+    int now = DateTime.now().millisecondsSinceEpoch;
+    if (now >= sunrise && now <= sunset) {
+      return 0;
+    } else if (now >= sunrise) {
+      return 1;
+    } else {
+      return -1;
+    }
+  }
+
+
+
 
 }

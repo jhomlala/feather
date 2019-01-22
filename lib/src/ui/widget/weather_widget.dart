@@ -10,6 +10,10 @@ import 'package:flutter/widgets.dart';
 import 'package:logging/logging.dart';
 
 class WeatherWidget extends StatefulWidget {
+
+  final WeatherResponse weatherResponse;
+
+  const WeatherWidget({Key key, this.weatherResponse}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
     return WeatherWidgetState();
@@ -25,8 +29,6 @@ class WeatherWidgetState extends State<WeatherWidget> {
   void initState() {
     super.initState();
     log.fine("Init weather widget state");
-    bloc.setupTimer();
-    bloc.fetchWeatherForUserLocation();
   }
 
   @override
@@ -36,78 +38,46 @@ class WeatherWidgetState extends State<WeatherWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-      stream: bloc.weatherSubject.stream,
-      builder: (context, AsyncSnapshot<WeatherResponse> snapshot) {
-        if (snapshot.hasData) {
-          if (snapshot.data.errorCode != null) {
-            return WidgetHelper.buildErrorWidget(
-                context,
-                snapshot.data.errorCode,
-                () => bloc.fetchWeatherForUserLocation());
-          }
-          return buildWeatherContainer(snapshot);
-        } else if (snapshot.hasError) {
-          return WidgetHelper.buildErrorWidget(context, snapshot.error,
-              () => bloc.fetchWeatherForUserLocation());
-        }
-        return WidgetHelper.buildProgressIndicator();
-      },
-    );
+    return buildWeatherContainer(widget.weatherResponse);
   }
 
-  Widget buildWeatherContainer(AsyncSnapshot<WeatherResponse> snapshot) {
+  Widget buildWeatherContainer(WeatherResponse response) {
     return Container(
         key: Key("weather_widget_container"),
-        decoration: BoxDecoration(
-            gradient: WidgetHelper.getGradient(
-                sunriseTime: snapshot.data.system.sunrise,
-                sunsetTime: snapshot.data.system.sunset)),
         child: Center(
             child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(snapshot.data.name,
-                key: Key("weather_widget_city_name"),
-                textDirection: TextDirection.ltr,
-                style: Theme.of(context).textTheme.title),
-            Text(_getCurrentDateFormatted(),
-                key: Key("weather_widget_date"),
-                textDirection: TextDirection.ltr,
-                style: Theme.of(context).textTheme.subtitle),
-            WidgetHelper.buildPadding(top: 50),
+            WidgetHelper.buildPadding(top: 30),
             Image.asset(
-              _getWeatherImage(snapshot.data),
+              _getWeatherImage(response),
               width: 100,
               height: 100,
             ),
             Text(
                 WeatherHelper.formatTemperature(
-                    temperature: snapshot.data.mainWeatherData.temp),
+                    temperature: response.mainWeatherData.temp),
                 key: Key("weather_widget_temperature"),
                 textDirection: TextDirection.ltr,
                 style: Theme.of(context).textTheme.headline),
-            WidgetHelper.buildPadding(top: 50),
-            Text(_getMaxMinTemperatureRow(snapshot.data),
+            WidgetHelper.buildPadding(top: 30),
+            Text(_getMaxMinTemperatureRow(response),
                 key: Key("weather_widget_min_max_temperature"),
                 textDirection: TextDirection.ltr,
                 style: Theme.of(context).textTheme.subtitle),
             WidgetHelper.buildPadding(top: 5),
-            Text(_getPressureAndHumidityRow(snapshot.data),
+            Text(_getPressureAndHumidityRow(response),
                 textDirection: TextDirection.ltr,
                 key: Key("weather_widget_pressure_humidity"),
                 style: Theme.of(context).textTheme.subtitle),
             WidgetHelper.buildPadding(top: 20),
             WeatherForecastThumbnailListWidget(
-                system: snapshot.data.system,
+                system: response.system,
                 key: Key("weather_widget_thumbnail_list"))
           ],
         )));
   }
 
-  String _getCurrentDateFormatted() {
-    return DateHelper.formatDateTime(DateTime.now());
-  }
 
   String _getMaxMinTemperatureRow(WeatherResponse weatherResponse) {
     return "↑ ${WeatherHelper.formatTemperature(temperature: weatherResponse.mainWeatherData.tempMax)}" +
