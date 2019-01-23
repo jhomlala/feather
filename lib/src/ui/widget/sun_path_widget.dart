@@ -62,7 +62,7 @@ class _SunPathPainter extends CustomPainter {
   final System system;
   final double fraction;
   final double pi = 3.14159;
-  final int dayAsMs  = 8640000;
+  final int dayAsMs  = 86400000;
   final int sunrise;
   final int sunset;
 
@@ -110,10 +110,12 @@ class _SunPathPainter extends CustomPainter {
     if (mode == 0) {
       difference = (now - sunrise) / (sunset - sunrise);
     } else if (mode == 1) {
+      print("Here");
       DateTime nextSunrise =
           DateTime.fromMillisecondsSinceEpoch(sunrise + dayAsMs);
       difference =
           (now - sunset) / (nextSunrise.millisecondsSinceEpoch - sunset);
+      
     } else if (mode == -1) {
       DateTime previousSunset =
           DateTime.fromMillisecondsSinceEpoch(sunset - dayAsMs);
