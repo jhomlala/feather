@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:feather/src/models/internal/application_error.dart';
+import 'package:feather/src/models/internal/pair.dart';
 import 'package:feather/src/resources/config/app_const.dart';
 import 'package:feather/src/resources/config/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:rxdart/rxdart.dart';
 
 class WidgetHelper {
   static Padding buildPadding(
@@ -94,4 +98,65 @@ class WidgetHelper {
       return buildGradientBasedOnDayCycle(sunriseTime, sunsetTime);
     }
   }
+
+  static AnimationController getAnimationController(
+      SingleTickerProviderStateMixin object, int duration) {
+    return AnimationController(
+        duration: Duration(milliseconds: duration), vsync: object);
+  }
+
+  static Animation _getCurvedAnimation(
+      AnimationController controller, Curve curve) {
+    return CurvedAnimation(parent: controller, curve: curve);
+  }
+
+  static Animation<double> _getTween(
+      double start, double end, Animation animation, VoidCallback callback) {
+    print("tween start: " + start.toString() + " tween end: " + end.toString());
+    return Tween(begin: 0.0, end: 10.0).animate(animation)
+      ..addListener(callback);
+  }
+
+  static AnimationController animate(
+      {@required SingleTickerProviderStateMixin tickerProvider,
+      double start,
+      double end,
+      int duration,
+      Curve curve,
+      VoidCallback callback}) {
+    AnimationController controller =
+        getAnimationController(tickerProvider, duration);
+    Animation animation = _getCurvedAnimation(controller, curve);
+    _getTween(start, end, animation, callback);
+    controller.forward();
+    return controller;
+  }
+
+
+  static Observable<double> animate2(
+      {@required SingleTickerProviderStateMixin tickerProvider,
+        double start,
+        double end,
+        int duration,
+        Curve curve,
+        VoidCallback callback}) {
+    AnimationController controller =
+    getAnimationController(tickerProvider, duration);
+    Animation animation = _getCurvedAnimation(controller, curve);
+    var streamController = StreamController<double>();
+
+    Observable<double> observable = Observable<double>(streamController.stream);
+
+    var callback2 = () =>
+      print("Value!: " + animation.value)
+      //treamController.sink.add(animation.value);
+    ;
+    _getTween(start, end, animation, callback2);
+    print("Started");
+    controller.forward();
+    return observable;
+  }
+
+
+
 }

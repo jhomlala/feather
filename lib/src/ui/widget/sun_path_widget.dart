@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:feather/src/models/remote/system.dart';
 import 'package:feather/src/resources/weather_helper.dart';
+import 'package:feather/src/ui/widget/widget_helper.dart';
 import 'package:feather/src/utils/date_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -18,24 +19,21 @@ class SunPathWidget extends StatefulWidget {
 class _SunPathWidgetState extends State<SunPathWidget>
     with SingleTickerProviderStateMixin {
   double _fraction = 0.0;
-  Animation<double> animation;
-  AnimationController controller;
+  Animation<double> _animation;
+  AnimationController _controller;
 
   @override
   void initState() {
     super.initState();
-    controller = AnimationController(
-        duration: Duration(milliseconds: 2000), vsync: this);
-    final Animation curve =
-        CurvedAnimation(parent: controller, curve: Curves.easeInOut);
-    animation = Tween(begin: 0.0, end: 1.0).animate(curve)
-      ..addListener(() {
-        setState(() {
-          _fraction = animation.value;
-        });
-      });
-
-    controller.forward();
+    _controller = WidgetHelper.animate(
+        tickerProvider: this,
+        start: 0,
+        end: 1,
+        curve: Curves.easeInOut,
+        duration: 2000,
+        callback: () => setState(() {
+              _fraction = _controller.value;
+            }));
   }
 
   @override
@@ -52,17 +50,16 @@ class _SunPathWidgetState extends State<SunPathWidget>
 
   @override
   void dispose() {
-    controller.dispose();
+    _controller.dispose();
     super.dispose();
   }
-
 }
 
 class _SunPathPainter extends CustomPainter {
   final System system;
   final double fraction;
   final double pi = 3.14159;
-  final int dayAsMs  = 86400000;
+  final int dayAsMs = 86400000;
   final int sunrise;
   final int sunset;
 
@@ -110,12 +107,10 @@ class _SunPathPainter extends CustomPainter {
     if (mode == 0) {
       difference = (now - sunrise) / (sunset - sunrise);
     } else if (mode == 1) {
-      print("Here");
       DateTime nextSunrise =
           DateTime.fromMillisecondsSinceEpoch(sunrise + dayAsMs);
       difference =
           (now - sunset) / (nextSunrise.millisecondsSinceEpoch - sunset);
-      
     } else if (mode == -1) {
       DateTime previousSunset =
           DateTime.fromMillisecondsSinceEpoch(sunset - dayAsMs);
@@ -127,5 +122,4 @@ class _SunPathPainter extends CustomPainter {
     var y = 145 * sin((1 + difference * fraction) * pi) + 150;
     return Offset(x, y);
   }
-
 }
