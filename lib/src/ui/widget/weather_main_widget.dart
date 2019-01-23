@@ -19,6 +19,7 @@ class WeatherMainWidgetState extends State<WeatherMainWidget> {
     super.initState();
     bloc.setupTimer();
     bloc.fetchWeatherForUserLocation();
+    print("__ INIT STATE ___");
   }
 
   @override
@@ -36,12 +37,13 @@ class WeatherMainWidgetState extends State<WeatherMainWidget> {
             return WidgetHelper.buildErrorWidget(
                 context,
                 snapshot.data.errorCode,
-                    () => bloc.fetchWeatherForUserLocation());
+                () => bloc.fetchWeatherForUserLocation());
           }
+          print("Build weather container");
           return buildWeatherContainer(snapshot);
         } else if (snapshot.hasError) {
           return WidgetHelper.buildErrorWidget(context, snapshot.error,
-                  () => bloc.fetchWeatherForUserLocation());
+              () => bloc.fetchWeatherForUserLocation());
         }
         return WidgetHelper.buildProgressIndicator();
       },
@@ -49,42 +51,48 @@ class WeatherMainWidgetState extends State<WeatherMainWidget> {
   }
 
   Widget buildWeatherContainer(AsyncSnapshot<WeatherResponse> snapshot) {
-    return Container(
-        key: Key("weather_widget_container"),
-        decoration: BoxDecoration(
-            gradient: WidgetHelper.getGradient(
-                sunriseTime: snapshot.data.system.sunrise,
-                sunsetTime: snapshot.data.system.sunset)),
-        child: Center(
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-              Text(snapshot.data.name,
-                  key: Key("weather_widget_city_name"),
-                  textDirection: TextDirection.ltr,
-                  style: Theme.of(context).textTheme.title),
-              Text(_getCurrentDateFormatted(),
-                  key: Key("weather_widget_date"),
-                  textDirection: TextDirection.ltr,
-                  style: Theme.of(context).textTheme.subtitle),
-
-              SizedBox(
-                  height: 460,
-                  child: Swiper(
-                    key: Key("weather_forecast_swiper"),
-                    itemBuilder: (BuildContext context, int index) {
-                      if (index == 0) {
-                        return WeatherMainPage(weatherResponse: snapshot.data,);
-                      } else {
-                        return WeatherMainSunPathPage(system: snapshot.data.system,);
-                      }
-                    },
-                    itemCount: 2,
-                    pagination: SwiperPagination(
-                        builder: new DotSwiperPaginationBuilder(
-                            color: Colors.white54, activeColor: Colors.white)),
-                  ))
-            ])));
+    return Directionality(
+        textDirection: TextDirection.ltr,
+        child: Container(
+            key: Key("weather_main_widget_container"),
+            decoration: BoxDecoration(
+                gradient: WidgetHelper.getGradient(
+                    sunriseTime: snapshot.data.system.sunrise,
+                    sunsetTime: snapshot.data.system.sunset)),
+            child: Center(
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                  Text(snapshot.data.name,
+                      key: Key("weather_main_widget_city_name"),
+                      textDirection: TextDirection.ltr,
+                      style: Theme.of(context).textTheme.title),
+                  Text(_getCurrentDateFormatted(),
+                      key: Key("weather_main_widget_date"),
+                      textDirection: TextDirection.ltr,
+                      style: Theme.of(context).textTheme.subtitle),
+                  SizedBox(
+                      height: 450,
+                      child: Swiper(
+                        key: Key("weather_main_swiper"),
+                        itemBuilder: (BuildContext context, int index) {
+                          if (index == 0) {
+                            return WeatherMainPage(
+                              weatherResponse: snapshot.data,
+                            );
+                          } else {
+                            return WeatherMainSunPathPage(
+                              system: snapshot.data.system,
+                            );
+                          }
+                        },
+                        itemCount: 2,
+                        pagination: SwiperPagination(
+                            builder: new DotSwiperPaginationBuilder(
+                                color: Colors.white54,
+                                activeColor: Colors.white)),
+                      ))
+                ]))));
   }
 
   String _getCurrentDateFormatted() {

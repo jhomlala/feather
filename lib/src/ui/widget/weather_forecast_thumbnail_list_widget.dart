@@ -26,7 +26,7 @@ class WeatherForecastThumbnailListWidgetState
   @override
   void initState() {
     super.initState();
-    bloc.fetchWeatherForecastForUserLocation();
+    _fetchWeatherForecast();
   }
 
   @override
@@ -77,5 +77,11 @@ class WeatherForecastThumbnailListWidgetState
           new WeatherForecastHolder(value, data.city, widget.system)));
     });
     return forecastWidgets;
+  }
+
+  _fetchWeatherForecast(){
+    if (bloc.shouldFetchWeatherForecast()){
+      bloc.fetchWeatherForecastForUserLocation();
+    }
   }
 }

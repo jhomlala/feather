@@ -10,6 +10,13 @@ import 'package:logging/logging.dart';
 class WeatherApiProvider {
   final _logger = new Logger("WeatherApiProvider");
 
+  static final WeatherApiProvider _instance = WeatherApiProvider._internal();
+  WeatherApiProvider._internal();
+
+  factory WeatherApiProvider(){
+    return _instance;
+  }
+
   Future<WeatherResponse> fetchWeather(
       double latitude, double longitude) async {
     try {

@@ -4,12 +4,14 @@ import 'package:feather/src/blocs/base_bloc.dart';
 import 'package:feather/src/models/internal/application_error.dart';
 import 'package:feather/src/models/internal/geo_position.dart';
 import 'package:feather/src/models/remote/weather_response.dart';
+import 'package:feather/src/utils/date_helper.dart';
 import 'package:logging/logging.dart';
 import 'package:rxdart/rxdart.dart';
 
 class WeatherBloc extends BaseBloc {
   final weatherSubject = BehaviorSubject<WeatherResponse>();
   final _logger = new Logger("WeatherBloc");
+  int lastRequestTime = 0;
   Timer _timer;
 
   fetchWeatherForUserLocation() async {
@@ -28,6 +30,7 @@ class WeatherBloc extends BaseBloc {
 
   fetchWeather(double latitude, double longitude) async {
     _logger.log(Level.FINE, "Fetch weather");
+    lastRequestTime = DateHelper.getCurrentTime();
     WeatherResponse weatherResponse =
         await weatherRemoteRepository.fetchWeather(latitude, longitude);
     if (weatherResponse.errorCode == null) {
@@ -46,7 +49,7 @@ class WeatherBloc extends BaseBloc {
   setupTimer() {
     _logger.log(Level.FINE, "Setup timer");
     if (_timer == null) {
-      var duration = Duration(seconds: timerTimeout);
+      var duration = Duration(milliseconds: timerTimeout);
       _timer = new Timer(duration, handleTimerTimeout);
     } else {
       _logger.warning(
@@ -64,6 +67,11 @@ class WeatherBloc extends BaseBloc {
   dispose() {
     _logger.log(Level.FINE, "Dispose");
     weatherSubject.close();
+  }
+
+  bool shouldFetchWeatherForecast() {
+    return DateTime.now().millisecondsSinceEpoch - lastRequestTime >
+        intervalBetweenRequests;
   }
 }
 

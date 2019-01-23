@@ -9,6 +9,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class StorageManager {
   final Logger _logger = Logger("StorageManager");
+  static final StorageManager _instance = StorageManager._internal();
+
+  StorageManager._internal();
+  factory StorageManager(){
+    return _instance;
+  }
+
 
   saveLocation(GeoPosition geoPosition) async {
     try {

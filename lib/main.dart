@@ -1,3 +1,4 @@
+import 'package:feather/src/resources/config/application_config.dart';
 import 'package:feather/src/ui/screen/weather_main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -19,8 +20,11 @@ class MyApp extends StatelessWidget {
   _configureLogger() {
     Logger.root.level = Level.ALL;
     Logger.root.onRecord.listen((LogRecord rec) {
-      print(
-          '[${rec.level.name}][${rec.time}][${rec.loggerName}]: ${rec.message}');
+      if(ApplicationConfig.isDebug) {
+        print(
+            '[${rec.level.name}][${rec.time}][${rec.loggerName}]: ${rec
+                .message}');
+      }
     });
   }
 

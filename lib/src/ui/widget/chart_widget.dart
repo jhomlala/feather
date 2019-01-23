@@ -1,6 +1,7 @@
 import 'package:feather/src/models/internal/chart_data.dart';
 import 'package:feather/src/models/internal/chart_line.dart';
 import 'package:feather/src/models/internal/point.dart';
+import 'package:feather/src/resources/config/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:logging/logging.dart';
@@ -69,7 +70,7 @@ class _ChartWidgetState extends State<ChartWidget>
   Widget _getChartUnavailableWidget(BuildContext context) {
     return Center(
         key: Key("chart_widget_unavailable"),
-        child: Text("Chart unavailable",
+        child: Text(Strings.chartUnavailable,
             textDirection: TextDirection.ltr,
             style: Theme.of(context).textTheme.body1));
   }

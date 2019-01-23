@@ -6,6 +6,13 @@ class LocationManager {
   Logger _logger = Logger("LocationManager");
   Position _lastPosition;
 
+  static final LocationManager _instance = LocationManager._internal();
+  LocationManager._internal();
+
+  factory LocationManager(){
+    return _instance;
+  }
+
   Future<Optional<Position>> getLocation() async {
     try {
       if (_lastPosition != null) {

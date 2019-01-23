@@ -57,12 +57,12 @@ class WeatherForecastTemperaturePage extends WeatherForecastBasePage {
           TextSpan(text: 'min ', style: Theme.of(context).textTheme.body2),
           TextSpan(
               text:
-                  "${WeatherHelper.formatTemperature(temperature: holder.maxTemperature, positions: 1, round: false)}",
+                  "${WeatherHelper.formatTemperature(temperature: holder.minTemperature, positions: 1, round: false)}",
               style: Theme.of(context).textTheme.subtitle),
           TextSpan(text: '   max ', style: Theme.of(context).textTheme.body2),
           TextSpan(
               text:
-                  "${WeatherHelper.formatTemperature(temperature: holder.minTemperature, positions: 1, round: false)}",
+                  "${WeatherHelper.formatTemperature(temperature: holder.maxTemperature, positions: 1, round: false)}",
               style: Theme.of(context).textTheme.subtitle)
         ]));
   }

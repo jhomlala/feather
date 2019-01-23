@@ -1,8 +1,12 @@
 import 'dart:async';
 
 import 'package:feather/src/models/remote/system.dart';
+import 'package:feather/src/resources/config/strings.dart';
+import 'package:feather/src/resources/weather_helper.dart';
+import 'package:feather/src/ui/widget/animated_text_widget.dart';
 import 'package:feather/src/ui/widget/sun_path_widget.dart';
 import 'package:feather/src/ui/widget/widget_helper.dart';
+import 'package:feather/src/utils/date_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -12,11 +16,21 @@ class WeatherMainSunPathPage extends StatefulWidget {
   WeatherMainSunPathPage({Key key, this.system}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => WeatherMainSunPathPageState();
+  State<StatefulWidget> createState() => _WeatherMainSunPathPageState(system);
 }
 
-class WeatherMainSunPathPageState extends State<WeatherMainSunPathPage> {
+class _WeatherMainSunPathPageState extends State<WeatherMainSunPathPage> {
+  final int dayAsMs = 86400000;
+  final int hoursAsMs = 3600000;
+  final int minutesAsMs = 60000;
+  final int secondsAsMs = 1000;
+  final int sunset;
+  final int sunrise;
   Timer _timer;
+
+  _WeatherMainSunPathPageState(System system)
+      : sunset = system.sunset * 1000,
+        sunrise = system.sunrise * 1000;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +40,7 @@ class WeatherMainSunPathPageState extends State<WeatherMainSunPathPage> {
   @override
   initState() {
     super.initState();
-    startTimer();
+    _startTimer();
   }
 
   List<Widget> _buildScreen(BuildContext context) {
@@ -34,66 +48,68 @@ class WeatherMainSunPathPageState extends State<WeatherMainSunPathPage> {
     widgets.add(WidgetHelper.buildPadding(top: 30));
     widgets.add(SunPathWidget(
       system: widget.system,
+      key: Key("weather_main_sun_path_widget"),
     ));
     widgets.add(WidgetHelper.buildPadding(top: 30));
-    int mode = _getMode();
+    int mode = WeatherHelper.getDayMode(widget.system);
     if (mode == 0) {
-      widgets.add(Text(
-        "Day: ${_getPathPercentage().toStringAsFixed(0)}%",
-        textDirection: TextDirection.ltr,
-        style: Theme.of(context).textTheme.title,
-      ));
+      widgets.add(AnimatedTextWidget(
+          textBefore: Strings.day + ':',
+          maxValue: _getPathPercentage(),
+          key: Key("weather_main_sun_path_percentage")));
       widgets.add(WidgetHelper.buildPadding(top: 10));
-      widgets.add(Text("Sunset: ${getTimeUntilSunset()}",
+      widgets.add(Text("${Strings.sunset}: ${_getTimeUntilSunset()}",
+          key: Key("weather_main_sun_path_countdown"),
           textDirection: TextDirection.ltr,
           style: Theme.of(context).textTheme.subtitle));
-    } else if (mode == 1) {
-      widgets.add(Text("Night: ${_getPathPercentage().toStringAsFixed(0)}%",
-          textDirection: TextDirection.ltr,
-          style: Theme.of(context).textTheme.title));
+    } else {
+      widgets.add(AnimatedTextWidget(
+          textBefore: Strings.night + ':',
+          maxValue: _getPathPercentage(),
+          key: Key("weather_main_sun_path_percentage")));
       widgets.add(WidgetHelper.buildPadding(top: 10));
-      widgets.add(Text("Sunrise: ${getTimeUntilSunrise()}",
+      widgets.add(Text("${Strings.sunrise}: ${_getTimeUntilSunrise()}",
+          key: Key("weather_main_sun_path_countdown"),
           textDirection: TextDirection.ltr,
           style: Theme.of(context).textTheme.subtitle));
     }
+
     widgets.add(WidgetHelper.buildPadding(top: 30));
-    widgets.add(Text("Sunrise: ${_getSunriseTime()}",
+    widgets.add(Text("${Strings.sunrise}: ${_getSunriseTime()}",
+        key: Key("weather_main_sun_path_sunrise"),
         textDirection: TextDirection.ltr,
         style: Theme.of(context).textTheme.body1));
-    widgets.add(Text("Sunset: ${_getSunsetTime()}",
+    widgets.add(Text("${Strings.sunset}: ${_getSunsetTime()}",
+        key: Key("weather_main_sun_path_sunset"),
         textDirection: TextDirection.ltr,
         style: Theme.of(context).textTheme.body1));
 
     return widgets;
   }
 
-  startTimer() {
-    _timer = Timer(Duration(seconds: 1), handleTimeout);
+  _startTimer() {
+    _timer = Timer(Duration(seconds: 1), _handleTimeout);
   }
 
-  void handleTimeout() {
-    print("Handle timeout");
+  void _handleTimeout() {
     _timer = null;
-    startTimer();
+    _startTimer();
     setState(() => {});
   }
 
   @override
   dispose() {
     super.dispose();
-    print("Dispose");
     _timer.cancel();
     _timer = null;
   }
 
   String _getSunsetTime() {
-    return _getTimeFormatted(
-        DateTime.fromMillisecondsSinceEpoch(widget.system.sunset * 1000));
+    return _getTimeFormatted(DateTime.fromMillisecondsSinceEpoch(sunset));
   }
 
   String _getSunriseTime() {
-    return _getTimeFormatted(
-        DateTime.fromMillisecondsSinceEpoch(widget.system.sunrise * 1000));
+    return _getTimeFormatted(DateTime.fromMillisecondsSinceEpoch(sunrise));
   }
 
   String _getTimeFormatted(DateTime dateTime) {
@@ -101,95 +117,61 @@ class WeatherMainSunPathPageState extends State<WeatherMainSunPathPage> {
   }
 
   double _getPathPercentage() {
-    int sunrise = widget.system.sunrise * 1000;
-    int sunset = widget.system.sunset * 1000;
-    int now = _getCurrentTime();
-    if (now >= sunrise && now <= sunset) {
+    int now = DateHelper.getCurrentTime();
+    int mode = WeatherHelper.getDayMode(widget.system);
+    if (mode == 0) {
       return ((now - sunrise) / (sunset - sunrise) * 100);
-    } else if (now >= sunset) {
-
+    } else if (mode == 1) {
       DateTime nextSunrise =
-          DateTime.fromMillisecondsSinceEpoch(sunrise + 24 * 60 * 60 * 1000);
-      return  (now - sunset) / (nextSunrise.millisecondsSinceEpoch - sunset) * 100;
+          DateTime.fromMillisecondsSinceEpoch(sunrise + dayAsMs);
+      return (now - sunset) /
+          (nextSunrise.millisecondsSinceEpoch - sunset) *
+          100;
     } else {
-      return 0;
+      DateTime previousSunset =
+          DateTime.fromMillisecondsSinceEpoch(sunset - dayAsMs);
+      return (1 -
+              ((sunrise - now) /
+                  (sunrise - previousSunset.millisecondsSinceEpoch))) *
+          100;
     }
   }
 
-  int _getMode() {
-    int sunrise = widget.system.sunrise * 1000;
-    int sunset = widget.system.sunset * 1000;
-    int now = _getCurrentTime();
-    if (now >= sunrise && now <= sunset) {
-      return 0;
-    } else if (now >= sunrise) {
-      return 1;
+  String _getTimeUntilSunrise() {
+    int timeLeft = 0;
+    if (WeatherHelper.getDayMode(widget.system) == 1) {
+      DateTime nextSunrise =
+          DateTime.fromMillisecondsSinceEpoch(sunrise + dayAsMs);
+      timeLeft =
+          nextSunrise.millisecondsSinceEpoch - DateHelper.getCurrentTime();
     } else {
-      return -1;
+      timeLeft = sunrise - DateHelper.getCurrentTime();
     }
+
+    return _formatTime(timeLeft);
   }
 
-  int _getCurrentTime() {
-    return DateTime.now().millisecondsSinceEpoch;
-  }
-
-  String getTimeUntilSunrise(){
-    int hourMs = 60 * 60 * 1000;
-    int minuteMs = 60 * 1000;
-    int secondMs = 1000;
-
-    DateTime nextSunrise =
-    DateTime.fromMillisecondsSinceEpoch(widget.system.sunrise * 1000
-        + 24 * 60 * 60 * 1000);
-
-    int timeLeft =
-        nextSunrise.millisecondsSinceEpoch - DateTime.now().millisecondsSinceEpoch;
-    print("time left: " + timeLeft.toString());
-    int hours = (timeLeft / (hourMs)).floor();
-    int minutes = ((timeLeft - hours * hourMs) / minuteMs).floor();
+  String _formatTime(int time) {
+    int hours = (time / (hoursAsMs)).floor();
+    int minutes = ((time - hours * hoursAsMs) / minutesAsMs).floor();
     int seconds =
-    ((timeLeft - hours * hourMs - minutes * minuteMs) / secondMs).floor();
-
+        ((time - hours * hoursAsMs - minutes * minutesAsMs) / secondsAsMs)
+            .floor();
     String text = "";
-    if (hours > 0 ){
+    if (hours > 0) {
       text += hours.toString() + "h ";
     }
-    if (minutes > 0){
-      text+= minutes.toString() + "m ";
+    if (minutes > 0) {
+      text += minutes.toString() + "m ";
     }
-    if (seconds >= 0){
-      text+= seconds.toString()+"s";
+    if (seconds >= 0) {
+      text += seconds.toString() + "s";
     }
-
     return text;
-
-
   }
 
-  String getTimeUntilSunset() {
-    int hourMs = 60 * 60 * 1000;
-    int minuteMs = 60 * 1000;
-    int secondMs = 1000;
-
-    int timeLeft =
-        widget.system.sunset * 1000 - DateTime.now().millisecondsSinceEpoch;
-    print("time left: " + timeLeft.toString());
-    int hours = (timeLeft / (hourMs)).floor();
-    int minutes = ((timeLeft - hours * hourMs) / minuteMs).floor();
-    int seconds =
-        ((timeLeft - hours * hourMs - minutes * minuteMs) / secondMs).floor();
-
-    String text = "";
-    if (hours > 0 ){
-      text += hours.toString() + "h ";
-    }
-    if (minutes > 0){
-      text+= minutes.toString() + "m ";
-    }
-    if (seconds >= 0){
-      text+= seconds.toString()+"s";
-    }
-
-    return text;
+  String _getTimeUntilSunset() {
+    int timeLeft = sunset - DateHelper.getCurrentTime();
+    return _formatTime(timeLeft);
   }
 }

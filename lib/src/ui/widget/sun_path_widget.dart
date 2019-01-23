@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:feather/src/models/remote/system.dart';
 import 'package:feather/src/resources/weather_helper.dart';
+import 'package:feather/src/utils/date_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -14,18 +15,19 @@ class SunPathWidget extends StatefulWidget {
   State<StatefulWidget> createState() => _SunPathWidgetState();
 }
 
-class _SunPathWidgetState extends State<SunPathWidget>  with SingleTickerProviderStateMixin {
+class _SunPathWidgetState extends State<SunPathWidget>
+    with SingleTickerProviderStateMixin {
   double _fraction = 0.0;
   Animation<double> animation;
   AnimationController controller;
-  
+
   @override
   void initState() {
     super.initState();
     controller = AnimationController(
-        duration: Duration(milliseconds: 1000), vsync: this);
+        duration: Duration(milliseconds: 2000), vsync: this);
     final Animation curve =
-    CurvedAnimation(parent: controller, curve: Curves.decelerate);
+        CurvedAnimation(parent: controller, curve: Curves.easeInOut);
     animation = Tween(begin: 0.0, end: 1.0).animate(curve)
       ..addListener(() {
         setState(() {
@@ -35,39 +37,45 @@ class _SunPathWidgetState extends State<SunPathWidget>  with SingleTickerProvide
 
     controller.forward();
   }
-  
+
   @override
   Widget build(BuildContext context) {
-    return SizedBox(width: 300, height: 150, child:
-        CustomPaint(
-        painter: _SunPathPainter(widget.system,_fraction),)
-    );
+    return SizedBox(
+        key: Key("sun_path_widget_sized_box"),
+        width: 300,
+        height: 150,
+        child: CustomPaint(
+          key: Key("sun_path_widget_custom_paint"),
+          painter: _SunPathPainter(widget.system, _fraction),
+        ));
   }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
 }
 
 class _SunPathPainter extends CustomPainter {
   final System system;
   final double fraction;
+  final double pi = 3.14159;
+  final int dayAsMs  = 8640000;
+  final int sunrise;
+  final int sunset;
 
-  _SunPathPainter(this.system, this.fraction);
+  _SunPathPainter(this.system, this.fraction)
+      : sunrise = system.sunrise * 1000,
+        sunset = system.sunset * 1000;
+
   @override
   void paint(Canvas canvas, Size size) {
-    Paint paint = Paint();
-    paint..color = Colors.white;
-    paint..strokeWidth = 2;
-    paint..style = PaintingStyle.stroke;
-    var pi = 3.14;
-    var rect = Rect.fromLTWH(0, 5, size.width, size.height*2);
-    canvas.drawArc(rect, 0, -pi, false, paint);
-
-    Paint circlePaint = Paint();
-    int mode = WeatherHelper.getDayMode(system);
-    if (mode == 0) {
-      circlePaint..color = Colors.yellow;
-    } else if (mode == 1){
-      circlePaint..color = Colors.white;
-    }
-
+    Paint arcPaint = _getArcPaint();
+    Rect rect = Rect.fromLTWH(0, 5, size.width, size.height * 2);
+    canvas.drawArc(rect, 0, -pi, false, arcPaint);
+    Paint circlePaint = _getCirclePaint();
     canvas.drawCircle(_getPosition(fraction), 10, circlePaint);
   }
 
@@ -76,31 +84,46 @@ class _SunPathPainter extends CustomPainter {
     return oldDelegate.fraction != fraction;
   }
 
-  Offset _getPosition(fraction){
-    int sunrise = system.sunrise * 1000;
-    int sunset = system.sunset * 1000;
-    int now = _getCurrentTime();
+  Paint _getArcPaint() {
+    Paint paint = Paint();
+    paint..color = Colors.white;
+    paint..strokeWidth = 2;
+    paint..style = PaintingStyle.stroke;
+    return paint;
+  }
+
+  Paint _getCirclePaint() {
+    Paint circlePaint = Paint();
+    int mode = WeatherHelper.getDayMode(system);
+    if (mode == 0) {
+      circlePaint..color = Colors.yellow;
+    } else {
+      circlePaint..color = Colors.white;
+    }
+    return circlePaint;
+  }
+
+  Offset _getPosition(fraction) {
+    int now = DateHelper.getCurrentTime();
     int mode = WeatherHelper.getDayMode(system);
     double difference = 0;
-
-    if (mode == 0){
-      difference = (now  - sunrise) / (sunset - sunrise);
+    if (mode == 0) {
+      difference = (now - sunrise) / (sunset - sunrise);
     } else if (mode == 1) {
       DateTime nextSunrise =
-      DateTime.fromMillisecondsSinceEpoch(sunrise + 24 * 60 * 60 * 1000);
-      difference = (now - sunset) / (nextSunrise.millisecondsSinceEpoch - sunset);
+          DateTime.fromMillisecondsSinceEpoch(sunrise + dayAsMs);
+      difference =
+          (now - sunset) / (nextSunrise.millisecondsSinceEpoch - sunset);
+    } else if (mode == -1) {
+      DateTime previousSunset =
+          DateTime.fromMillisecondsSinceEpoch(sunset - dayAsMs);
+      difference = 1 -
+          ((sunrise - now) / (sunrise - previousSunset.millisecondsSinceEpoch));
     }
 
-    if (difference > 1){
-      difference = 1;
-    }
-
-    var x = 150 * cos((1 + difference*fraction) * pi) + 150;
-    var y = 145 * sin((1+difference*fraction)* pi) + 150;
-    return Offset(x,y);
+    var x = 150 * cos((1 + difference * fraction) * pi) + 150;
+    var y = 145 * sin((1 + difference * fraction) * pi) + 150;
+    return Offset(x, y);
   }
 
-  int _getCurrentTime(){
-    return DateTime.now().millisecondsSinceEpoch;
-  }
 }

@@ -3,14 +3,23 @@ import 'package:feather/src/models/remote/weather_forecast_list_response.dart';
 import 'package:feather/src/models/remote/weather_response.dart';
 import 'package:feather/src/resources/repository/local/storage_manager.dart';
 
-class WeatherLocalRepository{
+class WeatherLocalRepository {
   final StorageManager _storageManager = StorageManager();
 
-  void saveLocation(GeoPosition geoPosition) async{
+  static final WeatherLocalRepository _instance =
+      WeatherLocalRepository._internal();
+
+  WeatherLocalRepository._internal();
+
+  factory WeatherLocalRepository() {
+    return _instance;
+  }
+
+  void saveLocation(GeoPosition geoPosition) async {
     await _storageManager.saveLocation(geoPosition);
   }
 
-  Future<GeoPosition> getLocation() async{
+  Future<GeoPosition> getLocation() async {
     return await _storageManager.getLocation();
   }
 
@@ -29,5 +38,4 @@ class WeatherLocalRepository{
   Future<WeatherForecastListResponse> getWeatherForecast() async {
     return await _storageManager.getWeatherForecast();
   }
-
 }

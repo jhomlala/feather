@@ -51,7 +51,7 @@ class WidgetHelper {
       errorText = Strings.unknownError;
     }
     return Directionality(
-      textDirection: TextDirection.ltr,
+        textDirection: TextDirection.ltr,
         child: Center(
             key: Key("error_widget"),
             child: SizedBox(
