@@ -17,6 +17,7 @@ Beautiful Flutter weather application. Entirely written in Dart and Flutter. App
 
 ### :camera: Screenshots 
 <img width="250px" src="https://github.com/jhomlala/feather/blob/master/screenshots/feather.gif">
+<img width="250px" src="https://github.com/jhomlala/feather/blob/master/screenshots/feather2.gif">
 Day mode
 <table>
   <tr>
@@ -35,6 +36,9 @@ Day mode
      <td>
        <img width="250px" src="https://github.com/jhomlala/feather/blob/master/screenshots/5.png">
     </td>
+    <td>
+       <img width="250px" src="https://github.com/jhomlala/feather/blob/master/screenshots/6.png">
+    </td>
   </tr>
   
 </table>
@@ -44,10 +48,7 @@ Night mode
 <table>
   <tr>
     <td>
-  <img width="250px" src="https://github.com/jhomlala/feather/blob/master/screenshots/6.png">
-    </td>
-    <td>
-       <img width="250px" src="https://github.com/jhomlala/feather/blob/master/screenshots/7.png">
+  <img width="250px" src="https://github.com/jhomlala/feather/blob/master/screenshots/7.png">
     </td>
     <td>
        <img width="250px" src="https://github.com/jhomlala/feather/blob/master/screenshots/8.png">
@@ -55,8 +56,14 @@ Night mode
     <td>
        <img width="250px" src="https://github.com/jhomlala/feather/blob/master/screenshots/9.png">
     </td>
-     <td>
+    <td>
        <img width="250px" src="https://github.com/jhomlala/feather/blob/master/screenshots/10.png">
+    </td>
+     <td>
+       <img width="250px" src="https://github.com/jhomlala/feather/blob/master/screenshots/11.png">
+    </td>
+         <td>
+       <img width="250px" src="https://github.com/jhomlala/feather/blob/master/screenshots/12.png">
     </td>
   </tr>
   
