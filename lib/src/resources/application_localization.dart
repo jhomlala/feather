@@ -31,7 +31,7 @@ class ApplicationLocalization {
       "sunrise_in": "Wschód słońca za",
       "night": "Noc",
       "chart_unavailable": "Wykres niedostępny",
-      "retry":"Spróbuj ponownie",
+      "retry": "Spróbuj ponownie",
     },
     'en': {
       "error_location_not_selected":
@@ -51,8 +51,7 @@ class ApplicationLocalization {
       "sunrise_in": "Sunrise in",
       "night": "Night",
       "chart_unavailable": "Chart unavailable",
-      "retry":"Retry",
-
+      "retry": "Retry",
     },
   };
 

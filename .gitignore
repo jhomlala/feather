@@ -16,3 +16,4 @@ android/.gradle
 
 .flutter-plugins
 *.lock
+*.lock

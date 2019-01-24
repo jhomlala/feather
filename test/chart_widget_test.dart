@@ -7,10 +7,8 @@ import 'package:feather/src/models/remote/rain.dart';
 import 'package:feather/src/models/remote/system.dart';
 import 'package:feather/src/models/remote/weather_forecast_response.dart';
 import 'package:feather/src/models/remote/wind.dart';
-import 'package:feather/src/resources/application_localization_delegate.dart';
 import 'package:feather/src/ui/widget/chart_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'test_helper.dart';

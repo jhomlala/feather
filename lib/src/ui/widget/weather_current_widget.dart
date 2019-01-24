@@ -1,7 +1,6 @@
 import 'package:feather/src/blocs/application_bloc.dart';
 import 'package:feather/src/models/remote/overall_weather_data.dart';
 import 'package:feather/src/models/remote/weather_response.dart';
-import 'package:feather/src/resources/application_localization.dart';
 import 'package:feather/src/resources/weather_helper.dart';
 import 'package:feather/src/ui/screen/base/animated_state.dart';
 import 'package:feather/src/ui/widget/weather_forecast_thumbnail_list_widget.dart';
