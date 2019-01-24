@@ -10,10 +10,12 @@ import 'package:feather/src/ui/screen/weather_forecast_rain_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'test_helper.dart';
+
 main() {
   testWidgets("Rain page should contains widgets", (WidgetTester tester) async {
-    await tester.pumpWidget(
-        WeatherForecastRainPage(setupWeatherForecastHolder(), 300, 100));
+    await tester.pumpWidget(TestHelper.wrapWidgetWithLocalizationApp(
+        WeatherForecastRainPage(setupWeatherForecastHolder(), 300, 100)));
 
     expect(find.byKey(Key("weather_forecast_base_page_icon")), findsOneWidget);
     expect(find.byKey(Key("weather_forecast_base_page_title")), findsOneWidget);
@@ -37,7 +39,6 @@ main() {
     expect(textSpan.children[1].text.contains("mm/h"), true);
     expect(textSpan.children[2].text.contains("max"), true);
     expect(textSpan.children[3].text.contains("mm/h"), true);
-
   });
 }
 

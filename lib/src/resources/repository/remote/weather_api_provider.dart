@@ -1,32 +1,35 @@
-import 'dart:convert';
-
+import 'package:dio/dio.dart';
 import 'package:feather/src/models/internal/application_error.dart';
 import 'package:feather/src/models/remote/weather_forecast_list_response.dart';
 import 'package:feather/src/models/remote/weather_response.dart';
 import 'package:feather/src/resources/config/application_config.dart';
-import 'package:http/http.dart' as http;
 import 'package:logging/logging.dart';
 
 class WeatherApiProvider {
-  final _logger = new Logger("WeatherApiProvider");
+  final String _apiBaseUrl = "api.openweathermap.org";
+  final String _apiPath = "/data/2.5";
+  final String _apiWeatherEndpoint = "/weather";
+  final String _apiWeatherForecastEndpoint = "/forecast";
+  final Logger _logger = new Logger("WeatherApiProvider");
+  final Dio _dio = Dio();
+
+  static final WeatherApiProvider _instance = WeatherApiProvider._internal();
+
+  WeatherApiProvider._internal() {
+    setupInterceptors();
+  }
+
+  factory WeatherApiProvider() {
+    return _instance;
+  }
 
   Future<WeatherResponse> fetchWeather(
       double latitude, double longitude) async {
     try {
-      String url = buildUrl(
-          ApplicationConfig.apiWeatherEndpoint,
-          List.of([
-            "lat=" + latitude.toString(),
-            "lon=" + longitude.toString(),
-            "units=metric"
-          ]));
-
-      _logger.log(Level.INFO, "Fetch weather with url: " + url);
-      final response = await http.get(url);
-      _logger.log(Level.INFO,
-          "Received status code: " + response.statusCode.toString());
+      Uri uri = buildUri(_apiWeatherEndpoint, latitude, longitude);
+      Response response = await _dio.get(uri.toString());
       if (response.statusCode == 200) {
-        return WeatherResponse.fromJson(json.decode(response.body));
+        return WeatherResponse.fromJson(response.data);
       } else {
         return WeatherResponse.withErrorCode(ApplicationError.apiError);
       }
@@ -38,22 +41,26 @@ class WeatherApiProvider {
     }
   }
 
+  Uri buildUri(String endpoint, double latitude, double longitude) {
+    return Uri(
+        scheme: "https",
+        host: _apiBaseUrl,
+        path: "$_apiPath$endpoint",
+        queryParameters: {
+          "lat": latitude.toString(),
+          "lon": longitude.toString(),
+          "apiKey": ApplicationConfig.apiKey,
+          "units": "metric"
+        });
+  }
+
   Future<WeatherForecastListResponse> fetchWeatherForecast(
       double latitude, double longitude) async {
     try {
-      String url = buildUrl(
-          ApplicationConfig.apiWeatherForecastEndpoint,
-          List.of([
-            "lat=" + latitude.toString(),
-            "lon=" + longitude.toString(),
-            "units=metric"
-          ]));
-      _logger.log(Level.INFO, "Fetch weather forecast with url: " + url);
-      final response = await http.get(url);
-      _logger.log(Level.INFO,
-          "Received status code: " + response.statusCode.toString());
+      Uri uri = buildUri(_apiWeatherForecastEndpoint, latitude, longitude);
+      Response response = await _dio.get(uri.toString());
       if (response.statusCode == 200) {
-        return WeatherForecastListResponse.fromJson(json.decode(response.body));
+        return WeatherForecastListResponse.fromJson(response.data);
       } else {
         return WeatherForecastListResponse.withErrorCode(
             ApplicationError.apiError);
@@ -65,16 +72,35 @@ class WeatherApiProvider {
     }
   }
 
-  String buildUrl(String endpoint, List<String> queryParameters) {
-    var buffer = StringBuffer();
-    buffer.write(ApplicationConfig.apiUrl);
-    buffer.write(endpoint);
-    buffer.write("?");
-    for (String queryParameter in queryParameters) {
-      buffer.write(queryParameter);
-      buffer.write("&");
-    }
-    buffer.write("apiKey=" + ApplicationConfig.apiKey);
-    return buffer.toString();
+  void setupInterceptors() {
+    int maxCharactersPerLine = 200;
+
+    _dio.interceptor.request.onSend = (Options options) {
+      _logger.fine("--> ${options.method} ${options.path}");
+      _logger.fine("Content type: ${options.contentType}");
+      _logger.fine("<-- END HTTP");
+      return options;
+    };
+
+    _dio.interceptor.response.onSuccess = (Response response) {
+      _logger.fine(
+          "<-- ${response.statusCode} ${response.request.method} ${response.request.path}");
+      String responseAsString = response.data.toString();
+      if (responseAsString.length > maxCharactersPerLine) {
+        int iterations =
+            (responseAsString.length / maxCharactersPerLine).floor();
+        for (int i = 0; i <= iterations; i++) {
+          int endingIndex = i * maxCharactersPerLine + maxCharactersPerLine;
+          if (endingIndex > responseAsString.length) {
+            endingIndex = responseAsString.length;
+          }
+          _logger.fine(responseAsString.substring(
+              i * maxCharactersPerLine, endingIndex));
+        }
+      } else {
+        _logger.fine(response.data);
+      }
+      _logger.fine("<-- END HTTP");
+    };
   }
 }

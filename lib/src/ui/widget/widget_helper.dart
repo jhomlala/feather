@@ -1,6 +1,6 @@
 import 'package:feather/src/models/internal/application_error.dart';
-import 'package:feather/src/resources/config/app_const.dart';
-import 'package:feather/src/resources/config/strings.dart';
+import 'package:feather/src/resources/application_localization.dart';
+import 'package:feather/src/resources/config/application_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -38,39 +38,45 @@ class WidgetHelper {
         ));
   }
 
-  static Widget buildErrorWidget(BuildContext context,
-      ApplicationError applicationError, VoidCallback voidCallback) {
+  static Widget buildErrorWidget(
+      {BuildContext context,
+      ApplicationError applicationError,
+      VoidCallback voidCallback,
+      bool withRetryButton}) {
     String errorText = "";
+    ApplicationLocalization localization = ApplicationLocalization.of(context);
     if (applicationError == ApplicationError.locationNotSelectedError) {
-      errorText = Strings.errorLocationNotSelected;
+      errorText = localization.getText("error_location_not_selected");
     } else if (applicationError == ApplicationError.connectionError) {
-      errorText = Strings.errorServerConnection;
+      errorText = localization.getText("error_server_connection");
     } else if (applicationError == ApplicationError.apiError) {
-      errorText = Strings.errorServer;
+      errorText = localization.getText("error_api");
     } else {
-      errorText = Strings.unknownError;
+      errorText = localization.getText("error_unknown");
     }
-    return Directionality(
+    List<Widget> widgets = new List();
+    widgets.add(Text(
+      errorText,
       textDirection: TextDirection.ltr,
+      textAlign: TextAlign.center,
+    ));
+    if (withRetryButton) {
+      widgets.add(FlatButton(
+        child: Text(ApplicationLocalization.of(context).getText("retry"),
+            style: Theme.of(context).textTheme.subtitle),
+        onPressed: voidCallback,
+      ));
+    }
+
+    return Directionality(
+        textDirection: TextDirection.ltr,
         child: Center(
             key: Key("error_widget"),
             child: SizedBox(
                 width: 250,
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      errorText,
-                      textDirection: TextDirection.ltr,
-                      textAlign: TextAlign.center,
-                    ),
-                    FlatButton(
-                      child: Text("Retry",
-                          style: Theme.of(context).textTheme.subtitle),
-                      onPressed: voidCallback,
-                    )
-                  ],
-                ))));
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: widgets))));
   }
 
   static LinearGradient buildGradientBasedOnDayCycle(int sunrise, int sunset) {
@@ -78,18 +84,19 @@ class WidgetHelper {
     int sunriseMs = sunrise * 1000;
     int sunsetMs = sunset * 1000;
     if (currentTime > sunriseMs && currentTime < sunsetMs) {
-      return buildGradient(
-          AppConst.dayStartGradientColor, AppConst.dayEndGradientColor);
+      return buildGradient(ApplicationColors.dayStartGradientColor,
+          ApplicationColors.dayEndGradientColor);
     } else {
-      return buildGradient(
-          AppConst.nightStartGradientColor, AppConst.nightEndGradient);
+      return buildGradient(ApplicationColors.nightStartGradientColor,
+          ApplicationColors.nightEndGradient);
     }
   }
 
   static LinearGradient getGradient({sunriseTime = 0, sunsetTime = 0}) {
     if (sunriseTime == 0 && sunsetTime == 0) {
       return WidgetHelper.buildGradient(
-          AppConst.nightStartGradientColor, AppConst.nightEndGradient);
+          ApplicationColors.nightStartGradientColor,
+          ApplicationColors.nightEndGradient);
     } else {
       return buildGradientBasedOnDayCycle(sunriseTime, sunsetTime);
     }

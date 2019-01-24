@@ -10,6 +10,7 @@ import 'package:rxdart/rxdart.dart';
 class WeatherForecastBloc extends BaseBloc {
   final Logger _logger = Logger("WeatherForecastBloc");
   final weatherForecastSubject = BehaviorSubject<WeatherForecastListResponse>();
+  int lastRequestTime = 0;
   Timer _timer;
 
   @override
@@ -51,6 +52,7 @@ class WeatherForecastBloc extends BaseBloc {
   }
 
   fetchWeatherForecast(double latitude, double longitude) async {
+    lastRequestTime = DateTime.now().millisecondsSinceEpoch;
     _logger.log(Level.FINE, "Fetch weather forecast");
     WeatherForecastListResponse weatherForecastResponse =
         await weatherRemoteRepository.fetchWeatherForecast(latitude, longitude);
@@ -66,6 +68,10 @@ class WeatherForecastBloc extends BaseBloc {
     }
 
     weatherForecastSubject.sink.add(weatherForecastResponse);
+  }
+
+  bool shouldFetchWeatherForecast() {
+    return DateTime.now().millisecondsSinceEpoch - lastRequestTime > 60000;
   }
 }
 

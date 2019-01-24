@@ -1,8 +1,8 @@
 import 'dart:core';
 
 import 'package:feather/src/models/internal/weather_forecast_holder.dart';
-import 'package:feather/src/resources/config/app_const.dart';
-import 'package:feather/src/ui/screen/weather_forecast_base_page.dart';
+import 'package:feather/src/resources/config/ids.dart';
+import 'package:feather/src/ui/screen/base/weather_forecast_base_page.dart';
 import 'package:feather/src/ui/screen/weather_forecast_pressure_page.dart';
 import 'package:feather/src/ui/screen/weather_forecast_rain_page.dart';
 import 'package:feather/src/ui/screen/weather_forecast_temperature_page.dart';
@@ -30,13 +30,13 @@ class WeatherForecastWidget extends StatelessWidget {
       return _pageMap[key];
     } else {
       WeatherForecastBasePage page;
-      if (key == AppConst.temperaturePage) {
+      if (key == Ids.temperaturePage) {
         page = WeatherForecastTemperaturePage(holder, width, height);
-      } else if (key == AppConst.windPage) {
+      } else if (key == Ids.windPage) {
         page = WeatherForecastWindPage(holder, width, height);
-      } else if (key == AppConst.rainPage) {
+      } else if (key == Ids.rainPage) {
         page = WeatherForecastRainPage(holder, width, height);
-      } else if (key == AppConst.pressurePage) {
+      } else if (key == Ids.pressurePage) {
         page = WeatherForecastPressurePage(holder, width, height);
       }
       _pageMap[key] = page;
@@ -68,15 +68,13 @@ class WeatherForecastWidget extends StatelessWidget {
                 key: Key("weather_forecast_swiper"),
                 itemBuilder: (BuildContext context, int index) {
                   if (index == 0) {
-                    return _getPage(
-                        AppConst.temperaturePage, holder, width, height);
+                    return _getPage(Ids.temperaturePage, holder, width, height);
                   } else if (index == 1) {
-                    return _getPage(AppConst.windPage, holder, width, height);
+                    return _getPage(Ids.windPage, holder, width, height);
                   } else if (index == 2) {
-                    return _getPage(AppConst.rainPage, holder, width, height);
+                    return _getPage(Ids.rainPage, holder, width, height);
                   } else {
-                    return _getPage(
-                        AppConst.pressurePage, holder, width, height);
+                    return _getPage(Ids.pressurePage, holder, width, height);
                   }
                 },
                 itemCount: 4,

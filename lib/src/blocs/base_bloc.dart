@@ -9,7 +9,8 @@ abstract class BaseBloc{
   @protected final weatherRemoteRepository = WeatherRemoteRepository();
   @protected final weatherLocalRepository = WeatherLocalRepository();
   @protected final locationManager = LocationManager();
-  @protected final timerTimeout = 900;
+  @protected final timerTimeout = 900000;
+  @protected final intervalBetweenRequests = 60000;
   final Logger _logger = Logger("BaseBloc");
 
   Future<GeoPosition> getPosition() async {

@@ -1,10 +1,10 @@
 import 'package:feather/src/models/internal/chart_data.dart';
 import 'package:feather/src/models/internal/point.dart';
 import 'package:feather/src/models/internal/weather_forecast_holder.dart';
+import 'package:feather/src/resources/application_localization.dart';
 import 'package:feather/src/resources/config/assets.dart';
-import 'package:feather/src/resources/config/strings.dart';
 import 'package:feather/src/resources/weather_helper.dart';
-import 'package:feather/src/ui/screen/weather_forecast_base_page.dart';
+import 'package:feather/src/ui/screen/base/weather_forecast_base_page.dart';
 import 'package:feather/src/ui/widget/widget_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -57,18 +57,18 @@ class WeatherForecastTemperaturePage extends WeatherForecastBasePage {
           TextSpan(text: 'min ', style: Theme.of(context).textTheme.body2),
           TextSpan(
               text:
-                  "${WeatherHelper.formatTemperature(temperature: holder.maxTemperature, positions: 1, round: false)}",
+                  "${WeatherHelper.formatTemperature(temperature: holder.minTemperature, positions: 1, round: false)}",
               style: Theme.of(context).textTheme.subtitle),
           TextSpan(text: '   max ', style: Theme.of(context).textTheme.body2),
           TextSpan(
               text:
-                  "${WeatherHelper.formatTemperature(temperature: holder.minTemperature, positions: 1, round: false)}",
+                  "${WeatherHelper.formatTemperature(temperature: holder.maxTemperature, positions: 1, round: false)}",
               style: Theme.of(context).textTheme.subtitle)
         ]));
   }
 
   @override
-  String getTitleText() {
-    return Strings.temperature;
+  String getTitleText(BuildContext context) {
+    return ApplicationLocalization.of(context).getText("temperature");
   }
 }

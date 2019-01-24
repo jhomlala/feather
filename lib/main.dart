@@ -1,6 +1,9 @@
+import 'package:feather/src/resources/config/application_config.dart';
+import 'package:feather/src/resources/application_localization_delegate.dart';
 import 'package:feather/src/ui/screen/weather_main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:logging/logging.dart';
 
 void main() => runApp(MyApp());
@@ -11,20 +14,32 @@ class MyApp extends StatelessWidget {
     SystemChrome.setEnabledSystemUIOverlays([]);
     _configureLogger();
     return MaterialApp(
-        home: WeatherMainScreen(),
-        debugShowCheckedModeBanner: false,
-        theme: _configureThemeData());
+      home: WeatherMainScreen(),
+      debugShowCheckedModeBanner: false,
+      theme: _configureThemeData(),
+      localizationsDelegates: [
+        const ApplicationLocalizationDelegate(),
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale("en"),
+        const Locale("pl"),
+      ],
+    );
   }
 
   _configureLogger() {
     Logger.root.level = Level.ALL;
     Logger.root.onRecord.listen((LogRecord rec) {
-      print(
-          '[${rec.level.name}][${rec.time}][${rec.loggerName}]: ${rec.message}');
+      if (ApplicationConfig.isDebug) {
+        print(
+            '[${rec.level.name}][${rec.time}][${rec.loggerName}]: ${rec.message}');
+      }
     });
   }
 
-  ThemeData _configureThemeData(){
+  ThemeData _configureThemeData() {
     return ThemeData(
         textTheme: TextTheme(
             headline: TextStyle(fontSize: 60.0, color: Colors.white),
@@ -33,5 +48,4 @@ class MyApp extends StatelessWidget {
             body1: TextStyle(fontSize: 15, color: Colors.white),
             body2: TextStyle(fontSize: 12, color: Colors.white)));
   }
-
 }

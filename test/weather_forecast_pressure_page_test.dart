@@ -10,10 +10,12 @@ import 'package:feather/src/ui/screen/weather_forecast_pressure_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'test_helper.dart';
+
 main(){
   testWidgets("Pressure page should contains widgets", (WidgetTester tester) async {
     await tester.pumpWidget(
-        WeatherForecastPressurePage(setupWeatherForecastHolder(), 300, 100));
+        TestHelper.wrapWidgetWithLocalizationApp(WeatherForecastPressurePage(setupWeatherForecastHolder(), 300, 100)));
 
     expect(find.byKey(Key("weather_forecast_base_page_icon")), findsOneWidget);
     expect(find.byKey(Key("weather_forecast_base_page_title")), findsOneWidget);
