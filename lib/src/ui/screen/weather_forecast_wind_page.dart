@@ -1,10 +1,10 @@
 import 'package:feather/src/models/internal/chart_data.dart';
 import 'package:feather/src/models/internal/point.dart';
 import 'package:feather/src/models/internal/weather_forecast_holder.dart';
+import 'package:feather/src/resources/application_localization.dart';
 import 'package:feather/src/resources/config/assets.dart';
-import 'package:feather/src/resources/config/strings.dart';
 import 'package:feather/src/resources/weather_helper.dart';
-import 'package:feather/src/ui/screen/weather_forecast_base_page.dart';
+import 'package:feather/src/ui/screen/base/weather_forecast_base_page.dart';
 import 'package:feather/src/ui/widget/widget_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -65,7 +65,7 @@ class WeatherForecastWindPage extends WeatherForecastBasePage {
   }
 
   @override
-  String getTitleText() {
-    return Strings.wind;
+  String getTitleText(BuildContext context) {
+    return ApplicationLocalization.of(context).getText("wind");
   }
 }

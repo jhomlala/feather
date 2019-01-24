@@ -40,7 +40,7 @@ abstract class WeatherForecastBasePage extends StatelessWidget {
   }
 
   Widget getPageTitleWidget(BuildContext context) {
-    return Text(getTitleText(),
+    return Text(getTitleText(context),
         key: Key("weather_forecast_base_page_title"),
         textDirection: TextDirection.ltr,
         style: Theme.of(context).textTheme.subtitle);
@@ -48,7 +48,7 @@ abstract class WeatherForecastBasePage extends StatelessWidget {
 
   String getIcon();
 
-  String getTitleText();
+  String getTitleText(BuildContext context);
 
   RichText getPageSubtitleWidget(BuildContext context);
 

@@ -13,6 +13,8 @@ import 'package:feather/src/ui/widget/weather_forecast_thumbnail_list_widget.dar
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'test_helper.dart';
+
 main() {
   testWidgets("Weather forecast thumbnail list widget should show error",
       (WidgetTester tester) async {
@@ -22,7 +24,7 @@ main() {
       await tester.pump(new Duration(seconds: 5));
       WeatherForecastThumbnailListWidget widget =
           WeatherForecastThumbnailListWidget();
-      await tester.pumpWidget(widget);
+      await tester.pumpWidget( TestHelper.wrapWidgetWithLocalizationApp(widget));
       expect(find.byKey(Key("progress_indicator")), findsOneWidget);
       await tester.idle();
       await tester.pump(new Duration(seconds: 5));

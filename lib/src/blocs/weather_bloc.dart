@@ -4,7 +4,7 @@ import 'package:feather/src/blocs/base_bloc.dart';
 import 'package:feather/src/models/internal/application_error.dart';
 import 'package:feather/src/models/internal/geo_position.dart';
 import 'package:feather/src/models/remote/weather_response.dart';
-import 'package:feather/src/utils/date_helper.dart';
+import 'package:feather/src/utils/date_time_helper.dart';
 import 'package:logging/logging.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -30,7 +30,7 @@ class WeatherBloc extends BaseBloc {
 
   fetchWeather(double latitude, double longitude) async {
     _logger.log(Level.FINE, "Fetch weather");
-    lastRequestTime = DateHelper.getCurrentTime();
+    lastRequestTime = DateTimeHelper.getCurrentTime();
     WeatherResponse weatherResponse =
         await weatherRemoteRepository.fetchWeather(latitude, longitude);
     if (weatherResponse.errorCode == null) {

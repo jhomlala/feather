@@ -2,8 +2,8 @@ import 'dart:math';
 
 import 'package:feather/src/models/remote/system.dart';
 import 'package:feather/src/resources/weather_helper.dart';
-import 'package:feather/src/ui/widget/widget_helper.dart';
-import 'package:feather/src/utils/date_helper.dart';
+import 'package:feather/src/ui/screen/base/animated_state.dart';
+import 'package:feather/src/utils/date_time_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -16,24 +16,13 @@ class SunPathWidget extends StatefulWidget {
   State<StatefulWidget> createState() => _SunPathWidgetState();
 }
 
-class _SunPathWidgetState extends State<SunPathWidget>
-    with SingleTickerProviderStateMixin {
+class _SunPathWidgetState extends AnimatedState<SunPathWidget> {
   double _fraction = 0.0;
-  Animation<double> _animation;
-  AnimationController _controller;
 
   @override
   void initState() {
     super.initState();
-    _controller = WidgetHelper.animate(
-        tickerProvider: this,
-        start: 0,
-        end: 1,
-        curve: Curves.easeInOut,
-        duration: 2000,
-        callback: () => setState(() {
-              _fraction = _controller.value;
-            }));
+    animateTween(duration: 2000);
   }
 
   @override
@@ -50,8 +39,14 @@ class _SunPathWidgetState extends State<SunPathWidget>
 
   @override
   void dispose() {
-    _controller.dispose();
     super.dispose();
+  }
+
+  @override
+  void onAnimatedValue(double value) {
+    setState(() {
+      _fraction = value;
+    });
   }
 }
 
@@ -101,7 +96,7 @@ class _SunPathPainter extends CustomPainter {
   }
 
   Offset _getPosition(fraction) {
-    int now = DateHelper.getCurrentTime();
+    int now = DateTimeHelper.getCurrentTime();
     int mode = WeatherHelper.getDayMode(system);
     double difference = 0;
     if (mode == 0) {

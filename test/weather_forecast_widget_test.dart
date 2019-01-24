@@ -10,20 +10,23 @@ import 'package:feather/src/ui/widget/weather_forecast_widget.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-main(){
+import 'test_helper.dart';
+
+main() {
   testWidgets("Wind page should contains widgets", (WidgetTester tester) async {
-    await tester.pumpWidget(
-        WeatherForecastWidget(holder: setupWeatherForecastHolder(), width: 300, height: 100));
-    expect(find.byKey(Key("weather_forecast_container")),findsOneWidget);
-    expect(find.byKey(Key("weather_forecast_location_name")),findsOneWidget);
-    expect(find.byKey(Key("weather_forecast_date_formatted")),findsOneWidget);
-    expect(find.byKey(Key("weather_forecast_swiper")),findsOneWidget);
+    await tester.pumpWidget(TestHelper.wrapWidgetWithLocalizationApp(
+        WeatherForecastWidget(
+            holder: setupWeatherForecastHolder(), width: 300, height: 100)));
+    expect(find.byKey(Key("weather_forecast_container")), findsOneWidget);
+    expect(find.byKey(Key("weather_forecast_location_name")), findsOneWidget);
+    expect(find.byKey(Key("weather_forecast_date_formatted")), findsOneWidget);
+    expect(find.byKey(Key("weather_forecast_swiper")), findsOneWidget);
   });
 }
 
-WeatherForecastHolder setupWeatherForecastHolder(){
+WeatherForecastHolder setupWeatherForecastHolder() {
   List<WeatherForecastResponse> forecastList =
-  new List<WeatherForecastResponse>();
+      new List<WeatherForecastResponse>();
 
   Wind wind = new Wind(5, 200);
   MainWeatherData mainWeatherData = MainWeatherData(0, 0, 0, 0, 0, 0, 0);
@@ -40,7 +43,7 @@ WeatherForecastHolder setupWeatherForecastHolder(){
   City city = City(0, null);
 
   WeatherForecastHolder holder =
-  new WeatherForecastHolder(forecastList, city, system);
+      new WeatherForecastHolder(forecastList, city, system);
 
   return holder;
 }

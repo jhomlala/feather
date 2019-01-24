@@ -1,7 +1,8 @@
 import 'package:flutter/animation.dart';
+import 'package:rxdart/rxdart.dart';
 
-class AnimationDart{
-  AnimationController controller;
-  Animation<num> animation;
-
+class AnimationData {
+  final AnimationController controller;
+  final Observable<double> observable;
+  AnimationData(this.controller, this.observable);
 }

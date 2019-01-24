@@ -6,7 +6,7 @@ import 'package:feather/src/models/internal/point.dart';
 import 'package:feather/src/models/remote/city.dart';
 import 'package:feather/src/models/remote/system.dart';
 import 'package:feather/src/models/remote/weather_forecast_response.dart';
-import 'package:feather/src/resources/config/app_const.dart';
+import 'package:feather/src/resources/config/dimensions.dart';
 import 'package:feather/src/resources/weather_helper.dart';
 import 'package:flutter/material.dart';
 
@@ -31,7 +31,6 @@ class WeatherForecastHolder {
   double _maxPressure;
   double _minPressure;
 
-
   String _dateShortFormatted;
   String _dateFullFormatted;
   int _weatherCode;
@@ -42,7 +41,8 @@ class WeatherForecastHolder {
 
   Map<ChartDataType, ChartData> _chartDataCache;
 
-  WeatherForecastHolder(List<WeatherForecastResponse> forecastList, City city, System system) {
+  WeatherForecastHolder(
+      List<WeatherForecastResponse> forecastList, City city, System system) {
     _chartDataCache = new Map();
     _forecastList = forecastList;
     _temperatures = _getTemperaturesList();
@@ -121,7 +121,7 @@ class WeatherForecastHolder {
   double _calculateMax(List<double> values) {
     double maxValue = values[0];
     for (var value in values) {
-      if (value >= maxValue){
+      if (value >= maxValue) {
         maxValue = value;
       }
     }
@@ -132,7 +132,7 @@ class WeatherForecastHolder {
   double _calculateMin(List<double> values) {
     double minValue = values[0];
     for (var value in values) {
-      if (value <= minValue){
+      if (value <= minValue) {
         minValue = value;
       }
     }
@@ -155,7 +155,7 @@ class WeatherForecastHolder {
 
   ChartData setupChartData(
       ChartDataType chartDataType, double width, double height) {
-    if (_chartDataCache.containsKey(chartDataType)){
+    if (_chartDataCache.containsKey(chartDataType)) {
       return _chartDataCache[chartDataType];
     }
     List<double> values = _getChartValues(chartDataType);
@@ -212,7 +212,7 @@ class WeatherForecastHolder {
   List<Point> _getPoints(
       List<double> values, double averageValue, double width, double height) {
     List<Point> points = List();
-    double halfHeight = (height - AppConst.chartPadding) / 2;
+    double halfHeight = (height - Dimensions.chartPadding) / 2;
     double widthStep = width / (forecastList.length - 1);
     double currentX = 0;
 
@@ -222,7 +222,7 @@ class WeatherForecastHolder {
 
     for (double averageDifferenceValue in averageDifferenceValues) {
       var y = halfHeight - (halfHeight * averageDifferenceValue / maxValue);
-      if (y.isNaN){
+      if (y.isNaN) {
         y = halfHeight;
       }
       points.add(Point(currentX, y));
@@ -270,8 +270,8 @@ class WeatherForecastHolder {
     list.add(ChartLine(
         mainAxisText,
         Offset(-25, height / 2 - 15),
-        Offset(-5, (height - AppConst.chartPadding) / 2),
-        Offset(width + 5, (height - AppConst.chartPadding) / 2)));
+        Offset(-5, (height - Dimensions.chartPadding) / 2),
+        Offset(width + 5, (height - Dimensions.chartPadding) / 2)));
 
     for (int index = 0; index < points.length; index++) {
       Point point = points[index];
@@ -310,12 +310,12 @@ class WeatherForecastHolder {
         text = "${averageValue.toStringAsFixed(1)} mm/h";
         break;
       case ChartDataType.pressure:
-        text ="${averageValue.toStringAsFixed(0)} hPa";
+        text = "${averageValue.toStringAsFixed(0)} hPa";
     }
     return text;
   }
 
-  List<String> getWindDirectionList(){
+  List<String> getWindDirectionList() {
     List<String> windDirections = new List();
     for (WeatherForecastResponse response in forecastList) {
       windDirections.add(response.wind.getDegCode());
@@ -327,10 +327,10 @@ class WeatherForecastHolder {
     List<double> rainList = new List();
     for (WeatherForecastResponse response in forecastList) {
       double rainSum = 0;
-      if (response.rain != null && response.rain.amount != null){
+      if (response.rain != null && response.rain.amount != null) {
         rainSum = response.rain.amount;
       }
-      if (response.snow != null && response.snow.amount != null){
+      if (response.snow != null && response.snow.amount != null) {
         rainSum += response.snow.amount;
       }
       rainList.add(rainSum);
@@ -338,14 +338,13 @@ class WeatherForecastHolder {
     return rainList;
   }
 
-  List<double> _getPressureList(){
+  List<double> _getPressureList() {
     List<double> pressureList = new List();
     for (WeatherForecastResponse response in forecastList) {
       pressureList.add(response.mainWeatherData.pressure);
     }
     return pressureList;
   }
-
 
   String get weatherCodeAsset => _weatherCodeAsset;
 
@@ -392,6 +391,4 @@ class WeatherForecastHolder {
   List<double> get pressures => _pressures;
 
   System get system => _system;
-
-
 }

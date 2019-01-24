@@ -9,6 +9,8 @@ import 'package:feather/src/ui/widget/weather_main_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'test_helper.dart';
+
 main() {
   testWidgets("Weather widget should display error",
       (WidgetTester tester) async {
@@ -17,7 +19,8 @@ main() {
           .add(WeatherResponse.withErrorCode(ApplicationError.apiError));
       await tester.pump(new Duration(seconds: 5));
       WeatherMainWidget widget = WeatherMainWidget();
-      await tester.pumpWidget(widget);
+
+      await tester.pumpWidget(TestHelper.wrapWidgetWithLocalizationApp(widget));
       expect(find.byKey(Key("progress_indicator")), findsOneWidget);
       await tester.idle();
       await tester.pump(new Duration(seconds: 5));

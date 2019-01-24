@@ -1,8 +1,9 @@
 import 'package:feather/src/blocs/application_bloc.dart';
 import 'package:feather/src/models/remote/overall_weather_data.dart';
 import 'package:feather/src/models/remote/weather_response.dart';
+import 'package:feather/src/resources/application_localization.dart';
 import 'package:feather/src/resources/weather_helper.dart';
-import 'package:feather/src/ui/widget/empty_animation.dart';
+import 'package:feather/src/ui/screen/base/animated_state.dart';
 import 'package:feather/src/ui/widget/weather_forecast_thumbnail_list_widget.dart';
 import 'package:feather/src/ui/widget/widget_helper.dart';
 import 'package:flutter/material.dart';
@@ -18,25 +19,19 @@ class WeatherCurrentWidget extends StatefulWidget {
   State<StatefulWidget> createState() {
     return WeatherCurrentWidgetState();
   }
-
 }
 
-class WeatherCurrentWidgetState extends State<WeatherCurrentWidget> with SingleTickerProviderStateMixin {
+class WeatherCurrentWidgetState extends AnimatedState<WeatherCurrentWidget> {
   final Logger log = new Logger('CurrentWeatherWidget');
-  AnimationController _controller;
+
   @override
   void initState() {
     super.initState();
     log.fine("Init weather widget state");
-    _controller = AnimationController(
-      duration: const Duration(milliseconds: 1500),
-      vsync: this,
-    )..forward();
   }
 
   @override
   void dispose() {
-    _controller.dispose();
     super.dispose();
     applicationBloc.currentWeatherWidgetAnimationState = false;
   }
@@ -48,7 +43,9 @@ class WeatherCurrentWidgetState extends State<WeatherCurrentWidget> with SingleT
 
   Widget buildWeatherContainer(WeatherResponse response) {
     return FadeTransition(
-        opacity: _getAnimation(),
+        opacity: setupAnimation(
+            duration: 3000,
+            noAnimation: !applicationBloc.currentWeatherWidgetAnimationState),
         child: Container(
             key: Key("weather_current_widget_container"),
             child: Center(
@@ -105,11 +102,6 @@ class WeatherCurrentWidgetState extends State<WeatherCurrentWidget> with SingleT
     return WeatherHelper.getWeatherIcon(code);
   }
 
-  Animation<double>_getAnimation(){
-    if (applicationBloc.currentWeatherWidgetAnimationState) {
-      return CurvedAnimation(parent: _controller, curve: Curves.easeIn);
-    } else {
-      return EmptyAnimation();
-    }
-  }
+  @override
+  void onAnimatedValue(double value) {}
 }

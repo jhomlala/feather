@@ -10,26 +10,30 @@ import 'package:feather/src/ui/screen/weather_forecast_temperature_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-main (){
-  testWidgets("Temperature page should contains widgets", (WidgetTester tester) async {
-    await tester.pumpWidget(
-        WeatherForecastTemperaturePage(setupWeatherForecastHolder(), 300, 100));
+import 'test_helper.dart';
+
+main() {
+  testWidgets("Temperature page should contains widgets",
+      (WidgetTester tester) async {
+    await tester.pumpWidget(TestHelper.wrapWidgetWithLocalizationApp(
+        WeatherForecastTemperaturePage(
+            setupWeatherForecastHolder(), 300, 100)));
 
     expect(find.byKey(Key("weather_forecast_base_page_icon")), findsOneWidget);
     expect(find.byKey(Key("weather_forecast_base_page_title")), findsOneWidget);
-    expect(
-        find.byKey(Key("weather_forecast_temperature_page_subtitle")), findsOneWidget);
+    expect(find.byKey(Key("weather_forecast_temperature_page_subtitle")),
+        findsOneWidget);
     expect(find.byKey(Key("weather_forecast_temperature_page_bottom_row")),
         findsOneWidget);
     expect(find.byKey(Key("weather_forecast_base_page_title")), findsOneWidget);
     expect(find.byKey(Key("chart_widget_container")), findsOneWidget);
 
     Text title =
-    tester.widget(find.byKey(Key("weather_forecast_base_page_title")));
+        tester.widget(find.byKey(Key("weather_forecast_base_page_title")));
     expect(title.data, "Temperature");
 
-    RichText subtitle =
-    tester.widget(find.byKey(Key("weather_forecast_temperature_page_subtitle")));
+    RichText subtitle = tester
+        .widget(find.byKey(Key("weather_forecast_temperature_page_subtitle")));
     TextSpan textSpan = subtitle.text;
     expect(textSpan.text == null, true);
     expect(textSpan.children.length == 4, true);
@@ -38,15 +42,15 @@ main (){
     expect(textSpan.children[2].text.contains("max"), true);
     expect(textSpan.children[3].text.contains("C"), true);
 
-    Row bottomRow =
-    tester.widget(find.byKey(Key("weather_forecast_temperature_page_bottom_row")));
+    Row bottomRow = tester.widget(
+        find.byKey(Key("weather_forecast_temperature_page_bottom_row")));
     expect(bottomRow.children.length == 0, true);
   });
 }
 
 WeatherForecastHolder setupWeatherForecastHolder() {
   List<WeatherForecastResponse> forecastList =
-  new List<WeatherForecastResponse>();
+      new List<WeatherForecastResponse>();
 
   Wind wind = new Wind(5, 200);
   MainWeatherData mainWeatherData = MainWeatherData(0, 0, 0, 0, 0, 0, 0);
@@ -63,7 +67,7 @@ WeatherForecastHolder setupWeatherForecastHolder() {
   City city = City(0, null);
 
   WeatherForecastHolder holder =
-  new WeatherForecastHolder(forecastList, city, system);
+      new WeatherForecastHolder(forecastList, city, system);
 
   return holder;
 }

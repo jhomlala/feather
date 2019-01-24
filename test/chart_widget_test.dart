@@ -7,46 +7,49 @@ import 'package:feather/src/models/remote/rain.dart';
 import 'package:feather/src/models/remote/system.dart';
 import 'package:feather/src/models/remote/weather_forecast_response.dart';
 import 'package:feather/src/models/remote/wind.dart';
+import 'package:feather/src/resources/application_localization_delegate.dart';
 import 'package:feather/src/ui/widget/chart_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'test_helper.dart';
 
-main(){
+main() {
   testWidgets("Chart widget should display chart", (WidgetTester tester) async {
-    await tester.pumpWidget(
-        ChartWidget(chartData: setupChartData()));
+    await tester.pumpWidget(TestHelper.wrapWidgetWithLocalizationApp(
+        ChartWidget(chartData: setupChartData())));
 
-    expect(find.byKey(Key("chart_widget_container")),findsOneWidget);
-    expect(find.byKey(Key("chart_widget_custom_paint")),findsOneWidget);
+    expect(find.byKey(Key("chart_widget_container")), findsOneWidget);
+    expect(find.byKey(Key("chart_widget_custom_paint")), findsOneWidget);
   });
 
-  testWidgets("Chart widget should not display chart", (WidgetTester tester) async {
-    await tester.pumpWidget(
-        ChartWidget(chartData: setupEmptyChartData()));
-    expect(find.byKey(Key("chart_widget_container")),findsOneWidget);
-    expect(find.byKey(Key("chart_widget_custom_paint")),findsNothing);
-    expect(find.byKey(Key("chart_widget_unavailable")),findsOneWidget);
+  testWidgets("Chart widget should not display chart",
+      (WidgetTester tester) async {
+    await tester.pumpWidget(TestHelper.wrapWidgetWithLocalizationApp(
+        ChartWidget(chartData: setupEmptyChartData())));
+    expect(find.byKey(Key("chart_widget_container")), findsOneWidget);
+    expect(find.byKey(Key("chart_widget_custom_paint")), findsNothing);
+    expect(find.byKey(Key("chart_widget_unavailable")), findsOneWidget);
   });
-
-
 }
 
-ChartData setupEmptyChartData(){
-  return setupWeatherForecastHolder(1).setupChartData(ChartDataType.rain, 300, 100);
+ChartData setupEmptyChartData() {
+  return setupWeatherForecastHolder(1)
+      .setupChartData(ChartDataType.rain, 300, 100);
 }
 
-ChartData setupChartData(){
-  return setupWeatherForecastHolder(8).setupChartData(ChartDataType.rain, 300, 100);
+ChartData setupChartData() {
+  return setupWeatherForecastHolder(8)
+      .setupChartData(ChartDataType.rain, 300, 100);
 }
-
 
 WeatherForecastHolder setupWeatherForecastHolder(int objectsCount) {
   List<WeatherForecastResponse> forecastList =
-  new List<WeatherForecastResponse>();
+      new List<WeatherForecastResponse>();
 
-  for (int index = 0; index < objectsCount ;index++){
-    DateTime dateTime = DateTime.utc(2019,1,index+1);
+  for (int index = 0; index < objectsCount; index++) {
+    DateTime dateTime = DateTime.utc(2019, 1, index + 1);
     forecastList.add(buildForecastResponseForDateTime(dateTime));
   }
 
@@ -54,12 +57,12 @@ WeatherForecastHolder setupWeatherForecastHolder(int objectsCount) {
   City city = City(0, null);
 
   WeatherForecastHolder holder =
-  new WeatherForecastHolder(forecastList, city, system);
+      new WeatherForecastHolder(forecastList, city, system);
 
   return holder;
 }
 
-WeatherForecastResponse buildForecastResponseForDateTime(DateTime dateTime){
+WeatherForecastResponse buildForecastResponseForDateTime(DateTime dateTime) {
   Wind wind = new Wind(5, 200);
   MainWeatherData mainWeatherData = MainWeatherData(0, 0, 0, 0, 0, 0, 0);
   OverallWeatherData overallWeatherData = OverallWeatherData(0, "", "", "");
@@ -70,4 +73,3 @@ WeatherForecastResponse buildForecastResponseForDateTime(DateTime dateTime){
   return new WeatherForecastResponse(
       mainWeatherData, list, null, wind, dateTime, rain, snow);
 }
-
