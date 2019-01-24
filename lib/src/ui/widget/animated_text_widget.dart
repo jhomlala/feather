@@ -1,37 +1,25 @@
+import 'package:feather/src/ui/screen/base/animated_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class AnimatedTextWidget extends StatefulWidget{
+class AnimatedTextWidget extends StatefulWidget {
   final String textBefore;
   final double maxValue;
 
-
-  AnimatedTextWidget({this.textBefore, this.maxValue, Key key}): super(key:key);
+  AnimatedTextWidget({this.textBefore, this.maxValue, Key key})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _AnimatedTextWidgetState();
-
 }
 
-class _AnimatedTextWidgetState extends State<AnimatedTextWidget> with TickerProviderStateMixin{
-  Animation<double> _animation;
-  AnimationController _controller;
+class _AnimatedTextWidgetState extends AnimatedState<AnimatedTextWidget> {
   double _value = 0;
+
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-        duration: Duration(milliseconds: 2000), vsync: this);
-    final Animation curve =
-    CurvedAnimation(parent: _controller, curve: Curves.easeInOut);
-    _animation = Tween(begin: 0.0, end: widget.maxValue).animate(curve)
-      ..addListener(() {
-        setState(() {
-         _value = _animation.value;
-        });
-      });
-
-    _controller.forward();
+    animateTween(start: 0, end: widget.maxValue, duration: 2000);
   }
 
   @override
@@ -43,10 +31,15 @@ class _AnimatedTextWidgetState extends State<AnimatedTextWidget> with TickerProv
     );
   }
 
-
   @override
   void dispose() {
-    _controller.dispose();
     super.dispose();
+  }
+
+  @override
+  void onAnimatedValue(double value) {
+    setState(() {
+      _value = value;
+    });
   }
 }

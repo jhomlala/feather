@@ -43,14 +43,20 @@ class WeatherForecastThumbnailListWidgetState
           if (snapshot.hasData) {
             if (snapshot.data.errorCode != null) {
               return WidgetHelper.buildErrorWidget(
-                  context,
-                  snapshot.data.errorCode,
-                  () => bloc.fetchWeatherForecastForUserLocation());
+                  context: context,
+                  applicationError: snapshot.data.errorCode,
+                  voidCallback: () =>
+                      bloc.fetchWeatherForecastForUserLocation(),
+                  withRetryButton: false);
             }
             return buildForecastWeatherContainer(snapshot);
           } else if (snapshot.hasError) {
-            return WidgetHelper.buildErrorWidget(context, snapshot.error,
-                () => bloc.fetchWeatherForecastForUserLocation());
+            return WidgetHelper.buildErrorWidget(
+                context: context,
+                applicationError: snapshot.error,
+                voidCallback: () =>
+                    bloc.fetchWeatherForecastForUserLocation(),
+                withRetryButton: false);
           }
           return WidgetHelper.buildProgressIndicator();
         });
@@ -79,8 +85,8 @@ class WeatherForecastThumbnailListWidgetState
     return forecastWidgets;
   }
 
-  _fetchWeatherForecast(){
-    if (bloc.shouldFetchWeatherForecast()){
+  _fetchWeatherForecast() {
+    if (bloc.shouldFetchWeatherForecast()) {
       bloc.fetchWeatherForecastForUserLocation();
     }
   }
