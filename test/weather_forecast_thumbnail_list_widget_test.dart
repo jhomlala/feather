@@ -33,7 +33,7 @@ main() {
     await tester.pumpWidget(WeatherForecastThumbnailListWidget());
   });
 
-  testWidgets("Weather forecast thumbnail list widget show display widgets",
+  testWidgets("Weather forecast thumbnail list widget show widgets",
       (WidgetTester tester) async {
     await tester.runAsync(() async {
       WeatherForecastListResponse response = setupWeatherForecastResponse();
@@ -42,7 +42,7 @@ main() {
       await tester.pump(new Duration(seconds: 5));
       WeatherForecastThumbnailListWidget widget =
           WeatherForecastThumbnailListWidget();
-      await tester.pumpWidget(widget);
+      await tester.pumpWidget(TestHelper.wrapWidgetWithLocalizationApp(widget));
       expect(find.byKey(Key("progress_indicator")), findsOneWidget);
       await tester.idle();
       await tester.pump(new Duration(seconds: 10));
