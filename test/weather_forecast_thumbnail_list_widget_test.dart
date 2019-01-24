@@ -30,7 +30,7 @@ main() {
       await tester.pump(new Duration(seconds: 5));
       expect(find.byKey(Key("error_widget")), findsOneWidget);
     });
-    await tester.pumpWidget(WeatherForecastThumbnailListWidget());
+    //await tester.pumpWidget(WeatherForecastThumbnailListWidget());
   });
 
   testWidgets("Weather forecast thumbnail list widget show widgets",

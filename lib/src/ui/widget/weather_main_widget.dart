@@ -41,15 +41,19 @@ class WeatherMainWidgetState extends State<WeatherMainWidget> {
         if (snapshot.hasData) {
           if (snapshot.data.errorCode != null) {
             return WidgetHelper.buildErrorWidget(
-                context,
-                snapshot.data.errorCode,
-                () => bloc.fetchWeatherForUserLocation());
+                context: context,
+                applicationError: snapshot.data.errorCode,
+                voidCallback: () => bloc.fetchWeatherForUserLocation(),
+                withRetryButton: true);
           }
           _logger.fine("Build weather container");
           return buildWeatherContainer(snapshot);
         } else if (snapshot.hasError) {
-          return WidgetHelper.buildErrorWidget(context, snapshot.error,
-              () => bloc.fetchWeatherForUserLocation());
+          return WidgetHelper.buildErrorWidget(
+              context: context,
+              applicationError: snapshot.error,
+              voidCallback: () => bloc.fetchWeatherForUserLocation(),
+              withRetryButton: true);
         }
         return WidgetHelper.buildProgressIndicator();
       },
@@ -110,7 +114,8 @@ class WeatherMainWidgetState extends State<WeatherMainWidget> {
                         pagination: SwiperPagination(
                             builder: new DotSwiperPaginationBuilder(
                                 color: ApplicationColors.swiperInactiveDotColor,
-                                activeColor: ApplicationColors.swiperActiveDotColor)),
+                                activeColor:
+                                    ApplicationColors.swiperActiveDotColor)),
                       ))
                 ]))));
   }

@@ -18,9 +18,8 @@ main() {
       bloc.weatherSubject.sink
           .add(WeatherResponse.withErrorCode(ApplicationError.apiError));
       await tester.pump(new Duration(seconds: 5));
-      WeatherMainWidget widget = WeatherMainWidget();
-
-      await tester.pumpWidget(TestHelper.wrapWidgetWithLocalizationApp(widget));
+      await tester.pumpWidget(TestHelper.wrapWidgetWithLocalizationApp(WeatherMainWidget()));
+      await tester.idle();
       expect(find.byKey(Key("progress_indicator")), findsOneWidget);
       await tester.idle();
       await tester.pump(new Duration(seconds: 5));
@@ -33,8 +32,7 @@ main() {
         await tester.runAsync(() async {
           bloc.weatherSubject.sink.add(setupWeatherResponse());
           await tester.pump(new Duration(seconds: 5));
-          WeatherMainWidget widget = WeatherMainWidget();
-          await tester.pumpWidget(widget);
+          await tester.pumpWidget(TestHelper.wrapWidgetWithLocalizationApp(WeatherMainWidget()));
           expect(find.byKey(Key("progress_indicator")), findsOneWidget);
           await tester.idle();
           await tester.pump(new Duration(seconds: 5));

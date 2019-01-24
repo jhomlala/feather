@@ -38,8 +38,11 @@ class WidgetHelper {
         ));
   }
 
-  static Widget buildErrorWidget(BuildContext context,
-      ApplicationError applicationError, VoidCallback voidCallback) {
+  static Widget buildErrorWidget(
+      {BuildContext context,
+      ApplicationError applicationError,
+      VoidCallback voidCallback,
+      bool withRetryButton}) {
     String errorText = "";
     ApplicationLocalization localization = ApplicationLocalization.of(context);
     if (applicationError == ApplicationError.locationNotSelectedError) {
@@ -51,6 +54,20 @@ class WidgetHelper {
     } else {
       errorText = localization.getText("error_unknown");
     }
+    List<Widget> widgets = new List();
+    widgets.add(Text(
+      errorText,
+      textDirection: TextDirection.ltr,
+      textAlign: TextAlign.center,
+    ));
+    if (withRetryButton) {
+      widgets.add(FlatButton(
+        child: Text(ApplicationLocalization.of(context).getText("retry"),
+            style: Theme.of(context).textTheme.subtitle),
+        onPressed: voidCallback,
+      ));
+    }
+
     return Directionality(
         textDirection: TextDirection.ltr,
         child: Center(
@@ -58,21 +75,8 @@ class WidgetHelper {
             child: SizedBox(
                 width: 250,
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      errorText,
-                      textDirection: TextDirection.ltr,
-                      textAlign: TextAlign.center,
-                    ),
-                    FlatButton(
-                      child: Text(
-                          ApplicationLocalization.of(context).getText("retry"),
-                          style: Theme.of(context).textTheme.subtitle),
-                      onPressed: voidCallback,
-                    )
-                  ],
-                ))));
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: widgets))));
   }
 
   static LinearGradient buildGradientBasedOnDayCycle(int sunrise, int sunset) {
