@@ -15,7 +15,7 @@ Beautiful Flutter weather application. Entirely written in Dart and Flutter. App
 :heavy_check_mark: Works offline (user need to download data before)  
 :heavy_check_mark: Automatically refresh data every 15 minutes  
 :heavy_check_mark: I18n support (currently PL and EN)  
-:heavy_check_mark: Bloc architecture  
+:heavy_check_mark: Bloc architecture, Dio and RxDart libs  
 :heavy_check_mark: Unit and widget tests    
 :heavy_check_mark: Travis CI and Bitrise  
 
@@ -23,7 +23,8 @@ Beautiful Flutter weather application. Entirely written in Dart and Flutter. App
 ## :construction_worker: To do
 - Write more tests  
 - Code refactor  
-- Better animation handling  
+- Better animation handling 
+- Documentation
 
 ### :camera: Screenshots 
 Day mode         |  Night mode
