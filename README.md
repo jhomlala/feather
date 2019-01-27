@@ -81,3 +81,7 @@ Night mode
   </tr>
   
 </table>
+
+## :cloud: Credits
+API: OpenWeatherAPI  
+Icons: Icons8  
