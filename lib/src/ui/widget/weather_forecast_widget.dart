@@ -47,7 +47,8 @@ class WeatherForecastWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-        child: Directionality(
+        child: new SingleChildScrollView(
+            child: Directionality(
       textDirection: TextDirection.ltr,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -84,6 +85,6 @@ class WeatherForecastWidget extends StatelessWidget {
               ))
         ],
       ),
-    ));
+    )));
   }
 }
