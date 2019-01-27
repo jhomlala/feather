@@ -100,13 +100,14 @@ class _ChartPainter extends CustomPainter {
     Paint paint = _getLinePaint(Colors.white);
     _drawAxes(canvas);
 
-    int pointsFraction = (points.length * fraction).floor();
-    double lastLineFraction = fraction - pointsFraction * (1 / points.length);
-    double lastLineFractionPercentage = lastLineFraction / (1 / points.length);
+    double fractionLinePerPoint = 1/points.length;
+    int pointsFraction = (points.length * fraction).ceil();
+    double lastLineFraction = fraction - (pointsFraction - 1) * fractionLinePerPoint;
+    double lastLineFractionPercentage = lastLineFraction / (1/points.length);
 
-    for (int index = 0; index < pointsFraction - 1; index++) {
+    for (int index = 0;index<pointsFraction-1;index++){
       Offset textOffset = Offset(points[index].x - 5, points[index].y - 15);
-      if (index == pointsFraction - 2 && lastLineFraction != 0) {
+      if (index == pointsFraction - 2){
         Point startPoint = points[index];
         Point endPoint = points[index + 1];
         Offset startOffset = _getOffsetFromPoint(startPoint);
@@ -118,8 +119,8 @@ class _ChartPainter extends CustomPainter {
             startPoint.x + diffX * lastLineFractionPercentage,
             startPoint.y + diffY * lastLineFractionPercentage);
         canvas.drawLine(startOffset, endOffset, paint);
-        _drawText(canvas, textOffset, pointLabels[index],
-            lastLineFractionPercentage, true);
+        _drawText(canvas, textOffset, pointLabels[index+1], lastLineFractionPercentage, true);
+
       } else {
         canvas.drawLine(_getOffsetFromPoint(points[index]),
             _getOffsetFromPoint(points[index + 1]), paint);
@@ -152,21 +153,17 @@ class _ChartPainter extends CustomPainter {
           letterSpacing: 0,
           shadows: [
             Shadow(
-                // bottomLeft
                 offset: Offset(-1.0, -1.0),
-                color: Colors.black38),
+                color: Colors.black),
             Shadow(
-                // bottomRight
                 offset: Offset(1.0, -1.0),
-                color: Colors.black38),
+                color: Colors.black),
             Shadow(
-                // topRight
                 offset: Offset(1.0, 1.0),
-                color: Colors.black38),
+                color: Colors.black),
             Shadow(
-                // topLeft
                 offset: Offset(-1.0, 1.0),
-                color: Colors.black38),
+                color: Colors.black),
           ]);
     } else {
       return new TextStyle(color: color, fontSize: 10, letterSpacing: 0);
