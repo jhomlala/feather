@@ -2,6 +2,7 @@ import 'package:feather/src/models/internal/chart_data.dart';
 import 'package:feather/src/models/internal/chart_line.dart';
 import 'package:feather/src/models/internal/point.dart';
 import 'package:feather/src/resources/application_localization.dart';
+import 'package:feather/src/ui/screen/base/animated_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:logging/logging.dart';
@@ -15,27 +16,13 @@ class ChartWidget extends StatefulWidget {
   State<StatefulWidget> createState() => _ChartWidgetState();
 }
 
-class _ChartWidgetState extends State<ChartWidget>
-    with SingleTickerProviderStateMixin {
+class _ChartWidgetState extends AnimatedState<ChartWidget>{
   double _fraction = 0.0;
-  Animation<double> animation;
-  AnimationController controller;
 
   @override
   void initState() {
     super.initState();
-    super.initState();
-    controller = AnimationController(
-        duration: Duration(milliseconds: 1000), vsync: this);
-
-    animation = Tween(begin: 0.0, end: 1.0).animate(controller)
-      ..addListener(() {
-        setState(() {
-          _fraction = animation.value;
-        });
-      });
-
-    controller.forward();
+    animateTween(duration: 1000, curve: Curves.linear);
   }
 
   @override
@@ -78,8 +65,14 @@ class _ChartWidgetState extends State<ChartWidget>
 
   @override
   void dispose() {
-    controller.dispose();
     super.dispose();
+  }
+
+  @override
+  void onAnimatedValue(double value) {
+    setState(() {
+      _fraction = value;
+    });
   }
 }
 
