@@ -1,13 +1,8 @@
-import 'dart:math';
-
 import 'package:feather/src/models/internal/chart_data.dart';
-import 'package:feather/src/models/internal/chart_line.dart';
-import 'package:feather/src/models/internal/point.dart';
 import 'package:feather/src/models/remote/city.dart';
 import 'package:feather/src/models/remote/system.dart';
 import 'package:feather/src/models/remote/weather_forecast_response.dart';
 import 'package:feather/src/resources/application_localization.dart';
-import 'package:feather/src/resources/config/dimensions.dart';
 import 'package:feather/src/resources/weather_helper.dart';
 import 'package:flutter/material.dart';
 
@@ -68,7 +63,6 @@ class WeatherForecastHolder {
     _minPressure = _calculateMin(_pressures);
 
     setupDateFormatted(forecastList[0].dateTime);
-
     setupWeatherCode(forecastList);
     _city = city;
     _system = system;
@@ -156,164 +150,14 @@ class WeatherForecastHolder {
 
   ChartData setupChartData(
       ChartDataType chartDataType, double width, double height) {
+    ChartData chartData =
+        ChartData(this, forecastList, chartDataType, width, height);
     if (_chartDataCache.containsKey(chartDataType)) {
       return _chartDataCache[chartDataType];
     }
-    List<double> values = _getChartValues(chartDataType);
-    double averageValue = _getChartAverageValue(chartDataType);
-    List<Point> points = _getPoints(values, averageValue, width, height);
-    List<String> pointsLabel = _getPointLabels(values);
-    List<DateTime> dateTimes = _getDateTimes();
-    String mainAxisText = _getMainAxisText(chartDataType, averageValue);
-    List<ChartLine> axes =
-        _getAxes(points, dateTimes, height, width, mainAxisText);
-    var chartData = ChartData(points, pointsLabel, width, height, axes);
     _chartDataCache[chartDataType] = chartData;
+
     return chartData;
-  }
-
-  List<double> _getChartValues(ChartDataType chartDataType) {
-    List<double> dataSet;
-    switch (chartDataType) {
-      case ChartDataType.temperature:
-        dataSet = _temperatures;
-        break;
-      case ChartDataType.wind:
-        dataSet = _winds;
-        break;
-      case ChartDataType.rain:
-        dataSet = _rains;
-        break;
-      case ChartDataType.pressure:
-        dataSet = _pressures;
-        break;
-    }
-    return dataSet;
-  }
-
-  double _getChartAverageValue(ChartDataType chartDataType) {
-    double averageValue;
-    switch (chartDataType) {
-      case ChartDataType.temperature:
-        averageValue = _averageTemperature;
-        break;
-      case ChartDataType.wind:
-        averageValue = _averageWind;
-        break;
-      case ChartDataType.rain:
-        averageValue = _averageRain;
-        break;
-      case ChartDataType.pressure:
-        averageValue = _averagePressure;
-        break;
-    }
-    return averageValue;
-  }
-
-  List<Point> _getPoints(
-      List<double> values, double averageValue, double width, double height) {
-    List<Point> points = List();
-    double halfHeight = (height - Dimensions.chartPadding) / 2;
-    double widthStep = width / (forecastList.length - 1);
-    double currentX = 0;
-
-    List<double> averageDifferenceValues =
-        _getAverageDifferenceValues(values, averageValue);
-    double maxValue = _getAbsoluteMax(averageDifferenceValues);
-
-    for (double averageDifferenceValue in averageDifferenceValues) {
-      var y = halfHeight - (halfHeight * averageDifferenceValue / maxValue);
-      if (y.isNaN) {
-        y = halfHeight;
-      }
-      points.add(Point(currentX, y));
-      currentX += widthStep;
-    }
-    return points;
-  }
-
-  List<double> _getAverageDifferenceValues(
-      List<double> values, double averageValue) {
-    List<double> calculatedValues = new List();
-    for (double value in values) {
-      calculatedValues.add(value - averageValue);
-    }
-    return calculatedValues;
-  }
-
-  double _getAbsoluteMax(List<double> values) {
-    double maxValue = 0;
-    for (double value in values) {
-      maxValue = max(maxValue, value.abs());
-    }
-    return maxValue;
-  }
-
-  List<String> _getPointLabels(List<double> values) {
-    List<String> points = List();
-    for (double value in values) {
-      points.add(value.toStringAsFixed(1));
-    }
-    return points;
-  }
-
-  List<DateTime> _getDateTimes() {
-    List<DateTime> dateTimes = new List();
-    for (WeatherForecastResponse response in forecastList) {
-      dateTimes.add(response.dateTime);
-    }
-    return dateTimes;
-  }
-
-  List<ChartLine> _getAxes(List<Point> points, List<DateTime> dateTimes,
-      double height, double width, String mainAxisText) {
-    List<ChartLine> list = new List();
-    list.add(ChartLine(
-        mainAxisText,
-        Offset(-25, height / 2 - 15),
-        Offset(-5, (height - Dimensions.chartPadding) / 2),
-        Offset(width + 5, (height - Dimensions.chartPadding) / 2)));
-
-    for (int index = 0; index < points.length; index++) {
-      Point point = points[index];
-      DateTime dateTime = dateTimes[index];
-      list.add(ChartLine(
-          _getPointAxisLabel(dateTime),
-          Offset(point.x - 10, height - 10),
-          Offset(point.x, 0),
-          Offset(point.x, height - 10)));
-    }
-    return list;
-  }
-
-  String _getPointAxisLabel(DateTime dateTime) {
-    int hour = dateTime.hour;
-    String hourText = "";
-    if (hour < 10) {
-      hourText = "0${hour.toString()}";
-    } else {
-      hourText = hour.toString();
-    }
-    return "${hourText.toString()}:00";
-  }
-
-  String _getMainAxisText(ChartDataType chartDataType, double averageValue) {
-    String text;
-    switch (chartDataType) {
-      case ChartDataType.temperature:
-        text = WeatherHelper.formatTemperature(
-            temperature: averageValue, positions: 1, round: false);
-        break;
-      case ChartDataType.wind:
-        text = "${averageValue.toStringAsFixed(1)} km/h";
-        break;
-      case ChartDataType.rain:
-        text = "${averageValue.toStringAsFixed(1)} mm/h";
-        break;
-      case ChartDataType.pressure:
-        text = "${averageValue.toStringAsFixed(0)} hPa";
-    }
-    return text;
   }
 
   List<String> getWindDirectionList() {

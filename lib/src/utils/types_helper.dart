@@ -4,6 +4,9 @@ class TypesHelper {
   static final _logger = new Logger("TypesHelper");
   static double toDouble(num val) {
     try {
+      if (val == null){
+        return 0;
+      }
       if (val is double) {
         return val;
       } else {
