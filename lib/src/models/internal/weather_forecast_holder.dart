@@ -6,6 +6,7 @@ import 'package:feather/src/models/internal/point.dart';
 import 'package:feather/src/models/remote/city.dart';
 import 'package:feather/src/models/remote/system.dart';
 import 'package:feather/src/models/remote/weather_forecast_response.dart';
+import 'package:feather/src/resources/application_localization.dart';
 import 'package:feather/src/resources/config/dimensions.dart';
 import 'package:feather/src/resources/weather_helper.dart';
 import 'package:flutter/material.dart';
@@ -145,11 +146,11 @@ class WeatherForecastHolder {
     _weatherCodeAsset = WeatherHelper.getWeatherIcon(_weatherCode);
   }
 
-  String getLocationName() {
+  String getLocationName(BuildContext context) {
     if (city != null && city.name != null && city.name.length > 0) {
       return city.name;
     } else {
-      return "Your location";
+      return ApplicationLocalization.of(context).getText("your_location");
     }
   }
 

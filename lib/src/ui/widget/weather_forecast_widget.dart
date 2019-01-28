@@ -54,7 +54,7 @@ class WeatherForecastWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         key: Key("weather_forecast_container"),
         children: <Widget>[
-          Text(holder.getLocationName(),
+          Text(holder.getLocationName(context),
               textDirection: TextDirection.ltr,
               key: Key("weather_forecast_location_name"),
               style: Theme.of(context).textTheme.title),

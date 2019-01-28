@@ -32,6 +32,7 @@ class ApplicationLocalization {
       "night": "Noc",
       "chart_unavailable": "Wykres niedostępny",
       "retry": "Spróbuj ponownie",
+      "your_location":"Twoja lokalizacja",
     },
     'en': {
       "error_location_not_selected":
@@ -52,6 +53,7 @@ class ApplicationLocalization {
       "night": "Night",
       "chart_unavailable": "Chart unavailable",
       "retry": "Retry",
+      "your_location":"Your location",
     },
   };
 
