@@ -7,8 +7,8 @@ class Coordinates {
   Coordinates(this.longitude, this.latitude);
 
   Coordinates.fromJson(Map<String, dynamic> json)
-      : longitude = TypesHelper.getDouble(json["lon"]),
-        latitude = TypesHelper.getDouble(json["lat"]);
+      : longitude = TypesHelper.toDouble(json["lon"]),
+        latitude = TypesHelper.toDouble(json["lat"]);
 
   Map<String,dynamic> toJson() => {
     "longitude":longitude,

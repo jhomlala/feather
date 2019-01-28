@@ -1,11 +1,17 @@
+import 'package:logging/logging.dart';
+
 class TypesHelper {
-  static double getDouble(dynamic val) {
-    if (val is double) {
-      return val;
-    } else if (val is int) {
-      return val.toDouble();
-    } else {
-      return val;
+  static final _logger = new Logger("TypesHelper");
+  static double toDouble(num val) {
+    try {
+      if (val is double) {
+        return val;
+      } else {
+        return val.toDouble();
+      }
+    } catch (exc,stackTrace){
+      _logger.warning("Error occured $exc stackTrace: $stackTrace");
+      return 0;
     }
   }
 }

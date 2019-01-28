@@ -6,7 +6,7 @@ class Wind {
 
   Wind(this.speed, this.deg);
 
-  Wind.fromJson(Map<String,dynamic> json): speed = changeToKilometersPerHour(TypesHelper.getDouble(json["speed"])), deg = TypesHelper.getDouble(json["deg"]);
+  Wind.fromJson(Map<String,dynamic> json): speed = changeToKilometersPerHour(TypesHelper.toDouble(json["speed"])), deg = TypesHelper.toDouble(json["deg"]);
 
   Map<String,dynamic> toJson () =>{
     "speed": speed,

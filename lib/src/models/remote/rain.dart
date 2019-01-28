@@ -5,7 +5,7 @@ class Rain{
 
   Rain(this.amount);
 
-  Rain.fromJson(Map<String,dynamic> json): amount = TypesHelper.getDouble(json["3h"]);
+  Rain.fromJson(Map<String,dynamic> json): amount = TypesHelper.toDouble(json["3h"]);
 
   Map<String,dynamic> toJson() => {
     "3h": amount
