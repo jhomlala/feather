@@ -115,7 +115,7 @@ static LinearGradient buildGradientBasedOnDayCycle(int sunrise, int sunset) {
       double percentage = (nowMs - sunriseMs) / (sunsetMs - sunriseMs);
       if(percentage <= 0.2 || percentage >= 0.8) {
         return WidgetHelper.buildGradient(
-          ApplicationColors.twilightStartColor, ApplicationColors.twilightEndColor);
+          ApplicationColors.dawnDuskStartColor, ApplicationColors.dawnDuskEndColor);
       } else if (percentage <= 0.4) {
         return WidgetHelper.buildGradient(
           ApplicationColors.dayStartColor, ApplicationColors.dayEndColor);
