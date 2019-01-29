@@ -10,7 +10,7 @@ class ApplicationColors{
   static final Color twilightStartColor= Colors.indigo;
   static final Color twilightEndColor = Colors.purple;
   static final Color dawnDuskStartColor = Colors.indigo;
-  static final Color dawnDuskEndColod = Colors.pinkAccent;
+  static final Color dawnDuskEndColor = Colors.pinkAccent;
   static final Color morningEveStartColor = Colors.blue.shade700;
   static final Color morningEveEndColor = Colors.pink.shade200;
   static final Color dayStartColor = Colors.blue.shade700;
