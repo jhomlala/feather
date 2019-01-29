@@ -79,16 +79,53 @@ class WidgetHelper {
                     children: widgets))));
   }
 
-  static LinearGradient buildGradientBasedOnDayCycle(int sunrise, int sunset) {
-    int currentTime = DateTime.now().millisecondsSinceEpoch;
+static LinearGradient buildGradientBasedOnDayCycle(int sunrise, int sunset) {
+    DateTime now = new DateTime.now();
+    int nowMs = now.millisecondsSinceEpoch;
     int sunriseMs = sunrise * 1000;
     int sunsetMs = sunset * 1000;
-    if (currentTime > sunriseMs && currentTime < sunsetMs) {
-      return buildGradient(ApplicationColors.dayStartGradientColor,
-          ApplicationColors.dayEndGradientColor);
+
+    if(nowMs < sunriseMs) {
+      int lastMidnight = new DateTime(now.year, now.month, now.day).millisecondsSinceEpoch;
+      double percentage = (sunriseMs - nowMs) / (sunriseMs - lastMidnight);
+      if(percentage >= 0.6) {
+        return WidgetHelper.buildGradient(
+          ApplicationColors.midnightStartColor, ApplicationColors.midnightEndColor);
+      } else if (percentage >= 0.2) {
+        return WidgetHelper.buildGradient(
+          ApplicationColors.nightStartColor, ApplicationColors.nightEndColor);
+      } else {
+        return WidgetHelper.buildGradient(
+          ApplicationColors.twilightStartColor, ApplicationColors.twilightEndColor);
+      }
+    } else if (nowMs > sunsetMs) {
+      int nextMidnight = new DateTime(now.year, now.month, now.day+1).millisecondsSinceEpoch;
+      double percentage = (nowMs - sunsetMs) / (nextMidnight - sunsetMs);
+      if(percentage <= 0.2) {
+        return WidgetHelper.buildGradient(
+          ApplicationColors.twilightStartColor, ApplicationColors.twilightEndColor);
+      } else if (percentage <= 0.6) {
+        return WidgetHelper.buildGradient(
+          ApplicationColors.nightStartColor, ApplicationColors.nightEndColor);
+      } else {
+        return WidgetHelper.buildGradient(
+          ApplicationColors.midnightStartColor, ApplicationColors.midnightEndColor);
+      }
     } else {
-      return buildGradient(ApplicationColors.nightStartGradientColor,
-          ApplicationColors.nightEndGradient);
+      double percentage = (nowMs - sunriseMs) / (sunsetMs - sunriseMs);
+      if(percentage <= 0.2 || percentage >= 0.8) {
+        return WidgetHelper.buildGradient(
+          ApplicationColors.twilightStartColor, ApplicationColors.twilightEndColor);
+      } else if (percentage <= 0.4) {
+        return WidgetHelper.buildGradient(
+          ApplicationColors.dayStartColor, ApplicationColors.dayEndColor);
+      } else if (percentage <= 0.6) {
+        return WidgetHelper.buildGradient(
+          ApplicationColors.middayStartColor, ApplicationColors.middayEndColor);
+      } else {
+        return WidgetHelper.buildGradient(
+          ApplicationColors.dayStartColor, ApplicationColors.dayEndColor);
+      }
     }
   }
 
