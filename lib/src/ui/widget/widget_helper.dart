@@ -132,8 +132,8 @@ static LinearGradient buildGradientBasedOnDayCycle(int sunrise, int sunset) {
   static LinearGradient getGradient({sunriseTime = 0, sunsetTime = 0}) {
     if (sunriseTime == 0 && sunsetTime == 0) {
       return WidgetHelper.buildGradient(
-          ApplicationColors.nightStartGradientColor,
-          ApplicationColors.nightEndGradient);
+          ApplicationColors.midnightStartColor,
+          ApplicationColors.midnightEndColor);
     } else {
       return buildGradientBasedOnDayCycle(sunriseTime, sunsetTime);
     }
