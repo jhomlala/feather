@@ -85,46 +85,58 @@ static LinearGradient buildGradientBasedOnDayCycle(int sunrise, int sunset) {
     int sunriseMs = sunrise * 1000;
     int sunsetMs = sunset * 1000;
 
-    if(nowMs < sunriseMs) {
-      int lastMidnight = new DateTime(now.year, now.month, now.day).millisecondsSinceEpoch;
+    if (nowMs < sunriseMs) {
+      int lastMidnight =
+          new DateTime(now.year, now.month, now.day).millisecondsSinceEpoch;
       double percentage = (sunriseMs - nowMs) / (sunriseMs - lastMidnight);
-      if(percentage >= 0.6) {
-        return WidgetHelper.buildGradient(
-          ApplicationColors.midnightStartColor, ApplicationColors.midnightEndColor);
+      if (percentage >= 0.6) {
+        return WidgetHelper.buildGradient(ApplicationColors.midnightStartColor,
+            ApplicationColors.midnightEndColor);
       } else if (percentage >= 0.2) {
         return WidgetHelper.buildGradient(
-          ApplicationColors.nightStartColor, ApplicationColors.nightEndColor);
+            ApplicationColors.nightStartColor, ApplicationColors.nightEndColor);
+      } else if (percentage >= 0.1) {
+        return WidgetHelper.buildGradient(ApplicationColors.twilightStartColor,
+            ApplicationColors.twilightEndColor);
       } else {
-        return WidgetHelper.buildGradient(
-          ApplicationColors.twilightStartColor, ApplicationColors.twilightEndColor);
+        return WidgetHelper.buildGradient(ApplicationColors.dawnDuskStartColor,
+            ApplicationColors.dawnDuskEndColor);
       }
     } else if (nowMs > sunsetMs) {
-      int nextMidnight = new DateTime(now.year, now.month, now.day+1).millisecondsSinceEpoch;
+      int nextMidnight =
+          new DateTime(now.year, now.month, now.day + 1).millisecondsSinceEpoch;
       double percentage = (nowMs - sunsetMs) / (nextMidnight - sunsetMs);
-      if(percentage <= 0.2) {
-        return WidgetHelper.buildGradient(
-          ApplicationColors.twilightStartColor, ApplicationColors.twilightEndColor);
+      if (percentage <= 0.1) {
+        return WidgetHelper.buildGradient(ApplicationColors.dawnDuskStartColor,
+            ApplicationColors.dawnDuskEndColor);
+      } else if (percentage <= 0.2) {
+        return WidgetHelper.buildGradient(ApplicationColors.twilightStartColor,
+            ApplicationColors.twilightEndColor);
       } else if (percentage <= 0.6) {
         return WidgetHelper.buildGradient(
-          ApplicationColors.nightStartColor, ApplicationColors.nightEndColor);
+            ApplicationColors.nightStartColor, ApplicationColors.nightEndColor);
       } else {
-        return WidgetHelper.buildGradient(
-          ApplicationColors.midnightStartColor, ApplicationColors.midnightEndColor);
+        return WidgetHelper.buildGradient(ApplicationColors.midnightStartColor,
+            ApplicationColors.midnightEndColor);
       }
     } else {
       double percentage = (nowMs - sunriseMs) / (sunsetMs - sunriseMs);
-      if(percentage <= 0.2 || percentage >= 0.8) {
+      if (percentage <= 0.1 || percentage >= 0.9) {
+        return WidgetHelper.buildGradient(ApplicationColors.dawnDuskStartColor,
+            ApplicationColors.dawnDuskEndColor);
+      } else if (percentage <= 0.2 || percentage >= 0.8) {
         return WidgetHelper.buildGradient(
-          ApplicationColors.dawnDuskStartColor, ApplicationColors.dawnDuskEndColor);
+            ApplicationColors.morningEveStartColor,
+            ApplicationColors.morningEveEndColor);
       } else if (percentage <= 0.4) {
         return WidgetHelper.buildGradient(
-          ApplicationColors.dayStartColor, ApplicationColors.dayEndColor);
+            ApplicationColors.dayStartColor, ApplicationColors.dayEndColor);
       } else if (percentage <= 0.6) {
-        return WidgetHelper.buildGradient(
-          ApplicationColors.middayStartColor, ApplicationColors.middayEndColor);
+        return WidgetHelper.buildGradient(ApplicationColors.middayStartColor,
+            ApplicationColors.middayEndColor);
       } else {
         return WidgetHelper.buildGradient(
-          ApplicationColors.dayStartColor, ApplicationColors.dayEndColor);
+            ApplicationColors.dayStartColor, ApplicationColors.dayEndColor);
       }
     }
   }
