@@ -12,8 +12,8 @@ class WeatherMainScreen extends StatelessWidget {
             key: Key("weather_main_screen_container"),
             decoration: BoxDecoration(
                 gradient: WidgetHelper.buildGradient(
-                    ApplicationColors.nightStartGradientColor,
-                    ApplicationColors.nightEndGradient)),
+                    ApplicationColors.nightStartColor,
+                    ApplicationColors.nightEndColor)),
             child: WeatherMainWidget()));
   }
 }
