@@ -98,41 +98,31 @@ static LinearGradient buildGradientBasedOnDayCycle(int sunrise, int sunset) {
 
   static LinearGradient getNightGradient(double percentage) {
     if (percentage <= 0.1) {
-        return WidgetHelper.buildGradient(ApplicationColors.dawnDuskStartColor,
-            ApplicationColors.dawnDuskEndColor);
+        return buildGradient(ApplicationColors.dawnDuskStartColor, ApplicationColors.dawnDuskEndColor);
       } else if (percentage <= 0.2) {
-        return WidgetHelper.buildGradient(ApplicationColors.twilightStartColor,
-            ApplicationColors.twilightEndColor);
+        return buildGradient(ApplicationColors.twilightStartColor, ApplicationColors.twilightEndColor);
       } else if (percentage <= 0.6) {
-        return WidgetHelper.buildGradient(
-            ApplicationColors.nightStartColor, ApplicationColors.nightEndColor);
+        return buildGradient(ApplicationColors.nightStartColor, ApplicationColors.nightEndColor);
       } else {
-        return WidgetHelper.buildGradient(ApplicationColors.midnightStartColor,
-            ApplicationColors.midnightEndColor);
+        return buildGradient(ApplicationColors.midnightStartColor, ApplicationColors.midnightEndColor);
       }
   }
 
   static LinearGradient getDayGradient(double percentage) {
     if (percentage <= 0.1 || percentage >= 0.9) {
-      return WidgetHelper.buildGradient(ApplicationColors.dawnDuskStartColor,
-          ApplicationColors.dawnDuskEndColor);
+      return buildGradient(ApplicationColors.dawnDuskStartColor, ApplicationColors.dawnDuskEndColor);
     } else if (percentage <= 0.2 || percentage >= 0.8) {
-      return WidgetHelper.buildGradient(ApplicationColors.morningEveStartColor,
-          ApplicationColors.morningEveEndColor);
+      return buildGradient(ApplicationColors.morningEveStartColor, ApplicationColors.morningEveEndColor);
     } else if (percentage <= 0.4 || percentage >= 0.6) {
-      return WidgetHelper.buildGradient(
-          ApplicationColors.dayStartColor, ApplicationColors.dayEndColor);
+      return buildGradient(ApplicationColors.dayStartColor, ApplicationColors.dayEndColor);
     } else {
-      return WidgetHelper.buildGradient(
-          ApplicationColors.middayStartColor, ApplicationColors.middayEndColor);
+      return buildGradient(ApplicationColors.middayStartColor, ApplicationColors.middayEndColor);
     }
   }
 
   static LinearGradient getGradient({sunriseTime = 0, sunsetTime = 0}) {
     if (sunriseTime == 0 && sunsetTime == 0) {
-      return WidgetHelper.buildGradient(
-          ApplicationColors.midnightStartColor,
-          ApplicationColors.midnightEndColor);
+      return buildGradient(ApplicationColors.midnightStartColor, ApplicationColors.midnightEndColor);
     } else {
       return buildGradientBasedOnDayCycle(sunriseTime, sunsetTime);
     }
