@@ -15,6 +15,7 @@ class WeatherForecastScreen extends StatelessWidget {
         sunriseTime: _holder.system.sunrise, sunsetTime: _holder.system.sunset);
 
     return Scaffold(
+        resizeToAvoidBottomPadding: false,
         appBar: PreferredSize(
             preferredSize: Size.fromHeight(30),
             child: AppBar(

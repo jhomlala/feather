@@ -9,10 +9,14 @@ import 'package:logging/logging.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
+
+  MyApp(){
     SystemChrome.setEnabledSystemUIOverlays([]);
     _configureLogger();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return MaterialApp(
       home: WeatherMainScreen(),
       debugShowCheckedModeBanner: false,

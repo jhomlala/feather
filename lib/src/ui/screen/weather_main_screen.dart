@@ -7,6 +7,7 @@ class WeatherMainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomPadding: false,
         body: Container(
             key: Key("weather_main_screen_container"),
             decoration: BoxDecoration(
