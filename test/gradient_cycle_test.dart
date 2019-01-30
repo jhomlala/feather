@@ -127,7 +127,7 @@ void main() {
   });
 
   test('testing night after sunset gradient', () {
-    // Test < 0.6 for
+    // Test < 0.6 for night
     expect(testGradientCycle(20, 0), buildGradient(ApplicationColors.nightStartColor, ApplicationColors.nightEndColor));
   });
 
