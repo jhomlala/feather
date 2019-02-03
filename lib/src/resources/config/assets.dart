@@ -10,4 +10,5 @@ class Assets {
   static final String iconWind = "assets/icon_wind.png";
   static final String iconThermometer = "assets/icon_thermometer.png";
   static final String iconBarometer = "assets/icon_barometer.png";
+  static final String iconLogo = "assets/icon_logo.png";
 }
