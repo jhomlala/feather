@@ -28,7 +28,7 @@ Beautiful Flutter weather application. Entirely written in Dart and Flutter. App
 
 ### :camera: Screenshots 
 <p align="center">
-<img src="https://github.com/jhomlala/catcher/blob/master/media/video.gif">
+<img src="https://github.com/jhomlala/feather/blob/master/media/video.gif" width="250px">
 </p>
 
 Day mode
