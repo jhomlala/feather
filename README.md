@@ -1,3 +1,7 @@
+<p align="center">
+<img src="https://github.com/jhomlala/feather/blob/master/media/logo.png" width="250px">
+</p>
+
 # :sunny: Feather
 [![Build Status](https://travis-ci.org/jhomlala/feather.svg?branch=master)](https://travis-ci.org/jhomlala/feather)  [![Build Status](https://app.bitrise.io/app/555fd3365953cd2f.svg?token=nPJStq5nJhmQDlgdtIzSqw)](https://github.com/jhomlala/feather)  
 Beautiful Flutter weather application. Entirely written in Dart and Flutter. Application is ready for Android and iOS.
@@ -10,10 +14,10 @@ Beautiful Flutter weather application. Entirely written in Dart and Flutter. App
 <table>
   <tr>
     <td>
-  <img width="250px" src="https://github.com/jhomlala/feather/blob/master/media/1.png">
+  <img width="250px" src="https://github.com/jhomlala/feather/blob/master/media/2.png">
     </td>
     <td>
-       <img width="250px" src="https://github.com/jhomlala/feather/blob/master/media/2.png">
+       <img width="250px" src="https://github.com/jhomlala/feather/blob/master/media/1.png">
     </td>
     <td>
        <img width="250px" src="https://github.com/jhomlala/feather/blob/master/media/3.png">
@@ -54,7 +58,7 @@ Beautiful Flutter weather application. Entirely written in Dart and Flutter. App
 :heavy_check_mark: Weather forecast for 5 days  (temperature, wind, rain and pressure)  
 :heavy_check_mark: Custom-written chart with animation  
 :heavy_check_mark: Sun/moon animation  
-:heavy_check_mark: App background based on day cycle
+:heavy_check_mark: App background based on day cycle  
 :heavy_check_mark: Automatically picks user location (also error handling when location can't be selected!)   
 :heavy_check_mark: Persist location and weather data in local storage  
 :heavy_check_mark: Works offline (user need to download data before)  
