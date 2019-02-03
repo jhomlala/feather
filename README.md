@@ -27,30 +27,30 @@ Beautiful Flutter weather application. Entirely written in Dart and Flutter. App
 - Documentation
 
 ### :camera: Screenshots 
-Day mode         |  Night mode
-:-------------------------:|:-------------------------:
-<img width="250px" src="https://github.com/jhomlala/feather/blob/master/screenshots/feather2.gif">  |  <img width="250px" src="https://github.com/jhomlala/feather/blob/master/screenshots/feather.gif">
+<p align="center">
+<img src="https://github.com/jhomlala/catcher/blob/master/media/video.gif">
+</p>
 
 Day mode
 <table>
   <tr>
     <td>
-  <img width="250px" src="https://github.com/jhomlala/feather/blob/master/screenshots/1.png">
+  <img width="250px" src="https://github.com/jhomlala/feather/blob/master/media/1.png">
     </td>
     <td>
-       <img width="250px" src="https://github.com/jhomlala/feather/blob/master/screenshots/2.png">
+       <img width="250px" src="https://github.com/jhomlala/feather/blob/master/media/2.png">
     </td>
     <td>
-       <img width="250px" src="https://github.com/jhomlala/feather/blob/master/screenshots/3.png">
+       <img width="250px" src="https://github.com/jhomlala/feather/blob/master/media/3.png">
     </td>
     <td>
-       <img width="250px" src="https://github.com/jhomlala/feather/blob/master/screenshots/4.png">
+       <img width="250px" src="https://github.com/jhomlala/feather/blob/master/media/4.png">
     </td>
      <td>
-       <img width="250px" src="https://github.com/jhomlala/feather/blob/master/screenshots/5.png">
+       <img width="250px" src="https://github.com/jhomlala/feather/blob/master/media/5.png">
     </td>
     <td>
-       <img width="250px" src="https://github.com/jhomlala/feather/blob/master/screenshots/6.png">
+       <img width="250px" src="https://github.com/jhomlala/feather/blob/master/media/6.png">
     </td>
   </tr>
   
@@ -61,22 +61,22 @@ Night mode
 <table>
   <tr>
     <td>
-  <img width="250px" src="https://github.com/jhomlala/feather/blob/master/screenshots/7.png">
+  <img width="250px" src="https://github.com/jhomlala/feather/blob/master/media/7.png">
     </td>
     <td>
-       <img width="250px" src="https://github.com/jhomlala/feather/blob/master/screenshots/8.png">
+       <img width="250px" src="https://github.com/jhomlala/feather/blob/master/media/8.png">
     </td>
     <td>
-       <img width="250px" src="https://github.com/jhomlala/feather/blob/master/screenshots/9.png">
+       <img width="250px" src="https://github.com/jhomlala/feather/blob/master/media/9.png">
     </td>
     <td>
-       <img width="250px" src="https://github.com/jhomlala/feather/blob/master/screenshots/10.png">
+       <img width="250px" src="https://github.com/jhomlala/feather/blob/master/media/10.png">
     </td>
      <td>
-       <img width="250px" src="https://github.com/jhomlala/feather/blob/master/screenshots/11.png">
+       <img width="250px" src="https://github.com/jhomlala/feather/blob/master/media/11.png">
     </td>
          <td>
-       <img width="250px" src="https://github.com/jhomlala/feather/blob/master/screenshots/12.png">
+       <img width="250px" src="https://github.com/jhomlala/feather/blob/master/media/12.png">
     </td>
   </tr>
   
