@@ -8,9 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class SunPathWidget extends StatefulWidget {
-  final System system;
+  final int sunrise;
+  final int sunset;
 
-  const SunPathWidget({Key key, this.system}) : super(key: key);
+  const SunPathWidget({Key key, this.sunrise,this.sunset}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _SunPathWidgetState();
@@ -33,7 +34,7 @@ class _SunPathWidgetState extends AnimatedState<SunPathWidget> {
         height: 150,
         child: CustomPaint(
           key: Key("sun_path_widget_custom_paint"),
-          painter: _SunPathPainter(widget.system, _fraction),
+          painter: _SunPathPainter(widget.sunrise,widget.sunset, _fraction),
         ));
   }
 
@@ -51,16 +52,14 @@ class _SunPathWidgetState extends AnimatedState<SunPathWidget> {
 }
 
 class _SunPathPainter extends CustomPainter {
-  final System system;
   final double fraction;
   final double pi = 3.14159;
   final int dayAsMs = 86400000;
   final int sunrise;
   final int sunset;
 
-  _SunPathPainter(this.system, this.fraction)
-      : sunrise = system.sunrise * 1000,
-        sunset = system.sunset * 1000;
+  _SunPathPainter(this.sunrise,this.sunset, this.fraction);
+
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -86,7 +85,7 @@ class _SunPathPainter extends CustomPainter {
 
   Paint _getCirclePaint() {
     Paint circlePaint = Paint();
-    int mode = WeatherHelper.getDayMode(system);
+    int mode = WeatherHelper.getDayModeFromSunriseSunset(sunrise, sunset);
     if (mode == 0) {
       circlePaint..color = Colors.yellow;
     } else {
@@ -97,7 +96,7 @@ class _SunPathPainter extends CustomPainter {
 
   Offset _getPosition(fraction) {
     int now = DateTimeHelper.getCurrentTime();
-    int mode = WeatherHelper.getDayMode(system);
+    int mode = WeatherHelper.getDayModeFromSunriseSunset(sunrise, sunset);
     double difference = 0;
     if (mode == 0) {
       difference = (now - sunrise) / (sunset - sunrise);

@@ -70,6 +70,10 @@ class WeatherHelper {
   static int getDayMode(System system) {
     int sunrise = system.sunrise * 1000;
     int sunset = system.sunset * 1000;
+    return getDayModeFromSunriseSunset(sunrise, sunset);
+  }
+
+  static int getDayModeFromSunriseSunset(int sunrise, int sunset){
     int now = DateTime.now().millisecondsSinceEpoch;
     if (now >= sunrise && now <= sunset) {
       return 0;
