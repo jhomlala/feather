@@ -37,6 +37,7 @@ class WeatherCurrentWidgetState extends AnimatedState<WeatherCurrentWidget> {
 
   @override
   Widget build(BuildContext context) {
+    print("Current unit: " + applicationBloc.unit.toString());
     return buildWeatherContainer(widget.weatherResponse);
   }
 
@@ -59,7 +60,8 @@ class WeatherCurrentWidgetState extends AnimatedState<WeatherCurrentWidget> {
                 ),
                 Text(
                     WeatherHelper.formatTemperature(
-                        temperature: response.mainWeatherData.temp),
+                        temperature: response.mainWeatherData.temp,
+                        metricUnits: applicationBloc.isMetricUnits()),
                     key: Key("weather_current_widget_temperature"),
                     textDirection: TextDirection.ltr,
                     style: Theme.of(context).textTheme.headline),
@@ -83,8 +85,8 @@ class WeatherCurrentWidgetState extends AnimatedState<WeatherCurrentWidget> {
   }
 
   String _getMaxMinTemperatureRow(WeatherResponse weatherResponse) {
-    return "↑ ${WeatherHelper.formatTemperature(temperature: weatherResponse.mainWeatherData.tempMax)}" +
-        "    ↓${WeatherHelper.formatTemperature(temperature: weatherResponse.mainWeatherData.tempMin)}";
+    return "↑ ${WeatherHelper.formatTemperature(temperature: weatherResponse.mainWeatherData.tempMax, metricUnits: applicationBloc.isMetricUnits())}" +
+        "    ↓${WeatherHelper.formatTemperature(temperature: weatherResponse.mainWeatherData.tempMin, metricUnits: applicationBloc.isMetricUnits())}";
   }
 
   String _getPressureAndHumidityRow(WeatherResponse weatherResponse) {

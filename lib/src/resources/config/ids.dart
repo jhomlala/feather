@@ -9,4 +9,5 @@ class Ids{
   static final String storageWeatherForecastKey = "feather_weather_forecast";
   static final String mainWeatherPage = "main_weather_page";
   static final String weatherMainSunPathPage = "weather_main_sun_path_page";
+  static final String storageUnitKey = "feather_unit";
 }

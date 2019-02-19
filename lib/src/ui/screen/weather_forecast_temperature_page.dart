@@ -1,3 +1,4 @@
+import 'package:feather/src/blocs/application_bloc.dart';
 import 'package:feather/src/models/internal/chart_data.dart';
 import 'package:feather/src/models/internal/point.dart';
 import 'package:feather/src/models/internal/weather_forecast_holder.dart';
@@ -57,12 +58,12 @@ class WeatherForecastTemperaturePage extends WeatherForecastBasePage {
           TextSpan(text: 'min ', style: Theme.of(context).textTheme.body2),
           TextSpan(
               text:
-                  "${WeatherHelper.formatTemperature(temperature: holder.minTemperature, positions: 1, round: false)}",
+                  "${WeatherHelper.formatTemperature(temperature: holder.minTemperature, positions: 1, round: false, metricUnits: applicationBloc.isMetricUnits())}",
               style: Theme.of(context).textTheme.subtitle),
           TextSpan(text: '   max ', style: Theme.of(context).textTheme.body2),
           TextSpan(
               text:
-                  "${WeatherHelper.formatTemperature(temperature: holder.maxTemperature, positions: 1, round: false)}",
+                  "${WeatherHelper.formatTemperature(temperature: holder.maxTemperature, positions: 1, round: false, metricUnits: applicationBloc.isMetricUnits())}",
               style: Theme.of(context).textTheme.subtitle)
         ]));
   }

@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'dart:ui';
 
+import 'package:feather/src/blocs/application_bloc.dart';
 import 'package:feather/src/models/internal/chart_line.dart';
 import 'package:feather/src/models/internal/point.dart';
 import 'package:feather/src/models/internal/weather_forecast_holder.dart';
@@ -47,6 +48,9 @@ class ChartData {
     switch (chartDataType) {
       case ChartDataType.temperature:
         dataSet = holder.temperatures;
+        if (!applicationBloc.isMetricUnits()){
+          dataSet = dataSet.map((value) => value * 33.8).toList();
+        }
         break;
       case ChartDataType.wind:
         dataSet = holder.winds;
@@ -67,6 +71,9 @@ class ChartData {
     switch (chartDataType) {
       case ChartDataType.temperature:
         averageValue = holder.averageTemperature;
+        if (!applicationBloc.isMetricUnits()){
+          averageValue = WeatherHelper.convertCelsiusToFahrenheit(averageValue);
+        }
         break;
       case ChartDataType.wind:
         averageValue = holder.averageWind;
@@ -172,8 +179,12 @@ class ChartData {
     String text;
     switch (chartDataType) {
       case ChartDataType.temperature:
+        var temperature = averageValue;
+        if (!applicationBloc.isMetricUnits()){
+          temperature = temperature / 33.8;
+        }
         text = WeatherHelper.formatTemperature(
-            temperature: averageValue, positions: 1, round: false);
+            temperature: temperature, positions: 1, round: false, metricUnits: applicationBloc.isMetricUnits());
         break;
       case ChartDataType.wind:
         text = "${averageValue.toStringAsFixed(1)} km/h";

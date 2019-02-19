@@ -44,26 +44,51 @@ class WeatherHelper {
     return "${dateTime.day.toString()}-${dateTime.month.toString()}-${dateTime.year.toString()}";
   }
 
-  static String formatTemperature({double temperature, int positions = 0, round = true}){
-    if (round){
+  static String formatTemperature(
+      {double temperature,
+      int positions = 0,
+      round = true,
+      metricUnits = true}) {
+   if (metricUnits){
+     return _formatCelsiusTemperature(temperature, positions, round);
+   } else {
+     return _formatFahrenheitTemperature(temperature, positions, round);
+   }
+  }
+
+  static String _formatCelsiusTemperature(double temperature, int positions, bool round){
+    if (round) {
       temperature = temperature.floor().toDouble();
     }
+
     return temperature.toStringAsFixed(positions) + "°C";
   }
 
-  static String formatPressure(double pressure){
+  static String _formatFahrenheitTemperature(double temperature, int positions, bool round ){
+    double temperatureInFahrenheit = convertCelsiusToFahrenheit(temperature);
+    if (round){
+      temperatureInFahrenheit = temperatureInFahrenheit.floor().toDouble();
+    }
+    return temperatureInFahrenheit.toStringAsFixed(positions) + "°F";
+  }
+
+  static double convertCelsiusToFahrenheit(double temperature){
+    return 32 + temperature * 1.8;
+  }
+
+  static String formatPressure(double pressure) {
     return "${pressure.toStringAsFixed(0)} hPa";
   }
 
-  static String formatRain(double rain){
+  static String formatRain(double rain) {
     return "${rain.toStringAsFixed(2)} mm/h";
   }
 
-  static String formatWind(double wind){
+  static String formatWind(double wind) {
     return "${wind.toStringAsFixed(1)} km/h";
   }
 
-  static String formatHumidity(double humidity){
+  static String formatHumidity(double humidity) {
     return "${humidity.toStringAsFixed(0)}%";
   }
 
@@ -73,7 +98,7 @@ class WeatherHelper {
     return getDayModeFromSunriseSunset(sunrise, sunset);
   }
 
-  static int getDayModeFromSunriseSunset(int sunrise, int sunset){
+  static int getDayModeFromSunriseSunset(int sunrise, int sunset) {
     int now = DateTime.now().millisecondsSinceEpoch;
     if (now >= sunrise && now <= sunset) {
       return 0;
@@ -83,8 +108,4 @@ class WeatherHelper {
       return -1;
     }
   }
-
-
-
-
 }

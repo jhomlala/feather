@@ -1,3 +1,4 @@
+import 'package:feather/src/blocs/application_bloc.dart';
 import 'package:feather/src/models/internal/weather_forecast_holder.dart';
 import 'package:feather/src/resources/weather_helper.dart';
 import 'package:feather/src/ui/screen/weather_forecast_screen.dart';
@@ -41,6 +42,7 @@ class WeatherForecastThumbnailWidget extends StatelessWidget {
                         Text(
                             WeatherHelper.formatTemperature(
                                 temperature: _holder.averageTemperature,
+                                metricUnits: applicationBloc.isMetricUnits(),
                                 round: true),
                             key: Key("weather_forecast_thumbnai_temperature"),
                             textDirection: TextDirection.ltr,

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:feather/src/models/internal/geo_position.dart';
+import 'package:feather/src/models/internal/unit.dart';
 import 'package:feather/src/models/remote/weather_forecast_list_response.dart';
 import 'package:feather/src/models/remote/weather_response.dart';
 import 'package:feather/src/resources/config/ids.dart';
@@ -15,6 +16,42 @@ class StorageManager {
 
   factory StorageManager() {
     return _instance;
+  }
+
+  Future<Unit> getUnit() async {
+    try {
+      var sharedPreferences = await SharedPreferences.getInstance();
+      int unit = sharedPreferences.getInt(Ids.storageUnitKey);
+      if (unit == null) {
+        return Unit.metric;
+      } else {
+        if (unit == 0) {
+          return Unit.metric;
+        } else {
+          return Unit.imperial;
+        }
+      }
+    } catch (exc, stackTrace) {
+      _logger.warning("Exception: $exc stack trace: $stackTrace");
+      return Unit.metric;
+    }
+  }
+
+  saveUnit(Unit unit) async {
+    try {
+      var sharedPreferences = await SharedPreferences.getInstance();
+      _logger.log(Level.FINE, "Store unit $unit");
+      int unitValue = 0;
+      if (unit == Unit.metric) {
+        unitValue = 0;
+      } else {
+        unitValue = 1;
+      }
+
+      sharedPreferences.setInt(Ids.storageUnitKey, unitValue);
+    } catch (exc, stackTrace) {
+      _logger.warning("Exception: $exc stack trace: $stackTrace");
+    }
   }
 
   saveLocation(GeoPosition geoPosition) async {
