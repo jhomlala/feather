@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'package:feather/src/blocs/application_bloc.dart';
 import 'package:feather/src/models/remote/system.dart';
 import 'package:feather/src/models/remote/weather_forecast_response.dart';
 import 'package:feather/src/resources/config/assets.dart';
@@ -49,35 +50,49 @@ class WeatherHelper {
       int positions = 0,
       round = true,
       metricUnits = true}) {
-   if (metricUnits){
-     return _formatCelsiusTemperature(temperature, positions, round);
-   } else {
-     return _formatFahrenheitTemperature(temperature, positions, round);
-   }
-  }
+    var unit = "°C";
 
-  static String _formatCelsiusTemperature(double temperature, int positions, bool round){
+    if (!metricUnits) {
+      unit = "°F";
+    }
+
     if (round) {
       temperature = temperature.floor().toDouble();
     }
 
-    return temperature.toStringAsFixed(positions) + "°C";
+    return "${temperature.toStringAsFixed(positions)} $unit";
   }
 
-  static String _formatFahrenheitTemperature(double temperature, int positions, bool round ){
-    double temperatureInFahrenheit = convertCelsiusToFahrenheit(temperature);
-    if (round){
-      temperatureInFahrenheit = temperatureInFahrenheit.floor().toDouble();
-    }
-    return temperatureInFahrenheit.toStringAsFixed(positions) + "°F";
-  }
-
-  static double convertCelsiusToFahrenheit(double temperature){
+  static double convertCelsiusToFahrenheit(double temperature) {
     return 32 + temperature * 1.8;
   }
 
+  static double convertMetersPerSecondToKilometersPerHour(double speed) {
+    if (speed != null) {
+      return speed * 3.6;
+    } else {
+      return 0;
+    }
+  }
+
+  static double convertMetersPerSecondToMilesPerHour(double speed) {
+    if (speed != null) {
+      return speed * 2.236936292;
+    } else {
+      return 0;
+    }
+  }
+
+  static double convertFahrenheitToCelsius(double temperature) {
+    return (temperature - 32) * 0.55;
+  }
+
   static String formatPressure(double pressure) {
-    return "${pressure.toStringAsFixed(0)} hPa";
+    String unit = "hPa";
+    if (!applicationBloc.isMetricUnits()) {
+      unit = "mbar";
+    }
+    return "${pressure.toStringAsFixed(0)} $unit";
   }
 
   static String formatRain(double rain) {
@@ -85,7 +100,11 @@ class WeatherHelper {
   }
 
   static String formatWind(double wind) {
-    return "${wind.toStringAsFixed(1)} km/h";
+    String unit = "km/h";
+    if (!applicationBloc.isMetricUnits()) {
+      unit = "mi/h";
+    }
+    return "${wind.toStringAsFixed(1)} $unit";
   }
 
   static String formatHumidity(double humidity) {

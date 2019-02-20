@@ -42,6 +42,12 @@ class WeatherCurrentWidgetState extends AnimatedState<WeatherCurrentWidget> {
   }
 
   Widget buildWeatherContainer(WeatherResponse response) {
+    var currentTemperature = response.mainWeatherData.temp;
+    if (!applicationBloc.isMetricUnits()) {
+      currentTemperature =
+          WeatherHelper.convertCelsiusToFahrenheit(currentTemperature);
+    }
+
     return FadeTransition(
         opacity: setupAnimation(
             duration: 3000,
@@ -60,7 +66,7 @@ class WeatherCurrentWidgetState extends AnimatedState<WeatherCurrentWidget> {
                 ),
                 Text(
                     WeatherHelper.formatTemperature(
-                        temperature: response.mainWeatherData.temp,
+                        temperature: currentTemperature,
                         metricUnits: applicationBloc.isMetricUnits()),
                     key: Key("weather_current_widget_temperature"),
                     textDirection: TextDirection.ltr,
@@ -85,8 +91,16 @@ class WeatherCurrentWidgetState extends AnimatedState<WeatherCurrentWidget> {
   }
 
   String _getMaxMinTemperatureRow(WeatherResponse weatherResponse) {
-    return "↑ ${WeatherHelper.formatTemperature(temperature: weatherResponse.mainWeatherData.tempMax, metricUnits: applicationBloc.isMetricUnits())}" +
-        "    ↓${WeatherHelper.formatTemperature(temperature: weatherResponse.mainWeatherData.tempMin, metricUnits: applicationBloc.isMetricUnits())}";
+    var maxTemperature = weatherResponse.mainWeatherData.tempMax;
+    var minTemperature = weatherResponse.mainWeatherData.tempMin;
+    if (!applicationBloc.isMetricUnits()){
+      maxTemperature = WeatherHelper.convertCelsiusToFahrenheit(maxTemperature);
+      minTemperature = WeatherHelper.convertCelsiusToFahrenheit(minTemperature);
+    }
+
+
+    return "↑ ${WeatherHelper.formatTemperature(temperature: maxTemperature, metricUnits: applicationBloc.isMetricUnits())}" +
+        "    ↓${WeatherHelper.formatTemperature(temperature: minTemperature, metricUnits: applicationBloc.isMetricUnits())}";
   }
 
   String _getPressureAndHumidityRow(WeatherResponse weatherResponse) {

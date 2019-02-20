@@ -31,7 +31,9 @@ class ChartData {
       ChartDataType chartDataType,
       double width,
       double height) {
+    print("Building chart data for unit: " + applicationBloc.unit.toString());
     List<double> values = _getChartValues(holder, chartDataType);
+    print(chartDataType.toString() + " Values: " + values.toString());
     double averageValue = _getChartAverageValue(holder, chartDataType);
     this._points = _getPoints(values, averageValue, width, height);
     this._pointLabels = _getPointLabels(values);
@@ -49,7 +51,8 @@ class ChartData {
       case ChartDataType.temperature:
         dataSet = holder.temperatures;
         if (!applicationBloc.isMetricUnits()){
-          dataSet = dataSet.map((value) => value * 33.8).toList();
+          print("Using IMPERIAL TEMPERATURE!!");
+          dataSet = dataSet.map( (value) => WeatherHelper.convertCelsiusToFahrenheit(value)).toList();
         }
         break;
       case ChartDataType.wind:
@@ -180,20 +183,20 @@ class ChartData {
     switch (chartDataType) {
       case ChartDataType.temperature:
         var temperature = averageValue;
-        if (!applicationBloc.isMetricUnits()){
-          temperature = temperature / 33.8;
-        }
         text = WeatherHelper.formatTemperature(
-            temperature: temperature, positions: 1, round: false, metricUnits: applicationBloc.isMetricUnits());
+            temperature: temperature,
+            positions: 1,
+            round: false,
+            metricUnits: applicationBloc.isMetricUnits());
         break;
       case ChartDataType.wind:
-        text = "${averageValue.toStringAsFixed(1)} km/h";
+        text = WeatherHelper.formatWind(averageValue);
         break;
       case ChartDataType.rain:
         text = "${averageValue.toStringAsFixed(1)} mm/h";
         break;
       case ChartDataType.pressure:
-        text = "${averageValue.toStringAsFixed(0)} hPa";
+        text = WeatherHelper.formatPressure(averageValue);
     }
     return text;
   }
@@ -207,8 +210,6 @@ class ChartData {
   List<String> get pointLabels => _pointLabels;
 
   List<Point> get points => _points;
-
-
 }
 
 enum ChartDataType { temperature, wind, rain, pressure }

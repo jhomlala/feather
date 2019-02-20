@@ -1,3 +1,4 @@
+import 'package:feather/src/blocs/application_bloc.dart';
 import 'package:feather/src/models/internal/chart_data.dart';
 import 'package:feather/src/models/remote/city.dart';
 import 'package:feather/src/models/remote/system.dart';
@@ -79,7 +80,8 @@ class WeatherForecastHolder {
   List<double> _getWindList() {
     List<double> winds = new List();
     for (WeatherForecastResponse response in forecastList) {
-      winds.add(response.wind.speed);
+      var speed = response.wind.speed;
+      winds.add(speed);
     }
     return winds;
   }
@@ -150,14 +152,7 @@ class WeatherForecastHolder {
 
   ChartData setupChartData(
       ChartDataType chartDataType, double width, double height) {
-    ChartData chartData =
-        ChartData(this, forecastList, chartDataType, width, height);
-    if (_chartDataCache.containsKey(chartDataType)) {
-      return _chartDataCache[chartDataType];
-    }
-    _chartDataCache[chartDataType] = chartData;
-
-    return chartData;
+    return ChartData(this, forecastList, chartDataType, width, height);
   }
 
   List<String> getWindDirectionList() {
