@@ -51,12 +51,16 @@ class ChartData {
       case ChartDataType.temperature:
         dataSet = holder.temperatures;
         if (!applicationBloc.isMetricUnits()){
-          print("Using IMPERIAL TEMPERATURE!!");
           dataSet = dataSet.map( (value) => WeatherHelper.convertCelsiusToFahrenheit(value)).toList();
         }
         break;
       case ChartDataType.wind:
         dataSet = holder.winds;
+        if (applicationBloc.isMetricUnits()){
+          dataSet = dataSet.map((value) => WeatherHelper.convertMetersPerSecondToKilometersPerHour(value)).toList();
+        } else {
+          dataSet = dataSet.map((value) => WeatherHelper.convertMetersPerSecondToMilesPerHour(value)).toList();
+        }
         break;
       case ChartDataType.rain:
         dataSet = holder.rains;
@@ -80,6 +84,11 @@ class ChartData {
         break;
       case ChartDataType.wind:
         averageValue = holder.averageWind;
+        if (applicationBloc.isMetricUnits()){
+          averageValue = WeatherHelper.convertMetersPerSecondToKilometersPerHour(averageValue);
+        } else {
+          averageValue = WeatherHelper.convertMetersPerSecondToMilesPerHour(averageValue);
+        }
         break;
       case ChartDataType.rain:
         averageValue = holder.averageRain;
