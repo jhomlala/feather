@@ -31,7 +31,7 @@ class ChartData {
       ChartDataType chartDataType,
       double width,
       double height) {
-    print("Building chart data for unit: " + applicationBloc.unit.toString());
+
     List<double> values = _getChartValues(holder, chartDataType);
     print(chartDataType.toString() + " Values: " + values.toString());
     double averageValue = _getChartAverageValue(holder, chartDataType);

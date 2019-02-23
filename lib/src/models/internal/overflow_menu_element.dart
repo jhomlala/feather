@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
 
-class OverflowMenuElement {
+class PopupMenuElement {
   final Key key;
   final String title;
 
-  const OverflowMenuElement({this.key,this.title});
+  const PopupMenuElement({this.key,this.title});
 }

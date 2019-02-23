@@ -37,7 +37,6 @@ class WeatherCurrentWidgetState extends AnimatedState<WeatherCurrentWidget> {
 
   @override
   Widget build(BuildContext context) {
-    print("Current unit: " + applicationBloc.unit.toString());
     return buildWeatherContainer(widget.weatherResponse);
   }
 

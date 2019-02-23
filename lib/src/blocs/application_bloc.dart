@@ -5,11 +5,12 @@ import 'package:feather/src/resources/repository/local/application_local_reposit
 class ApplicationBloc extends BaseBloc {
   bool currentWeatherWidgetAnimationState = true;
   final _applicationLocalRepository = ApplicationLocalRepository();
-  var unit =  Unit.metric;
+  Unit unit = Unit.metric;
+  int refreshTime = 600000;
+  int lastRefreshTime = 0;
 
   @override
-  void dispose() {
-  }
+  void dispose() {}
 
   @override
   void handleTimerTimeout() {}
@@ -17,20 +18,36 @@ class ApplicationBloc extends BaseBloc {
   @override
   void setupTimer() {}
 
-
   void loadSavedUnit() async {
     unit = await _applicationLocalRepository.getSavedUnit();
-    print("Loaded unit: "+ unit.toString());
   }
 
   void saveUnit(Unit unit) async {
-    print("Saved unit: " + unit.toString());
     _applicationLocalRepository.saveUnit(unit);
     this.unit = unit;
   }
 
-  bool isMetricUnits(){
+  bool isMetricUnits() {
     return unit == Unit.metric;
+  }
+
+  void saveRefreshTime(int refreshTime) async {
+    this.refreshTime = refreshTime;
+    _applicationLocalRepository.saveRefreshTime(refreshTime);
+  }
+
+  void loadSavedRefreshTime() async {
+    refreshTime = await _applicationLocalRepository.getSavedRefreshTime();
+  }
+
+  void saveLastRefreshTime(int lastRefreshTime) {
+    this.lastRefreshTime = lastRefreshTime;
+    _applicationLocalRepository.saveLastRefreshTime(lastRefreshTime);
+  }
+
+  void loadLastRefreshTime() async {
+    this.lastRefreshTime =
+        await _applicationLocalRepository.getLastRefreshTime();
   }
 }
 

@@ -41,8 +41,8 @@ class WeatherForecastScreen extends StatelessWidget {
                       data: Theme.of(context).copyWith(
                         cardColor: ApplicationColors.nightStartColor,
                       ),
-                      child: PopupMenuButton<OverflowMenuElement>(
-                        onSelected: (OverflowMenuElement element) {
+                      child: PopupMenuButton<PopupMenuElement>(
+                        onSelected: (PopupMenuElement element) {
                           _onMenuElementClicked(element, context);
                         },
                         icon: Icon(
@@ -51,8 +51,8 @@ class WeatherForecastScreen extends StatelessWidget {
                         ),
                         itemBuilder: (BuildContext context) {
                           return _getOverflowMenu()
-                              .map((OverflowMenuElement element) {
-                            return PopupMenuItem<OverflowMenuElement>(
+                              .map((PopupMenuElement element) {
+                            return PopupMenuItem<PopupMenuElement>(
                                 value: element,
                                 child: Text(element.title,
                                     style: TextStyle(color: Colors.white)));
@@ -68,8 +68,7 @@ class WeatherForecastScreen extends StatelessWidget {
         ));
   }
 
-  void _onMenuElementClicked(OverflowMenuElement value, BuildContext context) {
-    print("Clicked on " + value.key.toString());
+  void _onMenuElementClicked(PopupMenuElement value, BuildContext context) {
     if (value.key == Key("menu_overflow_settings")) {
       Navigator.push(
         context,
@@ -84,13 +83,13 @@ class WeatherForecastScreen extends StatelessWidget {
     }
   }
 
-  List<OverflowMenuElement> _getOverflowMenu() {
-    List<OverflowMenuElement> menuList = List();
-    menuList.add(OverflowMenuElement(
+  List<PopupMenuElement> _getOverflowMenu() {
+    List<PopupMenuElement> menuList = List();
+    menuList.add(PopupMenuElement(
       key: Key("menu_overflow_settings"),
       title: "Settings",
     ));
-    menuList.add(OverflowMenuElement(
+    menuList.add(PopupMenuElement(
       key: Key("menu_overflow_about"),
       title: "About",
     ));

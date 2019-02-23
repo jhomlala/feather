@@ -5,6 +5,7 @@ import 'package:feather/src/models/internal/unit.dart';
 import 'package:feather/src/models/remote/weather_forecast_list_response.dart';
 import 'package:feather/src/models/remote/weather_response.dart';
 import 'package:feather/src/resources/config/ids.dart';
+import 'package:feather/src/utils/date_time_helper.dart';
 import 'package:logging/logging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -51,6 +52,56 @@ class StorageManager {
       sharedPreferences.setInt(Ids.storageUnitKey, unitValue);
     } catch (exc, stackTrace) {
       _logger.warning("Exception: $exc stack trace: $stackTrace");
+    }
+  }
+
+  void saveRefreshTime(int refreshTime) async {
+    try {
+      var sharedPreferences = await SharedPreferences.getInstance();
+      _logger.log(Level.FINE, "Save refresh time: $refreshTime");
+
+      sharedPreferences.setInt(Ids.storageRefreshTimeKey, refreshTime);
+    } catch (exc, stackTrace) {
+      _logger.warning("Exception: $exc stack trace: $stackTrace");
+    }
+  }
+
+  Future<int> getRefreshTime() async {
+    try {
+      var sharedPreferences = await SharedPreferences.getInstance();
+      int refreshTime = sharedPreferences.getInt(Ids.storageRefreshTimeKey);
+      if (refreshTime == null || refreshTime == 0) {
+        refreshTime = 600000;
+      }
+      return refreshTime;
+    } catch (exc, stackTrace) {
+      _logger.warning("Exception: $exc stack trace: $stackTrace");
+      return 600000;
+    }
+  }
+
+  void saveLastRefreshTime(int lastRefreshTime) async {
+    try {
+      var sharedPreferences = await SharedPreferences.getInstance();
+      _logger.log(Level.FINE, "Save refresh time: $lastRefreshTime");
+      sharedPreferences.setInt(Ids.storageLastRefreshTimeKey, lastRefreshTime);
+    } catch (exc, stackTrace) {
+      _logger.warning("Exception: $exc stack trace: $stackTrace");
+    }
+  }
+
+  Future<int> getLastRefreshTime() async {
+    try {
+      var sharedPreferences = await SharedPreferences.getInstance();
+      int lastRefreshTime =
+          sharedPreferences.getInt(Ids.storageLastRefreshTimeKey);
+      if (lastRefreshTime == null || lastRefreshTime == 0) {
+        lastRefreshTime = DateTimeHelper.getCurrentTime();
+      }
+      return lastRefreshTime;
+    } catch (exc, stackTrace) {
+      _logger.warning("Exception: $exc stack trace: $stackTrace");
+      return DateTimeHelper.getCurrentTime();
     }
   }
 

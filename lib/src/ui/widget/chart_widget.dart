@@ -27,7 +27,6 @@ class _ChartWidgetState extends AnimatedState<ChartWidget>{
 
   @override
   Widget build(BuildContext context) {
-    print("Drawing chart");
 
     Widget chartWidget;
     if (widget.chartData.points.length < 3) {

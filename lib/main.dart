@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
     SystemChrome.setEnabledSystemUIOverlays([]);
     _configureLogger();
     applicationBloc.loadSavedUnit();
+    applicationBloc.loadSavedRefreshTime();
   }
 
   @override
