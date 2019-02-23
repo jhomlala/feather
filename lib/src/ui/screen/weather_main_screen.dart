@@ -1,4 +1,5 @@
 import 'package:feather/src/models/internal/overflow_menu_element.dart';
+import 'package:feather/src/resources/application_localization.dart';
 import 'package:feather/src/resources/config/application_colors.dart';
 import 'package:feather/src/ui/screen/about_screen.dart';
 import 'package:feather/src/ui/screen/settings_screen.dart';
@@ -7,15 +8,16 @@ import 'package:feather/src/ui/widget/widget_helper.dart';
 import 'package:flutter/material.dart';
 
 class WeatherMainScreen extends StatelessWidget {
-  List<PopupMenuElement> _getOverflowMenu() {
+  List<PopupMenuElement> _getOverflowMenu(BuildContext context) {
+    var applicationLocalization = ApplicationLocalization.of(context);
     List<PopupMenuElement> menuList = List();
     menuList.add(PopupMenuElement(
       key: Key("menu_overflow_settings"),
-      title: "Settings",
+      title: applicationLocalization.getText("settings"),
     ));
     menuList.add(PopupMenuElement(
       key: Key("menu_overflow_about"),
-      title: "About",
+      title: applicationLocalization.getText("about"),
     ));
     return menuList;
   }
@@ -53,7 +55,7 @@ class WeatherMainScreen extends StatelessWidget {
                           color: Colors.white,
                         ),
                         itemBuilder: (BuildContext context) {
-                          return _getOverflowMenu()
+                          return _getOverflowMenu(context)
                               .map((PopupMenuElement element) {
                             return PopupMenuItem<PopupMenuElement>(
                                 value: element,

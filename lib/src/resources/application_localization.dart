@@ -32,16 +32,23 @@ class ApplicationLocalization {
       "night": "Noc",
       "chart_unavailable": "Wykres niedostępny",
       "retry": "Spróbuj ponownie",
-      "your_location":"Twoja lokalizacja",
-      "humidity":"Wilgotność",
-      "units":"Jednostki",
-      "metric":"Metryczne",
-      "imprerial":"Imperialne",
+      "your_location": "Twoja lokalizacja",
+      "humidity": "Wilgotność",
+      "units": "Jednostki",
+      "metric": "Metryczne",
+      "imperial": "Imperialne",
       "units_description": "Typ jednostek (metryczne/imperialne)",
-      "refresh_time":"Czas odświeżania",
-      "refresh_time_description":"Interwał pomiędzy kolejnymi zapytaniami do serwisu pogody",
-      "minutes":"minut",
-      "last_refresh_time":"Ostatnie odświeżenie"
+      "refresh_time": "Czas odświeżania",
+      "refresh_time_description":
+          "Interwał pomiędzy kolejnymi zapytaniami do serwisu pogody",
+      "minutes": "minut",
+      "last_refresh_time": "Ostatnie odświeżenie",
+      "settings": "Ustawienia",
+      "about": "O aplikacji",
+      "contributors":"Współtwórcy",
+      "credits":"Podziękowania",
+      "weather_data":"Dane pogodowe: OpenWeatherAPI",
+      "icon_data":"Ikony: Icons8, Freepik/Flaticon"
     },
     'en': {
       "error_location_not_selected":
@@ -62,18 +69,22 @@ class ApplicationLocalization {
       "night": "Night",
       "chart_unavailable": "Chart unavailable",
       "retry": "Retry",
-      "your_location":"Your location",
-      "humidity":"Humidity",
-      "units":"Units",
-      "metric":"Metric",
-      "imperial":"Imperial",
+      "your_location": "Your location",
+      "humidity": "Humidity",
+      "units": "Units",
+      "metric": "Metric",
+      "imperial": "Imperial",
       "units_description": "Type of units (metric/imperial)",
-      "refresh_time":"Refresh time",
-      "refresh_time_description":"Interval between calls to weather service",
-      "minutes":"minutes",
-      "last_refresh_time":"Last refresh time"
-
-
+      "refresh_time": "Refresh time",
+      "refresh_time_description": "Interval between calls to weather service",
+      "minutes": "minutes",
+      "last_refresh_time": "Last refresh time",
+      "settings": "Settings",
+      "about": "About",
+      "contributors":"Contributors",
+      "credits":"Credits",
+      "weather_data":"Weather data: OpenWeatherAPI",
+      "icon_data":"Icons: Icons8, Freepik/Flaticon"
     },
   };
 

@@ -1,3 +1,4 @@
+import 'package:feather/src/resources/application_localization.dart';
 import 'package:feather/src/resources/config/application_colors.dart';
 import 'package:feather/src/resources/config/assets.dart';
 import 'package:feather/src/ui/widget/widget_helper.dart';
@@ -36,6 +37,7 @@ class AboutScreen extends StatelessWidget {
   }
 
   Widget _getAboutContainer(BuildContext context) {
+    var applicationLocalization = ApplicationLocalization.of(context);
     return Center(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
       InkWell(
@@ -59,17 +61,17 @@ class AboutScreen extends StatelessWidget {
         },
       ),
       WidgetHelper.buildPadding(top: 20),
-      Text("Contributors:", key: Key("about_screen_contributors"), style: Theme.of(context).textTheme.subtitle),
+      Text("${applicationLocalization.getText("contributors")}:", key: Key("about_screen_contributors"), style: Theme.of(context).textTheme.subtitle),
       WidgetHelper.buildPadding(top: 10),
       Text("Jakub Homlala (jhomlala)"),
       WidgetHelper.buildPadding(top: 2),
       Text("Jake Gough (SnakeyHips)"),
       WidgetHelper.buildPadding(top: 20),
-      Text("Credits:",key: Key("about_screen_credits"), style: Theme.of(context).textTheme.subtitle),
+      Text("${applicationLocalization.getText("credits")}:",key: Key("about_screen_credits"), style: Theme.of(context).textTheme.subtitle),
       WidgetHelper.buildPadding(top: 10),
-      Text("Weather data: OpenWeatherAPI"),
+      Text(applicationLocalization.getText("weather_data")),
       WidgetHelper.buildPadding(top: 2),
-      Text("Icons: Icons8, Freepik/Flaticon")
+      Text(applicationLocalization.getText("icon_data"))
     ]));
   }
 
