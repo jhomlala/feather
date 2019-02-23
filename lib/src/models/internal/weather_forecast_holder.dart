@@ -1,4 +1,3 @@
-import 'package:feather/src/blocs/application_bloc.dart';
 import 'package:feather/src/models/internal/chart_data.dart';
 import 'package:feather/src/models/remote/city.dart';
 import 'package:feather/src/models/remote/system.dart';
@@ -36,11 +35,8 @@ class WeatherForecastHolder {
   City _city;
   System _system;
 
-  Map<ChartDataType, ChartData> _chartDataCache;
-
   WeatherForecastHolder(
       List<WeatherForecastResponse> forecastList, City city, System system) {
-    _chartDataCache = new Map();
     _forecastList = forecastList;
     _temperatures = _getTemperaturesList();
 
