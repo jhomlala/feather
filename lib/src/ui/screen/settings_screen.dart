@@ -1,6 +1,7 @@
 import 'package:feather/src/blocs/application_bloc.dart';
 import 'package:feather/src/models/internal/overflow_menu_element.dart';
 import 'package:feather/src/models/internal/unit.dart';
+import 'package:feather/src/resources/application_localization.dart';
 import 'package:feather/src/resources/config/application_colors.dart';
 import 'package:feather/src/ui/widget/widget_helper.dart';
 import 'package:flutter/material.dart';
@@ -44,6 +45,7 @@ class SettingsScreenState extends State<SettingsScreen> {
   }
 
   Widget _getSettingsContainer(BuildContext context) {
+    var applicationLocalization = ApplicationLocalization.of(context);
     return Container(
         padding: WidgetHelper.buildEdgeInsets(left: 30, top: 80),
         child: Column(
@@ -52,11 +54,11 @@ class SettingsScreenState extends State<SettingsScreen> {
             children: [
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                 Text(
-                  "Units:",
+                  "${applicationLocalization.getText("units")}:",
                   style: Theme.of(context).textTheme.subtitle,
                 ),
                 Row(children: [
-                  Text("Metric"),
+                  Text(applicationLocalization.getText("metric")),
                   Switch(
                       value: unitImperial,
                       activeColor: Colors.grey,
@@ -64,21 +66,21 @@ class SettingsScreenState extends State<SettingsScreen> {
                       inactiveTrackColor: Colors.white,
                       inactiveThumbColor: Colors.grey,
                       onChanged: onChangedUnitState),
-                  Text("Imperial"),
+                  Text(applicationLocalization.getText("imperial")),
                   WidgetHelper.buildPadding(right: 10)
                 ])
               ]),
               Text(
-                "Type of units (metric / imperial) ",
+                applicationLocalization.getText("units_description"),
                 style: Theme.of(context).textTheme.body2,
               ),
               WidgetHelper.buildPadding(top: 30),
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                 Text(
-                  "Refresh time:",
+                  "${applicationLocalization.getText("refresh_time")}:",
                   style: Theme.of(context).textTheme.subtitle,
                 ),
-                Row(children: [
+                Center(child: Row(children: [
                   Theme(
                       data: Theme.of(context).copyWith(
                         cardColor: ApplicationColors.nightStartColor,
@@ -88,11 +90,11 @@ class SettingsScreenState extends State<SettingsScreen> {
                           _onMenuClicked(element);
                         },
                         child: Container(
-                          child: Text(_getSelectedMenuElementText()),
+                          child: Text(_getSelectedMenuElementText(context)),
                           padding: WidgetHelper.buildEdgeInsets(right: 10),
                         ),
                         itemBuilder: (BuildContext context) {
-                          return _getRefreshTimeMenu()
+                          return _getRefreshTimeMenu(context)
                               .map((PopupMenuElement element) {
                             return PopupMenuItem<PopupMenuElement>(
                                 value: element,
@@ -101,45 +103,45 @@ class SettingsScreenState extends State<SettingsScreen> {
                           }).toList();
                         },
                       ))
-                ]),
+                ])),
               ]),
               WidgetHelper.buildPadding(top: 10),
               Text(
-                "Interval time between calls to weather service ",
+                applicationLocalization.getText("refresh_time_description"),
                 style: Theme.of(context).textTheme.body2,
               ),
               WidgetHelper.buildPadding(top: 30),
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                 Text(
-                  "Last refresh time:",
+                  "${applicationLocalization.getText("last_refresh_time")}:",
                   style: Theme.of(context).textTheme.subtitle,
                 ),
-                Row(children: [
-                  Text(DateTime.fromMillisecondsSinceEpoch(
-                          applicationBloc.lastRefreshTime).toString()),
-                  WidgetHelper.buildPadding(right: 10)
-                ])
               ]),
+              WidgetHelper.buildPadding(top: 10),
+              Text(DateTime.fromMillisecondsSinceEpoch(
+                      applicationBloc.lastRefreshTime)
+                  .toString(),style: Theme.of(context).textTheme.body2),
             ]));
   }
 
-  List<PopupMenuElement> _getRefreshTimeMenu() {
+  List<PopupMenuElement> _getRefreshTimeMenu(BuildContext context) {
+    var applicationLocalization = ApplicationLocalization.of(context);
     List<PopupMenuElement> menuList = List();
     menuList.add(PopupMenuElement(
       key: Key("menu_settings_refresh_time_10_minutes"),
-      title: "10 minutes",
+      title: "10 ${applicationLocalization.getText("minutes")}",
     ));
     menuList.add(PopupMenuElement(
       key: Key("menu_settings_refresh_time_15_minutes"),
-      title: "15 minutes",
+      title: "15 ${applicationLocalization.getText("minutes")}",
     ));
     menuList.add(PopupMenuElement(
       key: Key("menu_settings_refresh_time_30_minutes"),
-      title: "30 minutes",
+      title: "30 ${applicationLocalization.getText("minutes")}",
     ));
     menuList.add(PopupMenuElement(
       key: Key("menu_settings_refresh_time_60_minutes"),
-      title: "60 minutes",
+      title: "60 ${applicationLocalization.getText("minutes")}",
     ));
 
     return menuList;
@@ -158,18 +160,19 @@ class SettingsScreenState extends State<SettingsScreen> {
     });
   }
 
-  String _getSelectedMenuElementText() {
+  String _getSelectedMenuElementText(BuildContext context) {
+    var applicationLocalization = ApplicationLocalization.of(context);
     switch (refreshTime) {
       case 600000:
-        return "10 minutes";
+        return "10 ${applicationLocalization.getText("minutes")}";
       case 900000:
-        return "15 minutes";
+        return "15${applicationLocalization.getText("minutes")}";
       case 1800000:
-        return "30 minutes";
+        return "30 ${applicationLocalization.getText("minutes")}";
       case 3600000:
-        return "60 minutes";
+        return "60 ${applicationLocalization.getText("minutes")}";
       default:
-        return "10 minutes";
+        return "10 ${applicationLocalization.getText("minutes")}";
     }
   }
 
