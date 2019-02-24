@@ -49,17 +49,17 @@ main() {
   });
 
   test("Format temperature should return valid formatted string", () {
-    expect(WeatherHelper.formatTemperature(temperature: 0.0), "0°C");
-    expect(WeatherHelper.formatTemperature(temperature: 5.531), "5°C");
+    expect(WeatherHelper.formatTemperature(temperature: 0.0), "0 °C");
+    expect(WeatherHelper.formatTemperature(temperature: 5.531), "5 °C");
     expect(
         WeatherHelper.formatTemperature(
             temperature: -5.531, positions: 1, round: false),
-        "-5.5°C");
+        "-5.5 °C");
     expect(WeatherHelper.formatTemperature(temperature: -5.531, positions: 1),
-        "-6.0°C");
+        "-6.0 °C");
     expect(
         WeatherHelper.formatTemperature(
             temperature: 5.555, positions: 2, round: false),
-        "5.55°C");
+        "5.55 °C");
   });
 }

@@ -78,6 +78,7 @@ class WeatherForecastWidget extends StatelessWidget {
                     return _getPage(Ids.pressurePage, holder, width, height);
                   }
                 },
+                loop: false,
                 itemCount: 4,
                 pagination: SwiperPagination(
                     builder: new DotSwiperPaginationBuilder(

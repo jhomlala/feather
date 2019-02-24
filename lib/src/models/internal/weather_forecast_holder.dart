@@ -35,11 +35,8 @@ class WeatherForecastHolder {
   City _city;
   System _system;
 
-  Map<ChartDataType, ChartData> _chartDataCache;
-
   WeatherForecastHolder(
       List<WeatherForecastResponse> forecastList, City city, System system) {
-    _chartDataCache = new Map();
     _forecastList = forecastList;
     _temperatures = _getTemperaturesList();
 
@@ -79,7 +76,8 @@ class WeatherForecastHolder {
   List<double> _getWindList() {
     List<double> winds = new List();
     for (WeatherForecastResponse response in forecastList) {
-      winds.add(response.wind.speed);
+      var speed = response.wind.speed;
+      winds.add(speed);
     }
     return winds;
   }
@@ -150,14 +148,7 @@ class WeatherForecastHolder {
 
   ChartData setupChartData(
       ChartDataType chartDataType, double width, double height) {
-    ChartData chartData =
-        ChartData(this, forecastList, chartDataType, width, height);
-    if (_chartDataCache.containsKey(chartDataType)) {
-      return _chartDataCache[chartDataType];
-    }
-    _chartDataCache[chartDataType] = chartData;
-
-    return chartData;
+    return ChartData(this, forecastList, chartDataType, width, height);
   }
 
   List<String> getWindDirectionList() {

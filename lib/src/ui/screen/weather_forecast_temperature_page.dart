@@ -1,3 +1,4 @@
+import 'package:feather/src/blocs/application_bloc.dart';
 import 'package:feather/src/models/internal/chart_data.dart';
 import 'package:feather/src/models/internal/point.dart';
 import 'package:feather/src/models/internal/weather_forecast_holder.dart';
@@ -40,7 +41,11 @@ class WeatherForecastTemperaturePage extends WeatherForecastBasePage {
 
   @override
   ChartData getChartData() {
-    return holder.setupChartData(ChartDataType.temperature, width, height);
+    print("get chart data");
+    ChartData chartData = holder.setupChartData(ChartDataType.temperature, width, height);
+    print(chartData.pointLabels.toString());
+
+    return chartData;
   }
 
   @override
@@ -50,6 +55,20 @@ class WeatherForecastTemperaturePage extends WeatherForecastBasePage {
 
   @override
   RichText getPageSubtitleWidget(BuildContext context) {
+
+
+    var minTemperature = holder.minTemperature;
+    var maxTemperature = holder.maxTemperature;
+
+    print("min temperature: " + minTemperature.toString() + " maxTemperature: " + maxTemperature.toString());
+
+    if (!applicationBloc.isMetricUnits()){
+      minTemperature = WeatherHelper.convertCelsiusToFahrenheit(minTemperature);
+      maxTemperature = WeatherHelper.convertCelsiusToFahrenheit(maxTemperature);
+    }
+
+    print("after min temperature: " + minTemperature.toString() + " maxTemperature: " + maxTemperature.toString());
+
     return RichText(
         key: Key("weather_forecast_temperature_page_subtitle"),
         textDirection: TextDirection.ltr,
@@ -57,12 +76,12 @@ class WeatherForecastTemperaturePage extends WeatherForecastBasePage {
           TextSpan(text: 'min ', style: Theme.of(context).textTheme.body2),
           TextSpan(
               text:
-                  "${WeatherHelper.formatTemperature(temperature: holder.minTemperature, positions: 1, round: false)}",
+                  "${WeatherHelper.formatTemperature(temperature: minTemperature, positions: 1, round: false, metricUnits: applicationBloc.isMetricUnits())}",
               style: Theme.of(context).textTheme.subtitle),
           TextSpan(text: '   max ', style: Theme.of(context).textTheme.body2),
           TextSpan(
               text:
-                  "${WeatherHelper.formatTemperature(temperature: holder.maxTemperature, positions: 1, round: false)}",
+                  "${WeatherHelper.formatTemperature(temperature: maxTemperature, positions: 1, round: false, metricUnits: applicationBloc.isMetricUnits())}",
               style: Theme.of(context).textTheme.subtitle)
         ]));
   }

@@ -5,12 +5,13 @@ import 'package:feather/src/resources/repository/remote/weather_remote_repositor
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 
-abstract class BaseBloc{
-  @protected final weatherRemoteRepository = WeatherRemoteRepository();
-  @protected final weatherLocalRepository = WeatherLocalRepository();
-  @protected final locationManager = LocationManager();
-  @protected final timerTimeout = 900000;
-  @protected final intervalBetweenRequests = 60000;
+abstract class BaseBloc {
+  @protected
+  final weatherRemoteRepository = WeatherRemoteRepository();
+  @protected
+  final weatherLocalRepository = WeatherLocalRepository();
+  @protected
+  final locationManager = LocationManager();
   final Logger _logger = Logger("BaseBloc");
 
   Future<GeoPosition> getPosition() async {
@@ -33,7 +34,8 @@ abstract class BaseBloc{
   }
 
   void setupTimer();
-  void handleTimerTimeout();
-  void dispose();
 
+  void handleTimerTimeout();
+
+  void dispose();
 }

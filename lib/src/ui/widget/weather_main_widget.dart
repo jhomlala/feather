@@ -110,6 +110,7 @@ class WeatherMainWidgetState extends State<WeatherMainWidget> {
                                 Ids.weatherMainSunPathPage, snapshot.data);
                           }
                         },
+                        loop: false,
                         itemCount: 2,
                         pagination: SwiperPagination(
                             builder: new DotSwiperPaginationBuilder(

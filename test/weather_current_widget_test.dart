@@ -7,18 +7,25 @@ import 'package:feather/src/ui/widget/weather_current_widget.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'test_helper.dart';
+
 main() {
   testWidgets("Weather widget should show widgets",
       (WidgetTester tester) async {
-    WeatherCurrentWidget widget = WeatherCurrentWidget(
+    await tester.pumpWidget(
+        TestHelper.wrapWidgetWithLocalizationApp(WeatherCurrentWidget(
       weatherResponse: setupWeatherResponse(),
-    );
-    await tester.pumpWidget(widget);
-    expect(find.byKey(Key("weather_current_widget_container")),findsOneWidget);
-    expect(find.byKey(Key("weather_current_widget_temperature")),findsOneWidget);
-    expect(find.byKey(Key("weather_current_widget_min_max_temperature")),findsOneWidget);
-    expect(find.byKey(Key("weather_current_widget_pressure_humidity")),findsOneWidget);
-    expect(find.byKey(Key("weather_current_widget_thumbnail_list")),findsOneWidget);
+    )));
+
+    expect(find.byKey(Key("weather_current_widget_container")), findsOneWidget);
+    expect(
+        find.byKey(Key("weather_current_widget_temperature")), findsOneWidget);
+    expect(find.byKey(Key("weather_current_widget_min_max_temperature")),
+        findsOneWidget);
+    expect(find.byKey(Key("weather_current_widget_pressure_humidity")),
+        findsOneWidget);
+    expect(find.byKey(Key("weather_current_widget_thumbnail_list")),
+        findsOneWidget);
   });
 }
 

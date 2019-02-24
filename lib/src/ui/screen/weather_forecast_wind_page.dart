@@ -1,3 +1,4 @@
+import 'package:feather/src/blocs/application_bloc.dart';
 import 'package:feather/src/models/internal/chart_data.dart';
 import 'package:feather/src/models/internal/point.dart';
 import 'package:feather/src/models/internal/weather_forecast_holder.dart';
@@ -49,17 +50,28 @@ class WeatherForecastWindPage extends WeatherForecastBasePage {
 
   @override
   RichText getPageSubtitleWidget(BuildContext context) {
+
+    var minWind = holder.minWind;
+    var maxWind = holder.maxWind;
+    if (applicationBloc.isMetricUnits()){
+      minWind = WeatherHelper.convertMetersPerSecondToKilometersPerHour(minWind);
+      maxWind = WeatherHelper.convertMetersPerSecondToKilometersPerHour(maxWind);
+    } else {
+      minWind = WeatherHelper.convertMetersPerSecondToMilesPerHour(minWind);
+      maxWind = WeatherHelper.convertMetersPerSecondToMilesPerHour(maxWind);
+    }
+
     return RichText(
         key: Key("weather_forecast_wind_page_subtitle"),
         textDirection: TextDirection.ltr,
         text: TextSpan(children: [
           TextSpan(text: 'min ', style: Theme.of(context).textTheme.body2),
           TextSpan(
-              text: WeatherHelper.formatWind(holder.minWind),
+              text: WeatherHelper.formatWind(minWind),
               style: Theme.of(context).textTheme.subtitle),
           TextSpan(text: '   max ', style: Theme.of(context).textTheme.body2),
           TextSpan(
-              text: WeatherHelper.formatWind(holder.maxWind),
+              text: WeatherHelper.formatWind(maxWind),
               style: Theme.of(context).textTheme.subtitle)
         ]));
   }

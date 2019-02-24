@@ -1,3 +1,4 @@
+import 'package:feather/src/blocs/application_bloc.dart';
 import 'package:feather/src/resources/config/application_config.dart';
 import 'package:feather/src/resources/application_localization_delegate.dart';
 import 'package:feather/src/ui/screen/weather_main_screen.dart';
@@ -13,6 +14,8 @@ class MyApp extends StatelessWidget {
   MyApp(){
     SystemChrome.setEnabledSystemUIOverlays([]);
     _configureLogger();
+    applicationBloc.loadSavedUnit();
+    applicationBloc.loadSavedRefreshTime();
   }
 
   @override

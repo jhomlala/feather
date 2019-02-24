@@ -14,9 +14,9 @@ class ApplicationColors{
   static final Color morningEveStartColor = Colors.blue.shade700;
   static final Color morningEveEndColor = Colors.pink.shade200;
   static final Color dayStartColor = Colors.blue.shade700;
-  static final Color dayEndColor = Colors.lightBlue.shade300;
-  static final Color middayStartColor = Colors.blue;
-  static final Color middayEndColor = Colors.lightBlue.shade100;
+  static final Color dayEndColor = Colors.lightBlue.shade500;
+  static final Color middayStartColor = Colors.blue.shade700;
+  static final Color middayEndColor = Colors.lightBlue;
   static final Color swiperInactiveDotColor = Colors.white54;
   static final Color swiperActiveDotColor = Colors.white;
 }

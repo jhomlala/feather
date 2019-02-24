@@ -27,6 +27,7 @@ class _ChartWidgetState extends AnimatedState<ChartWidget>{
 
   @override
   Widget build(BuildContext context) {
+
     Widget chartWidget;
     if (widget.chartData.points.length < 3) {
       chartWidget = _getChartUnavailableWidget(context);

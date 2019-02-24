@@ -1,3 +1,4 @@
+import 'package:feather/src/blocs/application_bloc.dart';
 import 'package:feather/src/models/internal/weather_forecast_holder.dart';
 import 'package:feather/src/resources/weather_helper.dart';
 import 'package:feather/src/ui/screen/weather_forecast_screen.dart';
@@ -14,6 +15,12 @@ class WeatherForecastThumbnailWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var temperature = _holder.averageTemperature;
+    if (!applicationBloc.isMetricUnits()){
+      temperature = WeatherHelper.convertCelsiusToFahrenheit(temperature);
+    }
+
+
     return Material(
         key: Key("weather_forecast_thumbnail_widget"),
         color: Colors.transparent,
@@ -40,7 +47,8 @@ class WeatherForecastThumbnailWidget extends StatelessWidget {
                         WidgetHelper.buildPadding(top: 5),
                         Text(
                             WeatherHelper.formatTemperature(
-                                temperature: _holder.averageTemperature,
+                                temperature: temperature,
+                                metricUnits: applicationBloc.isMetricUnits(),
                                 round: true),
                             key: Key("weather_forecast_thumbnai_temperature"),
                             textDirection: TextDirection.ltr,

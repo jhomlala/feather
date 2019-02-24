@@ -1,6 +1,7 @@
 import 'package:feather/src/blocs/application_bloc.dart';
 import 'package:feather/src/models/remote/overall_weather_data.dart';
 import 'package:feather/src/models/remote/weather_response.dart';
+import 'package:feather/src/resources/application_localization.dart';
 import 'package:feather/src/resources/weather_helper.dart';
 import 'package:feather/src/ui/screen/base/animated_state.dart';
 import 'package:feather/src/ui/widget/weather_forecast_thumbnail_list_widget.dart';
@@ -41,6 +42,12 @@ class WeatherCurrentWidgetState extends AnimatedState<WeatherCurrentWidget> {
   }
 
   Widget buildWeatherContainer(WeatherResponse response) {
+    var currentTemperature = response.mainWeatherData.temp;
+    if (!applicationBloc.isMetricUnits()) {
+      currentTemperature =
+          WeatherHelper.convertCelsiusToFahrenheit(currentTemperature);
+    }
+
     return FadeTransition(
         opacity: setupAnimation(
             duration: 3000,
@@ -59,7 +66,8 @@ class WeatherCurrentWidgetState extends AnimatedState<WeatherCurrentWidget> {
                 ),
                 Text(
                     WeatherHelper.formatTemperature(
-                        temperature: response.mainWeatherData.temp),
+                        temperature: currentTemperature,
+                        metricUnits: applicationBloc.isMetricUnits()),
                     key: Key("weather_current_widget_temperature"),
                     textDirection: TextDirection.ltr,
                     style: Theme.of(context).textTheme.headline),
@@ -69,10 +77,7 @@ class WeatherCurrentWidgetState extends AnimatedState<WeatherCurrentWidget> {
                     textDirection: TextDirection.ltr,
                     style: Theme.of(context).textTheme.subtitle),
                 WidgetHelper.buildPadding(top: 5),
-                Text(_getPressureAndHumidityRow(response),
-                    textDirection: TextDirection.ltr,
-                    key: Key("weather_current_widget_pressure_humidity"),
-                    style: Theme.of(context).textTheme.subtitle),
+               _getPressureAndHumidityRow(response),
                 WidgetHelper.buildPadding(top: 20),
                 WeatherForecastThumbnailListWidget(
                     system: response.system,
@@ -83,15 +88,39 @@ class WeatherCurrentWidgetState extends AnimatedState<WeatherCurrentWidget> {
   }
 
   String _getMaxMinTemperatureRow(WeatherResponse weatherResponse) {
-    return "↑ ${WeatherHelper.formatTemperature(temperature: weatherResponse.mainWeatherData.tempMax)}" +
-        "    ↓${WeatherHelper.formatTemperature(temperature: weatherResponse.mainWeatherData.tempMin)}";
+    var maxTemperature = weatherResponse.mainWeatherData.tempMax;
+    var minTemperature = weatherResponse.mainWeatherData.tempMin;
+    if (!applicationBloc.isMetricUnits()) {
+      maxTemperature = WeatherHelper.convertCelsiusToFahrenheit(maxTemperature);
+      minTemperature = WeatherHelper.convertCelsiusToFahrenheit(minTemperature);
+    }
+
+    return "↑${WeatherHelper.formatTemperature(temperature: maxTemperature, metricUnits: applicationBloc.isMetricUnits())}" +
+        " ↓${WeatherHelper.formatTemperature(temperature: minTemperature, metricUnits: applicationBloc.isMetricUnits())}";
   }
 
-  String _getPressureAndHumidityRow(WeatherResponse weatherResponse) {
-    return WeatherHelper.formatPressure(
-            weatherResponse.mainWeatherData.pressure) +
-        "    " +
-        WeatherHelper.formatHumidity(weatherResponse.mainWeatherData.humidity);
+  Widget _getPressureAndHumidityRow(WeatherResponse weatherResponse) {
+    var applicationLocalization = ApplicationLocalization.of(context);
+    return RichText(
+        textDirection: TextDirection.ltr,
+        key: Key("weather_current_widget_pressure_humidity"),
+        text: TextSpan(children: [
+          TextSpan(
+              text: "${applicationLocalization.getText("pressure")}: ",
+              style: Theme.of(context).textTheme.body2),
+          TextSpan(
+              text: WeatherHelper.formatPressure(weatherResponse.mainWeatherData.pressure),
+              style: Theme.of(context).textTheme.subtitle),
+          TextSpan(
+            text: "  ",
+          ),
+          TextSpan(
+              text: "${applicationLocalization.getText("humidity")}: ",
+              style: Theme.of(context).textTheme.body2),
+          TextSpan(
+              text: WeatherHelper.formatHumidity(weatherResponse.mainWeatherData.humidity),
+              style: Theme.of(context).textTheme.subtitle)
+        ]));
   }
 
   String _getWeatherImage(WeatherResponse weatherResponse) {
