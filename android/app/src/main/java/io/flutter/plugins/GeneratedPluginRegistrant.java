@@ -1,10 +1,10 @@
 package io.flutter.plugins;
 
 import io.flutter.plugin.common.PluginRegistry;
-import com.baseflow.flutter.plugin.geolocator.GeolocatorPlugin;
+import com.baseflow.geolocator.GeolocatorPlugin;
 import com.baseflow.googleapiavailability.GoogleApiAvailabilityPlugin;
+import com.baseflow.location_permissions.LocationPermissionsPlugin;
 import io.flutter.plugins.packageinfo.PackageInfoPlugin;
-import com.baseflow.permissionhandler.PermissionHandlerPlugin;
 import io.flutter.plugins.sharedpreferences.SharedPreferencesPlugin;
 import io.flutter.plugins.urllauncher.UrlLauncherPlugin;
 
@@ -16,10 +16,10 @@ public final class GeneratedPluginRegistrant {
     if (alreadyRegisteredWith(registry)) {
       return;
     }
-    GeolocatorPlugin.registerWith(registry.registrarFor("com.baseflow.flutter.plugin.geolocator.GeolocatorPlugin"));
+    GeolocatorPlugin.registerWith(registry.registrarFor("com.baseflow.geolocator.GeolocatorPlugin"));
     GoogleApiAvailabilityPlugin.registerWith(registry.registrarFor("com.baseflow.googleapiavailability.GoogleApiAvailabilityPlugin"));
+    LocationPermissionsPlugin.registerWith(registry.registrarFor("com.baseflow.location_permissions.LocationPermissionsPlugin"));
     PackageInfoPlugin.registerWith(registry.registrarFor("io.flutter.plugins.packageinfo.PackageInfoPlugin"));
-    PermissionHandlerPlugin.registerWith(registry.registrarFor("com.baseflow.permissionhandler.PermissionHandlerPlugin"));
     SharedPreferencesPlugin.registerWith(registry.registrarFor("io.flutter.plugins.sharedpreferences.SharedPreferencesPlugin"));
     UrlLauncherPlugin.registerWith(registry.registrarFor("io.flutter.plugins.urllauncher.UrlLauncherPlugin"));
   }

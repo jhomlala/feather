@@ -18,16 +18,16 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   cupertino_icons: ^0.1.2
-  geolocator: ^2.1.1
+  geolocator: ^5.1.5
   dio: ^1.0.13
   rxdart: ^0.20.0
-  intl: ^0.15.7
+  intl:  0.16.0
   logging: ^0.11.3+2
   flutter_swiper: ^1.1.4
   shared_preferences: ^0.4.3
   package_info: ^0.4.0
   url_launcher: ^5.0.0
-
+  google_api_availability: ^2.0.0
 
 dev_dependencies:
   flutter_test:

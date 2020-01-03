@@ -1,6 +1,7 @@
-geolocator=C:\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\geolocator-2.1.1\\
-google_api_availability=C:\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\google_api_availability-1.0.4\\
-package_info=C:\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\package_info-0.4.0\\
-permission_handler=C:\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\permission_handler-2.1.2\\
-shared_preferences=C:\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\shared_preferences-0.4.3\\
-url_launcher=C:\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\url_launcher-5.0.0\\
+# This is a generated file; do not edit or check into version control.
+geolocator=/Users/zero/development/flutter/.pub-cache/hosted/pub.dartlang.org/geolocator-5.1.5/
+google_api_availability=/Users/zero/development/flutter/.pub-cache/hosted/pub.dartlang.org/google_api_availability-2.0.1/
+location_permissions=/Users/zero/development/flutter/.pub-cache/hosted/pub.dartlang.org/location_permissions-2.0.3/
+package_info=/Users/zero/development/flutter/.pub-cache/hosted/pub.dartlang.org/package_info-0.4.0/
+shared_preferences=/Users/zero/development/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences-0.4.3/
+url_launcher=/Users/zero/development/flutter/.pub-cache/hosted/pub.dartlang.org/url_launcher-5.0.0/
