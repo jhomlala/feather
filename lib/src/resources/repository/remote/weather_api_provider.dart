@@ -4,6 +4,7 @@ import 'package:feather/src/models/remote/weather_forecast_list_response.dart';
 import 'package:feather/src/models/remote/weather_response.dart';
 import 'package:feather/src/resources/config/application_config.dart';
 import 'package:logging/logging.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class WeatherApiProvider {
   final String _apiBaseUrl = "api.openweathermap.org";
@@ -73,34 +74,6 @@ class WeatherApiProvider {
   }
 
   void setupInterceptors() {
-    int maxCharactersPerLine = 200;
-
-    _dio.interceptor.request.onSend = (Options options) {
-      _logger.fine("--> ${options.method} ${options.path}");
-      _logger.fine("Content type: ${options.contentType}");
-      _logger.fine("<-- END HTTP");
-      return options;
-    };
-
-    _dio.interceptor.response.onSuccess = (Response response) {
-      _logger.fine(
-          "<-- ${response.statusCode} ${response.request.method} ${response.request.path}");
-      String responseAsString = response.data.toString();
-      if (responseAsString.length > maxCharactersPerLine) {
-        int iterations =
-            (responseAsString.length / maxCharactersPerLine).floor();
-        for (int i = 0; i <= iterations; i++) {
-          int endingIndex = i * maxCharactersPerLine + maxCharactersPerLine;
-          if (endingIndex > responseAsString.length) {
-            endingIndex = responseAsString.length;
-          }
-          _logger.fine(responseAsString.substring(
-              i * maxCharactersPerLine, endingIndex));
-        }
-      } else {
-        _logger.fine(response.data);
-      }
-      _logger.fine("<-- END HTTP");
-    };
+    _dio.interceptors.add(PrettyDioLogger());
   }
 }

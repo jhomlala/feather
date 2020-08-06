@@ -12,6 +12,7 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
 
   MyApp(){
+    WidgetsFlutterBinding.ensureInitialized();
     SystemChrome.setEnabledSystemUIOverlays([]);
     _configureLogger();
     applicationBloc.loadSavedUnit();

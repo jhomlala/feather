@@ -7,7 +7,7 @@ import 'package:rxdart/rxdart.dart';
 abstract class AnimatedState<T extends StatefulWidget> extends State<T>
     with SingleTickerProviderStateMixin {
   AnimationController controller;
-  Observable observable;
+  StreamController _streamController;
   StreamSubscription subscription;
 
   Widget build(BuildContext context);
@@ -19,21 +19,21 @@ abstract class AnimatedState<T extends StatefulWidget> extends State<T>
       Curve curve = Curves.easeInOut}) {
     controller = _getAnimationController(this, duration);
     Animation animation = _getCurvedAnimation(controller, curve);
-    var streamController = StreamController<double>();
-    observable = Observable<double>(streamController.stream);
+   _streamController = StreamController<double>();
+
     Animation<double> tween = _getTween(start, end, animation);
     var valueListener = () {
-      streamController.sink.add(tween.value);
+      _streamController.sink.add(tween.value);
     };
     tween..addListener(valueListener);
     tween.addStatusListener((status) {
       if (status == AnimationStatus.completed ||
           status == AnimationStatus.dismissed) {
-        streamController.close();
+        _streamController.close();
       }
     });
     subscription =
-        observable.listen((value) => onAnimatedValue(value as double));
+        _streamController.stream.listen((value) => onAnimatedValue(value as double));
     controller.forward();
   }
 
@@ -74,7 +74,7 @@ abstract class AnimatedState<T extends StatefulWidget> extends State<T>
     if (controller != null) {
       controller.dispose();
     }
-    if (observable != null) {
+    if (subscription != null) {
       subscription.cancel();
     }
     super.dispose();

@@ -10,23 +10,23 @@ description: Flutter weather application
 version: 1.0.2
 
 environment:
-  sdk: ">=2.0.0-dev.68.0 <3.0.0"
+  sdk: ">=2.8.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  cupertino_icons: ^0.1.2
-  geolocator: ^2.1.1
-  dio: ^1.0.13
-  rxdart: ^0.20.0
-  intl: ^0.15.7
-  logging: ^0.11.3+2
-  flutter_swiper: ^1.1.4
-  shared_preferences: ^0.4.3
-  package_info: ^0.4.0
-  url_launcher: ^5.0.0
+  geolocator: ^5.3.2+2
+  dio: ^3.0.9
+  rxdart: ^0.24.1
+  intl: ^0.16.1
+  logging: ^0.11.4
+  flutter_swiper: ^1.1.6
+  shared_preferences: ^0.5.8
+  package_info: ^0.4.1
+  url_launcher: ^5.5.0
+  pretty_dio_logger: ^1.1.1
 
 
 dev_dependencies:
