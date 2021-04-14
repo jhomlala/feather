@@ -7,17 +7,17 @@ import 'package:feather/src/models/remote/system.dart';
 import 'package:feather/src/models/remote/wind.dart';
 
 class WeatherResponse {
-  final Coordinates cord;
-  final List<OverallWeatherData> overallWeatherData;
-  final MainWeatherData mainWeatherData;
-  final Wind wind;
-  final Clouds clouds;
-  final System system;
-  final int id;
-  final String name;
-  final int cod;
-  final String station;
-  ApplicationError _errorCode;
+  final Coordinates? cord;
+  final List<OverallWeatherData>? overallWeatherData;
+  final MainWeatherData? mainWeatherData;
+  final Wind? wind;
+  final Clouds? clouds;
+  final System? system;
+  final int? id;
+  final String? name;
+  final int? cod;
+  final String? station;
+  ApplicationError? _errorCode;
 
   WeatherResponse(
       {this.cord,
@@ -64,5 +64,5 @@ class WeatherResponse {
     return response;
   }
 
-  ApplicationError get errorCode => _errorCode;
+  ApplicationError? get errorCode => _errorCode;
 }

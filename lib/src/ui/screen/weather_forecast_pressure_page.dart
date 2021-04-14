@@ -9,7 +9,7 @@ import 'package:flutter/widgets.dart';
 
 class WeatherForecastPressurePage extends WeatherForecastBasePage {
   WeatherForecastPressurePage(
-      WeatherForecastHolder holder, double width, double height)
+      WeatherForecastHolder? holder, double? width, double? height)
       : super(holder: holder, width: width, height: height);
 
   @override
@@ -22,7 +22,7 @@ class WeatherForecastPressurePage extends WeatherForecastBasePage {
 
   @override
   ChartData getChartData() {
-    return super.holder.setupChartData(ChartDataType.pressure, width, height);
+    return super.holder!.setupChartData(ChartDataType.pressure, width!, height!);
   }
 
   @override
@@ -38,17 +38,17 @@ class WeatherForecastPressurePage extends WeatherForecastBasePage {
         text: TextSpan(children: [
           TextSpan(text: 'min ', style: Theme.of(context).textTheme.body2),
           TextSpan(
-              text: WeatherHelper.formatPressure(holder.minPressure),
+              text: WeatherHelper.formatPressure(holder!.minPressure!),
               style: Theme.of(context).textTheme.subtitle),
           TextSpan(text: '   max ', style: Theme.of(context).textTheme.body2),
           TextSpan(
-              text: WeatherHelper.formatPressure(holder.maxPressure),
+              text: WeatherHelper.formatPressure(holder!.maxPressure!),
               style: Theme.of(context).textTheme.subtitle)
         ]));
   }
 
   @override
-  String getTitleText(BuildContext context) {
-    return ApplicationLocalization.of(context).getText("pressure");
+  String? getTitleText(BuildContext context) {
+    return ApplicationLocalization.of(context)!.getText("pressure");
   }
 }

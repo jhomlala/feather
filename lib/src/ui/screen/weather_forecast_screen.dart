@@ -17,10 +17,10 @@ class WeatherForecastScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     LinearGradient gradient = WidgetHelper.getGradient(
-        sunriseTime: _holder.system.sunrise, sunsetTime: _holder.system.sunset);
+        sunriseTime: _holder.system!.sunrise, sunsetTime: _holder.system!.sunset);
     print("Rebuild weather forecast screen");
     return Scaffold(
-        resizeToAvoidBottomPadding: false,
+
         body: Stack(
           children: <Widget>[
             Container(
@@ -55,7 +55,7 @@ class WeatherForecastScreen extends StatelessWidget {
                               .map((PopupMenuElement element) {
                             return PopupMenuItem<PopupMenuElement>(
                                 value: element,
-                                child: Text(element.title,
+                                child: Text(element.title!,
                                     style: TextStyle(color: Colors.white)));
                           }).toList();
                         },
@@ -85,8 +85,8 @@ class WeatherForecastScreen extends StatelessWidget {
   }
 
   List<PopupMenuElement> _getOverflowMenu(BuildContext context) {
-    var applicationLocalization = ApplicationLocalization.of(context);
-    List<PopupMenuElement> menuList = List();
+    var applicationLocalization = ApplicationLocalization.of(context)!;
+    List<PopupMenuElement> menuList = [];
     menuList.add(PopupMenuElement(
       key: Key("menu_overflow_settings"),
       title: applicationLocalization.getText("settings"),

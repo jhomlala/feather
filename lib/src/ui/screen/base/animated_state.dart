@@ -6,19 +6,19 @@ import 'package:rxdart/rxdart.dart';
 
 abstract class AnimatedState<T extends StatefulWidget> extends State<T>
     with SingleTickerProviderStateMixin {
-  AnimationController controller;
-  StreamController _streamController;
-  StreamSubscription subscription;
+  AnimationController? controller;
+  late StreamController _streamController;
+  StreamSubscription? subscription;
 
   Widget build(BuildContext context);
 
   animateTween(
       {double start = 0.0,
-      double end = 1.0,
+      double? end = 1.0,
       int duration: 1000,
       Curve curve = Curves.easeInOut}) {
     controller = _getAnimationController(this, duration);
-    Animation animation = _getCurvedAnimation(controller, curve);
+    Animation animation = _getCurvedAnimation(controller!, curve);
    _streamController = StreamController<double>();
 
     Animation<double> tween = _getTween(start, end, animation);
@@ -34,7 +34,7 @@ abstract class AnimatedState<T extends StatefulWidget> extends State<T>
     });
     subscription =
         _streamController.stream.listen((value) => onAnimatedValue(value as double));
-    controller.forward();
+    controller!.forward();
   }
 
   Animation<double> setupAnimation(
@@ -44,9 +44,9 @@ abstract class AnimatedState<T extends StatefulWidget> extends State<T>
     if (controller == null) {
       controller = _getAnimationController(this, duration);
     }
-    controller.forward();
+    controller!.forward();
     if (!noAnimation) {
-      return _getCurvedAnimation(controller, curve);
+      return _getCurvedAnimation(controller!, curve) as Animation<double>;
     } else {
       return EmptyAnimation();
     }
@@ -63,8 +63,8 @@ abstract class AnimatedState<T extends StatefulWidget> extends State<T>
   }
 
   static Animation<double> _getTween(
-      double start, double end, Animation animation) {
-    return Tween(begin: start, end: end).animate(animation);
+      double start, double? end, Animation animation) {
+    return Tween(begin: start, end: end).animate(animation as Animation<double>);
   }
 
   void onAnimatedValue(double value);
@@ -72,10 +72,10 @@ abstract class AnimatedState<T extends StatefulWidget> extends State<T>
   @override
   void dispose() {
     if (controller != null) {
-      controller.dispose();
+      controller!.dispose();
     }
     if (subscription != null) {
-      subscription.cancel();
+      subscription!.cancel();
     }
     super.dispose();
   }

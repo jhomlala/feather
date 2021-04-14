@@ -22,7 +22,7 @@ class StorageManager {
   Future<Unit> getUnit() async {
     try {
       var sharedPreferences = await SharedPreferences.getInstance();
-      int unit = sharedPreferences.getInt(Ids.storageUnitKey);
+      int? unit = sharedPreferences.getInt(Ids.storageUnitKey);
       if (unit == null) {
         return Unit.metric;
       } else {
@@ -69,7 +69,7 @@ class StorageManager {
   Future<int> getRefreshTime() async {
     try {
       var sharedPreferences = await SharedPreferences.getInstance();
-      int refreshTime = sharedPreferences.getInt(Ids.storageRefreshTimeKey);
+      int? refreshTime = sharedPreferences.getInt(Ids.storageRefreshTimeKey);
       if (refreshTime == null || refreshTime == 0) {
         refreshTime = 600000;
       }
@@ -93,7 +93,7 @@ class StorageManager {
   Future<int> getLastRefreshTime() async {
     try {
       var sharedPreferences = await SharedPreferences.getInstance();
-      int lastRefreshTime =
+      int? lastRefreshTime =
           sharedPreferences.getInt(Ids.storageLastRefreshTimeKey);
       if (lastRefreshTime == null || lastRefreshTime == 0) {
         lastRefreshTime = DateTimeHelper.getCurrentTime();
@@ -116,10 +116,10 @@ class StorageManager {
     }
   }
 
-  Future<GeoPosition> getLocation() async {
+  Future<GeoPosition?> getLocation() async {
     try {
       var sharedPreferences = await SharedPreferences.getInstance();
-      String jsonData = sharedPreferences.getString(Ids.storageLocationKey);
+      String? jsonData = sharedPreferences.getString(Ids.storageLocationKey);
       _logger.log(Level.FINE, "Returned user location: $jsonData");
       if (jsonData != null) {
         return GeoPosition.fromJson(json.decode(jsonData));
@@ -142,10 +142,10 @@ class StorageManager {
     }
   }
 
-  Future<WeatherResponse> getWeather() async {
+  Future<WeatherResponse?> getWeather() async {
     try {
       var sharedPreferences = await SharedPreferences.getInstance();
-      String jsonData = sharedPreferences.getString(Ids.storageWeatherKey);
+      String? jsonData = sharedPreferences.getString(Ids.storageWeatherKey);
       _logger.log(Level.FINE, "Returned weather data: $jsonData");
       if (jsonData != null) {
         return WeatherResponse.fromJson(jsonDecode(jsonData));
@@ -169,10 +169,10 @@ class StorageManager {
     }
   }
 
-  Future<WeatherForecastListResponse> getWeatherForecast() async {
+  Future<WeatherForecastListResponse?> getWeatherForecast() async {
     try {
       var sharedPreferences = await SharedPreferences.getInstance();
-      String jsonData =
+      String? jsonData =
           sharedPreferences.getString(Ids.storageWeatherForecastKey);
       _logger.log(Level.FINE, "Returned weather forecast data: $jsonData");
       if (jsonData != null) {

@@ -1,4 +1,5 @@
 import 'package:feather/src/blocs/weather_bloc.dart';
+import 'package:feather/src/models/internal/application_error.dart';
 import 'package:feather/src/models/remote/weather_response.dart';
 import 'package:feather/src/resources/config/application_colors.dart';
 import 'package:feather/src/resources/config/dimensions.dart';
@@ -9,7 +10,7 @@ import 'package:feather/src/ui/widget/widget_helper.dart';
 import 'package:feather/src/utils/date_time_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import 'package:logging/logging.dart';
 
 class WeatherMainWidget extends StatefulWidget {
@@ -18,7 +19,7 @@ class WeatherMainWidget extends StatefulWidget {
 }
 
 class WeatherMainWidgetState extends State<WeatherMainWidget> {
-  final Map<String, Widget> _pageMap = new Map();
+  final Map<String, Widget?> _pageMap = new Map();
   Logger _logger = Logger("WeatherMainWidgetState");
 
   @override
@@ -39,10 +40,10 @@ class WeatherMainWidgetState extends State<WeatherMainWidget> {
       stream: bloc.weatherSubject.stream,
       builder: (context, AsyncSnapshot<WeatherResponse> snapshot) {
         if (snapshot.hasData) {
-          if (snapshot.data.errorCode != null) {
+          if (snapshot.data!.errorCode != null) {
             return WidgetHelper.buildErrorWidget(
                 context: context,
-                applicationError: snapshot.data.errorCode,
+                applicationError: snapshot.data!.errorCode,
                 voidCallback: () => bloc.fetchWeatherForUserLocation(),
                 withRetryButton: true);
           }
@@ -51,7 +52,7 @@ class WeatherMainWidgetState extends State<WeatherMainWidget> {
         } else if (snapshot.hasError) {
           return WidgetHelper.buildErrorWidget(
               context: context,
-              applicationError: snapshot.error,
+              applicationError: snapshot.error as ApplicationError?,
               voidCallback: () => bloc.fetchWeatherForUserLocation(),
               withRetryButton: true);
         }
@@ -60,16 +61,16 @@ class WeatherMainWidgetState extends State<WeatherMainWidget> {
     );
   }
 
-  Widget _getPage(String key, WeatherResponse response) {
+  Widget? _getPage(String key, WeatherResponse? response) {
     if (_pageMap.containsKey(key)) {
       return _pageMap[key];
     } else {
-      Widget page;
+      Widget? page;
       if (key == Ids.mainWeatherPage) {
         page = WeatherMainPage(weatherResponse: response);
       } else if (key == Ids.weatherMainSunPathPage) {
         page = WeatherMainSunPathPage(
-          system: response.system,
+          system: response!.system,
         );
       }
       _pageMap[key] = page;
@@ -84,13 +85,13 @@ class WeatherMainWidgetState extends State<WeatherMainWidget> {
             key: Key("weather_main_widget_container"),
             decoration: BoxDecoration(
                 gradient: WidgetHelper.getGradient(
-                    sunriseTime: snapshot.data.system.sunrise,
-                    sunsetTime: snapshot.data.system.sunset)),
+                    sunriseTime: snapshot.data!.system!.sunrise,
+                    sunsetTime: snapshot.data!.system!.sunset)),
             child: Center(
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                  Text(snapshot.data.name,
+                  Text(snapshot.data!.name!,
                       key: Key("weather_main_widget_city_name"),
                       textDirection: TextDirection.ltr,
                       style: Theme.of(context).textTheme.title),
@@ -104,10 +105,11 @@ class WeatherMainWidgetState extends State<WeatherMainWidget> {
                         key: Key("weather_main_swiper"),
                         itemBuilder: (BuildContext context, int index) {
                           if (index == 0) {
-                            return _getPage(Ids.mainWeatherPage, snapshot.data);
+                            return _getPage(
+                                Ids.mainWeatherPage, snapshot.data)!;
                           } else {
                             return _getPage(
-                                Ids.weatherMainSunPathPage, snapshot.data);
+                                Ids.weatherMainSunPathPage, snapshot.data)!;
                           }
                         },
                         loop: false,

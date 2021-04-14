@@ -28,7 +28,7 @@ main() {
   });
 
   test("Should map forecasts for same day", () {
-    List<WeatherForecastResponse> list = new List();
+    List<WeatherForecastResponse> list = [];
     list.add(new WeatherForecastResponse(
         null, null, null, null, DateTime.now(), null, null));
     list.add(new WeatherForecastResponse(

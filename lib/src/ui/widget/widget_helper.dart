@@ -39,30 +39,30 @@ class WidgetHelper {
   }
 
   static Widget buildErrorWidget(
-      {BuildContext context,
-      ApplicationError applicationError,
-      VoidCallback voidCallback,
-      bool withRetryButton}) {
-    String errorText = "";
-    ApplicationLocalization localization = ApplicationLocalization.of(context);
+      {required BuildContext context,
+      ApplicationError? applicationError,
+      VoidCallback? voidCallback,
+      required bool withRetryButton}) {
+    String? errorText = "";
+    ApplicationLocalization? localization = ApplicationLocalization.of(context);
     if (applicationError == ApplicationError.locationNotSelectedError) {
-      errorText = localization.getText("error_location_not_selected");
+      errorText = localization!.getText("error_location_not_selected");
     } else if (applicationError == ApplicationError.connectionError) {
-      errorText = localization.getText("error_server_connection");
+      errorText = localization!.getText("error_server_connection");
     } else if (applicationError == ApplicationError.apiError) {
-      errorText = localization.getText("error_api");
+      errorText = localization!.getText("error_api");
     } else {
-      errorText = localization.getText("error_unknown");
+      errorText = localization!.getText("error_unknown");
     }
-    List<Widget> widgets = new List();
+    List<Widget> widgets = [];
     widgets.add(Text(
-      errorText,
+      errorText!,
       textDirection: TextDirection.ltr,
       textAlign: TextAlign.center,
     ));
     if (withRetryButton) {
       widgets.add(FlatButton(
-        child: Text(ApplicationLocalization.of(context).getText("retry"),
+        child: Text(ApplicationLocalization.of(context)!.getText("retry")!,
             style: Theme.of(context).textTheme.subtitle),
         onPressed: voidCallback,
       ));

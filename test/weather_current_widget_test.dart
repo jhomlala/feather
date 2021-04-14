@@ -33,7 +33,7 @@ WeatherResponse setupWeatherResponse() {
   Wind wind = new Wind(5, 200);
   MainWeatherData mainWeatherData = MainWeatherData(0, 0, 0, 0, 0, 0, 0);
   OverallWeatherData overallWeatherData = OverallWeatherData(0, "", "", "");
-  List<OverallWeatherData> list = new List();
+  List<OverallWeatherData> list = [];
   list.add(overallWeatherData);
   System system = System("", 0, 0);
   WeatherResponse weatherResponse = WeatherResponse(

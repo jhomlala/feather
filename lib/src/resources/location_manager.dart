@@ -4,7 +4,7 @@ import 'package:logging/logging.dart';
 
 class LocationManager {
   Logger _logger = Logger("LocationManager");
-  Position _lastPosition;
+  Position? _lastPosition;
 
   static final LocationManager _instance = LocationManager._internal();
   LocationManager._internal();
@@ -13,12 +13,12 @@ class LocationManager {
     return _instance;
   }
 
-  Future<Optional<Position>> getLocation() async {
+  Future<Optional<Position?>> getLocation() async {
     try {
       if (_lastPosition != null) {
         return Optional.of(_lastPosition);
       }
-      Position positionSelected = await Geolocator()
+      Position positionSelected = await Geolocator
           .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
       _lastPosition = positionSelected;
       return Optional.of(_lastPosition);

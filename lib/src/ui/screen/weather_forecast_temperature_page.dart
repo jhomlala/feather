@@ -12,20 +12,20 @@ import 'package:flutter/widgets.dart';
 
 class WeatherForecastTemperaturePage extends WeatherForecastBasePage {
   WeatherForecastTemperaturePage(
-      WeatherForecastHolder holder, double width, double height)
+      WeatherForecastHolder? holder, double? width, double? height)
       : super(holder: holder, width: width, height: height);
 
   @override
   Widget getBottomRowWidget(BuildContext context) {
-    List<Point> points = getChartData().points;
-    List<Widget> widgets = new List();
+    List<Point> points = getChartData().points!;
+    List<Widget> widgets = [];
     if (points.length > 2) {
       double padding = points[1].x - points[0].x - 30;
       widgets.add(WidgetHelper.buildPadding(top: 5));
       for (int index = 0; index < points.length; index++) {
         widgets.add(Image.asset(
             WeatherHelper.getWeatherIcon(
-                holder.forecastList[index].overallWeatherData[0].id),
+                holder!.forecastList![index].overallWeatherData![0].id!),
             width: 30,
             height: 30));
         widgets.add(WidgetHelper.buildPadding(left: padding));
@@ -42,7 +42,7 @@ class WeatherForecastTemperaturePage extends WeatherForecastBasePage {
   @override
   ChartData getChartData() {
     print("get chart data");
-    ChartData chartData = holder.setupChartData(ChartDataType.temperature, width, height);
+    ChartData chartData = holder!.setupChartData(ChartDataType.temperature, width!, height!);
     print(chartData.pointLabels.toString());
 
     return chartData;
@@ -57,14 +57,14 @@ class WeatherForecastTemperaturePage extends WeatherForecastBasePage {
   RichText getPageSubtitleWidget(BuildContext context) {
 
 
-    var minTemperature = holder.minTemperature;
-    var maxTemperature = holder.maxTemperature;
+    var minTemperature = holder!.minTemperature;
+    var maxTemperature = holder!.maxTemperature;
 
     print("min temperature: " + minTemperature.toString() + " maxTemperature: " + maxTemperature.toString());
 
     if (!applicationBloc.isMetricUnits()){
-      minTemperature = WeatherHelper.convertCelsiusToFahrenheit(minTemperature);
-      maxTemperature = WeatherHelper.convertCelsiusToFahrenheit(maxTemperature);
+      minTemperature = WeatherHelper.convertCelsiusToFahrenheit(minTemperature!);
+      maxTemperature = WeatherHelper.convertCelsiusToFahrenheit(maxTemperature!);
     }
 
     print("after min temperature: " + minTemperature.toString() + " maxTemperature: " + maxTemperature.toString());
@@ -87,7 +87,7 @@ class WeatherForecastTemperaturePage extends WeatherForecastBasePage {
   }
 
   @override
-  String getTitleText(BuildContext context) {
-    return ApplicationLocalization.of(context).getText("temperature");
+  String? getTitleText(BuildContext context) {
+    return ApplicationLocalization.of(context)!.getText("temperature");
   }
 }

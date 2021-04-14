@@ -25,7 +25,7 @@ class WeatherApiProvider {
   }
 
   Future<WeatherResponse> fetchWeather(
-      double latitude, double longitude) async {
+      double? latitude, double? longitude) async {
     try {
       Uri uri = buildUri(_apiWeatherEndpoint, latitude, longitude);
       Response response = await _dio.get(uri.toString());
@@ -42,7 +42,7 @@ class WeatherApiProvider {
     }
   }
 
-  Uri buildUri(String endpoint, double latitude, double longitude) {
+  Uri buildUri(String endpoint, double? latitude, double? longitude) {
     return Uri(
         scheme: "https",
         host: _apiBaseUrl,
@@ -56,7 +56,7 @@ class WeatherApiProvider {
   }
 
   Future<WeatherForecastListResponse> fetchWeatherForecast(
-      double latitude, double longitude) async {
+      double? latitude, double? longitude) async {
     try {
       Uri uri = buildUri(_apiWeatherForecastEndpoint, latitude, longitude);
       Response response = await _dio.get(uri.toString());

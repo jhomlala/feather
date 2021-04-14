@@ -19,7 +19,7 @@ class WeatherLocalRepository {
     await _storageManager.saveLocation(geoPosition);
   }
 
-  Future<GeoPosition> getLocation() async {
+  Future<GeoPosition?> getLocation() async {
     return await _storageManager.getLocation();
   }
 
@@ -27,7 +27,7 @@ class WeatherLocalRepository {
     await _storageManager.saveWeather(response);
   }
 
-  Future<WeatherResponse> getWeather() async {
+  Future<WeatherResponse?> getWeather() async {
     return await _storageManager.getWeather();
   }
 
@@ -35,7 +35,7 @@ class WeatherLocalRepository {
     await _storageManager.saveWeatherForecast(response);
   }
 
-  Future<WeatherForecastListResponse> getWeatherForecast() async {
+  Future<WeatherForecastListResponse?> getWeatherForecast() async {
     return await _storageManager.getWeatherForecast();
   }
 }

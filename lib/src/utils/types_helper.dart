@@ -2,7 +2,7 @@ import 'package:logging/logging.dart';
 
 class TypesHelper {
   static final _logger = new Logger("TypesHelper");
-  static double toDouble(num val) {
+  static double toDouble(num? val) {
     try {
       if (val == null){
         return 0;

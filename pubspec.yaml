@@ -1,38 +1,33 @@
 name: feather
 description: Flutter weather application
-
-# The following defines the version and build number for your application.
-# A version number is three numbers separated by dots, like 1.2.43
-# followed by an optional build number separated by a +.
-# Both the version and the builder number may be overridden in flutter
-# build by specifying --build-name and --build-number, respectively.
-# Read more about versioning at semver.org.
 version: 1.0.2
+publish_to: none
 
 environment:
-  sdk: ">=2.8.0 <3.0.0"
+  sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  geolocator: ^5.3.2+2
-  dio: ^3.0.9
-  rxdart: ^0.24.1
-  intl: ^0.16.1
-  logging: ^0.11.4
-  flutter_swiper: ^1.1.6
-  shared_preferences: ^0.5.8
-  package_info: ^0.4.1
-  url_launcher: ^5.5.0
-  pretty_dio_logger: ^1.1.1
+  geolocator: ^7.0.3
+  dio: ^4.0.0
+  rxdart: ^0.26.0
+  intl: ^0.17.0
+  logging: ^1.0.1
+  flutter_swiper_null_safety:
+    git: https://github.com/lianyagang/flutter_swiper_null_safety.git
+  shared_preferences: ^2.0.5
+  package_info: ^2.0.0
+  url_launcher: ^6.0.3
+  pretty_dio_logger: ^1.2.0-beta-1
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  test: ^1.5.1
+  test: ^1.16.5
 
 
 # For information on the generic Dart part of this file, see the

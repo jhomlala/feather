@@ -8,9 +8,9 @@ import 'package:flutter/widgets.dart';
 import 'package:logging/logging.dart';
 
 class ChartWidget extends StatefulWidget {
-  final ChartData chartData;
+  final ChartData? chartData;
 
-  const ChartWidget({Key key, this.chartData}) : super(key: key);
+  const ChartWidget({Key? key, this.chartData}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _ChartWidgetState();
@@ -29,7 +29,7 @@ class _ChartWidgetState extends AnimatedState<ChartWidget>{
   Widget build(BuildContext context) {
 
     Widget chartWidget;
-    if (widget.chartData.points.length < 3) {
+    if (widget.chartData!.points!.length < 3) {
       chartWidget = _getChartUnavailableWidget(context);
     } else {
       chartWidget = _getChartWidget();
@@ -37,8 +37,8 @@ class _ChartWidgetState extends AnimatedState<ChartWidget>{
 
     return Container(
       key: Key("chart_widget_container"),
-      width: widget.chartData.width,
-      height: widget.chartData.height,
+      width: widget.chartData!.width,
+      height: widget.chartData!.height,
       child: chartWidget,
     );
   }
@@ -47,11 +47,11 @@ class _ChartWidgetState extends AnimatedState<ChartWidget>{
     return CustomPaint(
         key: Key("chart_widget_custom_paint"),
         painter: _ChartPainter(
-            widget.chartData.points,
-            widget.chartData.pointLabels,
-            widget.chartData.width,
-            widget.chartData.height,
-            widget.chartData.axes,
+            widget.chartData!.points,
+            widget.chartData!.pointLabels,
+            widget.chartData!.width,
+            widget.chartData!.height,
+            widget.chartData!.axes,
             _fraction));
   }
 
@@ -59,7 +59,7 @@ class _ChartWidgetState extends AnimatedState<ChartWidget>{
     return Center(
         key: Key("chart_widget_unavailable"),
         child: Text(
-            ApplicationLocalization.of(context).getText("chart_unavailable"),
+            ApplicationLocalization.of(context)!.getText("chart_unavailable")!,
             textDirection: TextDirection.ltr,
             style: Theme.of(context).textTheme.body1));
   }
@@ -81,11 +81,11 @@ class _ChartPainter extends CustomPainter {
   _ChartPainter(this.points, this.pointLabels, this.width, this.height,
       this.axes, this.fraction);
 
-  final List<Point> points;
-  final List<String> pointLabels;
-  final double width;
-  final double height;
-  final List<ChartLine> axes;
+  final List<Point>? points;
+  final List<String>? pointLabels;
+  final double? width;
+  final double? height;
+  final List<ChartLine>? axes;
   final double fraction;
   final Logger log = new Logger('ChartPainter');
 
@@ -94,16 +94,16 @@ class _ChartPainter extends CustomPainter {
     Paint paint = _getLinePaint(Colors.white);
     _drawAxes(canvas);
 
-    double fractionLinePerPoint = 1/points.length;
-    int pointsFraction = (points.length * fraction).ceil();
+    double fractionLinePerPoint = 1/points!.length;
+    int pointsFraction = (points!.length * fraction).ceil();
     double lastLineFraction = fraction - (pointsFraction - 1) * fractionLinePerPoint;
-    double lastLineFractionPercentage = lastLineFraction / (1/points.length);
+    double lastLineFractionPercentage = lastLineFraction / (1/points!.length);
 
     for (int index = 0;index<pointsFraction-1;index++){
-      Offset textOffset = Offset(points[index].x - 5, points[index].y - 15);
+      Offset textOffset = Offset(points![index].x - 5, points![index].y - 15);
       if (index == pointsFraction - 2){
-        Point startPoint = points[index];
-        Point endPoint = points[index + 1];
+        Point startPoint = points![index];
+        Point endPoint = points![index + 1];
         Offset startOffset = _getOffsetFromPoint(startPoint);
 
         double diffX = endPoint.x - startPoint.x;
@@ -113,22 +113,22 @@ class _ChartPainter extends CustomPainter {
             startPoint.x + diffX * lastLineFractionPercentage,
             startPoint.y + diffY * lastLineFractionPercentage);
         canvas.drawLine(startOffset, endOffset, paint);
-        _drawText(canvas, textOffset, pointLabels[index+1], lastLineFractionPercentage, true);
+        _drawText(canvas, textOffset, pointLabels![index+1], lastLineFractionPercentage, true);
 
       } else {
-        canvas.drawLine(_getOffsetFromPoint(points[index]),
-            _getOffsetFromPoint(points[index + 1]), paint);
-        _drawText(canvas, textOffset, pointLabels[index], 1, true);
+        canvas.drawLine(_getOffsetFromPoint(points![index]),
+            _getOffsetFromPoint(points![index + 1]), paint);
+        _drawText(canvas, textOffset, pointLabels![index], 1, true);
       }
     }
     if (fraction > 0.999) {
       Offset textOffset = Offset(
-          points[points.length - 1].x - 5, points[points.length - 1].y - 15);
-      _drawText(canvas, textOffset, pointLabels[points.length - 1], 1, true);
+          points![points!.length - 1].x - 5, points![points!.length - 1].y - 15);
+      _drawText(canvas, textOffset, pointLabels![points!.length - 1], 1, true);
     }
   }
 
-  void _drawText(Canvas canvas, Offset offset, String text,
+  void _drawText(Canvas canvas, Offset offset, String? text,
       double alphaFraction, bool textShadow) {
     TextStyle textStyle = _getTextStyle(alphaFraction, textShadow);
     TextSpan textSpan = TextSpan(style: textStyle, text: text);
@@ -177,7 +177,7 @@ class _ChartPainter extends CustomPainter {
     Paint axesPaint = _getLinePaint(Colors.white30);
 
     if (axes != null) {
-      for (ChartLine lineAxis in axes) {
+      for (ChartLine lineAxis in axes!) {
         canvas.drawLine(
             lineAxis.lineStartOffset, lineAxis.lineEndOffset, axesPaint);
         _drawText(canvas, lineAxis.textOffset, lineAxis.label, 1, false);

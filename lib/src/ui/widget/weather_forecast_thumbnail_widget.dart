@@ -17,7 +17,7 @@ class WeatherForecastThumbnailWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     var temperature = _holder.averageTemperature;
     if (!applicationBloc.isMetricUnits()){
-      temperature = WeatherHelper.convertCelsiusToFahrenheit(temperature);
+      temperature = WeatherHelper.convertCelsiusToFahrenheit(temperature!);
     }
 
 
@@ -35,12 +35,12 @@ class WeatherForecastThumbnailWidget extends StatelessWidget {
                         left: 5, right: 5, top: 10),
                     child: Column(
                       children: <Widget>[
-                        Text(_holder.dateShortFormatted,
+                        Text(_holder.dateShortFormatted!,
                             key: Key("weather_forecast_thumbnail_date"),
                             textDirection: TextDirection.ltr,
                             style: Theme.of(context).textTheme.body1),
                         WidgetHelper.buildPadding(top: 5),
-                        Image.asset(_holder.weatherCodeAsset,
+                        Image.asset(_holder.weatherCodeAsset!,
                             key: Key("weather_forecast_thumbnail_icon"),
                             width: 30,
                             height: 30),

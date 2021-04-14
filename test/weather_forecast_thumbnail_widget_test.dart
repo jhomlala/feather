@@ -23,13 +23,12 @@ main() {
 }
 
 WeatherForecastHolder setupWeatherForecastHolder() {
-  List<WeatherForecastResponse> forecastList =
-      new List<WeatherForecastResponse>();
+  List<WeatherForecastResponse> forecastList = [];
 
   Wind wind = new Wind(5, 200);
   MainWeatherData mainWeatherData = MainWeatherData(0, 0, 0, 0, 0, 0, 0);
   OverallWeatherData overallWeatherData = OverallWeatherData(0, "", "", "");
-  List<OverallWeatherData> list = new List();
+  List<OverallWeatherData> list = [];
   list.add(overallWeatherData);
   Rain rain = Rain(10);
   Rain snow = Rain(10);

@@ -1,5 +1,5 @@
 class Clouds {
-  final int all;
+  final int? all;
 
   Clouds(this.all);
 

@@ -34,9 +34,9 @@ class WeatherHelper {
       WeatherForecastResponse response = forecastList[i];
       String dayKey = _getDayKey(response.dateTime);
       if (!map.containsKey(dayKey)) {
-        map[dayKey] = List<WeatherForecastResponse>();
+        map[dayKey] = <WeatherForecastResponse>[];
       }
-      map[dayKey].add(response);
+      map[dayKey]!.add(response);
     }
     return map;
   }
@@ -46,7 +46,7 @@ class WeatherHelper {
   }
 
   static String formatTemperature(
-      {double temperature,
+      {double? temperature,
       int positions = 0,
       round = true,
       metricUnits = true}) {
@@ -57,17 +57,17 @@ class WeatherHelper {
     }
 
     if (round) {
-      temperature = temperature.floor().toDouble();
+      temperature = temperature!.floor().toDouble();
     }
 
-    return "${temperature.toStringAsFixed(positions)} $unit";
+    return "${temperature!.toStringAsFixed(positions)} $unit";
   }
 
   static double convertCelsiusToFahrenheit(double temperature) {
     return 32 + temperature * 1.8;
   }
 
-  static double convertMetersPerSecondToKilometersPerHour(double speed) {
+  static double convertMetersPerSecondToKilometersPerHour(double? speed) {
     if (speed != null) {
       return speed * 3.6;
     } else {
@@ -75,7 +75,7 @@ class WeatherHelper {
     }
   }
 
-  static double convertMetersPerSecondToMilesPerHour(double speed) {
+  static double convertMetersPerSecondToMilesPerHour(double? speed) {
     if (speed != null) {
       return speed * 2.236936292;
     } else {
@@ -112,14 +112,14 @@ class WeatherHelper {
   }
 
   static int getDayMode(System system) {
-    int sunrise = system.sunrise * 1000;
-    int sunset = system.sunset * 1000;
+    int sunrise = system.sunrise! * 1000;
+    int sunset = system.sunset! * 1000;
     return getDayModeFromSunriseSunset(sunrise, sunset);
   }
 
-  static int getDayModeFromSunriseSunset(int sunrise, int sunset) {
+  static int getDayModeFromSunriseSunset(int sunrise, int? sunset) {
     int now = DateTime.now().millisecondsSinceEpoch;
-    if (now >= sunrise && now <= sunset) {
+    if (now >= sunrise && now <= sunset!) {
       return 0;
     } else if (now >= sunrise) {
       return 1;

@@ -21,7 +21,7 @@ class SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomPadding: false,
+
         body: Stack(
           children: <Widget>[
             Container(
@@ -45,7 +45,7 @@ class SettingsScreenState extends State<SettingsScreen> {
   }
 
   Widget _getSettingsContainer(BuildContext context) {
-    var applicationLocalization = ApplicationLocalization.of(context);
+    var applicationLocalization = ApplicationLocalization.of(context)!;
     return Container(
         padding: WidgetHelper.buildEdgeInsets(left: 30, top: 80),
         child: Column(
@@ -58,7 +58,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                   style: Theme.of(context).textTheme.subtitle,
                 ),
                 Row(children: [
-                  Text(applicationLocalization.getText("metric")),
+                  Text(applicationLocalization.getText("metric")!),
                   Switch(
                       value: unitImperial,
                       activeColor: Colors.grey,
@@ -66,12 +66,12 @@ class SettingsScreenState extends State<SettingsScreen> {
                       inactiveTrackColor: Colors.white,
                       inactiveThumbColor: Colors.grey,
                       onChanged: onChangedUnitState),
-                  Text(applicationLocalization.getText("imperial")),
+                  Text(applicationLocalization.getText("imperial")!),
                   WidgetHelper.buildPadding(right: 10)
                 ])
               ]),
               Text(
-                applicationLocalization.getText("units_description"),
+                applicationLocalization.getText("units_description")!,
                 style: Theme.of(context).textTheme.body2,
               ),
               WidgetHelper.buildPadding(top: 30),
@@ -98,7 +98,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                               .map((PopupMenuElement element) {
                             return PopupMenuItem<PopupMenuElement>(
                                 value: element,
-                                child: Text(element.title,
+                                child: Text(element.title!,
                                     style: TextStyle(color: Colors.white)));
                           }).toList();
                         },
@@ -107,7 +107,7 @@ class SettingsScreenState extends State<SettingsScreen> {
               ]),
               WidgetHelper.buildPadding(top: 10),
               Text(
-                applicationLocalization.getText("refresh_time_description"),
+                applicationLocalization.getText("refresh_time_description")!,
                 style: Theme.of(context).textTheme.body2,
               ),
               WidgetHelper.buildPadding(top: 30),
@@ -125,8 +125,8 @@ class SettingsScreenState extends State<SettingsScreen> {
   }
 
   List<PopupMenuElement> _getRefreshTimeMenu(BuildContext context) {
-    var applicationLocalization = ApplicationLocalization.of(context);
-    List<PopupMenuElement> menuList = List();
+    var applicationLocalization = ApplicationLocalization.of(context)!;
+    List<PopupMenuElement> menuList = [];
     menuList.add(PopupMenuElement(
       key: Key("menu_settings_refresh_time_10_minutes"),
       title: "10 ${applicationLocalization.getText("minutes")}",
@@ -164,15 +164,15 @@ class SettingsScreenState extends State<SettingsScreen> {
     var applicationLocalization = ApplicationLocalization.of(context);
     switch (refreshTime) {
       case 600000:
-        return "10 ${applicationLocalization.getText("minutes")}";
+        return "10 ${applicationLocalization!.getText("minutes")}";
       case 900000:
-        return "15${applicationLocalization.getText("minutes")}";
+        return "15${applicationLocalization!.getText("minutes")}";
       case 1800000:
-        return "30 ${applicationLocalization.getText("minutes")}";
+        return "30 ${applicationLocalization!.getText("minutes")}";
       case 3600000:
-        return "60 ${applicationLocalization.getText("minutes")}";
+        return "60 ${applicationLocalization!.getText("minutes")}";
       default:
-        return "10 ${applicationLocalization.getText("minutes")}";
+        return "10 ${applicationLocalization!.getText("minutes")}";
     }
   }
 

@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class AnimatedTextWidget extends StatefulWidget {
-  final String textBefore;
-  final double maxValue;
+  final String? textBefore;
+  final double? maxValue;
 
-  AnimatedTextWidget({this.textBefore, this.maxValue, Key key})
+  AnimatedTextWidget({this.textBefore, this.maxValue, Key? key})
       : super(key: key);
 
   @override

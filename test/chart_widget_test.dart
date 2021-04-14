@@ -43,8 +43,7 @@ ChartData setupChartData() {
 }
 
 WeatherForecastHolder setupWeatherForecastHolder(int objectsCount) {
-  List<WeatherForecastResponse> forecastList =
-      new List<WeatherForecastResponse>();
+  List<WeatherForecastResponse> forecastList = <WeatherForecastResponse>[];
 
   for (int index = 0; index < objectsCount; index++) {
     DateTime dateTime = DateTime.utc(2019, 1, index + 1);
@@ -64,7 +63,7 @@ WeatherForecastResponse buildForecastResponseForDateTime(DateTime dateTime) {
   Wind wind = new Wind(5, 200);
   MainWeatherData mainWeatherData = MainWeatherData(0, 0, 0, 0, 0, 0, 0);
   OverallWeatherData overallWeatherData = OverallWeatherData(0, "", "", "");
-  List<OverallWeatherData> list = new List();
+  List<OverallWeatherData> list = [];
   list.add(overallWeatherData);
   Rain rain = Rain(0);
   Rain snow = Rain(0);

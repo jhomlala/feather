@@ -5,13 +5,13 @@ import 'package:feather/src/models/remote/rain.dart';
 import 'package:feather/src/models/remote/wind.dart';
 
 class WeatherForecastResponse {
-  final MainWeatherData mainWeatherData;
-  final List<OverallWeatherData> overallWeatherData;
-  final Clouds clouds;
-  final Wind wind;
+  final MainWeatherData? mainWeatherData;
+  final List<OverallWeatherData>? overallWeatherData;
+  final Clouds? clouds;
+  final Wind? wind;
   final DateTime dateTime;
-  final Rain rain;
-  final Rain snow;
+  final Rain? rain;
+  final Rain? snow;
 
   WeatherForecastResponse(this.mainWeatherData, this.overallWeatherData,
       this.clouds, this.wind, this.dateTime, this.rain, this.snow);
@@ -41,11 +41,11 @@ class WeatherForecastResponse {
   Map<String, dynamic> toJson() => {
         "weather": overallWeatherData,
         "main": mainWeatherData,
-        "clouds": clouds.toJson(),
-        "wind": wind.toJson(),
+        "clouds": clouds!.toJson(),
+        "wind": wind!.toJson(),
         "dt_txt": dateTime.toIso8601String(),
-        "rain": rain.toJson(),
-        "snow": snow.toJson()
+        "rain": rain!.toJson(),
+        "snow": snow!.toJson()
       };
 
   @override

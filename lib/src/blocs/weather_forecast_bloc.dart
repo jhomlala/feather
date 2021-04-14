@@ -12,7 +12,7 @@ class WeatherForecastBloc extends BaseBloc {
   final Logger _logger = Logger("WeatherForecastBloc");
   final weatherForecastSubject = BehaviorSubject<WeatherForecastListResponse>();
   int lastRequestTime = 0;
-  Timer _timer;
+  Timer? _timer;
 
   @override
   setupTimer() {
@@ -41,7 +41,7 @@ class WeatherForecastBloc extends BaseBloc {
   fetchWeatherForecastForUserLocation() async {
     _logger.log(Level.FINE, "Fetch weather forecast for user location");
 
-    GeoPosition geoPosition = await getPosition();
+    GeoPosition? geoPosition = await getPosition();
     if (geoPosition != null) {
       fetchWeatherForecast(geoPosition.lat, geoPosition.long);
     } else {
@@ -52,7 +52,7 @@ class WeatherForecastBloc extends BaseBloc {
     }
   }
 
-  fetchWeatherForecast(double latitude, double longitude) async {
+  fetchWeatherForecast(double? latitude, double? longitude) async {
     lastRequestTime = DateTime.now().millisecondsSinceEpoch;
     _logger.log(Level.FINE, "Fetch weather forecast");
     WeatherForecastListResponse weatherForecastResponse =
@@ -60,7 +60,7 @@ class WeatherForecastBloc extends BaseBloc {
     if (weatherForecastResponse.errorCode == null) {
       weatherLocalRepository.saveWeatherForecast(weatherForecastResponse);
     } else {
-      WeatherForecastListResponse weatherForecastResponseStorage =
+      WeatherForecastListResponse? weatherForecastResponseStorage =
           await weatherLocalRepository.getWeatherForecast();
       if (weatherForecastResponseStorage != null) {
         weatherForecastResponse = weatherForecastResponseStorage;

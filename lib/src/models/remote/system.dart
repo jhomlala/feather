@@ -1,7 +1,7 @@
 class System{
-  final String country;
-  final int sunrise;
-  final int sunset;
+  final String? country;
+  final int? sunrise;
+  final int? sunset;
 
   System(this.country, this.sunrise, this.sunset);
 

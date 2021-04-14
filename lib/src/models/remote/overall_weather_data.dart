@@ -1,8 +1,8 @@
 class OverallWeatherData {
-  final int id;
-  final String main;
-  final String description;
-  final String icon;
+  final int? id;
+  final String? main;
+  final String? description;
+  final String? icon;
 
   OverallWeatherData(this.id, this.main, this.description, this.icon);
 

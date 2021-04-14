@@ -7,7 +7,7 @@ class ApplicationLocalization {
 
   ApplicationLocalization(this.locale);
 
-  static ApplicationLocalization of(BuildContext context) {
+  static ApplicationLocalization? of(BuildContext context) {
     return Localizations.of<ApplicationLocalization>(
         context, ApplicationLocalization);
   }
@@ -88,10 +88,10 @@ class ApplicationLocalization {
     },
   };
 
-  String getText(String tag) {
+  String? getText(String tag) {
     if (_localizedValues.containsKey(locale.languageCode) &&
-        _localizedValues[locale.languageCode].containsKey(tag)) {
-      return _localizedValues[locale.languageCode][tag];
+        _localizedValues[locale.languageCode]!.containsKey(tag)) {
+      return _localizedValues[locale.languageCode]![tag];
     } else {
       return "???";
     }

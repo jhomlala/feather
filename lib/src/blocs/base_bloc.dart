@@ -14,12 +14,12 @@ abstract class BaseBloc {
   final locationManager = LocationManager();
   final Logger _logger = Logger("BaseBloc");
 
-  Future<GeoPosition> getPosition() async {
+  Future<GeoPosition?> getPosition() async {
     try {
       var positionOptional = await locationManager.getLocation();
       if (positionOptional.isPresent) {
         _logger.fine("Position is present!");
-        var position = positionOptional.value;
+        var position = positionOptional.value!;
         GeoPosition geoPosition = GeoPosition.fromPosition(position);
         weatherLocalRepository.saveLocation(geoPosition);
         return geoPosition;

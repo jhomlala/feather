@@ -1,8 +1,8 @@
 import 'package:geolocator/geolocator.dart';
 
 class GeoPosition {
-  final double lat;
-  final double long;
+  final double? lat;
+  final double? long;
 
   GeoPosition(this.lat, this.long);
 

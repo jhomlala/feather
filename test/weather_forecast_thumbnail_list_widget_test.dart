@@ -60,7 +60,7 @@ main() {
 
 WeatherForecastListResponse setupWeatherForecastResponse() {
   City city = City(0, "");
-  List<WeatherForecastResponse> list = new List();
+  List<WeatherForecastResponse> list = [];
   for (int index = 0; index < 8; index++) {
     list.add(buildForecastResponseForDateTime(DateTime(2019, 1, index + 1)));
   }
@@ -79,7 +79,7 @@ WeatherForecastResponse buildForecastResponseForDateTime(DateTime dateTime) {
       0,
       0);
   OverallWeatherData overallWeatherData = OverallWeatherData(0, "", "", "");
-  List<OverallWeatherData> list = new List();
+  List<OverallWeatherData> list = [];
   list.add(overallWeatherData);
   Rain rain = Rain(0);
   Rain snow = Rain(0);

@@ -3,9 +3,9 @@ import 'package:feather/src/models/remote/city.dart';
 import 'package:feather/src/models/remote/weather_forecast_response.dart';
 
 class WeatherForecastListResponse {
-  final List<WeatherForecastResponse> list;
-  final City city;
-  ApplicationError _errorCode;
+  final List<WeatherForecastResponse>? list;
+  final City? city;
+  ApplicationError? _errorCode;
 
   WeatherForecastListResponse(this.list, this.city);
 
@@ -24,5 +24,5 @@ class WeatherForecastListResponse {
     return response;
   }
 
-  ApplicationError get errorCode => _errorCode;
+  ApplicationError? get errorCode => _errorCode;
 }

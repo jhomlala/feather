@@ -3,9 +3,9 @@ import 'package:feather/src/ui/widget/weather_current_widget.dart';
 import 'package:flutter/widgets.dart';
 
 class WeatherMainPage extends StatelessWidget {
-  final WeatherResponse weatherResponse;
+  final WeatherResponse? weatherResponse;
 
-  const WeatherMainPage({Key key, this.weatherResponse}) : super(key: key);
+  const WeatherMainPage({Key? key, this.weatherResponse}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

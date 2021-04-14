@@ -12,16 +12,16 @@ import 'package:flutter/widgets.dart';
 
 class WeatherForecastWindPage extends WeatherForecastBasePage {
   WeatherForecastWindPage(
-      WeatherForecastHolder holder, double width, double height)
+      WeatherForecastHolder? holder, double? width, double? height)
       : super(holder: holder, width: width, height: height);
 
   @override
   Row getBottomRowWidget(BuildContext context) {
-    List<Widget> rowElements = new List();
-    List<Point> points = getChartData().points;
+    List<Widget> rowElements = [];
+    List<Point> points = getChartData().points!;
     if (points.length > 2) {
       double padding = points[1].x - points[0].x - 30;
-      for (String direction in holder.getWindDirectionList()) {
+      for (String direction in holder!.getWindDirectionList()) {
         rowElements.add(SizedBox(
             width: 30,
             child: Center(
@@ -40,7 +40,7 @@ class WeatherForecastWindPage extends WeatherForecastBasePage {
 
   @override
   ChartData getChartData() {
-    return super.holder.setupChartData(ChartDataType.wind, width, height);
+    return super.holder!.setupChartData(ChartDataType.wind, width!, height!);
   }
 
   @override
@@ -51,8 +51,8 @@ class WeatherForecastWindPage extends WeatherForecastBasePage {
   @override
   RichText getPageSubtitleWidget(BuildContext context) {
 
-    var minWind = holder.minWind;
-    var maxWind = holder.maxWind;
+    var minWind = holder!.minWind;
+    var maxWind = holder!.maxWind;
     if (applicationBloc.isMetricUnits()){
       minWind = WeatherHelper.convertMetersPerSecondToKilometersPerHour(minWind);
       maxWind = WeatherHelper.convertMetersPerSecondToKilometersPerHour(maxWind);
@@ -77,7 +77,7 @@ class WeatherForecastWindPage extends WeatherForecastBasePage {
   }
 
   @override
-  String getTitleText(BuildContext context) {
-    return ApplicationLocalization.of(context).getText("wind");
+  String? getTitleText(BuildContext context) {
+    return ApplicationLocalization.of(context)!.getText("wind");
   }
 }

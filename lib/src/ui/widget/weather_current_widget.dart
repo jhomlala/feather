@@ -11,9 +11,9 @@ import 'package:flutter/widgets.dart';
 import 'package:logging/logging.dart';
 
 class WeatherCurrentWidget extends StatefulWidget {
-  final WeatherResponse weatherResponse;
+  final WeatherResponse? weatherResponse;
 
-  const WeatherCurrentWidget({Key key, this.weatherResponse}) : super(key: key);
+  const WeatherCurrentWidget({Key? key, this.weatherResponse}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -38,11 +38,11 @@ class WeatherCurrentWidgetState extends AnimatedState<WeatherCurrentWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return buildWeatherContainer(widget.weatherResponse);
+    return buildWeatherContainer(widget.weatherResponse!);
   }
 
   Widget buildWeatherContainer(WeatherResponse response) {
-    var currentTemperature = response.mainWeatherData.temp;
+    var currentTemperature = response.mainWeatherData!.temp;
     if (!applicationBloc.isMetricUnits()) {
       currentTemperature =
           WeatherHelper.convertCelsiusToFahrenheit(currentTemperature);
@@ -88,8 +88,8 @@ class WeatherCurrentWidgetState extends AnimatedState<WeatherCurrentWidget> {
   }
 
   String _getMaxMinTemperatureRow(WeatherResponse weatherResponse) {
-    var maxTemperature = weatherResponse.mainWeatherData.tempMax;
-    var minTemperature = weatherResponse.mainWeatherData.tempMin;
+    var maxTemperature = weatherResponse.mainWeatherData!.tempMax;
+    var minTemperature = weatherResponse.mainWeatherData!.tempMin;
     if (!applicationBloc.isMetricUnits()) {
       maxTemperature = WeatherHelper.convertCelsiusToFahrenheit(maxTemperature);
       minTemperature = WeatherHelper.convertCelsiusToFahrenheit(minTemperature);
@@ -100,7 +100,7 @@ class WeatherCurrentWidgetState extends AnimatedState<WeatherCurrentWidget> {
   }
 
   Widget _getPressureAndHumidityRow(WeatherResponse weatherResponse) {
-    var applicationLocalization = ApplicationLocalization.of(context);
+    var applicationLocalization = ApplicationLocalization.of(context)!;
     return RichText(
         textDirection: TextDirection.ltr,
         key: Key("weather_current_widget_pressure_humidity"),
@@ -109,7 +109,7 @@ class WeatherCurrentWidgetState extends AnimatedState<WeatherCurrentWidget> {
               text: "${applicationLocalization.getText("pressure")}: ",
               style: Theme.of(context).textTheme.body2),
           TextSpan(
-              text: WeatherHelper.formatPressure(weatherResponse.mainWeatherData.pressure),
+              text: WeatherHelper.formatPressure(weatherResponse.mainWeatherData!.pressure),
               style: Theme.of(context).textTheme.subtitle),
           TextSpan(
             text: "  ",
@@ -118,15 +118,15 @@ class WeatherCurrentWidgetState extends AnimatedState<WeatherCurrentWidget> {
               text: "${applicationLocalization.getText("humidity")}: ",
               style: Theme.of(context).textTheme.body2),
           TextSpan(
-              text: WeatherHelper.formatHumidity(weatherResponse.mainWeatherData.humidity),
+              text: WeatherHelper.formatHumidity(weatherResponse.mainWeatherData!.humidity),
               style: Theme.of(context).textTheme.subtitle)
         ]));
   }
 
   String _getWeatherImage(WeatherResponse weatherResponse) {
     OverallWeatherData overallWeatherData =
-        weatherResponse.overallWeatherData[0];
-    int code = overallWeatherData.id;
+        weatherResponse.overallWeatherData![0];
+    int code = overallWeatherData.id!;
     return WeatherHelper.getWeatherIcon(code);
   }
 

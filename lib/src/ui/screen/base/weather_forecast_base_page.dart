@@ -6,15 +6,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 abstract class WeatherForecastBasePage extends StatelessWidget {
-  final WeatherForecastHolder holder;
-  final double width;
-  final double height;
+  final WeatherForecastHolder? holder;
+  final double? width;
+  final double? height;
 
   const WeatherForecastBasePage(
-      {Key key,
-      @required this.holder,
-      @required this.width,
-      @required this.height})
+      {Key? key,
+      required this.holder,
+      required this.width,
+      required this.height})
       : super(key: key);
 
   @override
@@ -40,7 +40,7 @@ abstract class WeatherForecastBasePage extends StatelessWidget {
   }
 
   Widget getPageTitleWidget(BuildContext context) {
-    return Text(getTitleText(context),
+    return Text(getTitleText(context)!,
         key: Key("weather_forecast_base_page_title"),
         textDirection: TextDirection.ltr,
         style: Theme.of(context).textTheme.subtitle);
@@ -48,7 +48,7 @@ abstract class WeatherForecastBasePage extends StatelessWidget {
 
   String getIcon();
 
-  String getTitleText(BuildContext context);
+  String? getTitleText(BuildContext context);
 
   RichText getPageSubtitleWidget(BuildContext context);
 

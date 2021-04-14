@@ -7,10 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class SunPathWidget extends StatefulWidget {
-  final int sunrise;
-  final int sunset;
+  final int? sunrise;
+  final int? sunset;
 
-  const SunPathWidget({Key key, this.sunrise,this.sunset}) : super(key: key);
+  const SunPathWidget({Key? key, this.sunrise,this.sunset}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _SunPathWidgetState();
@@ -54,8 +54,8 @@ class _SunPathPainter extends CustomPainter {
   final double fraction;
   final double pi = 3.14159;
   final int dayAsMs = 86400000;
-  final int sunrise;
-  final int sunset;
+  final int? sunrise;
+  final int? sunset;
 
   _SunPathPainter(this.sunrise,this.sunset, this.fraction);
 
@@ -84,7 +84,7 @@ class _SunPathPainter extends CustomPainter {
 
   Paint _getCirclePaint() {
     Paint circlePaint = Paint();
-    int mode = WeatherHelper.getDayModeFromSunriseSunset(sunrise, sunset);
+    int mode = WeatherHelper.getDayModeFromSunriseSunset(sunrise!, sunset);
     if (mode == 0) {
       circlePaint..color = Colors.yellow;
     } else {
@@ -95,20 +95,20 @@ class _SunPathPainter extends CustomPainter {
 
   Offset _getPosition(fraction) {
     int now = DateTimeHelper.getCurrentTime();
-    int mode = WeatherHelper.getDayModeFromSunriseSunset(sunrise, sunset);
+    int mode = WeatherHelper.getDayModeFromSunriseSunset(sunrise!, sunset);
     double difference = 0;
     if (mode == 0) {
-      difference = (now - sunrise) / (sunset - sunrise);
+      difference = (now - sunrise!) / (sunset! - sunrise!);
     } else if (mode == 1) {
       DateTime nextSunrise =
-          DateTime.fromMillisecondsSinceEpoch(sunrise + dayAsMs);
+          DateTime.fromMillisecondsSinceEpoch(sunrise! + dayAsMs);
       difference =
-          (now - sunset) / (nextSunrise.millisecondsSinceEpoch - sunset);
+          (now - sunset!) / (nextSunrise.millisecondsSinceEpoch - sunset!);
     } else if (mode == -1) {
       DateTime previousSunset =
-          DateTime.fromMillisecondsSinceEpoch(sunset - dayAsMs);
+          DateTime.fromMillisecondsSinceEpoch(sunset! - dayAsMs);
       difference = 1 -
-          ((sunrise - now) / (sunrise - previousSunset.millisecondsSinceEpoch));
+          ((sunrise! - now) / (sunrise! - previousSunset.millisecondsSinceEpoch));
     }
 
     var x = 150 * cos((1 + difference * fraction) * pi) + 150;

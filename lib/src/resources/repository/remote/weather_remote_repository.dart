@@ -12,11 +12,11 @@ class WeatherRemoteRepository{
     return _instance;
   }
 
-  Future<WeatherResponse> fetchWeather(double latitude,double longitude){
+  Future<WeatherResponse> fetchWeather(double? latitude,double? longitude){
     return weatherApiProvider.fetchWeather(latitude,longitude);
   }
 
-  Future<WeatherForecastListResponse> fetchWeatherForecast(double latitude, double longitude){
+  Future<WeatherForecastListResponse> fetchWeatherForecast(double? latitude, double? longitude){
     return weatherApiProvider.fetchWeatherForecast(latitude, longitude);
   }
 

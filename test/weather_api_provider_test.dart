@@ -11,13 +11,13 @@ import 'package:feather/src/resources/repository/remote/weather_api_provider.dar
 import 'package:test/test.dart';
 
 void main() {
-  WeatherApiProvider weatherApiProvider;
+  late WeatherApiProvider weatherApiProvider;
   setUpAll(() {
     weatherApiProvider = WeatherApiProvider();
   });
 
   group("Current weather test", () {
-    WeatherResponse response;
+    WeatherResponse? response;
 
     setUpAll(() async {
       response = await weatherApiProvider.fetchWeather(0, 0);
@@ -28,17 +28,17 @@ void main() {
     });
 
     test("Weather system object not null and not empty", () {
-      System system = response.system;
+      System system = response!.system!;
       print(system.country);
       expect(system != null, true);
       expect(system.sunset != null, true);
       expect(system.sunrise != null, true);
-      expect(system.sunrise > 0, true);
-      expect(system.sunset > 0, true);
+      expect(system.sunrise! > 0, true);
+      expect(system.sunset! > 0, true);
     });
 
     test("Weather main data object not null and not empty", () {
-      MainWeatherData mainWeatherData = response.mainWeatherData;
+      MainWeatherData mainWeatherData = response!.mainWeatherData!;
       expect(mainWeatherData.pressure != null, true);
       expect(mainWeatherData.temp != null, true);
       expect(mainWeatherData.humidity != null, true);
@@ -53,7 +53,7 @@ void main() {
 
     test("Overall weather data object not null and not empty", () {
       List<OverallWeatherData> overallWeatherDataList =
-          response.overallWeatherData;
+          response!.overallWeatherData!;
       expect(overallWeatherDataList != null, true);
       expect(overallWeatherDataList.length > 0, true);
       for (OverallWeatherData overallWeatherData in overallWeatherDataList) {
@@ -65,7 +65,7 @@ void main() {
     });
 
     test("Wind weather data object not null and not empty", () {
-      Wind wind = response.wind;
+      Wind wind = response!.wind!;
       expect(wind != null, true);
       expect(wind.speed != null, true);
       expect(wind.deg != null, true);
@@ -74,13 +74,13 @@ void main() {
     });
 
     test("Clouds weather data object not null and not empty", () {
-      Clouds clouds = response.clouds;
+      Clouds clouds = response!.clouds!;
       expect(clouds != null, true);
       expect(clouds.all != null, true);
     });
 
     test("Coordinates weather data object not null and not empty", () {
-      Coordinates coord = response.cord;
+      Coordinates coord = response!.cord!;
       expect(coord != null, true);
       expect(coord.longitude != null, true);
       expect(coord.latitude != null, true);
@@ -89,34 +89,34 @@ void main() {
     });
 
     test("General weather data not null and not empty", () {
-      expect(response.id != null, true);
-      expect(response.name != null, true);
-      expect(response.cod != null, true);
+      expect(response!.id != null, true);
+      expect(response!.name != null, true);
+      expect(response!.cod != null, true);
     });
   });
 
   group("Weather forecast test", () {
-    WeatherForecastListResponse response;
-    WeatherForecastResponse forecastResponse;
+    WeatherForecastListResponse? response;
+    late WeatherForecastResponse forecastResponse;
 
     setUpAll(() async {
       print("setup");
       response =
       await weatherApiProvider.fetchWeatherForecast(0, 0);
       print("Response: " + response.toString());
-      forecastResponse = response.list[0];
+      forecastResponse = response!.list![0];
     });
 
     test("Weather forecast object not null and not empty", () {
       expect(response != null, true);
-      expect(response.list != null, true);
-      expect(response.list.length > 0, true);
+      expect(response!.list != null, true);
+      expect(response!.list!.length > 0, true);
     });
 
     test("Weather forecast city object not null and not empty", () {
-      expect(response.city != null, true);
-      expect(response.city.name != null, true);
-      expect(response.city.id != null, true);
+      expect(response!.city != null, true);
+      expect(response!.city!.name != null, true);
+      expect(response!.city!.id != null, true);
     });
 
 
@@ -132,7 +132,7 @@ void main() {
 
     test("Weather forecast element object overal weather data not null and not empty",(){
       List<OverallWeatherData> overallWeatherDataList =
-          forecastResponse.overallWeatherData;
+          forecastResponse.overallWeatherData!;
       expect(overallWeatherDataList != null, true);
       expect(overallWeatherDataList.length > 0, true);
       for (OverallWeatherData overallWeatherData in overallWeatherDataList) {
@@ -144,7 +144,7 @@ void main() {
     });
 
     test("Weather forecast element object main data object not null and not empty", () {
-      MainWeatherData mainWeatherData = forecastResponse.mainWeatherData;
+      MainWeatherData mainWeatherData = forecastResponse.mainWeatherData!;
       expect(mainWeatherData.pressure != null, true);
       expect(mainWeatherData.temp != null, true);
       expect(mainWeatherData.humidity != null, true);
@@ -158,7 +158,7 @@ void main() {
     });
 
     test("Weather forecast element object wind not null and not empty", () {
-      Wind wind = forecastResponse.wind;
+      Wind wind = forecastResponse.wind!;
       expect(wind != null, true);
       expect(wind.speed != null, true);
       expect(wind.deg != null, true);
@@ -167,7 +167,7 @@ void main() {
     });
 
     test("Weather forecast element object clouds not null and not empty", () {
-      Clouds clouds = forecastResponse.clouds;
+      Clouds clouds = forecastResponse.clouds!;
       expect(clouds != null, true);
       expect(clouds.all != null, true);
     });

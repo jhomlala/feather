@@ -13,7 +13,7 @@ class AboutScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomPadding: false,
+
         body: Stack(
           children: <Widget>[
             Container(
@@ -37,7 +37,7 @@ class AboutScreen extends StatelessWidget {
   }
 
   Widget _getAboutContainer(BuildContext context) {
-    var applicationLocalization = ApplicationLocalization.of(context);
+    var applicationLocalization = ApplicationLocalization.of(context)!;
     return Center(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
       InkWell(
@@ -52,7 +52,7 @@ class AboutScreen extends StatelessWidget {
         future: _getVersionAndBuildNumber(),
         builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
           if (snapshot.hasData) {
-            return Text(snapshot.data,
+            return Text(snapshot.data!,
                 key: Key("about_screen_app_version_and_build"),
                 style: Theme.of(context).textTheme.subtitle);
           } else {
@@ -69,9 +69,9 @@ class AboutScreen extends StatelessWidget {
       WidgetHelper.buildPadding(top: 20),
       Text("${applicationLocalization.getText("credits")}:",key: Key("about_screen_credits"), style: Theme.of(context).textTheme.subtitle),
       WidgetHelper.buildPadding(top: 10),
-      Text(applicationLocalization.getText("weather_data")),
+      Text(applicationLocalization.getText("weather_data")!),
       WidgetHelper.buildPadding(top: 2),
-      Text(applicationLocalization.getText("icon_data"))
+      Text(applicationLocalization.getText("icon_data")!)
     ]));
   }
 

@@ -9,8 +9,8 @@ import 'package:flutter/material.dart';
 
 class WeatherMainScreen extends StatelessWidget {
   List<PopupMenuElement> _getOverflowMenu(BuildContext context) {
-    var applicationLocalization = ApplicationLocalization.of(context);
-    List<PopupMenuElement> menuList = List();
+    var applicationLocalization = ApplicationLocalization.of(context)!;
+    List<PopupMenuElement> menuList = [];
     menuList.add(PopupMenuElement(
       key: Key("menu_overflow_settings"),
       title: applicationLocalization.getText("settings"),
@@ -25,7 +25,6 @@ class WeatherMainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomPadding: false,
         body: Stack(
           children: <Widget>[
             Container(
@@ -59,7 +58,7 @@ class WeatherMainScreen extends StatelessWidget {
                               .map((PopupMenuElement element) {
                             return PopupMenuItem<PopupMenuElement>(
                                 value: element,
-                                child: Text(element.title,
+                                child: Text(element.title!,
                                     style: TextStyle(color: Colors.white)));
                           }).toList();
                         },

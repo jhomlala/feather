@@ -5,7 +5,7 @@ import 'package:feather/src/resources/repository/remote/weather_remote_repositor
 import 'package:test/test.dart';
 
 main() {
-  WeatherRemoteRepository weatherRepository;
+  late WeatherRemoteRepository weatherRepository;
 
   setUpAll(() {
     weatherRepository = new WeatherRemoteRepository();
@@ -29,14 +29,14 @@ main() {
     WeatherForecastListResponse weatherForecastListResponse =
         await weatherRepository.fetchWeatherForecast(0, 0);
     expect(weatherForecastListResponse != null, true);
-    expect(weatherForecastListResponse.list.length > 0, true);
+    expect(weatherForecastListResponse.list!.length > 0, true);
 
-    WeatherForecastResponse response = weatherForecastListResponse.list[0];
+    WeatherForecastResponse response = weatherForecastListResponse.list![0];
     expect(response != null, true);
     expect(response.mainWeatherData != null, true);
     expect(response.wind != null, true);
     expect(response.clouds != null, true);
     expect(response.overallWeatherData != null, true);
-    expect(response.overallWeatherData.length > 0, true);
+    expect(response.overallWeatherData!.length > 0, true);
   });
 }
