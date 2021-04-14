@@ -11,6 +11,8 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  flutter_bloc: ^7.0.0
+  equatable: ^2.0.0
   geolocator: ^7.0.3
   dio: ^4.0.0
   rxdart: ^0.26.0
