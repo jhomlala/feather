@@ -1,11 +1,25 @@
+import 'package:feather/src/models/internal/geo_position.dart';
+import 'package:feather/src/models/remote/weather_response.dart';
+import 'package:feather/src/resources/location_manager.dart';
+import 'package:feather/src/resources/repository/local/weather_local_repository.dart';
+import 'package:feather/src/resources/repository/remote/weather_remote_repository.dart';
 import 'package:feather/src/ui/main/main_screen_event.dart';
+import 'package:feather/src/utils/app_logger.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 
 import 'main_screen_state.dart';
 
 class MainScreenBloc extends Bloc<MainScreenEvent, MainScreenState> {
-  MainScreenBloc() : super(InitialMainScreenState());
+  final LocationManager _locationManager;
+  final WeatherLocalRepository _weatherLocalRepository;
+  final WeatherRemoteRepository _weatherRemoteRepository;
+
+  MainScreenBloc(
+    this._locationManager,
+    this._weatherLocalRepository,
+    this._weatherRemoteRepository,
+  ) : super(InitialMainScreenState());
 
   @override
   Stream<MainScreenState> mapEventToState(MainScreenEvent event) async* {
@@ -16,6 +30,19 @@ class MainScreenBloc extends Bloc<MainScreenEvent, MainScreenState> {
         yield PermissionNotGrantedMainScreenState();
       } else {
         yield LoadingMainScreenState();
+        GeoPosition? position = await _getPosition();
+        Log.i("Got geo position: " + position.toString());
+        if (position != null) {
+          WeatherResponse? response =
+              await _fetchWeather(position.lat, position.long);
+          if (response != null) {
+            yield SuccessLoadMainScreenState(response);
+          } else {
+            yield FailedLoadMainScreenState("Not received data");
+          }
+        } else {
+          yield FailedLoadMainScreenState("Couldn't select location");
+        }
       }
     }
   }
@@ -35,5 +62,48 @@ class MainScreenBloc extends Bloc<MainScreenEvent, MainScreenState> {
     } else {
       return true;
     }
+  }
+
+  Future<GeoPosition?> _getPosition() async {
+    try {
+      var positionOptional = await _locationManager.getLocation();
+      if (positionOptional.isPresent) {
+        Log.i("Position is present!");
+        var position = positionOptional.value!;
+        GeoPosition geoPosition = GeoPosition.fromPosition(position);
+        _weatherLocalRepository.saveLocation(geoPosition);
+        return geoPosition;
+      } else {
+        Log.i("Position is not present!");
+        return _weatherLocalRepository.getLocation();
+      }
+    } catch (error, stackTrace) {
+      Log.e("getPosition failed", error: error, stackTrace: stackTrace);
+      return null;
+    }
+  }
+
+  Future<WeatherResponse?> _fetchWeather(
+      double? latitude, double? longitude) async {
+    Log.i("Fetch weather");
+    //lastRequestTime = DateTimeHelper.getCurrentTime();
+    WeatherResponse weatherResponse =
+        await _weatherRemoteRepository.fetchWeather(latitude, longitude);
+    if (weatherResponse.errorCode == null) {
+      _weatherLocalRepository.saveWeather(weatherResponse);
+      return weatherResponse;
+    } else {
+      Log.i("Selected weather from storage");
+      WeatherResponse? weatherResponseStorage =
+          await _weatherLocalRepository.getWeather();
+      if (weatherResponseStorage != null) {
+        return weatherResponseStorage;
+      } else {
+        return null;
+      }
+    }
+
+    //applicationBloc.saveLastRefreshTime(DateTimeHelper.getCurrentTime());
+    //weatherSubject.sink.add(weatherResponse);
   }
 }

@@ -33,7 +33,8 @@ class WeatherMainScreen extends StatelessWidget {
                     gradient: WidgetHelper.buildGradient(
                         ApplicationColors.nightStartColor,
                         ApplicationColors.nightEndColor)),
-                child: WeatherMainWidget()),
+                child: SizedBox()),
+                //child: WeatherMainWidget()),
             new Positioned(
               //Place it at the top, and not use the entire screen
               top: 0.0,

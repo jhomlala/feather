@@ -14,6 +14,11 @@ import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import 'package:logging/logging.dart';
 
 class WeatherMainWidget extends StatefulWidget {
+  final WeatherResponse weatherResponse;
+
+  const WeatherMainWidget({Key? key, required this.weatherResponse})
+      : super(key: key);
+
   @override
   State<StatefulWidget> createState() => WeatherMainWidgetState();
 }
@@ -25,8 +30,8 @@ class WeatherMainWidgetState extends State<WeatherMainWidget> {
   @override
   void initState() {
     super.initState();
-    bloc.setupTimer();
-    bloc.fetchWeatherForUserLocation();
+    //bloc.setupTimer();
+    //bloc.fetchWeatherForUserLocation();
   }
 
   @override
@@ -36,7 +41,9 @@ class WeatherMainWidgetState extends State<WeatherMainWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
+    return buildWeatherContainer(widget.weatherResponse);
+
+    /*return StreamBuilder(
       stream: bloc.weatherSubject.stream,
       builder: (context, AsyncSnapshot<WeatherResponse> snapshot) {
         if (snapshot.hasData) {
@@ -58,7 +65,7 @@ class WeatherMainWidgetState extends State<WeatherMainWidget> {
         }
         return WidgetHelper.buildProgressIndicator();
       },
-    );
+    );*/
   }
 
   Widget? _getPage(String key, WeatherResponse? response) {
@@ -78,49 +85,52 @@ class WeatherMainWidgetState extends State<WeatherMainWidget> {
     }
   }
 
-  Widget buildWeatherContainer(AsyncSnapshot<WeatherResponse> snapshot) {
+  Widget buildWeatherContainer(WeatherResponse weatherResponse) {
     return Directionality(
-        textDirection: TextDirection.ltr,
-        child: Container(
-            key: Key("weather_main_widget_container"),
-            decoration: BoxDecoration(
-                gradient: WidgetHelper.getGradient(
-                    sunriseTime: snapshot.data!.system!.sunrise,
-                    sunsetTime: snapshot.data!.system!.sunset)),
-            child: Center(
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                  Text(snapshot.data!.name!,
-                      key: Key("weather_main_widget_city_name"),
-                      textDirection: TextDirection.ltr,
-                      style: Theme.of(context).textTheme.title),
-                  Text(_getCurrentDateFormatted(),
-                      key: Key("weather_main_widget_date"),
-                      textDirection: TextDirection.ltr,
-                      style: Theme.of(context).textTheme.subtitle),
-                  SizedBox(
-                      height: Dimensions.weatherMainWidgetSwiperHeight,
-                      child: Swiper(
-                        key: Key("weather_main_swiper"),
-                        itemBuilder: (BuildContext context, int index) {
-                          if (index == 0) {
-                            return _getPage(
-                                Ids.mainWeatherPage, snapshot.data)!;
-                          } else {
-                            return _getPage(
-                                Ids.weatherMainSunPathPage, snapshot.data)!;
-                          }
-                        },
-                        loop: false,
-                        itemCount: 2,
-                        pagination: SwiperPagination(
-                            builder: new DotSwiperPaginationBuilder(
-                                color: ApplicationColors.swiperInactiveDotColor,
-                                activeColor:
-                                    ApplicationColors.swiperActiveDotColor)),
-                      ))
-                ]))));
+      textDirection: TextDirection.ltr,
+      child: Container(
+        key: Key("weather_main_widget_container"),
+        decoration: BoxDecoration(
+            gradient: WidgetHelper.getGradient(
+                sunriseTime: weatherResponse.system!.sunrise,
+                sunsetTime: weatherResponse.system!.sunset)),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(weatherResponse.name!,
+                  key: Key("weather_main_widget_city_name"),
+                  textDirection: TextDirection.ltr,
+                  style: Theme.of(context).textTheme.title),
+              Text(_getCurrentDateFormatted(),
+                  key: Key("weather_main_widget_date"),
+                  textDirection: TextDirection.ltr,
+                  style: Theme.of(context).textTheme.subtitle),
+              SizedBox(
+                  height: Dimensions.weatherMainWidgetSwiperHeight,
+                  child: Swiper(
+                    key: Key("weather_main_swiper"),
+                    itemBuilder: (BuildContext context, int index) {
+                      if (index == 0) {
+                        return _getPage(Ids.mainWeatherPage, weatherResponse)!;
+                      } else {
+                        return _getPage(
+                            Ids.weatherMainSunPathPage, weatherResponse)!;
+                      }
+                    },
+                    loop: false,
+                    itemCount: 2,
+                    pagination: SwiperPagination(
+                        builder: new DotSwiperPaginationBuilder(
+                            color: ApplicationColors.swiperInactiveDotColor,
+                            activeColor:
+                                ApplicationColors.swiperActiveDotColor)),
+                  ))
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   String _getCurrentDateFormatted() {

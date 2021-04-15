@@ -1,6 +1,9 @@
 import 'package:feather/src/blocs/application_bloc.dart';
 import 'package:feather/src/resources/config/application_config.dart';
 import 'package:feather/src/resources/application_localization_delegate.dart';
+import 'package:feather/src/resources/location_manager.dart';
+import 'package:feather/src/resources/repository/local/weather_local_repository.dart';
+import 'package:feather/src/resources/repository/remote/weather_remote_repository.dart';
 import 'package:feather/src/ui/main/main_screen.dart';
 import 'package:feather/src/ui/main/main_screen_bloc.dart';
 import 'package:feather/src/ui/screen/weather_main_screen.dart';
@@ -13,6 +16,12 @@ import 'package:logging/logging.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  final LocationManager _locationManager = LocationManager();
+  final WeatherLocalRepository _weatherLocalRepository =
+      WeatherLocalRepository();
+  final WeatherRemoteRepository _weatherRemoteRepository =
+      WeatherRemoteRepository();
+
   MyApp() {
     WidgetsFlutterBinding.ensureInitialized();
     SystemChrome.setEnabledSystemUIOverlays([]);
@@ -27,7 +36,11 @@ class MyApp extends StatelessWidget {
       home: MultiBlocProvider(
         providers: [
           BlocProvider<MainScreenBloc>(
-            create: (context) => MainScreenBloc(),
+            create: (context) => MainScreenBloc(
+              _locationManager,
+              _weatherLocalRepository,
+              _weatherRemoteRepository,
+            ),
           )
         ],
         child: MainScreen(),
