@@ -4,6 +4,7 @@ import 'package:feather/src/resources/config/application_colors.dart';
 import 'package:feather/src/ui/main/main_screen_event.dart';
 import 'package:feather/src/ui/screen/about_screen.dart';
 import 'package:feather/src/ui/screen/settings_screen.dart';
+import 'package:feather/src/ui/widget/animated_gradient.dart';
 import 'package:feather/src/ui/widget/weather_main_widget.dart';
 import 'package:feather/src/ui/widget/widget_helper.dart';
 import 'package:flutter/material.dart';
@@ -32,16 +33,30 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          Container(
-              key: Key("weather_main_screen_container"),
-              decoration: BoxDecoration(
-                gradient: WidgetHelper.buildGradient(
-                    ApplicationColors.nightStartColor,
-                    ApplicationColors.nightEndColor),
-              )),
           BlocBuilder<MainScreenBloc, MainScreenState>(
               builder: (context, state) {
-            if (state is LoadingMainScreenState) {
+            return Stack(children: [
+              if (state is InitialMainScreenState ||
+                  state is LoadingMainScreenState ||
+                  state is CheckingLocationState) ...[
+                AnimatedGradient(),
+                _buildLoadingWidget()
+              ] else ...[
+                Container(
+                    key: Key("weather_main_screen_container"),
+                    decoration: BoxDecoration(
+                      gradient: WidgetHelper.buildGradient(
+                          ApplicationColors.nightStartColor,
+                          ApplicationColors.nightEndColor),
+                    )),
+                if (state is SuccessLoadMainScreenState)
+                  WeatherMainWidget(weatherResponse: state.weatherResponse)
+              ]
+            ]);
+
+            /*if (state is InitialMainScreenState ||
+                state is LoadingMainScreenState ||
+                state is CheckingLocationState) {
               return Center(
                 child: CircularProgressIndicator(
                   valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
@@ -49,12 +64,64 @@ class _MainScreenState extends State<MainScreen> {
               );
             } else if (state is SuccessLoadMainScreenState) {
               return WeatherMainWidget(weatherResponse: state.weatherResponse);
+            } else if (state is LocationServiceDisabledMainScreenState) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Your location service is disabled. Please enable it and try again.",
+                      textAlign: TextAlign.center,
+                    ),
+                    TextButton(
+                      child: Text(
+                        "Retry",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () {
+                        _mainScreenBloc.add(MainScreenLocationCheckEvent());
+                      },
+                    )
+                  ],
+                ),
+              );
+            } else if (state is PermissionNotGrantedMainScreenState) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Permissions not granted. Please accept permission.",
+                      textAlign: TextAlign.center,
+                    ),
+                    TextButton(
+                      child: Text(
+                        "Retry",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () {
+                        _mainScreenBloc.add(MainScreenLocationCheckEvent());
+                      },
+                    )
+                  ],
+                ),
+              );
             } else {
               return SizedBox();
-            }
+            }*/
           }),
           _buildOverflowMenu()
         ],
+      ),
+    );
+  }
+
+  Widget _buildLoadingWidget() {
+    return Center(
+      child: CircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
       ),
     );
   }

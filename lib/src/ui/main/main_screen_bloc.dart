@@ -24,12 +24,14 @@ class MainScreenBloc extends Bloc<MainScreenEvent, MainScreenState> {
   @override
   Stream<MainScreenState> mapEventToState(MainScreenEvent event) async* {
     if (event is MainScreenLocationCheckEvent) {
+      yield CheckingLocationState();
       if (!await _checkLocationServiceEnabled()) {
         yield LocationServiceDisabledMainScreenState();
       } else if (!await _checkPermission()) {
         yield PermissionNotGrantedMainScreenState();
       } else {
         yield LoadingMainScreenState();
+        await Future.delayed(Duration(seconds: 10), (){});
         GeoPosition? position = await _getPosition();
         Log.i("Got geo position: " + position.toString());
         if (position != null) {
