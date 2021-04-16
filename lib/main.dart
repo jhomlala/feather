@@ -2,6 +2,7 @@ import 'package:feather/src/blocs/application_bloc.dart';
 import 'package:feather/src/resources/config/application_config.dart';
 import 'package:feather/src/resources/application_localization_delegate.dart';
 import 'package:feather/src/resources/location_manager.dart';
+import 'package:feather/src/resources/repository/local/application_local_repository.dart';
 import 'package:feather/src/resources/repository/local/weather_local_repository.dart';
 import 'package:feather/src/resources/repository/remote/weather_remote_repository.dart';
 import 'package:feather/src/ui/main/main_screen.dart';
@@ -21,6 +22,8 @@ class MyApp extends StatelessWidget {
       WeatherLocalRepository();
   final WeatherRemoteRepository _weatherRemoteRepository =
       WeatherRemoteRepository();
+  final ApplicationLocalRepository _applicationLocalRepository =
+      ApplicationLocalRepository();
 
   MyApp() {
     WidgetsFlutterBinding.ensureInitialized();
@@ -37,10 +40,10 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider<MainScreenBloc>(
             create: (context) => MainScreenBloc(
-              _locationManager,
-              _weatherLocalRepository,
-              _weatherRemoteRepository,
-            ),
+                _locationManager,
+                _weatherLocalRepository,
+                _weatherRemoteRepository,
+                _applicationLocalRepository),
           )
         ],
         child: MainScreen(),

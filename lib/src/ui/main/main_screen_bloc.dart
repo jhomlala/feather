@@ -1,10 +1,12 @@
 import 'package:feather/src/models/internal/geo_position.dart';
 import 'package:feather/src/models/remote/weather_response.dart';
 import 'package:feather/src/resources/location_manager.dart';
+import 'package:feather/src/resources/repository/local/application_local_repository.dart';
 import 'package:feather/src/resources/repository/local/weather_local_repository.dart';
 import 'package:feather/src/resources/repository/remote/weather_remote_repository.dart';
 import 'package:feather/src/ui/main/main_screen_event.dart';
 import 'package:feather/src/utils/app_logger.dart';
+import 'package:feather/src/utils/date_time_helper.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -14,11 +16,13 @@ class MainScreenBloc extends Bloc<MainScreenEvent, MainScreenState> {
   final LocationManager _locationManager;
   final WeatherLocalRepository _weatherLocalRepository;
   final WeatherRemoteRepository _weatherRemoteRepository;
+  final ApplicationLocalRepository _applicationLocalRepository;
 
   MainScreenBloc(
     this._locationManager,
     this._weatherLocalRepository,
     this._weatherRemoteRepository,
+    this._applicationLocalRepository,
   ) : super(InitialMainScreenState());
 
   @override
@@ -46,6 +50,7 @@ class MainScreenBloc extends Bloc<MainScreenEvent, MainScreenState> {
     if (position != null) {
       WeatherResponse? response =
           await _fetchWeather(position.lat, position.long);
+      _saveLastRefreshTime();
       if (response != null) {
         yield SuccessLoadMainScreenState(response);
       } else {
@@ -95,7 +100,6 @@ class MainScreenBloc extends Bloc<MainScreenEvent, MainScreenState> {
   Future<WeatherResponse?> _fetchWeather(
       double? latitude, double? longitude) async {
     Log.i("Fetch weather");
-    //lastRequestTime = DateTimeHelper.getCurrentTime();
     WeatherResponse weatherResponse =
         await _weatherRemoteRepository.fetchWeather(latitude, longitude);
     if (weatherResponse.errorCode == null) {
@@ -111,8 +115,10 @@ class MainScreenBloc extends Bloc<MainScreenEvent, MainScreenState> {
         return null;
       }
     }
+  }
 
-    //applicationBloc.saveLastRefreshTime(DateTimeHelper.getCurrentTime());
-    //weatherSubject.sink.add(weatherResponse);
+  void _saveLastRefreshTime() {
+    _applicationLocalRepository
+        .saveLastRefreshTime(DateTimeHelper.getCurrentTime());
   }
 }

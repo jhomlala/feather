@@ -1,12 +1,12 @@
 import 'package:feather/src/resources/config/application_colors.dart';
 import 'package:flutter/material.dart';
 
-class AnimatedGradient extends StatefulWidget {
+class AnimatedGradientWidget extends StatefulWidget {
   @override
-  _AnimatedGradientState createState() => _AnimatedGradientState();
+  _AnimatedGradientWidgetState createState() => _AnimatedGradientWidgetState();
 }
 
-class _AnimatedGradientState extends State<AnimatedGradient> {
+class _AnimatedGradientWidgetState extends State<AnimatedGradientWidget> {
   List<Color> colorList = [
     ApplicationColors.dayStartColor,
     ApplicationColors.dayEndColor,
@@ -20,16 +20,15 @@ class _AnimatedGradientState extends State<AnimatedGradient> {
     Alignment.topLeft,
   ];
   int index = 0;
-  Color bottomColor =  ApplicationColors.dayStartColor;
+  Color bottomColor = ApplicationColors.dayStartColor;
   Color topColor = ApplicationColors.midnightEndColor;
   Alignment begin = Alignment.bottomLeft;
   Alignment end = Alignment.topRight;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    Future.delayed(Duration(seconds: 1), (){
+    Future.delayed(Duration(seconds: 1), () {
       setState(() {
         bottomColor = ApplicationColors.dayEndColor;
       });
@@ -38,27 +37,22 @@ class _AnimatedGradientState extends State<AnimatedGradient> {
 
   @override
   Widget build(BuildContext context) {
-    return
-        AnimatedContainer(
-          duration: Duration(seconds: 1),
-          onEnd: () {
-            setState(() {
-              index = index + 1;
-              // animate the color
-              bottomColor = colorList[index % colorList.length];
-              topColor = colorList[(index + 1) % colorList.length];
-
-              //// animate the alignment
-              // begin = alignmentList[index % alignmentList.length];
-              // end = alignmentList[(index + 2) % alignmentList.length];
-            });
-          },
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: begin,
-              end: end,
-              colors: [bottomColor, topColor],
-            ),
-          ));
+    return AnimatedContainer(
+      duration: Duration(seconds: 1),
+      onEnd: () {
+        setState(() {
+          index = index + 1;
+          bottomColor = colorList[index % colorList.length];
+          topColor = colorList[(index + 1) % colorList.length];
+        });
+      },
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: begin,
+          end: end,
+          colors: [bottomColor, topColor],
+        ),
+      ),
+    );
   }
 }

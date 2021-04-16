@@ -3,7 +3,7 @@ import 'package:feather/src/resources/application_localization.dart';
 import 'package:feather/src/resources/config/application_colors.dart';
 import 'package:feather/src/ui/screen/about_screen.dart';
 import 'package:feather/src/ui/screen/settings_screen.dart';
-import 'package:feather/src/ui/widget/weather_main_widget.dart';
+
 import 'package:feather/src/ui/widget/widget_helper.dart';
 import 'package:flutter/material.dart';
 

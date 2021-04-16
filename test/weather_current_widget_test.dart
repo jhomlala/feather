@@ -3,7 +3,7 @@ import 'package:feather/src/models/remote/overall_weather_data.dart';
 import 'package:feather/src/models/remote/system.dart';
 import 'package:feather/src/models/remote/weather_response.dart';
 import 'package:feather/src/models/remote/wind.dart';
-import 'package:feather/src/ui/widget/weather_current_widget.dart';
+import 'package:feather/src/ui/widget/current_weather_widget.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -13,7 +13,7 @@ main() {
   testWidgets("Weather widget should show widgets",
       (WidgetTester tester) async {
     await tester.pumpWidget(
-        TestHelper.wrapWidgetWithLocalizationApp(WeatherCurrentWidget(
+        TestHelper.wrapWidgetWithLocalizationApp(CurrentWeatherWidget(
       weatherResponse: setupWeatherResponse(),
     )));
 
