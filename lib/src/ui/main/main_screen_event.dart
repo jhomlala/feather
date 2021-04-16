@@ -6,4 +6,6 @@ abstract class MainScreenEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class MainScreenLocationCheckEvent extends MainScreenEvent {}
+class LocationCheckMainScreenEvent extends MainScreenEvent {}
+
+class LoadWeatherDataMainScreenEvent extends MainScreenEvent {}

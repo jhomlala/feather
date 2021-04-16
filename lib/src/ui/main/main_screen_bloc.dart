@@ -23,29 +23,36 @@ class MainScreenBloc extends Bloc<MainScreenEvent, MainScreenState> {
 
   @override
   Stream<MainScreenState> mapEventToState(MainScreenEvent event) async* {
-    if (event is MainScreenLocationCheckEvent) {
+    if (event is LocationCheckMainScreenEvent) {
       yield CheckingLocationState();
       if (!await _checkLocationServiceEnabled()) {
         yield LocationServiceDisabledMainScreenState();
       } else if (!await _checkPermission()) {
         yield PermissionNotGrantedMainScreenState();
       } else {
-        yield LoadingMainScreenState();
-        await Future.delayed(Duration(seconds: 10), (){});
-        GeoPosition? position = await _getPosition();
-        Log.i("Got geo position: " + position.toString());
-        if (position != null) {
-          WeatherResponse? response =
-              await _fetchWeather(position.lat, position.long);
-          if (response != null) {
-            yield SuccessLoadMainScreenState(response);
-          } else {
-            yield FailedLoadMainScreenState("Not received data");
-          }
-        } else {
-          yield FailedLoadMainScreenState("Couldn't select location");
-        }
+        yield* _selectWeatherData();
       }
+    }
+    if (event is LoadWeatherDataMainScreenEvent) {
+      yield* _selectWeatherData();
+    }
+  }
+
+  Stream<MainScreenState> _selectWeatherData() async* {
+    yield LoadingMainScreenState();
+
+    GeoPosition? position = await _getPosition();
+    Log.i("Got geo position: " + position.toString());
+    if (position != null) {
+      WeatherResponse? response =
+          await _fetchWeather(position.lat, position.long);
+      if (response != null) {
+        yield SuccessLoadMainScreenState(response);
+      } else {
+        yield FailedLoadMainScreenState("Not received data");
+      }
+    } else {
+      yield FailedLoadMainScreenState("Couldn't select location");
     }
   }
 
