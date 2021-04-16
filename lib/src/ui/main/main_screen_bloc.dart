@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:feather/src/models/internal/geo_position.dart';
 import 'package:feather/src/models/remote/weather_response.dart';
 import 'package:feather/src/resources/location_manager.dart';
@@ -17,6 +19,7 @@ class MainScreenBloc extends Bloc<MainScreenEvent, MainScreenState> {
   final WeatherLocalRepository _weatherLocalRepository;
   final WeatherRemoteRepository _weatherRemoteRepository;
   final ApplicationLocalRepository _applicationLocalRepository;
+  Timer? _refreshTimer;
 
   MainScreenBloc(
     this._locationManager,
@@ -53,6 +56,7 @@ class MainScreenBloc extends Bloc<MainScreenEvent, MainScreenState> {
       _saveLastRefreshTime();
       if (response != null) {
         yield SuccessLoadMainScreenState(response);
+        _setupRefreshTimer();
       } else {
         yield FailedLoadMainScreenState("Not received data");
       }
@@ -120,5 +124,21 @@ class MainScreenBloc extends Bloc<MainScreenEvent, MainScreenState> {
   void _saveLastRefreshTime() {
     _applicationLocalRepository
         .saveLastRefreshTime(DateTimeHelper.getCurrentTime());
+  }
+
+  void _setupRefreshTimer() {
+    Log.i("Setup refresh data timer");
+    _refreshTimer?.cancel();
+    var duration = Duration(milliseconds: 10000);
+    _refreshTimer = new Timer(duration, () {
+      add(LoadWeatherDataMainScreenEvent());
+    });
+  }
+
+  @override
+  Future<void> close() {
+    _refreshTimer?.cancel();
+    _refreshTimer = null;
+    return super.close();
   }
 }

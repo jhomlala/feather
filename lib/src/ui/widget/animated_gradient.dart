@@ -29,9 +29,11 @@ class _AnimatedGradientWidgetState extends State<AnimatedGradientWidget> {
   void initState() {
     super.initState();
     Future.delayed(Duration(seconds: 1), () {
-      setState(() {
-        bottomColor = ApplicationColors.dayEndColor;
-      });
+      if (mounted) {
+        setState(() {
+          bottomColor = ApplicationColors.dayEndColor;
+        });
+      }
     });
   }
 
