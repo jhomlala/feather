@@ -7,6 +7,8 @@ import 'package:feather/src/resources/config/ids.dart';
 import 'package:feather/src/ui/main/main_screen_bloc.dart';
 import 'package:feather/src/ui/main/main_screen_event.dart';
 import 'package:feather/src/ui/main/main_screen_state.dart';
+import 'package:feather/src/ui/navigation/navigation_bloc.dart';
+import 'package:feather/src/ui/navigation/navigation_event.dart';
 import 'package:feather/src/ui/screen/about_screen.dart';
 import 'package:feather/src/ui/screen/settings_screen.dart';
 import 'package:feather/src/ui/screen/weather_main_sun_path_page.dart';
@@ -27,12 +29,14 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   final Map<String, Widget?> _pageMap = new Map();
   late MainScreenBloc _mainScreenBloc;
+  late NavigationBloc _navigationBloc;
 
   @override
   void initState() {
     super.initState();
     _mainScreenBloc = BlocProvider.of(context);
     _mainScreenBloc.add(LocationCheckMainScreenEvent());
+    _navigationBloc = BlocProvider.of(context);
   }
 
   @override
@@ -273,17 +277,11 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void _onMenuElementClicked(PopupMenuElement value, BuildContext context) {
-    if (value.key == Key("menu_overflow_settings")) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => SettingsScreen()),
-      );
+    if (value.key == const Key("menu_overflow_settings")) {
+      _navigationBloc.add(SettingsScreenNavigationEvent());
     }
-    if (value.key == Key("menu_overflow_about")) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => AboutScreen()),
-      );
+    if (value.key == const Key("menu_overflow_about")) {
+      _navigationBloc.add(AboutScreenNavigationEvent());
     }
   }
 }
