@@ -1,3 +1,4 @@
+import 'package:feather/src/models/internal/application_error.dart';
 import 'package:feather/src/models/internal/overflow_menu_element.dart';
 import 'package:feather/src/models/remote/weather_response.dart';
 import 'package:feather/src/resources/application_localization.dart';
@@ -9,8 +10,6 @@ import 'package:feather/src/ui/main/main_screen_event.dart';
 import 'package:feather/src/ui/main/main_screen_state.dart';
 import 'package:feather/src/ui/navigation/navigation_bloc.dart';
 import 'package:feather/src/ui/navigation/navigation_event.dart';
-import 'package:feather/src/ui/screen/about_screen.dart';
-import 'package:feather/src/ui/screen/settings_screen.dart';
 import 'package:feather/src/ui/screen/weather_main_sun_path_page.dart';
 import 'package:feather/src/ui/widget/animated_gradient.dart';
 import 'package:feather/src/ui/widget/current_weather_widget.dart';
@@ -22,12 +21,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 
 class MainScreen extends StatefulWidget {
+  const MainScreen({Key? key}) : super(key: key);
+
   @override
   _MainScreenState createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
-  final Map<String, Widget?> _pageMap = new Map();
+  final Map<String, Widget?> _pageMap = <String, Widget?>{};
   late MainScreenBloc _mainScreenBloc;
   late NavigationBloc _navigationBloc;
 
@@ -62,9 +63,9 @@ class _MainScreenState extends State<MainScreen> {
                     else if (state is SuccessLoadMainScreenState)
                       _buildWeatherWidget(state.weatherResponse)
                     else if (state is FailedLoadMainScreenState)
-                      _buildFailedToLoadDataWidget()
+                      _buildFailedToLoadDataWidget(state.applicationError)
                     else
-                      SizedBox()
+                      const SizedBox()
                   ]
                 ],
               );
@@ -80,7 +81,7 @@ class _MainScreenState extends State<MainScreen> {
     return Directionality(
       textDirection: TextDirection.ltr,
       child: Container(
-        key: Key("weather_main_widget_container"),
+        key: const Key("weather_main_widget_container"),
         decoration: BoxDecoration(
           gradient: WidgetHelper.getGradient(
             sunriseTime: weatherResponse.system!.sunrise,
@@ -93,13 +94,13 @@ class _MainScreenState extends State<MainScreen> {
             children: <Widget>[
               Text(
                 weatherResponse.name!,
-                key: Key("weather_main_widget_city_name"),
+                key: const Key("weather_main_widget_city_name"),
                 textDirection: TextDirection.ltr,
                 style: Theme.of(context).textTheme.headline6,
               ),
               Text(
                 DateTimeHelper.formatDateTime(DateTime.now()),
-                key: Key("weather_main_widget_date"),
+                key: const Key("weather_main_widget_date"),
                 textDirection: TextDirection.ltr,
                 style: Theme.of(context).textTheme.subtitle2,
               ),
@@ -118,7 +119,7 @@ class _MainScreenState extends State<MainScreen> {
 
   Widget _buildSwiperWidget(WeatherResponse weatherResponse) {
     return Swiper(
-      key: Key("weather_main_swiper"),
+      key: const Key("weather_main_swiper"),
       itemBuilder: (BuildContext context, int index) {
         if (index == 0) {
           return _getPage(
@@ -135,7 +136,7 @@ class _MainScreenState extends State<MainScreen> {
       loop: false,
       itemCount: 2,
       pagination: SwiperPagination(
-        builder: new DotSwiperPaginationBuilder(
+        builder: DotSwiperPaginationBuilder(
           color: ApplicationColors.swiperInactiveDotColor,
           activeColor: ApplicationColors.swiperActiveDotColor,
         ),
@@ -145,7 +146,7 @@ class _MainScreenState extends State<MainScreen> {
 
   Widget _getPage(String key, WeatherResponse response) {
     if (_pageMap.containsKey(key)) {
-      return _pageMap[key] ?? SizedBox();
+      return _pageMap[key] ?? const SizedBox();
     } else {
       Widget page;
       if (key == Ids.mainWeatherPage) {
@@ -156,7 +157,7 @@ class _MainScreenState extends State<MainScreen> {
         );
       } else {
         Log.e("Unsupported key: $key");
-        page = SizedBox();
+        page = const SizedBox();
       }
       _pageMap[key] = page;
       return page;
@@ -164,16 +165,18 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Widget _buildLoadingWidget() {
-    return Center(
+    return const Center(
       child: CircularProgressIndicator(
-        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+        valueColor: AlwaysStoppedAnimation<Color>(
+          Colors.white,
+        ),
       ),
     );
   }
 
   Widget _buildGradientWidget() {
     return Container(
-      key: Key("weather_main_screen_container"),
+      key: const Key("weather_main_screen_container"),
       decoration: BoxDecoration(
         gradient: WidgetHelper.buildGradient(
             ApplicationColors.nightStartColor, ApplicationColors.nightEndColor),
@@ -193,7 +196,7 @@ class _MainScreenState extends State<MainScreen> {
             onSelected: (PopupMenuElement element) {
               _onMenuElementClicked(element, context);
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.more_vert,
               color: Colors.white,
             ),
@@ -203,7 +206,7 @@ class _MainScreenState extends State<MainScreen> {
                   value: element,
                   child: Text(
                     element.title!,
-                    style: TextStyle(color: Colors.white),
+                    style: const TextStyle(color: Colors.white),
                   ),
                 );
               }).toList();
@@ -229,8 +232,8 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
-  Widget _buildFailedToLoadDataWidget() {
-    return _buildErrorWidget("Failed to load weather data.", () {
+  Widget _buildFailedToLoadDataWidget(ApplicationError error) {
+    return _buildErrorWidget("Failed to load weather data. $error", () {
       _mainScreenBloc.add(LoadWeatherDataMainScreenEvent());
     });
   }
@@ -241,21 +244,23 @@ class _MainScreenState extends State<MainScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                errorMessage,
-                textAlign: TextAlign.center,
-              ),
-              TextButton(
-                child: Text(
-                  "Retry",
-                  style: TextStyle(color: Colors.white),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  errorMessage,
+                  textAlign: TextAlign.center,
                 ),
-                onPressed: onRetryClicked,
-              )
-            ],
+                TextButton(
+                  onPressed: onRetryClicked,
+                  child: const Text(
+                    "Retry",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                )
+              ],
+            ),
           )
         ],
       ),
@@ -263,14 +268,14 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   List<PopupMenuElement> _getOverflowMenu(BuildContext context) {
-    var applicationLocalization = ApplicationLocalization.of(context)!;
-    List<PopupMenuElement> menuList = [];
+    final applicationLocalization = ApplicationLocalization.of(context)!;
+    final List<PopupMenuElement> menuList = [];
     menuList.add(PopupMenuElement(
-      key: Key("menu_overflow_settings"),
+      key: const Key("menu_overflow_settings"),
       title: applicationLocalization.getText("settings"),
     ));
     menuList.add(PopupMenuElement(
-      key: Key("menu_overflow_about"),
+      key: const Key("menu_overflow_about"),
       title: applicationLocalization.getText("about"),
     ));
     return menuList;

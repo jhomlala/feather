@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:feather/src/models/internal/application_error.dart';
 import 'package:feather/src/models/internal/geo_position.dart';
 import 'package:feather/src/models/remote/weather_response.dart';
 import 'package:feather/src/resources/location_manager.dart';
@@ -21,12 +22,10 @@ class MainScreenBloc extends Bloc<MainScreenEvent, MainScreenState> {
   final ApplicationLocalRepository _applicationLocalRepository;
   Timer? _refreshTimer;
 
-  MainScreenBloc(
-    this._locationManager,
-    this._weatherLocalRepository,
-    this._weatherRemoteRepository,
-    this._applicationLocalRepository,
-  ) : super(InitialMainScreenState());
+  MainScreenBloc(this._locationManager,
+      this._weatherLocalRepository,
+      this._weatherRemoteRepository,
+      this._applicationLocalRepository,) : super(InitialMainScreenState());
 
   @override
   Stream<MainScreenState> mapEventToState(MainScreenEvent event) async* {
@@ -48,20 +47,25 @@ class MainScreenBloc extends Bloc<MainScreenEvent, MainScreenState> {
   Stream<MainScreenState> _selectWeatherData() async* {
     yield LoadingMainScreenState();
 
-    GeoPosition? position = await _getPosition();
-    Log.i("Got geo position: " + position.toString());
+    final GeoPosition? position = await _getPosition();
+    Log.i("Got geo position: $position");
     if (position != null) {
-      WeatherResponse? response =
-          await _fetchWeather(position.lat, position.long);
+      final WeatherResponse? response =
+      await _fetchWeather(position.lat, position.long);
       _saveLastRefreshTime();
       if (response != null) {
-        yield SuccessLoadMainScreenState(response);
-        _setupRefreshTimer();
+        if (response.errorCode != null) {
+          yield FailedLoadMainScreenState(response.errorCode!);
+        } else {
+          yield SuccessLoadMainScreenState(response);
+          _setupRefreshTimer();
+        }
       } else {
-        yield FailedLoadMainScreenState("Not received data");
+        yield const FailedLoadMainScreenState(ApplicationError.connectionError);
       }
     } else {
-      yield FailedLoadMainScreenState("Couldn't select location");
+      yield const FailedLoadMainScreenState(
+          ApplicationError.locationNotSelectedError);
     }
   }
 
@@ -84,11 +88,11 @@ class MainScreenBloc extends Bloc<MainScreenEvent, MainScreenState> {
 
   Future<GeoPosition?> _getPosition() async {
     try {
-      var positionOptional = await _locationManager.getLocation();
+      final positionOptional = await _locationManager.getLocation();
       if (positionOptional.isPresent) {
         Log.i("Position is present!");
-        var position = positionOptional.value!;
-        GeoPosition geoPosition = GeoPosition.fromPosition(position);
+        final position = positionOptional.value!;
+        final GeoPosition geoPosition = GeoPosition.fromPosition(position);
         _weatherLocalRepository.saveLocation(geoPosition);
         return geoPosition;
       } else {
@@ -101,22 +105,22 @@ class MainScreenBloc extends Bloc<MainScreenEvent, MainScreenState> {
     }
   }
 
-  Future<WeatherResponse?> _fetchWeather(
-      double? latitude, double? longitude) async {
+  Future<WeatherResponse?> _fetchWeather(double? latitude,
+      double? longitude) async {
     Log.i("Fetch weather");
-    WeatherResponse weatherResponse =
-        await _weatherRemoteRepository.fetchWeather(latitude, longitude);
+    final WeatherResponse weatherResponse =
+    await _weatherRemoteRepository.fetchWeather(latitude, longitude);
     if (weatherResponse.errorCode == null) {
       _weatherLocalRepository.saveWeather(weatherResponse);
       return weatherResponse;
     } else {
       Log.i("Selected weather from storage");
-      WeatherResponse? weatherResponseStorage =
-          await _weatherLocalRepository.getWeather();
+      final WeatherResponse? weatherResponseStorage =
+      await _weatherLocalRepository.getWeather();
       if (weatherResponseStorage != null) {
         return weatherResponseStorage;
       } else {
-        return null;
+        return weatherResponse;
       }
     }
   }
@@ -129,8 +133,8 @@ class MainScreenBloc extends Bloc<MainScreenEvent, MainScreenState> {
   void _setupRefreshTimer() {
     Log.i("Setup refresh data timer");
     _refreshTimer?.cancel();
-    var duration = Duration(minutes: 30);
-    _refreshTimer = new Timer(duration, () {
+    const duration = Duration(minutes: 30);
+    _refreshTimer = Timer(duration, () {
       add(LoadWeatherDataMainScreenEvent());
     });
   }

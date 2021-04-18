@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:feather/src/models/internal/application_error.dart';
 import 'package:feather/src/models/remote/weather_response.dart';
 
 abstract class MainScreenState extends Equatable {
@@ -21,17 +22,17 @@ class LoadingMainScreenState extends MainScreenState {}
 class SuccessLoadMainScreenState extends MainScreenState {
   final WeatherResponse weatherResponse;
 
-  SuccessLoadMainScreenState(this.weatherResponse);
+  const SuccessLoadMainScreenState(this.weatherResponse);
 
   @override
   List<Object> get props => [weatherResponse];
 }
 
 class FailedLoadMainScreenState extends MainScreenState {
-  final String errorMessage;
+  final ApplicationError applicationError;
 
-  FailedLoadMainScreenState(this.errorMessage);
+  const FailedLoadMainScreenState(this.applicationError);
 
   @override
-  List<Object> get props => [errorMessage];
+  List<Object> get props => [applicationError];
 }
