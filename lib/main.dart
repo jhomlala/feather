@@ -7,7 +7,6 @@ import 'package:feather/src/resources/repository/local/weather_local_repository.
 import 'package:feather/src/resources/repository/remote/weather_remote_repository.dart';
 import 'package:feather/src/ui/main/main_screen.dart';
 import 'package:feather/src/ui/main/main_screen_bloc.dart';
-import 'package:feather/src/ui/screen/weather_main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -74,11 +73,13 @@ class MyApp extends StatelessWidget {
 
   ThemeData _configureThemeData() {
     return ThemeData(
-        textTheme: TextTheme(
-            headline: TextStyle(fontSize: 60.0, color: Colors.white),
-            title: TextStyle(fontSize: 35, color: Colors.white),
-            subtitle: TextStyle(fontSize: 20, color: Colors.white),
-            body1: TextStyle(fontSize: 15, color: Colors.white),
-            body2: TextStyle(fontSize: 12, color: Colors.white)));
+      textTheme: TextTheme(
+        headline5: TextStyle(fontSize: 60.0, color: Colors.white),
+        headline6: TextStyle(fontSize: 35, color: Colors.white),
+        subtitle2: TextStyle(fontSize: 20, color: Colors.white),
+        bodyText2: TextStyle(fontSize: 15, color: Colors.white),
+        bodyText1: TextStyle(fontSize: 12, color: Colors.white),
+      ),
+    );
   }
 }

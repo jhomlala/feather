@@ -129,7 +129,7 @@ class MainScreenBloc extends Bloc<MainScreenEvent, MainScreenState> {
   void _setupRefreshTimer() {
     Log.i("Setup refresh data timer");
     _refreshTimer?.cancel();
-    var duration = Duration(milliseconds: 10000);
+    var duration = Duration(minutes: 30);
     _refreshTimer = new Timer(duration, () {
       add(LoadWeatherDataMainScreenEvent());
     });

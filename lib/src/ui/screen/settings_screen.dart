@@ -55,7 +55,7 @@ class SettingsScreenState extends State<SettingsScreen> {
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                 Text(
                   "${applicationLocalization.getText("units")}:",
-                  style: Theme.of(context).textTheme.subtitle,
+                  style: Theme.of(context).textTheme.subtitle2,
                 ),
                 Row(children: [
                   Text(applicationLocalization.getText("metric")!),
@@ -72,13 +72,13 @@ class SettingsScreenState extends State<SettingsScreen> {
               ]),
               Text(
                 applicationLocalization.getText("units_description")!,
-                style: Theme.of(context).textTheme.body2,
+                style: Theme.of(context).textTheme.bodyText1,
               ),
               WidgetHelper.buildPadding(top: 30),
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                 Text(
                   "${applicationLocalization.getText("refresh_time")}:",
-                  style: Theme.of(context).textTheme.subtitle,
+                  style: Theme.of(context).textTheme.subtitle2,
                 ),
                 Center(child: Row(children: [
                   Theme(
@@ -108,19 +108,19 @@ class SettingsScreenState extends State<SettingsScreen> {
               WidgetHelper.buildPadding(top: 10),
               Text(
                 applicationLocalization.getText("refresh_time_description")!,
-                style: Theme.of(context).textTheme.body2,
+                style: Theme.of(context).textTheme.bodyText1,
               ),
               WidgetHelper.buildPadding(top: 30),
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                 Text(
                   "${applicationLocalization.getText("last_refresh_time")}:",
-                  style: Theme.of(context).textTheme.subtitle,
+                  style: Theme.of(context).textTheme.subtitle2,
                 ),
               ]),
               WidgetHelper.buildPadding(top: 10),
               Text(DateTime.fromMillisecondsSinceEpoch(
                       applicationBloc.lastRefreshTime)
-                  .toString(),style: Theme.of(context).textTheme.body2),
+                  .toString(),style: Theme.of(context).textTheme.bodyText1),
             ]));
   }
 

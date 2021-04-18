@@ -38,7 +38,7 @@ class WeatherForecastThumbnailWidget extends StatelessWidget {
                         Text(_holder.dateShortFormatted!,
                             key: Key("weather_forecast_thumbnail_date"),
                             textDirection: TextDirection.ltr,
-                            style: Theme.of(context).textTheme.body1),
+                            style: Theme.of(context).textTheme.bodyText2),
                         WidgetHelper.buildPadding(top: 5),
                         Image.asset(_holder.weatherCodeAsset!,
                             key: Key("weather_forecast_thumbnail_icon"),
@@ -52,7 +52,7 @@ class WeatherForecastThumbnailWidget extends StatelessWidget {
                                 round: true),
                             key: Key("weather_forecast_thumbnai_temperature"),
                             textDirection: TextDirection.ltr,
-                            style: Theme.of(context).textTheme.body1),
+                            style: Theme.of(context).textTheme.bodyText2),
                         WidgetHelper.buildPadding(top: 5),
                       ],
                     )))));

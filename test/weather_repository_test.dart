@@ -14,7 +14,7 @@ main() {
   test("Fetched weather not null and not empty", () async {
     WeatherResponse weatherResponse =
         await weatherRepository.fetchWeather(0, 0);
-    expect(weatherResponse != null, true);
+    //expect(weatherResponse != null, true);
     expect(weatherResponse.mainWeatherData != null, true);
     expect(weatherResponse.wind != null, true);
     expect(weatherResponse.clouds != null, true);
@@ -28,11 +28,11 @@ main() {
   test("Fetched weather forecast not null and not empty", () async {
     WeatherForecastListResponse weatherForecastListResponse =
         await weatherRepository.fetchWeatherForecast(0, 0);
-    expect(weatherForecastListResponse != null, true);
+    //expect(weatherForecastListResponse != null, true);
     expect(weatherForecastListResponse.list!.length > 0, true);
 
     WeatherForecastResponse response = weatherForecastListResponse.list![0];
-    expect(response != null, true);
+    //expect(response != null, true);
     expect(response.mainWeatherData != null, true);
     expect(response.wind != null, true);
     expect(response.clouds != null, true);

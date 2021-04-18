@@ -6,25 +6,27 @@ class Wind {
 
   Wind(this.speed, this.deg);
 
-  Wind.fromJson(Map<String,dynamic> json): speed = TypesHelper.toDouble(json["speed"]), deg = TypesHelper.toDouble(json["deg"]);
+  Wind.fromJson(Map<String, dynamic> json)
+      : speed = TypesHelper.toDouble(json["speed"]),
+        deg = TypesHelper.toDouble(json["deg"]);
 
-  Map<String,dynamic> toJson () =>{
-    "speed": speed,
-    "deg": deg,
-  };
+  Map<String, dynamic> toJson() => {
+        "speed": speed,
+        "deg": deg,
+      };
 
-  String getDegCode(){
-    if (deg == null){
+  String getDegCode() {
+    if (deg == 0.0) {
       return "N";
     }
     if (deg >= 0 && deg < 45) {
       return "N";
     } else if (deg >= 45 && deg < 90) {
-      return"NE";
+      return "NE";
     } else if (deg >= 90 && deg < 135) {
-      return"E";
+      return "E";
     } else if (deg >= 135 && deg < 180) {
-      return"SE";
+      return "SE";
     } else if (deg >= 180 && deg < 225) {
       return "S";
     } else if (deg >= 225 && deg < 270) {

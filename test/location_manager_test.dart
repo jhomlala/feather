@@ -7,7 +7,6 @@ void main(){
 
   test("Position should be optional with absent",() async {
     var position = await locationManager.getLocation();
-    expect(position != null, true);
     expect(position.isPresent, false);
   });
 }

@@ -74,7 +74,7 @@ class _WeatherMainSunPathPageState extends State<WeatherMainSunPathPage> {
           "${ApplicationLocalization.of(context)!.getText("sunset_in")}: ${_getTimeUntilSunset()}",
           key: Key("weather_main_sun_path_countdown"),
           textDirection: TextDirection.ltr,
-          style: Theme.of(context).textTheme.subtitle));
+          style: Theme.of(context).textTheme.subtitle2));
     } else {
       widgets.add(AnimatedTextWidget(
           textBefore:
@@ -86,7 +86,7 @@ class _WeatherMainSunPathPageState extends State<WeatherMainSunPathPage> {
           "${ApplicationLocalization.of(context)!.getText("sunrise_in")}: ${_getTimeUntilSunrise()}",
           key: Key("weather_main_sun_path_countdown"),
           textDirection: TextDirection.ltr,
-          style: Theme.of(context).textTheme.subtitle));
+          style: Theme.of(context).textTheme.subtitle2));
     }
 
     widgets.add(WidgetHelper.buildPadding(top: 30));
@@ -94,12 +94,12 @@ class _WeatherMainSunPathPageState extends State<WeatherMainSunPathPage> {
         "${ApplicationLocalization.of(context)!.getText("sunrise")}: ${_getSunriseTime()}",
         key: Key("weather_main_sun_path_sunrise"),
         textDirection: TextDirection.ltr,
-        style: Theme.of(context).textTheme.body1));
+        style: Theme.of(context).textTheme.bodyText2));
     widgets.add(Text(
         "${ApplicationLocalization.of(context)!.getText("sunset")}: ${_getSunsetTime()}",
         key: Key("weather_main_sun_path_sunset"),
         textDirection: TextDirection.ltr,
-        style: Theme.of(context).textTheme.body1));
+        style: Theme.of(context).textTheme.bodyText2));
 
     return widgets;
   }

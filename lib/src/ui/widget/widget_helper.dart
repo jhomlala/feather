@@ -61,9 +61,9 @@ class WidgetHelper {
       textAlign: TextAlign.center,
     ));
     if (withRetryButton) {
-      widgets.add(FlatButton(
+      widgets.add(TextButton(
         child: Text(ApplicationLocalization.of(context)!.getText("retry")!,
-            style: Theme.of(context).textTheme.subtitle),
+            style: Theme.of(context).textTheme.subtitle2),
         onPressed: voidCallback,
       ));
     }

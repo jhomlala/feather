@@ -39,11 +39,11 @@ main() {
         DateTime.parse("1969-07-20 20:18:04Z"), null, null));
 
     var map = WeatherHelper.mapForecastsForSameDay(list);
-    expect(map != null, true);
+    //expect(map != null, true);
     expect(map.length, 2);
     for (var element in map.entries){
-      expect(element.key != null && element.key.length >0 , true);
-      expect(element.value != null, true);
+      //expect(element.key != null && element.key.length >0 , true);
+      //expect(element.value != null, true);
       expect(element.value.length > 0, true);
     }
   });

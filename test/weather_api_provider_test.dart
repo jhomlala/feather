@@ -30,7 +30,7 @@ void main() {
     test("Weather system object not null and not empty", () {
       System system = response!.system!;
       print(system.country);
-      expect(system != null, true);
+      //expect(system != null, true);
       expect(system.sunset != null, true);
       expect(system.sunrise != null, true);
       expect(system.sunrise! > 0, true);
@@ -39,11 +39,11 @@ void main() {
 
     test("Weather main data object not null and not empty", () {
       MainWeatherData mainWeatherData = response!.mainWeatherData!;
-      expect(mainWeatherData.pressure != null, true);
-      expect(mainWeatherData.temp != null, true);
-      expect(mainWeatherData.humidity != null, true);
-      expect(mainWeatherData.tempMax != null, true);
-      expect(mainWeatherData.tempMin != null, true);
+      //expect(mainWeatherData.pressure != null, true);
+      //expect(mainWeatherData.temp != null, true);
+      //expect(mainWeatherData.humidity != null, true);
+      //expect(mainWeatherData.tempMax != null, true);
+      //expect(mainWeatherData.tempMin != null, true);
       expect(mainWeatherData.pressure > 0, true);
       expect(mainWeatherData.temp > 0, true);
       expect(mainWeatherData.humidity > 0, true);
@@ -54,7 +54,7 @@ void main() {
     test("Overall weather data object not null and not empty", () {
       List<OverallWeatherData> overallWeatherDataList =
           response!.overallWeatherData!;
-      expect(overallWeatherDataList != null, true);
+      //expect(overallWeatherDataList != null, true);
       expect(overallWeatherDataList.length > 0, true);
       for (OverallWeatherData overallWeatherData in overallWeatherDataList) {
         expect(overallWeatherData.id != null, true);
@@ -66,24 +66,24 @@ void main() {
 
     test("Wind weather data object not null and not empty", () {
       Wind wind = response!.wind!;
-      expect(wind != null, true);
-      expect(wind.speed != null, true);
-      expect(wind.deg != null, true);
+      //expect(wind != null, true);
+      //expect(wind.speed != null, true);
+      //expect(wind.deg != null, true);
       expect(wind.deg >= 0 && wind.deg <= 360, true);
       expect(wind.speed >= 0, true);
     });
 
     test("Clouds weather data object not null and not empty", () {
       Clouds clouds = response!.clouds!;
-      expect(clouds != null, true);
+      //expect(clouds != null, true);
       expect(clouds.all != null, true);
     });
 
     test("Coordinates weather data object not null and not empty", () {
       Coordinates coord = response!.cord!;
-      expect(coord != null, true);
-      expect(coord.longitude != null, true);
-      expect(coord.latitude != null, true);
+      //expect(coord != null, true);
+      //expect(coord.longitude != null, true);
+      //expect(coord.latitude != null, true);
       expect(coord.longitude >= -180 && coord.longitude <= 180, true);
       expect(coord.latitude >= -180 && coord.latitude <= 180, true);
     });
@@ -127,13 +127,13 @@ void main() {
       expect(forecastResponse.mainWeatherData != null , true);
       expect(forecastResponse.snow != null, true);
       expect(forecastResponse.rain != null, true);
-      expect(forecastResponse.dateTime != null, true);
+      //expect(forecastResponse.dateTime != null, true);
     });
 
     test("Weather forecast element object overal weather data not null and not empty",(){
       List<OverallWeatherData> overallWeatherDataList =
           forecastResponse.overallWeatherData!;
-      expect(overallWeatherDataList != null, true);
+      //expect(overallWeatherDataList != null, true);
       expect(overallWeatherDataList.length > 0, true);
       for (OverallWeatherData overallWeatherData in overallWeatherDataList) {
         expect(overallWeatherData.id != null, true);
@@ -145,11 +145,11 @@ void main() {
 
     test("Weather forecast element object main data object not null and not empty", () {
       MainWeatherData mainWeatherData = forecastResponse.mainWeatherData!;
-      expect(mainWeatherData.pressure != null, true);
-      expect(mainWeatherData.temp != null, true);
-      expect(mainWeatherData.humidity != null, true);
-      expect(mainWeatherData.tempMax != null, true);
-      expect(mainWeatherData.tempMin != null, true);
+      //expect(mainWeatherData.pressure != null, true);
+      //expect(mainWeatherData.temp != null, true);
+      //expect(mainWeatherData.humidity != null, true);
+      //expect(mainWeatherData.tempMax != null, true);
+      //expect(mainWeatherData.tempMin != null, true);
       expect(mainWeatherData.pressure > 0, true);
       expect(mainWeatherData.temp > 0, true);
       expect(mainWeatherData.humidity > 0, true);
@@ -159,16 +159,16 @@ void main() {
 
     test("Weather forecast element object wind not null and not empty", () {
       Wind wind = forecastResponse.wind!;
-      expect(wind != null, true);
-      expect(wind.speed != null, true);
-      expect(wind.deg != null, true);
+      //expect(wind != null, true);
+      //expect(wind.speed != null, true);
+      ///expect(wind.deg != null, true);
       expect(wind.deg >= 0 && wind.deg <= 360, true);
       expect(wind.speed >= 0, true);
     });
 
     test("Weather forecast element object clouds not null and not empty", () {
       Clouds clouds = forecastResponse.clouds!;
-      expect(clouds != null, true);
+      //expect(clouds != null, true);
       expect(clouds.all != null, true);
     });
 

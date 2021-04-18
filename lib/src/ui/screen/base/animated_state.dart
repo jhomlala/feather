@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:feather/src/ui/widget/empty_animation.dart';
 import 'package:flutter/widgets.dart';
-import 'package:rxdart/rxdart.dart';
 
 abstract class AnimatedState<T extends StatefulWidget> extends State<T>
     with SingleTickerProviderStateMixin {
@@ -19,7 +18,7 @@ abstract class AnimatedState<T extends StatefulWidget> extends State<T>
       Curve curve = Curves.easeInOut}) {
     controller = _getAnimationController(this, duration);
     Animation animation = _getCurvedAnimation(controller!, curve);
-   _streamController = StreamController<double>();
+    _streamController = StreamController<double>();
 
     Animation<double> tween = _getTween(start, end, animation);
     var valueListener = () {
@@ -32,8 +31,8 @@ abstract class AnimatedState<T extends StatefulWidget> extends State<T>
         _streamController.close();
       }
     });
-    subscription =
-        _streamController.stream.listen((value) => onAnimatedValue(value as double));
+    subscription = _streamController.stream
+        .listen((value) => onAnimatedValue(value as double));
     controller!.forward();
   }
 
@@ -64,7 +63,8 @@ abstract class AnimatedState<T extends StatefulWidget> extends State<T>
 
   static Animation<double> _getTween(
       double start, double? end, Animation animation) {
-    return Tween(begin: start, end: end).animate(animation as Animation<double>);
+    return Tween(begin: start, end: end)
+        .animate(animation as Animation<double>);
   }
 
   void onAnimatedValue(double value);
@@ -74,9 +74,7 @@ abstract class AnimatedState<T extends StatefulWidget> extends State<T>
     if (controller != null) {
       controller!.dispose();
     }
-    if (subscription != null) {
-      subscription!.cancel();
-    }
+    subscription?.cancel();
     super.dispose();
   }
 }

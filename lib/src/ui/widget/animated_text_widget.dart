@@ -27,7 +27,7 @@ class _AnimatedTextWidgetState extends AnimatedState<AnimatedTextWidget> {
     return Text(
       "${widget.textBefore} ${_value.toStringAsFixed(0)}%",
       textDirection: TextDirection.ltr,
-      style: Theme.of(context).textTheme.title,
+      style: Theme.of(context).textTheme.headline6,
     );
   }
 

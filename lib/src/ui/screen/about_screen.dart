@@ -13,27 +13,26 @@ class AboutScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
         body: Stack(
-          children: <Widget>[
-            Container(
-                key: Key("weather_main_screen_container"),
-                decoration: BoxDecoration(
-                    gradient: WidgetHelper.buildGradient(
-                        ApplicationColors.nightStartColor,
-                        ApplicationColors.nightEndColor)),
-                child: _getAboutContainer(context)),
-            new Positioned(
-              top: 0.0,
-              left: 0.0,
-              right: 0.0,
-              child: AppBar(
-                backgroundColor: Colors.transparent, //No more green
-                elevation: 0.0, //Shadow gone
-              ),
-            ),
-          ],
-        ));
+      children: <Widget>[
+        Container(
+            key: Key("weather_main_screen_container"),
+            decoration: BoxDecoration(
+                gradient: WidgetHelper.buildGradient(
+                    ApplicationColors.nightStartColor,
+                    ApplicationColors.nightEndColor)),
+            child: _getAboutContainer(context)),
+        new Positioned(
+          top: 0.0,
+          left: 0.0,
+          right: 0.0,
+          child: AppBar(
+            backgroundColor: Colors.transparent, //No more green
+            elevation: 0.0, //Shadow gone
+          ),
+        ),
+      ],
+    ));
   }
 
   Widget _getAboutContainer(BuildContext context) {
@@ -47,30 +46,34 @@ class AboutScreen extends StatelessWidget {
       ),
       Text("feather",
           key: Key("about_screen_app_name"),
-          style: Theme.of(context).textTheme.title),
+          style: Theme.of(context).textTheme.headline6),
       FutureBuilder<String>(
         future: _getVersionAndBuildNumber(),
         builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
           if (snapshot.hasData) {
             return Text(snapshot.data!,
                 key: Key("about_screen_app_version_and_build"),
-                style: Theme.of(context).textTheme.subtitle);
+                style: Theme.of(context).textTheme.subtitle2);
           } else {
             return Container(key: Key("about_screen_app_version_and_build"));
           }
         },
       ),
-      WidgetHelper.buildPadding(top: 20),
-      Text("${applicationLocalization.getText("contributors")}:", key: Key("about_screen_contributors"), style: Theme.of(context).textTheme.subtitle),
-      WidgetHelper.buildPadding(top: 10),
+      const SizedBox(height: 20),
+      Text("${applicationLocalization.getText("contributors")}:",
+          key: Key("about_screen_contributors"),
+          style: Theme.of(context).textTheme.subtitle2),
+      const SizedBox(height: 10),
       Text("Jakub Homlala (jhomlala)"),
-      WidgetHelper.buildPadding(top: 2),
+      const SizedBox(height: 2),
       Text("Jake Gough (SnakeyHips)"),
-      WidgetHelper.buildPadding(top: 20),
-      Text("${applicationLocalization.getText("credits")}:",key: Key("about_screen_credits"), style: Theme.of(context).textTheme.subtitle),
-      WidgetHelper.buildPadding(top: 10),
+      const SizedBox(height: 20),
+      Text("${applicationLocalization.getText("credits")}:",
+          key: Key("about_screen_credits"),
+          style: Theme.of(context).textTheme.subtitle2),
+      const SizedBox(height: 10),
       Text(applicationLocalization.getText("weather_data")!),
-      WidgetHelper.buildPadding(top: 2),
+      const SizedBox(height: 2),
       Text(applicationLocalization.getText("icon_data")!)
     ]));
   }

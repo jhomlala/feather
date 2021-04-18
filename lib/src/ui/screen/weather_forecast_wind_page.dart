@@ -27,7 +27,7 @@ class WeatherForecastWindPage extends WeatherForecastBasePage {
             child: Center(
                 child: Text(direction,
                     textDirection: TextDirection.ltr,
-                    style: Theme.of(context).textTheme.body2))));
+                    style: Theme.of(context).textTheme.bodyText1))));
         rowElements.add(WidgetHelper.buildPadding(left: padding));
       }
       rowElements.removeLast();
@@ -65,14 +65,14 @@ class WeatherForecastWindPage extends WeatherForecastBasePage {
         key: Key("weather_forecast_wind_page_subtitle"),
         textDirection: TextDirection.ltr,
         text: TextSpan(children: [
-          TextSpan(text: 'min ', style: Theme.of(context).textTheme.body2),
+          TextSpan(text: 'min ', style: Theme.of(context).textTheme.bodyText1),
           TextSpan(
               text: WeatherHelper.formatWind(minWind),
-              style: Theme.of(context).textTheme.subtitle),
-          TextSpan(text: '   max ', style: Theme.of(context).textTheme.body2),
+              style: Theme.of(context).textTheme.subtitle2),
+          TextSpan(text: '   max ', style: Theme.of(context).textTheme.bodyText1),
           TextSpan(
               text: WeatherHelper.formatWind(maxWind),
-              style: Theme.of(context).textTheme.subtitle)
+              style: Theme.of(context).textTheme.subtitle2)
         ]));
   }
 

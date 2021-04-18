@@ -5,11 +5,8 @@ import 'package:feather/src/models/remote/overall_weather_data.dart';
 import 'package:feather/src/models/remote/system.dart';
 import 'package:feather/src/models/remote/weather_response.dart';
 import 'package:feather/src/models/remote/wind.dart';
-import 'package:feather/src/ui/widget/weather_main_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'test_helper.dart';
 
 main() {
   testWidgets("Weather widget should display error",
@@ -18,7 +15,7 @@ main() {
       bloc.weatherSubject.sink
           .add(WeatherResponse.withErrorCode(ApplicationError.apiError));
       await tester.pump(new Duration(seconds: 5));
-      await tester.pumpWidget(TestHelper.wrapWidgetWithLocalizationApp(WeatherMainWidget()));
+     // await tester.pumpWidget(TestHelper.wrapWidgetWithLocalizationApp(WeatherMainWidget()));
       await tester.idle();
       expect(find.byKey(Key("progress_indicator")), findsOneWidget);
       await tester.idle();

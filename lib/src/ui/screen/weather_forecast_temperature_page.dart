@@ -73,16 +73,16 @@ class WeatherForecastTemperaturePage extends WeatherForecastBasePage {
         key: Key("weather_forecast_temperature_page_subtitle"),
         textDirection: TextDirection.ltr,
         text: TextSpan(children: [
-          TextSpan(text: 'min ', style: Theme.of(context).textTheme.body2),
+          TextSpan(text: 'min ', style: Theme.of(context).textTheme.bodyText1),
           TextSpan(
               text:
                   "${WeatherHelper.formatTemperature(temperature: minTemperature, positions: 1, round: false, metricUnits: applicationBloc.isMetricUnits())}",
-              style: Theme.of(context).textTheme.subtitle),
-          TextSpan(text: '   max ', style: Theme.of(context).textTheme.body2),
+              style: Theme.of(context).textTheme.subtitle2),
+          TextSpan(text: '   max ', style: Theme.of(context).textTheme.bodyText1),
           TextSpan(
               text:
                   "${WeatherHelper.formatTemperature(temperature: maxTemperature, positions: 1, round: false, metricUnits: applicationBloc.isMetricUnits())}",
-              style: Theme.of(context).textTheme.subtitle)
+              style: Theme.of(context).textTheme.subtitle2)
         ]));
   }
 

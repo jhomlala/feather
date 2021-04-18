@@ -61,7 +61,7 @@ class _ChartWidgetState extends AnimatedState<ChartWidget>{
         child: Text(
             ApplicationLocalization.of(context)!.getText("chart_unavailable")!,
             textDirection: TextDirection.ltr,
-            style: Theme.of(context).textTheme.body1));
+            style: Theme.of(context).textTheme.bodyText2));
   }
 
   @override

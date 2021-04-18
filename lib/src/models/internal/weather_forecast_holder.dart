@@ -163,10 +163,10 @@ class WeatherForecastHolder {
     List<double> rainList = [];
     for (WeatherForecastResponse response in forecastList!) {
       double rainSum = 0;
-      if (response.rain != null && response.rain!.amount != null) {
+      if (response.rain != null && response.rain!.amount > 0) {
         rainSum = response.rain!.amount;
       }
-      if (response.snow != null && response.snow!.amount != null) {
+      if (response.snow != null && response.snow!.amount > 0) {
         rainSum += response.snow!.amount;
       }
       rainList.add(rainSum);

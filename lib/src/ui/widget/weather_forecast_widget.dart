@@ -23,8 +23,8 @@ class WeatherForecastWidget extends StatelessWidget {
   WeatherForecastWidget({Key? key, this.holder, this.width, this.height})
       : super(key: key);
 
-  WeatherForecastBasePage? _getPage(
-      String key, WeatherForecastHolder? holder, double? width, double? height) {
+  WeatherForecastBasePage? _getPage(String key, WeatherForecastHolder? holder,
+      double? width, double? height) {
     if (_pageMap.containsKey(key)) {
       _logger.log(Level.INFO, "Get page from map with key: $key");
       return _pageMap[key];
@@ -54,14 +54,18 @@ class WeatherForecastWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         key: Key("weather_forecast_container"),
         children: <Widget>[
-          Text(holder!.getLocationName(context)!,
-              textDirection: TextDirection.ltr,
-              key: Key("weather_forecast_location_name"),
-              style: Theme.of(context).textTheme.title),
-          Text(holder!.dateFullFormatted!,
-              textDirection: TextDirection.ltr,
-              key: Key("weather_forecast_date_formatted"),
-              style: Theme.of(context).textTheme.subtitle),
+          Text(
+            holder!.getLocationName(context)!,
+            textDirection: TextDirection.ltr,
+            key: Key("weather_forecast_location_name"),
+            style: Theme.of(context).textTheme.headline6,
+          ),
+          Text(
+            holder!.dateFullFormatted!,
+            textDirection: TextDirection.ltr,
+            key: Key("weather_forecast_date_formatted"),
+            style: Theme.of(context).textTheme.subtitle2,
+          ),
           WidgetHelper.buildPadding(top: 20),
           SizedBox(
               height: 450,
@@ -69,7 +73,8 @@ class WeatherForecastWidget extends StatelessWidget {
                 key: Key("weather_forecast_swiper"),
                 itemBuilder: (BuildContext context, int index) {
                   if (index == 0) {
-                    return _getPage(Ids.temperaturePage, holder, width, height)!;
+                    return _getPage(
+                        Ids.temperaturePage, holder, width, height)!;
                   } else if (index == 1) {
                     return _getPage(Ids.windPage, holder, width, height)!;
                   } else if (index == 2) {
