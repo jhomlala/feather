@@ -273,11 +273,21 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void _onMenuElementClicked(PopupMenuElement value, BuildContext context) {
+    List<Color> startGradientColors = [];
+    if (_mainScreenBloc.state is SuccessLoadMainScreenState) {
+      final weatherResponse =
+          (_mainScreenBloc.state as SuccessLoadMainScreenState).weatherResponse;
+      final LinearGradient gradient = WidgetHelper.getGradient(
+          sunriseTime: weatherResponse.system!.sunrise,
+          sunsetTime: weatherResponse.system!.sunset);
+      startGradientColors = gradient.colors;
+    }
+
     if (value.key == const Key("menu_overflow_settings")) {
-      _navigationBloc.add(SettingsScreenNavigationEvent());
+      _navigationBloc.add(SettingsScreenNavigationEvent(startGradientColors));
     }
     if (value.key == const Key("menu_overflow_about")) {
-      _navigationBloc.add(AboutScreenNavigationEvent());
+      _navigationBloc.add(AboutScreenNavigationEvent(startGradientColors));
     }
   }
 }

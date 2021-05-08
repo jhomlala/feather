@@ -1,3 +1,4 @@
+import 'package:feather/src/models/internal/navigation_params.dart';
 import 'package:feather/src/ui/main/main_screen.dart';
 import 'package:feather/src/ui/about/about_screen.dart';
 import 'package:feather/src/ui/settings/settings_screen.dart';
@@ -23,7 +24,15 @@ class Navigation {
 
   final _settingsScreenHandler = Handler(
       handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
-    return const SettingsScreen();
+    List<Color> startGradientColors = [];
+    if (context?.arguments != null) {
+      final NavigationParams navigationParams =
+          context!.arguments! as NavigationParams;
+      startGradientColors = navigationParams.startGradientColors;
+    }
+    return SettingsScreen(
+      startGradientColors: startGradientColors,
+    );
   });
 
   void defineRoutes() {

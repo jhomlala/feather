@@ -14,7 +14,10 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({Key? key}) : super(key: key);
+  final List<Color> startGradientColors;
+
+  const SettingsScreen({Key? key, this.startGradientColors = const []})
+      : super(key: key);
 
   @override
   _SettingsScreenState createState() {
@@ -39,8 +42,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Scaffold(
         body: Stack(
       children: <Widget>[
-        const AnimatedGradientWidget(
-          duration: Duration(seconds: 3),
+        AnimatedGradientWidget(
+          duration: const Duration(seconds: 3),
+          startGradientColors: widget.startGradientColors,
         ),
         BlocBuilder(
           bloc: _settingsScreenBloc,

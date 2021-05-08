@@ -120,11 +120,11 @@ static LinearGradient buildGradientBasedOnDayCycle(int sunrise, int sunset) {
     }
   }
 
-  static LinearGradient getGradient({sunriseTime = 0, sunsetTime = 0}) {
+  static LinearGradient getGradient({int? sunriseTime = 0, int? sunsetTime = 0}) {
     if (sunriseTime == 0 && sunsetTime == 0) {
       return buildGradient(ApplicationColors.midnightStartColor, ApplicationColors.midnightEndColor);
     } else {
-      return buildGradientBasedOnDayCycle(sunriseTime, sunsetTime);
+      return buildGradientBasedOnDayCycle(sunriseTime!, sunsetTime!);
     }
   }
 }

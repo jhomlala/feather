@@ -1,3 +1,4 @@
+import 'package:feather/src/models/internal/navigation_params.dart';
 import 'package:feather/src/models/internal/navigation_route.dart';
 import 'package:feather/src/ui/navigation/navigation.dart';
 import 'package:feather/src/ui/navigation/navigation_event.dart';
@@ -9,8 +10,10 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
   final Navigation navigation;
   final GlobalKey<NavigatorState> navigatorKey;
 
-  NavigationBloc(this.navigation, this.navigatorKey,)
-      : super(const NavigationState(NavigationRoute.mainScreen));
+  NavigationBloc(
+    this.navigation,
+    this.navigatorKey,
+  ) : super(const NavigationState(NavigationRoute.mainScreen));
 
   @override
   Stream<NavigationState> mapEventToState(NavigationEvent event) async* {
@@ -23,17 +26,32 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
       yield const NavigationState(NavigationRoute.forecastScreen);
     }
     if (event is AboutScreenNavigationEvent) {
-      _navigateToPath("/about");
-      yield const NavigationState(NavigationRoute.aboutScreen);
+      _navigateToPath(
+        "/about",
+        routeSettings: RouteSettings(
+          arguments: NavigationParams(event.startGradientColors),
+        ),
+      );
+      yield const NavigationState(
+        NavigationRoute.aboutScreen,
+      );
     }
     if (event is SettingsScreenNavigationEvent) {
-      _navigateToPath("/settings");
+      _navigateToPath(
+        "/settings",
+        routeSettings: RouteSettings(
+          arguments: NavigationParams(event.startGradientColors),
+        ),
+      );
       yield const NavigationState(NavigationRoute.settingsScreen);
     }
   }
 
-  void _navigateToPath(String path) {
-    navigation.router.navigateTo(navigatorKey.currentState!.context, path);
+  void _navigateToPath(String path, {RouteSettings? routeSettings}) {
+    navigation.router.navigateTo(
+      navigatorKey.currentState!.context,
+      path,
+      routeSettings: routeSettings,
+    );
   }
-
 }

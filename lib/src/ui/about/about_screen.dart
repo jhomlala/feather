@@ -11,7 +11,10 @@ import 'package:package_info/package_info.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AboutScreen extends StatefulWidget {
-  const AboutScreen({Key? key}) : super(key: key);
+  final List<Color> startGradientColors;
+
+  const AboutScreen({Key? key, this.startGradientColors = const []})
+      : super(key: key);
 
   @override
   _AboutScreenState createState() => _AboutScreenState();
@@ -31,8 +34,9 @@ class _AboutScreenState extends State<AboutScreen> {
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          const AnimatedGradientWidget(
-            duration: Duration(seconds: 3),
+          AnimatedGradientWidget(
+            duration: const Duration(seconds: 3),
+            startGradientColors: widget.startGradientColors,
           ),
           BlocBuilder<AboutScreenBloc, AboutScreenState>(
             bloc: _aboutScreenBloc,
