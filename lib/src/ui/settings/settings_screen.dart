@@ -9,7 +9,6 @@ import 'package:feather/src/ui/settings/settings_screen_state.dart';
 import 'package:feather/src/ui/widget/animated_gradient.dart';
 import 'package:feather/src/ui/widget/loading_widget.dart';
 import 'package:feather/src/ui/widget/transparent_app_bar.dart';
-import 'package:feather/src/ui/widget/widget_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -67,36 +66,41 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget _getSettingsContainer(LoadedSettingsScreenState state) {
     final applicationLocalization = ApplicationLocalization.of(context)!;
     return Container(
-        padding: WidgetHelper.buildEdgeInsets(left: 30, top: 80),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      padding: const EdgeInsets.only(left: 24, right: 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: 80),
           _buildUnitsChangeWidget(
               applicationLocalization, state.unit == Unit.imperial),
           Text(
             applicationLocalization.getText("units_description"),
             style: Theme.of(context).textTheme.bodyText1,
           ),
-          WidgetHelper.buildPadding(top: 30),
+          const SizedBox(height: 30),
           _buildRefreshTimePickerWidget(
               applicationLocalization, state.refreshTime),
-          WidgetHelper.buildPadding(top: 10),
+          const SizedBox(height: 10),
           Text(
             applicationLocalization.getText("refresh_time_description"),
             style: Theme.of(context).textTheme.bodyText1,
           ),
-          WidgetHelper.buildPadding(top: 30),
+          const SizedBox(height: 30),
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             Text(
               "${applicationLocalization.getText("last_refresh_time")}:",
               style: Theme.of(context).textTheme.subtitle2,
             ),
           ]),
-          WidgetHelper.buildPadding(top: 10),
+          const SizedBox(height: 10),
           Text(
               DateTime.fromMillisecondsSinceEpoch(
                       applicationBloc.lastRefreshTime)
                   .toString(),
               style: Theme.of(context).textTheme.bodyText1),
-        ]));
+        ],
+      ),
+    );
   }
 
   Widget _buildUnitsChangeWidget(
@@ -119,7 +123,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 inactiveThumbColor: Colors.grey,
                 onChanged: onChangedUnitState),
             Text(applicationLocalization.getText("imperial")),
-            WidgetHelper.buildPadding(right: 10)
+            const SizedBox(height: 10),
           ],
         )
       ],
@@ -128,37 +132,49 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Widget _buildRefreshTimePickerWidget(
       ApplicationLocalization applicationLocalization, int refreshTime) {
-    return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-      Text(
-        "${applicationLocalization.getText("refresh_time")}:",
-        style: Theme.of(context).textTheme.subtitle2,
-      ),
-      Center(
-          child: Row(children: [
-        Theme(
-            data: Theme.of(context).copyWith(
-              cardColor: ApplicationColors.nightStartColor,
-            ),
-            child: PopupMenuButton<PopupMenuElement>(
-              onSelected: (PopupMenuElement element) {
-                _onMenuClicked(element);
-              },
-              itemBuilder: (BuildContext context) {
-                return _getRefreshTimeMenu(context)
-                    .map((PopupMenuElement element) {
-                  return PopupMenuItem<PopupMenuElement>(
-                      value: element,
-                      child: Text(element.title!,
-                          style: const TextStyle(color: Colors.white)));
-                }).toList();
-              },
-              child: Container(
-                padding: WidgetHelper.buildEdgeInsets(right: 10),
-                child: Text(_getSelectedMenuElementText(refreshTime)),
-              ),
-            ))
-      ])),
-    ]);
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          "${applicationLocalization.getText("refresh_time")}:",
+          style: Theme.of(context).textTheme.subtitle2,
+        ),
+        Center(
+          child: Row(
+            children: [
+              Theme(
+                data: Theme.of(context).copyWith(
+                  cardColor: ApplicationColors.nightStartColor,
+                ),
+                child: PopupMenuButton<PopupMenuElement>(
+                  onSelected: (PopupMenuElement element) {
+                    _onMenuClicked(element);
+                  },
+                  itemBuilder: (BuildContext context) {
+                    return _getRefreshTimeMenu(context)
+                        .map((PopupMenuElement element) {
+                      return PopupMenuItem<PopupMenuElement>(
+                        value: element,
+                        child: Text(
+                          element.title!,
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                      );
+                    }).toList();
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: Text(
+                      _getSelectedMenuElementText(refreshTime),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ],
+    );
   }
 
   List<PopupMenuElement> _getRefreshTimeMenu(BuildContext context) {
