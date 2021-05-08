@@ -2,7 +2,7 @@ import 'package:feather/src/models/internal/overflow_menu_element.dart';
 import 'package:feather/src/models/internal/weather_forecast_holder.dart';
 import 'package:feather/src/resources/application_localization.dart';
 import 'package:feather/src/resources/config/application_colors.dart';
-import 'package:feather/src/ui/screen/about_screen.dart';
+import 'package:feather/src/ui/about/about_screen.dart';
 import 'package:feather/src/ui/screen/settings_screen.dart';
 import 'package:feather/src/ui/widget/weather_forecast_widget.dart';
 import 'package:feather/src/ui/widget/widget_helper.dart';

@@ -1,5 +1,5 @@
 import 'package:feather/src/ui/main/main_screen.dart';
-import 'package:feather/src/ui/screen/about_screen.dart';
+import 'package:feather/src/ui/about/about_screen.dart';
 import 'package:feather/src/ui/screen/settings_screen.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';

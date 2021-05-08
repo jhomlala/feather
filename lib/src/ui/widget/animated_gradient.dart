@@ -2,6 +2,12 @@ import 'package:feather/src/resources/config/application_colors.dart';
 import 'package:flutter/material.dart';
 
 class AnimatedGradientWidget extends StatefulWidget {
+  final Duration duration;
+
+  const AnimatedGradientWidget(
+      {Key? key, this.duration = const Duration(seconds: 1)})
+      : super(key: key);
+
   @override
   _AnimatedGradientWidgetState createState() => _AnimatedGradientWidgetState();
 }
@@ -28,7 +34,7 @@ class _AnimatedGradientWidgetState extends State<AnimatedGradientWidget> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(seconds: 1), () {
+    Future.delayed(const Duration(seconds: 1), () {
       if (mounted) {
         setState(() {
           bottomColor = ApplicationColors.dayEndColor;
@@ -40,7 +46,7 @@ class _AnimatedGradientWidgetState extends State<AnimatedGradientWidget> {
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
-      duration: Duration(seconds: 1),
+      duration: widget.duration,
       onEnd: () {
         setState(() {
           index = index + 1;
