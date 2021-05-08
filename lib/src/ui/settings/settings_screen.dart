@@ -12,6 +12,7 @@ import 'package:feather/src/ui/widget/transparent_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class SettingsScreen extends StatefulWidget {
   final List<Color> startGradientColors;
@@ -68,6 +69,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   Widget _getSettingsContainer(LoadedSettingsScreenState state) {
+    final dateTime = DateTime.fromMillisecondsSinceEpoch(state.lastRefreshTime);
     final applicationLocalization = ApplicationLocalization.of(context)!;
     return Container(
       padding: const EdgeInsets.only(left: 24, right: 24),
@@ -98,9 +100,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ]),
           const SizedBox(height: 10),
           Text(
-              DateTime.fromMillisecondsSinceEpoch(
-                      applicationBloc.lastRefreshTime)
-                  .toString(),
+              "$dateTime (${timeago.format(dateTime, locale: Localizations.localeOf(context).languageCode)})",
               style: Theme.of(context).textTheme.bodyText1),
         ],
       ),

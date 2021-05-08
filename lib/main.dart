@@ -19,6 +19,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:logging/logging.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 void main() => runApp(MyApp());
 
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
     SystemChrome.setEnabledSystemUIOverlays([]);
     _navigation.defineRoutes();
     _configureLogger();
+    _configureTimeago();
     applicationBloc.loadSavedUnit();
     applicationBloc.loadSavedRefreshTime();
   }
@@ -99,5 +101,9 @@ class MyApp extends StatelessWidget {
         bodyText1: TextStyle(fontSize: 12, color: Colors.white),
       ),
     );
+  }
+
+  void _configureTimeago() {
+    timeago.setLocaleMessages("pl", timeago.PlMessages());
   }
 }
