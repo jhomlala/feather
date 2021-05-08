@@ -148,7 +148,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             children: [
               Theme(
                 data: Theme.of(context).copyWith(
-                  cardColor: ApplicationColors.nightStartColor,
+                  cardColor: Colors.white,
                 ),
                 child: PopupMenuButton<PopupMenuElement>(
                   onSelected: (PopupMenuElement element) {
@@ -161,7 +161,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         value: element,
                         child: Text(
                           element.title!,
-                          style: const TextStyle(color: Colors.white),
+                          style: const TextStyle(color: Colors.black),
                         ),
                       );
                     }).toList();
