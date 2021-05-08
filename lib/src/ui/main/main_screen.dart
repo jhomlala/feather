@@ -13,6 +13,7 @@ import 'package:feather/src/ui/navigation/navigation_event.dart';
 import 'package:feather/src/ui/screen/weather_main_sun_path_page.dart';
 import 'package:feather/src/ui/widget/animated_gradient.dart';
 import 'package:feather/src/ui/widget/current_weather_widget.dart';
+import 'package:feather/src/ui/widget/loading_widget.dart';
 import 'package:feather/src/ui/widget/widget_helper.dart';
 import 'package:feather/src/utils/app_logger.dart';
 import 'package:feather/src/utils/date_time_helper.dart';
@@ -52,8 +53,8 @@ class _MainScreenState extends State<MainScreen> {
                   if (state is InitialMainScreenState ||
                       state is LoadingMainScreenState ||
                       state is CheckingLocationState) ...[
-                    AnimatedGradientWidget(),
-                    _buildLoadingWidget()
+                    const AnimatedGradientWidget(),
+                    const LoadingWidget(),
                   ] else ...[
                     _buildGradientWidget(),
                     if (state is LocationServiceDisabledMainScreenState)
@@ -162,16 +163,6 @@ class _MainScreenState extends State<MainScreen> {
       _pageMap[key] = page;
       return page;
     }
-  }
-
-  Widget _buildLoadingWidget() {
-    return const Center(
-      child: CircularProgressIndicator(
-        valueColor: AlwaysStoppedAnimation<Color>(
-          Colors.white,
-        ),
-      ),
-    );
   }
 
   Widget _buildGradientWidget() {

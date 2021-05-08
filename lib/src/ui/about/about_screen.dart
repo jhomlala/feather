@@ -3,6 +3,7 @@ import 'package:feather/src/resources/config/assets.dart';
 import 'package:feather/src/ui/about/about_screen_bloc.dart';
 import 'package:feather/src/ui/about/about_screen_state.dart';
 import 'package:feather/src/ui/widget/animated_gradient.dart';
+import 'package:feather/src/ui/widget/transparent_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,7 +32,7 @@ class _AboutScreenState extends State<AboutScreen> {
       body: Stack(
         children: <Widget>[
           const AnimatedGradientWidget(
-            duration: Duration(seconds: 5),
+            duration: Duration(seconds: 3),
           ),
           BlocBuilder<AboutScreenBloc, AboutScreenState>(
             bloc: _aboutScreenBloc,
@@ -42,15 +43,7 @@ class _AboutScreenState extends State<AboutScreen> {
               );
             },
           ),
-          Positioned(
-            top: 0.0,
-            left: 0.0,
-            right: 0.0,
-            child: AppBar(
-              backgroundColor: Colors.transparent, //No more green
-              elevation: 0.0, //Shadow gone
-            ),
-          ),
+          const TransparentAppBar(),
         ],
       ),
     );
@@ -78,9 +71,9 @@ class _AboutScreenState extends State<AboutScreen> {
               key: const Key("about_screen_credits"),
               style: Theme.of(context).textTheme.subtitle2),
           const SizedBox(height: 10),
-          Text(applicationLocalization.getText("weather_data")!),
+          Text(applicationLocalization.getText("weather_data")),
           const SizedBox(height: 2),
-          Text(applicationLocalization.getText("icon_data")!)
+          Text(applicationLocalization.getText("icon_data"))
         ],
       ),
     );

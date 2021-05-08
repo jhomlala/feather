@@ -56,13 +56,13 @@ class WidgetHelper {
     }
     List<Widget> widgets = [];
     widgets.add(Text(
-      errorText!,
+      errorText,
       textDirection: TextDirection.ltr,
       textAlign: TextAlign.center,
     ));
     if (withRetryButton) {
       widgets.add(TextButton(
-        child: Text(ApplicationLocalization.of(context)!.getText("retry")!,
+        child: Text(ApplicationLocalization.of(context)!.getText("retry"),
             style: Theme.of(context).textTheme.subtitle2),
         onPressed: voidCallback,
       ));

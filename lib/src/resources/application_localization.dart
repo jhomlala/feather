@@ -45,10 +45,10 @@ class ApplicationLocalization {
       "last_refresh_time": "Ostatnie odświeżenie",
       "settings": "Ustawienia",
       "about": "O aplikacji",
-      "contributors":"Współtwórcy",
-      "credits":"Podziękowania",
-      "weather_data":"Dane pogodowe: OpenWeatherAPI",
-      "icon_data":"Ikony: Icons8, Freepik/Flaticon"
+      "contributors": "Współtwórcy",
+      "credits": "Podziękowania",
+      "weather_data": "Dane pogodowe: OpenWeatherAPI",
+      "icon_data": "Ikony: Icons8, Freepik/Flaticon"
     },
     'en': {
       "error_location_not_selected":
@@ -81,17 +81,17 @@ class ApplicationLocalization {
       "last_refresh_time": "Last refresh time",
       "settings": "Settings",
       "about": "About",
-      "contributors":"Contributors",
-      "credits":"Credits",
-      "weather_data":"Weather data: OpenWeatherAPI",
-      "icon_data":"Icons: Icons8, Freepik/Flaticon"
+      "contributors": "Contributors",
+      "credits": "Credits",
+      "weather_data": "Weather data: OpenWeatherAPI",
+      "icon_data": "Icons: Icons8, Freepik/Flaticon"
     },
   };
 
-  String? getText(String tag) {
+  String getText(String tag) {
     if (_localizedValues.containsKey(locale.languageCode) &&
         _localizedValues[locale.languageCode]!.containsKey(tag)) {
-      return _localizedValues[locale.languageCode]![tag];
+      return _localizedValues[locale.languageCode]![tag]!;
     } else {
       return "???";
     }

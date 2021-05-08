@@ -66,7 +66,7 @@ class _WeatherMainSunPathPageState extends State<WeatherMainSunPathPage> {
     int mode = WeatherHelper.getDayModeFromSunriseSunset(_sunrise!, _sunset);
     if (mode == 0) {
       widgets.add(AnimatedTextWidget(
-          textBefore: ApplicationLocalization.of(context)!.getText("day")! + ':',
+          textBefore: ApplicationLocalization.of(context)!.getText("day") + ':',
           maxValue: _getPathPercentage(),
           key: Key("weather_main_sun_path_percentage")));
       widgets.add(WidgetHelper.buildPadding(top: 10));
@@ -78,7 +78,7 @@ class _WeatherMainSunPathPageState extends State<WeatherMainSunPathPage> {
     } else {
       widgets.add(AnimatedTextWidget(
           textBefore:
-              ApplicationLocalization.of(context)!.getText("night")! + ':',
+              ApplicationLocalization.of(context)!.getText("night") + ':',
           maxValue: _getPathPercentage(),
           key: Key("weather_main_sun_path_percentage")));
       widgets.add(WidgetHelper.buildPadding(top: 10));

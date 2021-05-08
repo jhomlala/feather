@@ -13,6 +13,7 @@ import 'package:feather/src/ui/navigation/navigation.dart';
 import 'package:feather/src/ui/navigation/navigation_bloc.dart';
 import 'package:feather/src/ui/navigation/navigation_state.dart';
 import 'package:feather/src/ui/about/about_screen.dart';
+import 'package:feather/src/ui/settings/settings_screen_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -55,7 +56,10 @@ class MyApp extends StatelessWidget {
               _weatherRemoteRepository,
               _applicationLocalRepository),
         ),
-        BlocProvider<AboutScreenBloc>(create: (context) => AboutScreenBloc())
+        BlocProvider<AboutScreenBloc>(create: (context) => AboutScreenBloc()),
+        BlocProvider<SettingsScreenBloc>(
+          create: (context) => SettingsScreenBloc(_applicationLocalRepository),
+        )
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

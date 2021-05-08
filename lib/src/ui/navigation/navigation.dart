@@ -1,6 +1,6 @@
 import 'package:feather/src/ui/main/main_screen.dart';
 import 'package:feather/src/ui/about/about_screen.dart';
-import 'package:feather/src/ui/screen/settings_screen.dart';
+import 'package:feather/src/ui/settings/settings_screen.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +9,7 @@ class Navigation {
 
   final _mainScreenHandler = Handler(
       handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
-    return MainScreen();
+    return const MainScreen();
   });
 
   final _forecastScreenHandler = Handler(
@@ -23,7 +23,7 @@ class Navigation {
 
   final _settingsScreenHandler = Handler(
       handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
-    return SettingsScreen();
+    return const SettingsScreen();
   });
 
   void defineRoutes() {
