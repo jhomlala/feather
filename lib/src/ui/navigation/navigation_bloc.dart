@@ -1,5 +1,5 @@
-import 'package:feather/src/models/internal/navigation_params.dart';
-import 'package:feather/src/models/internal/navigation_route.dart';
+import 'package:feather/src/model/internal/navigation_params.dart';
+import 'package:feather/src/model/internal/navigation_route.dart';
 import 'package:feather/src/ui/navigation/navigation.dart';
 import 'package:feather/src/ui/navigation/navigation_event.dart';
 import 'package:feather/src/ui/navigation/navigation_state.dart';

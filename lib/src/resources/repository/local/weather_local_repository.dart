@@ -1,6 +1,6 @@
-import 'package:feather/src/models/internal/geo_position.dart';
-import 'package:feather/src/models/remote/weather_forecast_list_response.dart';
-import 'package:feather/src/models/remote/weather_response.dart';
+import 'package:feather/src/model/internal/geo_position.dart';
+import 'package:feather/src/model/remote/weather_forecast_list_response.dart';
+import 'package:feather/src/model/remote/weather_response.dart';
 import 'package:feather/src/resources/repository/local/storage_manager.dart';
 
 class WeatherLocalRepository {

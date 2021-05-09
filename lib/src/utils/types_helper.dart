@@ -1,10 +1,9 @@
-import 'package:logging/logging.dart';
+import 'package:feather/src/utils/app_logger.dart';
 
 class TypesHelper {
-  static final _logger = new Logger("TypesHelper");
   static double toDouble(num? val) {
     try {
-      if (val == null){
+      if (val == null) {
         return 0;
       }
       if (val is double) {
@@ -12,8 +11,8 @@ class TypesHelper {
       } else {
         return val.toDouble();
       }
-    } catch (exc,stackTrace){
-      _logger.warning("Error occured $exc stackTrace: $stackTrace");
+    } catch (exception, stackTrace) {
+      Log.e("toDouble failed: $exception $stackTrace");
       return 0;
     }
   }

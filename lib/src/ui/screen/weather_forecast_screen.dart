@@ -1,5 +1,5 @@
-import 'package:feather/src/models/internal/overflow_menu_element.dart';
-import 'package:feather/src/models/internal/weather_forecast_holder.dart';
+import 'package:feather/src/model/internal/overflow_menu_element.dart';
+import 'package:feather/src/model/internal/weather_forecast_holder.dart';
 import 'package:feather/src/resources/application_localization.dart';
 import 'package:feather/src/resources/config/application_colors.dart';
 import 'package:feather/src/ui/about/about_screen.dart';

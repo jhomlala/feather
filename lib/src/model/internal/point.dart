@@ -1,6 +1,6 @@
 class Point {
-  double x;
-  double y;
+  final double x;
+  final double y;
 
   Point(this.x, this.y);
 

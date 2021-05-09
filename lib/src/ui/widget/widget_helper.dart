@@ -1,4 +1,4 @@
-import 'package:feather/src/models/internal/application_error.dart';
+import 'package:feather/src/model/internal/application_error.dart';
 import 'package:feather/src/resources/application_localization.dart';
 import 'package:feather/src/resources/config/application_colors.dart';
 import 'package:flutter/material.dart';

@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:feather/src/models/internal/application_error.dart';
-import 'package:feather/src/models/remote/weather_forecast_list_response.dart';
-import 'package:feather/src/models/remote/weather_response.dart';
+import 'package:feather/src/model/internal/application_error.dart';
+import 'package:feather/src/model/remote/weather_forecast_list_response.dart';
+import 'package:feather/src/model/remote/weather_response.dart';
 import 'package:feather/src/resources/config/application_config.dart';
 import 'package:logging/logging.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';

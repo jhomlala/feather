@@ -1,4 +1,4 @@
-// import 'package:feather/src/models/remote/system.dart';
+// import 'package:feather/src/model/remote/system.dart';
 // import 'package:feather/src/ui/widget/sun_path_widget.dart';
 // import 'package:feather/src/utils/date_time_helper.dart';
 // import 'package:flutter/widgets.dart';

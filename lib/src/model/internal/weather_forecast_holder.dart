@@ -1,7 +1,7 @@
-import 'package:feather/src/models/internal/chart_data.dart';
-import 'package:feather/src/models/remote/city.dart';
-import 'package:feather/src/models/remote/system.dart';
-import 'package:feather/src/models/remote/weather_forecast_response.dart';
+import 'package:feather/src/model/internal/chart_data.dart';
+import 'package:feather/src/model/remote/city.dart';
+import 'package:feather/src/model/remote/system.dart';
+import 'package:feather/src/model/remote/weather_forecast_response.dart';
 import 'package:feather/src/resources/application_localization.dart';
 import 'package:feather/src/resources/weather_helper.dart';
 import 'package:flutter/material.dart';
@@ -66,46 +66,46 @@ class WeatherForecastHolder {
   }
 
   List<double> _getTemperaturesList() {
-    List<double> temperatures = [];
-    for (WeatherForecastResponse response in forecastList!) {
+    final List<double> temperatures = [];
+    for (final WeatherForecastResponse response in forecastList!) {
       temperatures.add(response.mainWeatherData!.temp);
     }
     return temperatures;
   }
 
   List<double> _getWindList() {
-    List<double> winds = [];
-    for (WeatherForecastResponse response in forecastList!) {
-      var speed = response.wind!.speed;
+    final List<double> winds = [];
+    for (final WeatherForecastResponse response in forecastList!) {
+      final speed = response.wind!.speed;
       winds.add(speed);
     }
     return winds;
   }
 
   void setupDateFormatted(DateTime dateTime) {
-    int day = dateTime.day;
+    final int day = dateTime.day;
     String dayString = "";
     if (day < 10) {
-      dayString = "0" + day.toString();
+      dayString = "0$day";
     } else {
       dayString = day.toString();
     }
 
-    int month = dateTime.month;
+    final int month = dateTime.month;
     String monthString = "";
     if (month < 10) {
-      monthString = "0" + month.toString();
+      monthString = "0$month";
     } else {
       monthString = month.toString();
     }
 
-    _dateShortFormatted = dayString + "/" + monthString;
-    _dateFullFormatted = _dateShortFormatted! + "/" + dateTime.year.toString();
+    _dateShortFormatted = "$dayString/$monthString";
+    _dateFullFormatted = "${_dateShortFormatted!}/${dateTime.year}";
   }
 
   double _calculateAverage(List<double> values) {
     double sum = 0;
-    for (var value in values) {
+    for (final value in values) {
       sum += value;
     }
     return sum / values.length;
@@ -113,7 +113,7 @@ class WeatherForecastHolder {
 
   double _calculateMax(List<double> values) {
     double maxValue = values[0];
-    for (var value in values) {
+    for (final value in values) {
       if (value >= maxValue) {
         maxValue = value;
       }
@@ -124,7 +124,7 @@ class WeatherForecastHolder {
 
   double _calculateMin(List<double> values) {
     double minValue = values[0];
-    for (var value in values) {
+    for (final value in values) {
       if (value <= minValue) {
         minValue = value;
       }
@@ -133,35 +133,36 @@ class WeatherForecastHolder {
   }
 
   void setupWeatherCode(List<WeatherForecastResponse> forecastList) {
-    int index = (forecastList.length / 2).floor();
+    final int index = (forecastList.length / 2).floor();
     _weatherCode = forecastList[index].overallWeatherData![0].id;
     _weatherCodeAsset = WeatherHelper.getWeatherIcon(_weatherCode!);
   }
 
   String? getLocationName(BuildContext context) {
-    if (city != null && city!.name != null && city!.name!.length > 0) {
+    if (city != null && city!.name != null && city!.name!.isNotEmpty) {
       return city!.name;
     } else {
       return ApplicationLocalization.of(context)!.getText("your_location");
     }
   }
 
-  ChartData setupChartData(
-      ChartDataType chartDataType, double width, double height, bool isMetricUnit) {
-    return ChartData(this, forecastList!, chartDataType, width, height, isMetricUnit);
+  ChartData setupChartData(ChartDataType chartDataType, double width,
+      double height, bool isMetricUnit) {
+    return ChartData(
+        this, forecastList!, chartDataType, width, height, isMetricUnit);
   }
 
   List<String> getWindDirectionList() {
-    List<String> windDirections = [];
-    for (WeatherForecastResponse response in forecastList!) {
+    final List<String> windDirections = [];
+    for (final WeatherForecastResponse response in forecastList!) {
       windDirections.add(response.wind!.getDegCode());
     }
     return windDirections;
   }
 
   List<double> _getRainList() {
-    List<double> rainList = [];
-    for (WeatherForecastResponse response in forecastList!) {
+    final List<double> rainList = [];
+    for (final WeatherForecastResponse response in forecastList!) {
       double rainSum = 0;
       if (response.rain != null && response.rain!.amount > 0) {
         rainSum = response.rain!.amount;
@@ -175,8 +176,8 @@ class WeatherForecastHolder {
   }
 
   List<double> _getPressureList() {
-    List<double> pressureList = [];
-    for (WeatherForecastResponse response in forecastList!) {
+    final List<double> pressureList = [];
+    for (final WeatherForecastResponse response in forecastList!) {
       pressureList.add(response.mainWeatherData!.pressure);
     }
     return pressureList;

@@ -1,6 +1,6 @@
-import 'package:feather/src/models/internal/chart_data.dart';
-import 'package:feather/src/models/internal/chart_line.dart';
-import 'package:feather/src/models/internal/point.dart';
+import 'package:feather/src/model/internal/chart_data.dart';
+import 'package:feather/src/model/internal/chart_line.dart';
+import 'package:feather/src/model/internal/point.dart';
 import 'package:feather/src/resources/application_localization.dart';
 import 'package:feather/src/ui/screen/base/animated_state.dart';
 import 'package:flutter/material.dart';

@@ -1,10 +1,10 @@
 import 'dart:ui';
 
 class ChartLine {
-  String? _label;
-  Offset _textOffset;
-  Offset _lineStartOffset;
-  Offset _lineEndOffset;
+  final String? _label;
+  final Offset _textOffset;
+  final Offset _lineStartOffset;
+  final Offset _lineEndOffset;
 
   ChartLine(this._label, this._textOffset, this._lineStartOffset,
       this._lineEndOffset);
@@ -16,6 +16,4 @@ class ChartLine {
   Offset get textOffset => _textOffset;
 
   String? get label => _label;
-
-
 }

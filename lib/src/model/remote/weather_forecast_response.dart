@@ -1,8 +1,8 @@
-import 'package:feather/src/models/remote/clouds.dart';
-import 'package:feather/src/models/remote/main_weather_data.dart';
-import 'package:feather/src/models/remote/overall_weather_data.dart';
-import 'package:feather/src/models/remote/rain.dart';
-import 'package:feather/src/models/remote/wind.dart';
+import 'package:feather/src/model/remote/clouds.dart';
+import 'package:feather/src/model/remote/main_weather_data.dart';
+import 'package:feather/src/model/remote/overall_weather_data.dart';
+import 'package:feather/src/model/remote/rain.dart';
+import 'package:feather/src/model/remote/wind.dart';
 
 class WeatherForecastResponse {
   final MainWeatherData? mainWeatherData;
@@ -18,27 +18,26 @@ class WeatherForecastResponse {
 
   WeatherForecastResponse.fromJson(Map<String, dynamic> json)
       : overallWeatherData = (json["weather"] as List)
-            .map((i) => OverallWeatherData.fromJson(i))
+            .map((dynamic data) =>
+                OverallWeatherData.fromJson(data as Map<String, dynamic>))
             .toList(),
-        mainWeatherData = MainWeatherData.fromJson(json["main"]),
-        wind = Wind.fromJson(json["wind"]),
-        clouds = Clouds.fromJson(json["clouds"]),
-        dateTime = DateTime.parse(json["dt_txt"]),
+        mainWeatherData =
+            MainWeatherData.fromJson(json["main"] as Map<String, dynamic>),
+        wind = Wind.fromJson(json["wind"] as Map<String, dynamic>),
+        clouds = Clouds.fromJson(json["clouds"] as Map<String, dynamic>),
+        dateTime = DateTime.parse(json["dt_txt"] as String),
         rain = _getRain(json["rain"]),
         snow = _getRain(json["snow"]);
-
-
-
 
   static Rain _getRain(dynamic json) {
     if (json == null) {
       return Rain(0);
     } else {
-      return Rain.fromJson(json);
+      return Rain.fromJson(json as Map<String, dynamic>);
     }
   }
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => <String, dynamic>{
         "weather": overallWeatherData,
         "main": mainWeatherData,
         "clouds": clouds!.toJson(),

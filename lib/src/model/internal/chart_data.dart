@@ -1,10 +1,10 @@
 import 'dart:math';
 import 'dart:ui';
 
-import 'package:feather/src/models/internal/chart_line.dart';
-import 'package:feather/src/models/internal/point.dart';
-import 'package:feather/src/models/internal/weather_forecast_holder.dart';
-import 'package:feather/src/models/remote/weather_forecast_response.dart';
+import 'package:feather/src/model/internal/chart_line.dart';
+import 'package:feather/src/model/internal/point.dart';
+import 'package:feather/src/model/internal/weather_forecast_holder.dart';
+import 'package:feather/src/model/remote/weather_forecast_response.dart';
 import 'package:feather/src/resources/config/dimensions.dart';
 import 'package:feather/src/resources/weather_helper.dart';
 
@@ -32,18 +32,18 @@ class ChartData {
       double width,
       double height,
       bool isMetricUnits) {
-    List<double> values =
+    final List<double> values =
         _getChartValues(holder, chartDataType, isMetricUnits)!;
-    double? averageValue =
+    final double? averageValue =
         _getChartAverageValue(holder, chartDataType, isMetricUnits);
-    this._points = _getPoints(values, averageValue, width, height);
-    this._pointLabels = _getPointLabels(values);
-    List<DateTime> dateTimes = _getDateTimes(forecastList);
-    String? mainAxisText =
+    _points = _getPoints(values, averageValue, width, height);
+    _pointLabels = _getPointLabels(values);
+    final List<DateTime> dateTimes = _getDateTimes(forecastList);
+    final String? mainAxisText =
         _getMainAxisText(chartDataType, averageValue, isMetricUnits);
-    this._axes = _getAxes(_points!, dateTimes, height, width, mainAxisText);
-    this._width = width;
-    this._height = height;
+    _axes = _getAxes(_points!, dateTimes, height, width, mainAxisText);
+    _width = width;
+    _height = height;
   }
 
   List<double>? _getChartValues(WeatherForecastHolder holder,
@@ -117,16 +117,16 @@ class ChartData {
 
   List<Point> _getPoints(
       List<double> values, double? averageValue, double width, double height) {
-    List<Point> points = [];
-    double halfHeight = (height - Dimensions.chartPadding) / 2;
-    double widthStep = width / (values.length - 1);
+    final List<Point> points = [];
+    final double halfHeight = (height - Dimensions.chartPadding) / 2;
+    final double widthStep = width / (values.length - 1);
     double currentX = 0;
 
-    List<double> averageDifferenceValues =
+    final List<double> averageDifferenceValues =
         _getAverageDifferenceValues(values, averageValue);
-    double maxValue = _getAbsoluteMax(averageDifferenceValues);
+    final double maxValue = _getAbsoluteMax(averageDifferenceValues);
 
-    for (double averageDifferenceValue in averageDifferenceValues) {
+    for (final double averageDifferenceValue in averageDifferenceValues) {
       var y = halfHeight - (halfHeight * averageDifferenceValue / maxValue);
       if (y.isNaN) {
         y = halfHeight;
@@ -139,8 +139,8 @@ class ChartData {
 
   List<double> _getAverageDifferenceValues(
       List<double> values, double? averageValue) {
-    List<double> calculatedValues = [];
-    for (double value in values) {
+    final List<double> calculatedValues = [];
+    for (final double value in values) {
       calculatedValues.add(value - averageValue!);
     }
     return calculatedValues;
@@ -148,23 +148,23 @@ class ChartData {
 
   double _getAbsoluteMax(List<double> values) {
     double maxValue = 0;
-    for (double value in values) {
+    for (final double value in values) {
       maxValue = max(maxValue, value.abs());
     }
     return maxValue;
   }
 
   List<String> _getPointLabels(List<double> values) {
-    List<String> points = [];
-    for (double value in values) {
+    final List<String> points = [];
+    for (final double value in values) {
       points.add(value.toStringAsFixed(1));
     }
     return points;
   }
 
   List<DateTime> _getDateTimes(List<WeatherForecastResponse> forecastList) {
-    List<DateTime> dateTimes = [];
-    for (WeatherForecastResponse response in forecastList) {
+    final List<DateTime> dateTimes = [];
+    for (final WeatherForecastResponse response in forecastList) {
       dateTimes.add(response.dateTime);
     }
     return dateTimes;
@@ -172,7 +172,7 @@ class ChartData {
 
   List<ChartLine> _getAxes(List<Point> points, List<DateTime> dateTimes,
       double height, double width, String? mainAxisText) {
-    List<ChartLine> list = [];
+    final List<ChartLine> list = [];
     list.add(ChartLine(
         mainAxisText,
         Offset(-25, height / 2 - 15),
@@ -180,8 +180,8 @@ class ChartData {
         Offset(width + 5, (height - Dimensions.chartPadding) / 2)));
 
     for (int index = 0; index < points.length; index++) {
-      Point point = points[index];
-      DateTime dateTime = dateTimes[index];
+      final Point point = points[index];
+      final DateTime dateTime = dateTimes[index];
       list.add(ChartLine(
           _getPointAxisLabel(dateTime),
           Offset(point.x - 10, height - 10),
@@ -192,7 +192,7 @@ class ChartData {
   }
 
   String _getPointAxisLabel(DateTime dateTime) {
-    int hour = dateTime.hour;
+    final int hour = dateTime.hour;
     String hourText = "";
     if (hour < 10) {
       hourText = "0${hour.toString()}";
@@ -207,7 +207,7 @@ class ChartData {
     String? text;
     switch (chartDataType) {
       case ChartDataType.temperature:
-        var temperature = averageValue;
+        final temperature = averageValue;
         text = WeatherHelper.formatTemperature(
           temperature: temperature,
           positions: 1,
@@ -222,7 +222,7 @@ class ChartData {
         text = "${averageValue!.toStringAsFixed(1)} mm/h";
         break;
       case ChartDataType.pressure:
-        text = WeatherHelper.formatPressure(averageValue!,isMetricUnits);
+        text = WeatherHelper.formatPressure(averageValue!, isMetricUnits);
     }
     return text;
   }

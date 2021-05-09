@@ -1,5 +1,5 @@
-import 'package:feather/src/models/remote/weather_forecast_list_response.dart';
-import 'package:feather/src/models/remote/weather_response.dart';
+import 'package:feather/src/model/remote/weather_forecast_list_response.dart';
+import 'package:feather/src/model/remote/weather_response.dart';
 import 'package:feather/src/resources/repository/remote/weather_api_provider.dart';
 
 class WeatherRemoteRepository{

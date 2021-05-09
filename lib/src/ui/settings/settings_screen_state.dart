@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:feather/src/models/internal/unit.dart';
+import 'package:feather/src/model/internal/unit.dart';
 
 abstract class SettingsScreenState extends Equatable {
   const SettingsScreenState();

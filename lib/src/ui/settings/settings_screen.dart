@@ -1,5 +1,5 @@
-import 'package:feather/src/models/internal/overflow_menu_element.dart';
-import 'package:feather/src/models/internal/unit.dart';
+import 'package:feather/src/model/internal/overflow_menu_element.dart';
+import 'package:feather/src/model/internal/unit.dart';
 import 'package:feather/src/resources/application_localization.dart';
 import 'package:feather/src/ui/app/app_bloc.dart';
 import 'package:feather/src/ui/app/app_event.dart';

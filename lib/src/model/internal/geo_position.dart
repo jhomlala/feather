@@ -7,14 +7,14 @@ class GeoPosition {
   GeoPosition(this.lat, this.long);
 
   GeoPosition.fromJson(Map<String, dynamic> json)
-      : lat = json["lat"],
-        long = json["long"];
+      : lat = json["lat"] as double?,
+        long = json["long"] as double?;
 
   GeoPosition.fromPosition(Position position)
       : lat = position.latitude,
         long = position.longitude;
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => <String, dynamic>{
         "lat": lat,
         "long": long,
       };

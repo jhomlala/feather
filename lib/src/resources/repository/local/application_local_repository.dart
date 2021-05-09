@@ -1,4 +1,4 @@
-import 'package:feather/src/models/internal/unit.dart';
+import 'package:feather/src/model/internal/unit.dart';
 import 'package:feather/src/resources/repository/local/storage_manager.dart';
 
 class ApplicationLocalRepository {

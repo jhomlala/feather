@@ -1,6 +1,6 @@
 import 'dart:collection';
-import 'package:feather/src/models/remote/system.dart';
-import 'package:feather/src/models/remote/weather_forecast_response.dart';
+import 'package:feather/src/model/remote/system.dart';
+import 'package:feather/src/model/remote/weather_forecast_response.dart';
 import 'package:feather/src/resources/config/assets.dart';
 
 class WeatherHelper {

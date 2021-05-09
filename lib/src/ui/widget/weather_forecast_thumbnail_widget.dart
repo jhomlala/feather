@@ -1,4 +1,4 @@
-import 'package:feather/src/models/internal/weather_forecast_holder.dart';
+import 'package:feather/src/model/internal/weather_forecast_holder.dart';
 import 'package:feather/src/resources/weather_helper.dart';
 import 'package:feather/src/ui/screen/weather_forecast_screen.dart';
 import 'package:feather/src/ui/widget/widget_helper.dart';

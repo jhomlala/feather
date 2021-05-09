@@ -1,4 +1,4 @@
-import 'package:feather/src/models/internal/unit.dart';
+import 'package:feather/src/model/internal/unit.dart';
 import 'package:feather/src/resources/repository/local/application_local_repository.dart';
 import 'package:feather/src/ui/app/app_event.dart';
 import 'package:feather/src/ui/app/app_state.dart';

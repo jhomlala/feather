@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:feather/src/models/remote/system.dart';
+import 'package:feather/src/model/remote/system.dart';
 import 'package:feather/src/resources/application_localization.dart';
 import 'package:feather/src/resources/weather_helper.dart';
 import 'package:feather/src/ui/widget/animated_text_widget.dart';

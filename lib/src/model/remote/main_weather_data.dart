@@ -13,15 +13,16 @@ class MainWeatherData {
       this.tempMax, this.pressureSeaLevel, this.pressureGroundLevel);
 
   MainWeatherData.fromJson(Map<String, dynamic> json)
-      : temp = TypesHelper.toDouble(json["temp"]),
-        pressure = TypesHelper.toDouble(json["pressure"]),
-        humidity = TypesHelper.toDouble(json["humidity"]),
-        tempMin = TypesHelper.toDouble(json["temp_min"]),
-        tempMax = TypesHelper.toDouble(json["temp_max"]),
-        pressureSeaLevel = TypesHelper.toDouble(json["sea_level"]),
-        pressureGroundLevel = TypesHelper.toDouble(json["ground_level"]);
+      : temp = TypesHelper.toDouble(json["temp"] as num?),
+        pressure = TypesHelper.toDouble(json["pressure"] as num?),
+        humidity = TypesHelper.toDouble(json["humidity"] as num?),
+        tempMin = TypesHelper.toDouble(json["temp_min"] as num?),
+        tempMax = TypesHelper.toDouble(json["temp_max"] as num?),
+        pressureSeaLevel = TypesHelper.toDouble(json["sea_level"] as num?),
+        pressureGroundLevel =
+            TypesHelper.toDouble(json["ground_level"] as num?);
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => <String, dynamic>{
         "temp": temp,
         "pressure": pressure,
         "humidity": humidity,

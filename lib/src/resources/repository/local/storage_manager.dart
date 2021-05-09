@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:feather/src/models/internal/geo_position.dart';
-import 'package:feather/src/models/internal/unit.dart';
-import 'package:feather/src/models/remote/weather_forecast_list_response.dart';
-import 'package:feather/src/models/remote/weather_response.dart';
+import 'package:feather/src/model/internal/geo_position.dart';
+import 'package:feather/src/model/internal/unit.dart';
+import 'package:feather/src/model/remote/weather_forecast_list_response.dart';
+import 'package:feather/src/model/remote/weather_response.dart';
 import 'package:feather/src/resources/config/ids.dart';
 import 'package:feather/src/utils/date_time_helper.dart';
 import 'package:logging/logging.dart';

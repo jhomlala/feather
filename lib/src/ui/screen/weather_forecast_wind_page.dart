@@ -1,6 +1,6 @@
-import 'package:feather/src/models/internal/chart_data.dart';
-import 'package:feather/src/models/internal/point.dart';
-import 'package:feather/src/models/internal/weather_forecast_holder.dart';
+import 'package:feather/src/model/internal/chart_data.dart';
+import 'package:feather/src/model/internal/point.dart';
+import 'package:feather/src/model/internal/weather_forecast_holder.dart';
 import 'package:feather/src/resources/application_localization.dart';
 import 'package:feather/src/resources/config/assets.dart';
 import 'package:feather/src/resources/weather_helper.dart';

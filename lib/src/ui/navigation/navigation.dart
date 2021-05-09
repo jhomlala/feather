@@ -1,4 +1,4 @@
-import 'package:feather/src/models/internal/navigation_params.dart';
+import 'package:feather/src/model/internal/navigation_params.dart';
 import 'package:feather/src/ui/main/main_screen.dart';
 import 'package:feather/src/ui/about/about_screen.dart';
 import 'package:feather/src/ui/settings/settings_screen.dart';

@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:feather/src/models/internal/application_error.dart';
-import 'package:feather/src/models/internal/geo_position.dart';
-import 'package:feather/src/models/remote/weather_forecast_list_response.dart';
-import 'package:feather/src/models/remote/weather_response.dart';
+import 'package:feather/src/model/internal/application_error.dart';
+import 'package:feather/src/model/internal/geo_position.dart';
+import 'package:feather/src/model/remote/weather_forecast_list_response.dart';
+import 'package:feather/src/model/remote/weather_response.dart';
 import 'package:feather/src/resources/location_manager.dart';
 import 'package:feather/src/resources/repository/local/application_local_repository.dart';
 import 'package:feather/src/resources/repository/local/weather_local_repository.dart';
