@@ -116,7 +116,7 @@ class CurrentWeatherWidgetState extends AnimatedState<CurrentWeatherWidget> {
               style: Theme.of(context).textTheme.bodyText1),
           TextSpan(
               text: WeatherHelper.formatPressure(
-                  weatherResponse.mainWeatherData!.pressure),
+                  weatherResponse.mainWeatherData!.pressure, _appBloc.isMetricUnits()),
               style: Theme.of(context).textTheme.subtitle2),
           TextSpan(
             text: "  ",

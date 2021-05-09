@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'dart:ui';
 
-import 'package:feather/src/blocs/application_bloc.dart';
 import 'package:feather/src/models/internal/chart_line.dart';
 import 'package:feather/src/models/internal/point.dart';
 import 'package:feather/src/models/internal/weather_forecast_holder.dart';
@@ -21,8 +20,9 @@ class ChartData {
       List<WeatherForecastResponse> forecastList,
       ChartDataType type,
       double width,
-      double height) {
-    setupChartData(holder, forecastList, type, width, height);
+      double height,
+      bool isMetricUnits) {
+    setupChartData(holder, forecastList, type, width, height, isMetricUnits);
   }
 
   void setupChartData(
@@ -30,36 +30,47 @@ class ChartData {
       List<WeatherForecastResponse> forecastList,
       ChartDataType chartDataType,
       double width,
-      double height) {
-
-    List<double> values = _getChartValues(holder, chartDataType)!;
-    print(chartDataType.toString() + " Values: " + values.toString());
-    double? averageValue = _getChartAverageValue(holder, chartDataType);
+      double height,
+      bool isMetricUnits) {
+    List<double> values =
+        _getChartValues(holder, chartDataType, isMetricUnits)!;
+    double? averageValue =
+        _getChartAverageValue(holder, chartDataType, isMetricUnits);
     this._points = _getPoints(values, averageValue, width, height);
     this._pointLabels = _getPointLabels(values);
     List<DateTime> dateTimes = _getDateTimes(forecastList);
-    String? mainAxisText = _getMainAxisText(chartDataType, averageValue);
+    String? mainAxisText =
+        _getMainAxisText(chartDataType, averageValue, isMetricUnits);
     this._axes = _getAxes(_points!, dateTimes, height, width, mainAxisText);
     this._width = width;
     this._height = height;
   }
 
-  List<double>? _getChartValues(
-      WeatherForecastHolder holder, ChartDataType chartDataType) {
+  List<double>? _getChartValues(WeatherForecastHolder holder,
+      ChartDataType chartDataType, bool isMetricUnits) {
     List<double>? dataSet;
     switch (chartDataType) {
       case ChartDataType.temperature:
         dataSet = holder.temperatures;
-        if (!applicationBloc.isMetricUnits()){
-          dataSet = dataSet!.map( (value) => WeatherHelper.convertCelsiusToFahrenheit(value)).toList();
+        if (!isMetricUnits) {
+          dataSet = dataSet!
+              .map((value) => WeatherHelper.convertCelsiusToFahrenheit(value))
+              .toList();
         }
         break;
       case ChartDataType.wind:
         dataSet = holder.winds;
-        if (applicationBloc.isMetricUnits()){
-          dataSet = dataSet!.map((value) => WeatherHelper.convertMetersPerSecondToKilometersPerHour(value)).toList();
+        if (isMetricUnits) {
+          dataSet = dataSet!
+              .map((value) =>
+                  WeatherHelper.convertMetersPerSecondToKilometersPerHour(
+                      value))
+              .toList();
         } else {
-          dataSet = dataSet!.map((value) => WeatherHelper.convertMetersPerSecondToMilesPerHour(value)).toList();
+          dataSet = dataSet!
+              .map((value) =>
+                  WeatherHelper.convertMetersPerSecondToMilesPerHour(value))
+              .toList();
         }
         break;
       case ChartDataType.rain:
@@ -72,22 +83,26 @@ class ChartData {
     return dataSet;
   }
 
-  double? _getChartAverageValue(
-      WeatherForecastHolder holder, ChartDataType chartDataType) {
+  double? _getChartAverageValue(WeatherForecastHolder holder,
+      ChartDataType chartDataType, bool isMetricUnits) {
     double? averageValue;
     switch (chartDataType) {
       case ChartDataType.temperature:
         averageValue = holder.averageTemperature;
-        if (!applicationBloc.isMetricUnits()){
-          averageValue = WeatherHelper.convertCelsiusToFahrenheit(averageValue!);
+        if (!isMetricUnits) {
+          averageValue =
+              WeatherHelper.convertCelsiusToFahrenheit(averageValue!);
         }
         break;
       case ChartDataType.wind:
         averageValue = holder.averageWind;
-        if (applicationBloc.isMetricUnits()){
-          averageValue = WeatherHelper.convertMetersPerSecondToKilometersPerHour(averageValue);
+        if (isMetricUnits) {
+          averageValue =
+              WeatherHelper.convertMetersPerSecondToKilometersPerHour(
+                  averageValue);
         } else {
-          averageValue = WeatherHelper.convertMetersPerSecondToMilesPerHour(averageValue);
+          averageValue =
+              WeatherHelper.convertMetersPerSecondToMilesPerHour(averageValue);
         }
         break;
       case ChartDataType.rain:
@@ -187,25 +202,27 @@ class ChartData {
     return "${hourText.toString()}:00";
   }
 
-  String? _getMainAxisText(ChartDataType chartDataType, double? averageValue) {
+  String? _getMainAxisText(
+      ChartDataType chartDataType, double? averageValue, bool isMetricUnits) {
     String? text;
     switch (chartDataType) {
       case ChartDataType.temperature:
         var temperature = averageValue;
         text = WeatherHelper.formatTemperature(
-            temperature: temperature,
-            positions: 1,
-            round: false,
-            metricUnits: applicationBloc.isMetricUnits());
+          temperature: temperature,
+          positions: 1,
+          round: false,
+          metricUnits: isMetricUnits,
+        );
         break;
       case ChartDataType.wind:
-        text = WeatherHelper.formatWind(averageValue!);
+        text = WeatherHelper.formatWind(averageValue!, isMetricUnits);
         break;
       case ChartDataType.rain:
         text = "${averageValue!.toStringAsFixed(1)} mm/h";
         break;
       case ChartDataType.pressure:
-        text = WeatherHelper.formatPressure(averageValue!);
+        text = WeatherHelper.formatPressure(averageValue!,isMetricUnits);
     }
     return text;
   }

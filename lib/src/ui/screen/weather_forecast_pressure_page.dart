@@ -9,8 +9,8 @@ import 'package:flutter/widgets.dart';
 
 class WeatherForecastPressurePage extends WeatherForecastBasePage {
   WeatherForecastPressurePage(
-      WeatherForecastHolder? holder, double? width, double? height)
-      : super(holder: holder, width: width, height: height);
+      WeatherForecastHolder? holder, double? width, double? height, bool isMetricUnits)
+      : super(holder: holder, width: width, height: height, isMetricUnits: isMetricUnits);
 
   @override
   Row getBottomRowWidget(BuildContext context) {
@@ -22,7 +22,7 @@ class WeatherForecastPressurePage extends WeatherForecastBasePage {
 
   @override
   ChartData getChartData() {
-    return super.holder!.setupChartData(ChartDataType.pressure, width!, height!);
+    return super.holder!.setupChartData(ChartDataType.pressure, width!, height!, isMetricUnits);
   }
 
   @override
@@ -38,11 +38,11 @@ class WeatherForecastPressurePage extends WeatherForecastBasePage {
         text: TextSpan(children: [
           TextSpan(text: 'min ', style: Theme.of(context).textTheme.bodyText1),
           TextSpan(
-              text: WeatherHelper.formatPressure(holder!.minPressure!),
+              text: WeatherHelper.formatPressure(holder!.minPressure!,isMetricUnits),
               style: Theme.of(context).textTheme.subtitle2),
           TextSpan(text: '   max ', style: Theme.of(context).textTheme.bodyText1),
           TextSpan(
-              text: WeatherHelper.formatPressure(holder!.maxPressure!),
+              text: WeatherHelper.formatPressure(holder!.maxPressure!,isMetricUnits),
               style: Theme.of(context).textTheme.subtitle2)
         ]));
   }

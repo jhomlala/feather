@@ -5,10 +5,12 @@ import 'package:feather/src/models/remote/system.dart';
 import 'package:feather/src/models/remote/weather_forecast_list_response.dart';
 import 'package:feather/src/models/remote/weather_forecast_response.dart';
 import 'package:feather/src/resources/weather_helper.dart';
+import 'package:feather/src/ui/app/app_bloc.dart';
 import 'package:feather/src/ui/widget/weather_forecast_thumbnail_widget.dart';
 import 'package:feather/src/ui/widget/widget_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class WeatherForecastThumbnailListWidget extends StatefulWidget {
   final System? system;
@@ -24,8 +26,11 @@ class WeatherForecastThumbnailListWidget extends StatefulWidget {
 
 class WeatherForecastThumbnailListWidgetState
     extends State<WeatherForecastThumbnailListWidget> {
+  late AppBloc _appBloc;
+
   @override
   void initState() {
+    _appBloc = BlocProvider.of(context);
     super.initState();
     _fetchWeatherForecast();
   }
@@ -37,29 +42,33 @@ class WeatherForecastThumbnailListWidgetState
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-        stream: bloc.weatherForecastSubject.stream,
-        builder:
-            (context, AsyncSnapshot<WeatherForecastListResponse> snapshot) {
-          if (snapshot.hasData) {
-            if (snapshot.data!.errorCode != null) {
-              return WidgetHelper.buildErrorWidget(
-                  context: context,
-                  applicationError: snapshot.data!.errorCode,
-                  voidCallback: () =>
-                      bloc.fetchWeatherForecastForUserLocation(),
-                  withRetryButton: false);
-            }
-            return buildForecastWeatherContainer(snapshot);
-          } else if (snapshot.hasError) {
-            return WidgetHelper.buildErrorWidget(
-                context: context,
-                applicationError: snapshot.error as ApplicationError?,
-                voidCallback: () =>
-                    bloc.fetchWeatherForecastForUserLocation(),
-                withRetryButton: false);
-          }
-          return WidgetHelper.buildProgressIndicator();
+    return BlocBuilder(
+        bloc: _appBloc,
+        builder: (context, snapshot) {
+          return StreamBuilder(
+              stream: bloc.weatherForecastSubject.stream,
+              builder: (context,
+                  AsyncSnapshot<WeatherForecastListResponse> snapshot) {
+                if (snapshot.hasData) {
+                  if (snapshot.data!.errorCode != null) {
+                    return WidgetHelper.buildErrorWidget(
+                        context: context,
+                        applicationError: snapshot.data!.errorCode,
+                        voidCallback: () =>
+                            bloc.fetchWeatherForecastForUserLocation(),
+                        withRetryButton: false);
+                  }
+                  return buildForecastWeatherContainer(snapshot);
+                } else if (snapshot.hasError) {
+                  return WidgetHelper.buildErrorWidget(
+                      context: context,
+                      applicationError: snapshot.error as ApplicationError?,
+                      voidCallback: () =>
+                          bloc.fetchWeatherForecastForUserLocation(),
+                      withRetryButton: false);
+                }
+                return WidgetHelper.buildProgressIndicator();
+              });
         });
   }
 
@@ -80,8 +89,10 @@ class WeatherForecastThumbnailListWidgetState
       WeatherForecastListResponse? data) {
     List<Widget> forecastWidgets = [];
     map.forEach((key, value) {
-      forecastWidgets.add(new WeatherForecastThumbnailWidget(
-          new WeatherForecastHolder(value, data!.city, widget.system)));
+      forecastWidgets.add(WeatherForecastThumbnailWidget(
+        WeatherForecastHolder(value, data!.city, widget.system),
+        _appBloc.isMetricUnits(),
+      ));
     });
     return forecastWidgets;
   }

@@ -1,4 +1,3 @@
-import 'package:feather/src/blocs/application_bloc.dart';
 import 'package:feather/src/models/internal/chart_data.dart';
 import 'package:feather/src/models/internal/point.dart';
 import 'package:feather/src/models/internal/weather_forecast_holder.dart';
@@ -12,8 +11,8 @@ import 'package:flutter/widgets.dart';
 
 class WeatherForecastWindPage extends WeatherForecastBasePage {
   WeatherForecastWindPage(
-      WeatherForecastHolder? holder, double? width, double? height)
-      : super(holder: holder, width: width, height: height);
+      WeatherForecastHolder? holder, double? width, double? height, bool isMetricUnits)
+      : super(holder: holder, width: width, height: height, isMetricUnits: isMetricUnits);
 
   @override
   Row getBottomRowWidget(BuildContext context) {
@@ -40,7 +39,7 @@ class WeatherForecastWindPage extends WeatherForecastBasePage {
 
   @override
   ChartData getChartData() {
-    return super.holder!.setupChartData(ChartDataType.wind, width!, height!);
+    return super.holder!.setupChartData(ChartDataType.wind, width!, height!,isMetricUnits);
   }
 
   @override
@@ -51,9 +50,10 @@ class WeatherForecastWindPage extends WeatherForecastBasePage {
   @override
   RichText getPageSubtitleWidget(BuildContext context) {
 
+
     var minWind = holder!.minWind;
     var maxWind = holder!.maxWind;
-    if (applicationBloc.isMetricUnits()){
+    if (isMetricUnits){
       minWind = WeatherHelper.convertMetersPerSecondToKilometersPerHour(minWind);
       maxWind = WeatherHelper.convertMetersPerSecondToKilometersPerHour(maxWind);
     } else {
@@ -67,11 +67,11 @@ class WeatherForecastWindPage extends WeatherForecastBasePage {
         text: TextSpan(children: [
           TextSpan(text: 'min ', style: Theme.of(context).textTheme.bodyText1),
           TextSpan(
-              text: WeatherHelper.formatWind(minWind),
+              text: WeatherHelper.formatWind(minWind,isMetricUnits),
               style: Theme.of(context).textTheme.subtitle2),
           TextSpan(text: '   max ', style: Theme.of(context).textTheme.bodyText1),
           TextSpan(
-              text: WeatherHelper.formatWind(maxWind),
+              text: WeatherHelper.formatWind(maxWind,isMetricUnits),
               style: Theme.of(context).textTheme.subtitle2)
         ]));
   }

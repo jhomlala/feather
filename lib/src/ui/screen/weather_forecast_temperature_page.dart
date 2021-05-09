@@ -1,4 +1,3 @@
-import 'package:feather/src/blocs/application_bloc.dart';
 import 'package:feather/src/models/internal/chart_data.dart';
 import 'package:feather/src/models/internal/point.dart';
 import 'package:feather/src/models/internal/weather_forecast_holder.dart';
@@ -11,9 +10,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class WeatherForecastTemperaturePage extends WeatherForecastBasePage {
-  WeatherForecastTemperaturePage(
-      WeatherForecastHolder? holder, double? width, double? height)
-      : super(holder: holder, width: width, height: height);
+  WeatherForecastTemperaturePage(WeatherForecastHolder? holder, double? width,
+      double? height, bool isMetricUnits)
+      : super(
+            holder: holder,
+            width: width,
+            height: height,
+            isMetricUnits: isMetricUnits);
 
   @override
   Widget getBottomRowWidget(BuildContext context) {
@@ -42,7 +45,8 @@ class WeatherForecastTemperaturePage extends WeatherForecastBasePage {
   @override
   ChartData getChartData() {
     print("get chart data");
-    ChartData chartData = holder!.setupChartData(ChartDataType.temperature, width!, height!);
+    ChartData chartData = holder!.setupChartData(
+        ChartDataType.temperature, width!, height!, isMetricUnits);
     print(chartData.pointLabels.toString());
 
     return chartData;
@@ -55,19 +59,25 @@ class WeatherForecastTemperaturePage extends WeatherForecastBasePage {
 
   @override
   RichText getPageSubtitleWidget(BuildContext context) {
-
-
     var minTemperature = holder!.minTemperature;
     var maxTemperature = holder!.maxTemperature;
 
-    print("min temperature: " + minTemperature.toString() + " maxTemperature: " + maxTemperature.toString());
+    print("min temperature: " +
+        minTemperature.toString() +
+        " maxTemperature: " +
+        maxTemperature.toString());
 
-    if (!applicationBloc.isMetricUnits()){
-      minTemperature = WeatherHelper.convertCelsiusToFahrenheit(minTemperature!);
-      maxTemperature = WeatherHelper.convertCelsiusToFahrenheit(maxTemperature!);
+    if (!isMetricUnits) {
+      minTemperature =
+          WeatherHelper.convertCelsiusToFahrenheit(minTemperature!);
+      maxTemperature =
+          WeatherHelper.convertCelsiusToFahrenheit(maxTemperature!);
     }
 
-    print("after min temperature: " + minTemperature.toString() + " maxTemperature: " + maxTemperature.toString());
+    print("after min temperature: " +
+        minTemperature.toString() +
+        " maxTemperature: " +
+        maxTemperature.toString());
 
     return RichText(
         key: Key("weather_forecast_temperature_page_subtitle"),
@@ -76,12 +86,13 @@ class WeatherForecastTemperaturePage extends WeatherForecastBasePage {
           TextSpan(text: 'min ', style: Theme.of(context).textTheme.bodyText1),
           TextSpan(
               text:
-                  "${WeatherHelper.formatTemperature(temperature: minTemperature, positions: 1, round: false, metricUnits: applicationBloc.isMetricUnits())}",
+                  "${WeatherHelper.formatTemperature(temperature: minTemperature, positions: 1, round: false, metricUnits: isMetricUnits)}",
               style: Theme.of(context).textTheme.subtitle2),
-          TextSpan(text: '   max ', style: Theme.of(context).textTheme.bodyText1),
+          TextSpan(
+              text: '   max ', style: Theme.of(context).textTheme.bodyText1),
           TextSpan(
               text:
-                  "${WeatherHelper.formatTemperature(temperature: maxTemperature, positions: 1, round: false, metricUnits: applicationBloc.isMetricUnits())}",
+                  "${WeatherHelper.formatTemperature(temperature: maxTemperature, positions: 1, round: false, metricUnits: isMetricUnits)}",
               style: Theme.of(context).textTheme.subtitle2)
         ]));
   }

@@ -9,13 +9,15 @@ abstract class WeatherForecastBasePage extends StatelessWidget {
   final WeatherForecastHolder? holder;
   final double? width;
   final double? height;
+  final bool isMetricUnits;
 
-  const WeatherForecastBasePage(
-      {Key? key,
-      required this.holder,
-      required this.width,
-      required this.height})
-      : super(key: key);
+  const WeatherForecastBasePage({
+    Key? key,
+    required this.holder,
+    required this.width,
+    required this.height,
+    required this.isMetricUnits,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

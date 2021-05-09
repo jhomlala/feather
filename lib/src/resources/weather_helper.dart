@@ -1,5 +1,4 @@
 import 'dart:collection';
-import 'package:feather/src/blocs/application_bloc.dart';
 import 'package:feather/src/models/remote/system.dart';
 import 'package:feather/src/models/remote/weather_forecast_response.dart';
 import 'package:feather/src/resources/config/assets.dart';
@@ -87,9 +86,9 @@ class WeatherHelper {
     return (temperature - 32) * 0.55;
   }
 
-  static String formatPressure(double pressure) {
+  static String formatPressure(double pressure, bool isMetricUnits) {
     String unit = "hPa";
-    if (!applicationBloc.isMetricUnits()) {
+    if (!isMetricUnits) {
       unit = "mbar";
     }
     return "${pressure.toStringAsFixed(0)} $unit";
@@ -99,9 +98,9 @@ class WeatherHelper {
     return "${rain.toStringAsFixed(2)} mm/h";
   }
 
-  static String formatWind(double wind) {
+  static String formatWind(double wind, bool isMetricUnits) {
     String unit = "km/h";
-    if (!applicationBloc.isMetricUnits()) {
+    if (!isMetricUnits) {
       unit = "mi/h";
     }
     return "${wind.toStringAsFixed(1)} $unit";

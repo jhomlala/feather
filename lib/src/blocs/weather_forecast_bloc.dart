@@ -1,6 +1,4 @@
 import 'dart:async';
-
-import 'package:feather/src/blocs/application_bloc.dart';
 import 'package:feather/src/blocs/base_bloc.dart';
 import 'package:feather/src/models/internal/application_error.dart';
 import 'package:feather/src/models/internal/geo_position.dart';
@@ -18,7 +16,7 @@ class WeatherForecastBloc extends BaseBloc {
   setupTimer() {
     _logger.log(Level.FINE, "Setup timer");
     if (_timer == null) {
-      var duration = Duration(milliseconds: applicationBloc.refreshTime);
+      var duration = Duration(milliseconds: 60000);
       _timer = new Timer(duration, handleTimerTimeout);
     } else {
       _logger.warning(
@@ -52,7 +50,7 @@ class WeatherForecastBloc extends BaseBloc {
     }
   }
 
-  fetchWeatherForecast(double? latitude, double? longitude) async {
+  void fetchWeatherForecast(double? latitude, double? longitude) async {
     lastRequestTime = DateTime.now().millisecondsSinceEpoch;
     _logger.log(Level.FINE, "Fetch weather forecast");
     WeatherForecastListResponse weatherForecastResponse =

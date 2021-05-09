@@ -147,8 +147,8 @@ class WeatherForecastHolder {
   }
 
   ChartData setupChartData(
-      ChartDataType chartDataType, double width, double height) {
-    return ChartData(this, forecastList!, chartDataType, width, height);
+      ChartDataType chartDataType, double width, double height, bool isMetricUnit) {
+    return ChartData(this, forecastList!, chartDataType, width, height, isMetricUnit);
   }
 
   List<String> getWindDirectionList() {

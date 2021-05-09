@@ -1,6 +1,3 @@
-import 'package:feather/src/blocs/application_bloc.dart';
-import 'package:feather/src/models/internal/navigation_route.dart';
-import 'package:feather/src/resources/config/application_config.dart';
 import 'package:feather/src/resources/application_localization_delegate.dart';
 import 'package:feather/src/resources/location_manager.dart';
 import 'package:feather/src/resources/repository/local/application_local_repository.dart';
@@ -8,23 +5,19 @@ import 'package:feather/src/resources/repository/local/weather_local_repository.
 import 'package:feather/src/resources/repository/remote/weather_remote_repository.dart';
 import 'package:feather/src/ui/about/about_screen_bloc.dart';
 import 'package:feather/src/ui/app/app_bloc.dart';
-import 'package:feather/src/ui/main/main_screen.dart';
 import 'package:feather/src/ui/main/main_screen_bloc.dart';
 import 'package:feather/src/ui/navigation/navigation.dart';
 import 'package:feather/src/ui/navigation/navigation_bloc.dart';
-import 'package:feather/src/ui/navigation/navigation_state.dart';
-import 'package:feather/src/ui/about/about_screen.dart';
 import 'package:feather/src/ui/settings/settings_screen_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:logging/logging.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-void main() => runApp(MyApp());
+void main() => runApp(FeatherApp());
 
-class MyApp extends StatelessWidget {
+class FeatherApp extends StatelessWidget {
   final Navigation _navigation = Navigation();
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey();
   final LocationManager _locationManager = LocationManager();
@@ -35,14 +28,11 @@ class MyApp extends StatelessWidget {
   final ApplicationLocalRepository _applicationLocalRepository =
       ApplicationLocalRepository();
 
-  MyApp() {
+  FeatherApp({Key? key}) : super(key: key) {
     WidgetsFlutterBinding.ensureInitialized();
     SystemChrome.setEnabledSystemUIOverlays([]);
     _navigation.defineRoutes();
-
     _configureTimeago();
-    applicationBloc.loadSavedUnit();
-    applicationBloc.loadSavedRefreshTime();
   }
 
   @override
@@ -89,11 +79,9 @@ class MyApp extends StatelessWidget {
     );
   }
 
-
-
   ThemeData _configureThemeData() {
     return ThemeData(
-      textTheme: TextTheme(
+      textTheme: const TextTheme(
         headline5: TextStyle(fontSize: 60.0, color: Colors.white),
         headline6: TextStyle(fontSize: 35, color: Colors.white),
         subtitle2: TextStyle(fontSize: 20, color: Colors.white),

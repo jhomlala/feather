@@ -18,9 +18,15 @@ class WeatherForecastWidget extends StatelessWidget {
   final double? width;
   final double? height;
   final Map<String, WeatherForecastBasePage?> _pageMap = new Map();
+  final bool isMetricUnits;
   final Logger _logger = Logger("WeatherForecastWidget");
 
-  WeatherForecastWidget({Key? key, this.holder, this.width, this.height})
+  WeatherForecastWidget(
+      {Key? key,
+      this.holder,
+      this.width,
+      this.height,
+      required this.isMetricUnits})
       : super(key: key);
 
   WeatherForecastBasePage? _getPage(String key, WeatherForecastHolder? holder,
@@ -31,13 +37,15 @@ class WeatherForecastWidget extends StatelessWidget {
     } else {
       WeatherForecastBasePage? page;
       if (key == Ids.temperaturePage) {
-        page = WeatherForecastTemperaturePage(holder, width, height);
+        page = WeatherForecastTemperaturePage(
+            holder, width, height, isMetricUnits);
       } else if (key == Ids.windPage) {
-        page = WeatherForecastWindPage(holder, width, height);
+        page = WeatherForecastWindPage(holder, width, height, isMetricUnits);
       } else if (key == Ids.rainPage) {
-        page = WeatherForecastRainPage(holder, width, height);
+        page = WeatherForecastRainPage(holder, width, height, isMetricUnits);
       } else if (key == Ids.pressurePage) {
-        page = WeatherForecastPressurePage(holder, width, height);
+        page =
+            WeatherForecastPressurePage(holder, width, height, isMetricUnits);
       }
       _pageMap[key] = page;
       return page;

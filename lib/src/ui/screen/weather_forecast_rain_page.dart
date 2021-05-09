@@ -9,8 +9,8 @@ import 'package:flutter/widgets.dart';
 
 class WeatherForecastRainPage extends WeatherForecastBasePage {
   WeatherForecastRainPage(
-      WeatherForecastHolder? holder, double? width, double? height)
-      : super(holder: holder, width: width, height: height);
+      WeatherForecastHolder? holder, double? width, double? height, bool isMetricUnits)
+      : super(holder: holder, width: width, height: height, isMetricUnits: isMetricUnits);
 
   @override
   Row getBottomRowWidget(BuildContext context) {
@@ -22,7 +22,7 @@ class WeatherForecastRainPage extends WeatherForecastBasePage {
 
   @override
   ChartData getChartData() {
-    return super.holder!.setupChartData(ChartDataType.rain, width!, height!);
+    return super.holder!.setupChartData(ChartDataType.rain, width!, height!, isMetricUnits);
   }
 
   @override
