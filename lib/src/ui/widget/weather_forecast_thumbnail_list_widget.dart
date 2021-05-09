@@ -1,4 +1,3 @@
-import 'package:feather/src/blocs/weather_forecast_bloc.dart';
 import 'package:feather/src/models/internal/application_error.dart';
 import 'package:feather/src/models/internal/weather_forecast_holder.dart';
 import 'package:feather/src/models/remote/system.dart';
@@ -14,8 +13,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class WeatherForecastThumbnailListWidget extends StatefulWidget {
   final System? system;
+  final WeatherForecastListResponse? forecastListResponse;
 
-  const WeatherForecastThumbnailListWidget({Key? key, this.system})
+  const WeatherForecastThumbnailListWidget(
+      {Key? key, this.system, this.forecastListResponse})
       : super(key: key);
 
   @override
@@ -32,7 +33,6 @@ class WeatherForecastThumbnailListWidgetState
   void initState() {
     _appBloc = BlocProvider.of(context);
     super.initState();
-    _fetchWeatherForecast();
   }
 
   @override
@@ -45,7 +45,18 @@ class WeatherForecastThumbnailListWidgetState
     return BlocBuilder(
         bloc: _appBloc,
         builder: (context, snapshot) {
-          return StreamBuilder(
+          if (widget.forecastListResponse != null) {
+            return buildForecastWeatherContainer(widget.forecastListResponse!);
+          } else {
+            return WidgetHelper.buildErrorWidget(
+                context: context,
+                applicationError: null,
+                voidCallback: () => () {},
+                withRetryButton: false);
+          }
+        }
+
+        /*return StreamBuilder(
               stream: bloc.weatherForecastSubject.stream,
               builder: (context,
                   AsyncSnapshot<WeatherForecastListResponse> snapshot) {
@@ -68,19 +79,20 @@ class WeatherForecastThumbnailListWidgetState
                       withRetryButton: false);
                 }
                 return WidgetHelper.buildProgressIndicator();
-              });
-        });
+              });*/
+
+        );
   }
 
   Widget buildForecastWeatherContainer(
-      AsyncSnapshot<WeatherForecastListResponse> snapshot) {
-    List<WeatherForecastResponse> forecastList = snapshot.data!.list!;
+      WeatherForecastListResponse forecastListResponse) {
+    List<WeatherForecastResponse> forecastList = forecastListResponse.list!;
     var map = WeatherHelper.mapForecastsForSameDay(forecastList);
     return Row(
       key: Key("weather_forecast_thumbnail_list_widget_container"),
       textDirection: TextDirection.ltr,
       mainAxisAlignment: MainAxisAlignment.center,
-      children: buildForecastWeatherWidgets(map, snapshot.data),
+      children: buildForecastWeatherWidgets(map, forecastListResponse),
     );
   }
 
@@ -95,11 +107,5 @@ class WeatherForecastThumbnailListWidgetState
       ));
     });
     return forecastWidgets;
-  }
-
-  _fetchWeatherForecast() {
-    if (bloc.shouldFetchWeatherForecast()) {
-      bloc.fetchWeatherForecastForUserLocation();
-    }
   }
 }

@@ -1,5 +1,6 @@
 import 'package:feather/src/models/internal/application_error.dart';
 import 'package:feather/src/models/internal/overflow_menu_element.dart';
+import 'package:feather/src/models/remote/weather_forecast_list_response.dart';
 import 'package:feather/src/models/remote/weather_response.dart';
 import 'package:feather/src/resources/application_localization.dart';
 import 'package:feather/src/resources/config/application_colors.dart';
@@ -53,38 +54,40 @@ class _MainScreenState extends State<MainScreen> {
       body: Stack(
         children: <Widget>[
           BlocBuilder<MainScreenBloc, MainScreenState>(
-              builder: (context, state) {
-                return Stack(
-                  children: [
-                    if (state is InitialMainScreenState ||
-                        state is LoadingMainScreenState ||
-                        state is CheckingLocationState) ...[
-                      const AnimatedGradientWidget(),
-                      const LoadingWidget(),
-                    ] else ...[
-                      _buildGradientWidget(),
-                      if (state is LocationServiceDisabledMainScreenState)
-                        _buildLocationServiceDisabledWidget()
-                      else if (state is PermissionNotGrantedMainScreenState)
-                        _buildPermissionNotGrantedWidget()
-                      else if (state is SuccessLoadMainScreenState)
-                        _buildWeatherWidget(state.weatherResponse)
-                      else if (state is FailedLoadMainScreenState)
-                        _buildFailedToLoadDataWidget(state.applicationError)
-                      else
-                        const SizedBox()
-                    ]
-                  ],
-                );
-              },
-            ),
+            builder: (context, state) {
+              return Stack(
+                children: [
+                  if (state is InitialMainScreenState ||
+                      state is LoadingMainScreenState ||
+                      state is CheckingLocationState) ...[
+                    const AnimatedGradientWidget(),
+                    const LoadingWidget(),
+                  ] else ...[
+                    _buildGradientWidget(),
+                    if (state is LocationServiceDisabledMainScreenState)
+                      _buildLocationServiceDisabledWidget()
+                    else if (state is PermissionNotGrantedMainScreenState)
+                      _buildPermissionNotGrantedWidget()
+                    else if (state is SuccessLoadMainScreenState)
+                      _buildWeatherWidget(state.weatherResponse,
+                          state.weatherForecastListResponse)
+                    else if (state is FailedLoadMainScreenState)
+                      _buildFailedToLoadDataWidget(state.applicationError)
+                    else
+                      const SizedBox()
+                  ]
+                ],
+              );
+            },
+          ),
           _buildOverflowMenu()
         ],
       ),
     );
   }
 
-  Widget _buildWeatherWidget(WeatherResponse weatherResponse) {
+  Widget _buildWeatherWidget(WeatherResponse weatherResponse,
+      WeatherForecastListResponse weatherForecastListResponse) {
     return Directionality(
       textDirection: TextDirection.ltr,
       child: Container(
@@ -114,8 +117,7 @@ class _MainScreenState extends State<MainScreen> {
               SizedBox(
                 height: Dimensions.weatherMainWidgetSwiperHeight,
                 child: _buildSwiperWidget(
-                  weatherResponse,
-                ),
+                    weatherResponse, weatherForecastListResponse),
               )
             ],
           ),
@@ -124,19 +126,18 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  Widget _buildSwiperWidget(WeatherResponse weatherResponse) {
-    print("BUILD SWIPER WIDGET");
+  Widget _buildSwiperWidget(WeatherResponse weatherResponse,
+      WeatherForecastListResponse forecastListResponse) {
     return Swiper(
       itemBuilder: (BuildContext context, int index) {
         if (index == 0) {
           return _getPage(
-            Ids.mainWeatherPage,
-            weatherResponse,
-          );
+              Ids.mainWeatherPage, weatherResponse, forecastListResponse);
         } else {
           return _getPage(
             Ids.weatherMainSunPathPage,
             weatherResponse,
+            forecastListResponse,
           );
         }
       },
@@ -151,13 +152,17 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  Widget _getPage(String key, WeatherResponse response) {
+  Widget _getPage(String key, WeatherResponse response,
+      WeatherForecastListResponse weatherForecastListResponse) {
     if (_pageMap.containsKey(key)) {
       return _pageMap[key] ?? const SizedBox();
     } else {
       Widget page;
       if (key == Ids.mainWeatherPage) {
-        page = CurrentWeatherWidget(weatherResponse: response);
+        page = CurrentWeatherWidget(
+          weatherResponse: response,
+          forecastListResponse: weatherForecastListResponse,
+        );
       } else if (key == Ids.weatherMainSunPathPage) {
         page = WeatherMainSunPathPage(
           system: response.system,

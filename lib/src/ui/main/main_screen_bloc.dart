@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:feather/src/models/internal/application_error.dart';
 import 'package:feather/src/models/internal/geo_position.dart';
+import 'package:feather/src/models/remote/weather_forecast_list_response.dart';
 import 'package:feather/src/models/remote/weather_response.dart';
 import 'package:feather/src/resources/location_manager.dart';
 import 'package:feather/src/resources/repository/local/application_local_repository.dart';
@@ -52,14 +53,17 @@ class MainScreenBloc extends Bloc<MainScreenEvent, MainScreenState> {
     final GeoPosition? position = await _getPosition();
     Log.i("Got geo position: $position");
     if (position != null) {
-      final WeatherResponse? response =
+      final WeatherResponse? weatherResponse =
           await _fetchWeather(position.lat, position.long);
+      final WeatherForecastListResponse? weatherForecastListResponse =
+          await _fetchWeatherForecast(position.lat, position.long);
       _saveLastRefreshTime();
-      if (response != null) {
-        if (response.errorCode != null) {
-          yield FailedLoadMainScreenState(response.errorCode!);
+      if (weatherResponse != null && weatherForecastListResponse != null) {
+        if (weatherResponse.errorCode != null) {
+          yield FailedLoadMainScreenState(weatherResponse.errorCode!);
         } else {
-          yield SuccessLoadMainScreenState(response);
+          yield SuccessLoadMainScreenState(
+              weatherResponse, weatherForecastListResponse);
           _setupRefreshTimer();
         }
       } else {
@@ -139,6 +143,26 @@ class MainScreenBloc extends Bloc<MainScreenEvent, MainScreenState> {
     _refreshTimer = Timer(duration, () {
       add(LoadWeatherDataMainScreenEvent());
     });
+  }
+
+  Future<WeatherForecastListResponse?> _fetchWeatherForecast(
+      double? latitude, double? longitude) async {
+    //lastRequestTime = DateTime.now().millisecondsSinceEpoch;
+
+    WeatherForecastListResponse weatherForecastResponse =
+        await _weatherRemoteRepository.fetchWeatherForecast(
+            latitude, longitude);
+    if (weatherForecastResponse.errorCode == null) {
+      _weatherLocalRepository.saveWeatherForecast(weatherForecastResponse);
+    } else {
+      WeatherForecastListResponse? weatherForecastResponseStorage =
+          await _weatherLocalRepository.getWeatherForecast();
+      if (weatherForecastResponseStorage != null) {
+        weatherForecastResponse = weatherForecastResponseStorage;
+        //_logger.info("Using weather forecast data from storage");
+      }
+    }
+    return weatherForecastResponse;
   }
 
   @override

@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:feather/src/models/internal/application_error.dart';
 import 'package:feather/src/models/internal/unit.dart';
+import 'package:feather/src/models/remote/weather_forecast_list_response.dart';
 import 'package:feather/src/models/remote/weather_response.dart';
 
 abstract class MainScreenState extends Equatable {
@@ -24,8 +25,9 @@ class LoadingMainScreenState extends MainScreenState {}
 
 class SuccessLoadMainScreenState extends MainScreenState {
   final WeatherResponse weatherResponse;
+  final WeatherForecastListResponse weatherForecastListResponse;
 
-  const SuccessLoadMainScreenState(this.weatherResponse);
+  const SuccessLoadMainScreenState(this.weatherResponse, this.weatherForecastListResponse);
 
   @override
   List<Object?> get props => [unit, weatherResponse];

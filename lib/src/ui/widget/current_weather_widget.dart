@@ -1,4 +1,5 @@
 import 'package:feather/src/models/remote/overall_weather_data.dart';
+import 'package:feather/src/models/remote/weather_forecast_list_response.dart';
 import 'package:feather/src/models/remote/weather_response.dart';
 import 'package:feather/src/resources/application_localization.dart';
 import 'package:feather/src/resources/weather_helper.dart';
@@ -11,8 +12,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CurrentWeatherWidget extends StatefulWidget {
   final WeatherResponse? weatherResponse;
+  final WeatherForecastListResponse? forecastListResponse;
 
-  const CurrentWeatherWidget({Key? key, this.weatherResponse})
+  const CurrentWeatherWidget(
+      {Key? key, this.weatherResponse, this.forecastListResponse})
       : super(key: key);
 
   @override
@@ -35,12 +38,12 @@ class CurrentWeatherWidgetState extends AnimatedState<CurrentWeatherWidget> {
     return BlocBuilder(
       bloc: _appBloc,
       builder: (context, snapshot) {
-        return buildWeatherContainer(widget.weatherResponse!);
+        return buildWeatherContainer(widget.weatherResponse!, widget.forecastListResponse!);
       },
     );
   }
 
-  Widget buildWeatherContainer(WeatherResponse response) {
+  Widget buildWeatherContainer(WeatherResponse response, WeatherForecastListResponse weatherForecastListResponse) {
     var currentTemperature = response.mainWeatherData!.temp;
 
     if (!_appBloc.isMetricUnits()) {
@@ -83,6 +86,7 @@ class CurrentWeatherWidgetState extends AnimatedState<CurrentWeatherWidget> {
               const SizedBox(height: 24),
               WeatherForecastThumbnailListWidget(
                   system: response.system,
+                  forecastListResponse: weatherForecastListResponse,
                   key: Key("weather_current_widget_thumbnail_list")),
               const SizedBox(height: 24),
             ],
@@ -116,7 +120,8 @@ class CurrentWeatherWidgetState extends AnimatedState<CurrentWeatherWidget> {
               style: Theme.of(context).textTheme.bodyText1),
           TextSpan(
               text: WeatherHelper.formatPressure(
-                  weatherResponse.mainWeatherData!.pressure, _appBloc.isMetricUnits()),
+                  weatherResponse.mainWeatherData!.pressure,
+                  _appBloc.isMetricUnits()),
               style: Theme.of(context).textTheme.subtitle2),
           TextSpan(
             text: "  ",
