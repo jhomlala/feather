@@ -5,6 +5,7 @@ import 'package:feather/src/data/model/remote/weather_response.dart';
 import 'package:feather/src/resources/config/application_config.dart';
 import 'package:feather/src/utils/app_logger.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+// ignore: argument_type_not_assignable
 
 class WeatherApiProvider {
   final String _apiBaseUrl = "api.openweathermap.org";
@@ -17,9 +18,10 @@ class WeatherApiProvider {
       double? latitude, double? longitude) async {
     try {
       final Uri uri = buildUri(_apiWeatherEndpoint, latitude, longitude);
-      final Response response = await _dio.get<Response>(uri.toString());
+      final Response<Map<String, dynamic>> response =
+          await _dio.get(uri.toString());
       if (response.statusCode == 200) {
-        return WeatherResponse.fromJson(response.data as Map<String, dynamic>);
+        return WeatherResponse.fromJson(response.data!);
       } else {
         return WeatherResponse.withErrorCode(ApplicationError.apiError);
       }
@@ -48,16 +50,16 @@ class WeatherApiProvider {
     try {
       final Uri uri =
           buildUri(_apiWeatherForecastEndpoint, latitude, longitude);
-      final Response response = await _dio.get<Response>(uri.toString());
+      final Response<Map<String, dynamic>> response =
+          await _dio.get(uri.toString());
       if (response.statusCode == 200) {
-        return WeatherForecastListResponse.fromJson(
-            response.data as Map<String, dynamic>);
+        return WeatherForecastListResponse.fromJson(response.data!);
       } else {
         return WeatherForecastListResponse.withErrorCode(
             ApplicationError.apiError);
       }
     } catch (exc, stackTrace) {
-      Log.e("Exception occured: $exc $stackTrace");
+      Log.e("Exception occurred: $exc $stackTrace");
       return WeatherForecastListResponse.withErrorCode(
           ApplicationError.connectionError);
     }

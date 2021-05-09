@@ -8,21 +8,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class WeatherForecastRainPage extends WeatherForecastBasePage {
-  WeatherForecastRainPage(
-      WeatherForecastHolder? holder, double? width, double? height, bool isMetricUnits)
-      : super(holder: holder, width: width, height: height, isMetricUnits: isMetricUnits);
+  const WeatherForecastRainPage(WeatherForecastHolder? holder, double? width,
+      double? height, bool isMetricUnits, {Key? key})
+      : super(
+            holder: holder,
+            width: width,
+            height: height,
+            isMetricUnits: isMetricUnits,
+            key: key);
 
   @override
   Row getBottomRowWidget(BuildContext context) {
     return Row(
-      key: Key("weather_forecast_rain_page_bottom_row"),
+      key: const Key("weather_forecast_rain_page_bottom_row"),
       mainAxisAlignment: MainAxisAlignment.center,
     );
   }
 
   @override
   ChartData getChartData() {
-    return super.holder!.setupChartData(ChartDataType.rain, width!, height!, isMetricUnits);
+    return super
+        .holder!
+        .setupChartData(ChartDataType.rain, width!, height!, isMetricUnits);
   }
 
   @override
@@ -33,14 +40,15 @@ class WeatherForecastRainPage extends WeatherForecastBasePage {
   @override
   RichText getPageSubtitleWidget(BuildContext context) {
     return RichText(
-        key: Key("weather_forecast_rain_page_subtitle"),
+        key: const Key("weather_forecast_rain_page_subtitle"),
         textDirection: TextDirection.ltr,
         text: TextSpan(children: [
           TextSpan(text: 'min ', style: Theme.of(context).textTheme.bodyText1),
           TextSpan(
               text: WeatherHelper.formatRain(holder!.minRain!),
               style: Theme.of(context).textTheme.subtitle2),
-          TextSpan(text: '   max ', style: Theme.of(context).textTheme.bodyText1),
+          TextSpan(
+              text: '   max ', style: Theme.of(context).textTheme.bodyText1),
           TextSpan(
               text: WeatherHelper.formatRain(holder!.maxRain!),
               style: Theme.of(context).textTheme.subtitle2)

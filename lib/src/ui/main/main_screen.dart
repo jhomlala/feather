@@ -8,7 +8,6 @@ import 'package:feather/src/resources/config/dimensions.dart';
 import 'package:feather/src/resources/config/ids.dart';
 import 'package:feather/src/ui/app/app_bloc.dart';
 import 'package:feather/src/ui/app/app_event.dart';
-import 'package:feather/src/ui/app/app_state.dart';
 import 'package:feather/src/ui/main/main_screen_bloc.dart';
 import 'package:feather/src/ui/main/main_screen_event.dart';
 import 'package:feather/src/ui/main/main_screen_state.dart';

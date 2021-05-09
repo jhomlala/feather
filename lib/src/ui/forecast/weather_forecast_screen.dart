@@ -2,9 +2,9 @@ import 'package:feather/src/data/model/internal/overflow_menu_element.dart';
 import 'package:feather/src/data/model/internal/weather_forecast_holder.dart';
 import 'package:feather/src/data/repository/local/application_localization.dart';
 import 'package:feather/src/resources/config/application_colors.dart';
-import 'package:feather/src/ui/about/about_screen.dart';
 import 'package:feather/src/ui/app/app_bloc.dart';
-import 'package:feather/src/ui/settings/settings_screen.dart';
+import 'package:feather/src/ui/navigation/navigation_bloc.dart';
+import 'package:feather/src/ui/navigation/navigation_event.dart';
 import 'package:feather/src/ui/widget/weather_forecast_widget.dart';
 import 'package:feather/src/ui/widget/widget_helper.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +14,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class WeatherForecastScreen extends StatefulWidget {
   final WeatherForecastHolder _holder;
 
-  const WeatherForecastScreen(this._holder);
+  const WeatherForecastScreen(this._holder, {Key? key}) : super(key: key);
 
   @override
   _WeatherForecastScreenState createState() => _WeatherForecastScreenState();
@@ -22,6 +22,7 @@ class WeatherForecastScreen extends StatefulWidget {
 
 class _WeatherForecastScreenState extends State<WeatherForecastScreen> {
   late AppBloc _appBloc;
+  late NavigationBloc _navigationBloc;
 
   @override
   void initState() {
@@ -31,10 +32,9 @@ class _WeatherForecastScreenState extends State<WeatherForecastScreen> {
 
   @override
   Widget build(BuildContext context) {
-    LinearGradient gradient = WidgetHelper.getGradient(
+    final LinearGradient gradient = WidgetHelper.getGradient(
         sunriseTime: widget._holder.system!.sunrise,
         sunsetTime: widget._holder.system!.sunset);
-    print("Rebuild weather forecast screen");
     return Scaffold(
         body: Stack(
       children: <Widget>[
@@ -42,7 +42,7 @@ class _WeatherForecastScreenState extends State<WeatherForecastScreen> {
             bloc: _appBloc,
             builder: (context, state) {
               return Container(
-                  key: Key("weather_main_screen_container"),
+                  key: const Key("weather_main_screen_container"),
                   decoration: BoxDecoration(gradient: gradient),
                   child: WeatherForecastWidget(
                     holder: widget._holder,
@@ -51,7 +51,7 @@ class _WeatherForecastScreenState extends State<WeatherForecastScreen> {
                     isMetricUnits: _appBloc.isMetricUnits(),
                   ));
             }),
-        new Positioned(
+        Positioned(
           //Place it at the top, and not use the entire screen
           top: 0.0,
           left: 0.0,
@@ -66,7 +66,7 @@ class _WeatherForecastScreenState extends State<WeatherForecastScreen> {
                     onSelected: (PopupMenuElement element) {
                       _onMenuElementClicked(element, context);
                     },
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.more_vert,
                       color: Colors.white,
                     ),
@@ -74,9 +74,12 @@ class _WeatherForecastScreenState extends State<WeatherForecastScreen> {
                       return _getOverflowMenu(context)
                           .map((PopupMenuElement element) {
                         return PopupMenuItem<PopupMenuElement>(
-                            value: element,
-                            child: Text(element.title!,
-                                style: TextStyle(color: Colors.white)));
+                          value: element,
+                          child: Text(
+                            element.title!,
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                        );
                       }).toList();
                     },
                   ))
@@ -90,29 +93,30 @@ class _WeatherForecastScreenState extends State<WeatherForecastScreen> {
   }
 
   void _onMenuElementClicked(PopupMenuElement value, BuildContext context) {
-    if (value.key == Key("menu_overflow_settings")) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => SettingsScreen()),
-      );
+    List<Color> startGradientColors = [];
+
+    final LinearGradient gradient = WidgetHelper.getGradient(
+        sunriseTime: widget._holder.system!.sunrise,
+        sunsetTime: widget._holder.system!.sunset);
+    startGradientColors = gradient.colors;
+
+    if (value.key == const Key("menu_overflow_settings")) {
+      _navigationBloc.add(SettingsScreenNavigationEvent(startGradientColors));
     }
-    if (value.key == Key("menu_overflow_about")) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => AboutScreen()),
-      );
+    if (value.key == const Key("menu_overflow_about")) {
+      _navigationBloc.add(AboutScreenNavigationEvent(startGradientColors));
     }
   }
 
   List<PopupMenuElement> _getOverflowMenu(BuildContext context) {
-    var applicationLocalization = ApplicationLocalization.of(context)!;
-    List<PopupMenuElement> menuList = [];
+    final applicationLocalization = ApplicationLocalization.of(context)!;
+    final List<PopupMenuElement> menuList = [];
     menuList.add(PopupMenuElement(
-      key: Key("menu_overflow_settings"),
+      key: const Key("menu_overflow_settings"),
       title: applicationLocalization.getText("settings"),
     ));
     menuList.add(PopupMenuElement(
-      key: Key("menu_overflow_about"),
+      key: const Key("menu_overflow_about"),
       title: applicationLocalization.getText("about"),
     ));
     return menuList;

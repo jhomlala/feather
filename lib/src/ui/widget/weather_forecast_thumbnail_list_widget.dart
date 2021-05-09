@@ -42,46 +42,15 @@ class WeatherForecastThumbnailListWidgetState
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder(
-        bloc: _appBloc,
-        builder: (context, snapshot) {
-          if (widget.forecastListResponse != null) {
-            return buildForecastWeatherContainer(widget.forecastListResponse!);
-          } else {
-            return WidgetHelper.buildErrorWidget(
-                context: context,
-                applicationError: null,
-                voidCallback: () => () {},
-                withRetryButton: false);
-          }
-        }
-
-        /*return StreamBuilder(
-              stream: bloc.weatherForecastSubject.stream,
-              builder: (context,
-                  AsyncSnapshot<WeatherForecastListResponse> snapshot) {
-                if (snapshot.hasData) {
-                  if (snapshot.data!.errorCode != null) {
-                    return WidgetHelper.buildErrorWidget(
-                        context: context,
-                        applicationError: snapshot.data!.errorCode,
-                        voidCallback: () =>
-                            bloc.fetchWeatherForecastForUserLocation(),
-                        withRetryButton: false);
-                  }
-                  return buildForecastWeatherContainer(snapshot);
-                } else if (snapshot.hasError) {
-                  return WidgetHelper.buildErrorWidget(
-                      context: context,
-                      applicationError: snapshot.error as ApplicationError?,
-                      voidCallback: () =>
-                          bloc.fetchWeatherForecastForUserLocation(),
-                      withRetryButton: false);
-                }
-                return WidgetHelper.buildProgressIndicator();
-              });*/
-
-        );
+    if (widget.forecastListResponse != null) {
+      return buildForecastWeatherContainer(widget.forecastListResponse!);
+    } else {
+      return WidgetHelper.buildErrorWidget(
+          context: context,
+          applicationError: null,
+          voidCallback: () => () {},
+          withRetryButton: false);
+    }
   }
 
   Widget buildForecastWeatherContainer(

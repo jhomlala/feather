@@ -1,6 +1,6 @@
 import 'package:feather/src/data/model/internal/weather_forecast_holder.dart';
 import 'package:feather/src/data/repository/local/weather_helper.dart';
-import 'package:feather/src/ui/screen/weather_forecast_screen.dart';
+import 'package:feather/src/ui/forecast/weather_forecast_screen.dart';
 import 'package:feather/src/ui/widget/widget_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

@@ -2,11 +2,11 @@ import 'dart:core';
 
 import 'package:feather/src/data/model/internal/weather_forecast_holder.dart';
 import 'package:feather/src/resources/config/ids.dart';
+import 'package:feather/src/ui/forecast/weather_forecast_wind_page.dart';
 import 'package:feather/src/ui/screen/base/weather_forecast_base_page.dart';
-import 'package:feather/src/ui/screen/weather_forecast_pressure_page.dart';
-import 'package:feather/src/ui/screen/weather_forecast_rain_page.dart';
-import 'package:feather/src/ui/screen/weather_forecast_temperature_page.dart';
-import 'package:feather/src/ui/screen/weather_forecast_wind_page.dart';
+import 'package:feather/src/ui/forecast/weather_forecast_pressure_page.dart';
+import 'package:feather/src/ui/forecast/weather_forecast_rain_page.dart';
+import 'package:feather/src/ui/forecast/weather_forecast_temperature_page.dart';
 import 'package:feather/src/ui/widget/widget_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

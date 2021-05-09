@@ -10,20 +10,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class WeatherForecastTemperaturePage extends WeatherForecastBasePage {
-  WeatherForecastTemperaturePage(WeatherForecastHolder? holder, double? width,
-      double? height, bool isMetricUnits)
+  const WeatherForecastTemperaturePage(WeatherForecastHolder? holder,
+      double? width, double? height, bool isMetricUnits,
+      {Key? key})
       : super(
-            holder: holder,
-            width: width,
-            height: height,
-            isMetricUnits: isMetricUnits);
+          holder: holder,
+          width: width,
+          height: height,
+          isMetricUnits: isMetricUnits,
+          key: key,
+        );
 
   @override
   Widget getBottomRowWidget(BuildContext context) {
-    List<Point> points = getChartData().points!;
-    List<Widget> widgets = [];
+    final List<Point> points = getChartData().points!;
+    final List<Widget> widgets = [];
     if (points.length > 2) {
-      double padding = points[1].x - points[0].x - 30;
+      final double padding = points[1].x - points[0].x - 30;
       widgets.add(WidgetHelper.buildPadding(top: 5));
       for (int index = 0; index < points.length; index++) {
         widgets.add(Image.asset(
@@ -37,19 +40,15 @@ class WeatherForecastTemperaturePage extends WeatherForecastBasePage {
     }
 
     return Row(
-        key: Key("weather_forecast_temperature_page_bottom_row"),
+        key: const Key("weather_forecast_temperature_page_bottom_row"),
         mainAxisAlignment: MainAxisAlignment.center,
         children: widgets);
   }
 
   @override
   ChartData getChartData() {
-    print("get chart data");
-    ChartData chartData = holder!.setupChartData(
+    return holder!.setupChartData(
         ChartDataType.temperature, width!, height!, isMetricUnits);
-    print(chartData.pointLabels.toString());
-
-    return chartData;
   }
 
   @override
@@ -62,11 +61,6 @@ class WeatherForecastTemperaturePage extends WeatherForecastBasePage {
     var minTemperature = holder!.minTemperature;
     var maxTemperature = holder!.maxTemperature;
 
-    print("min temperature: " +
-        minTemperature.toString() +
-        " maxTemperature: " +
-        maxTemperature.toString());
-
     if (!isMetricUnits) {
       minTemperature =
           WeatherHelper.convertCelsiusToFahrenheit(minTemperature!);
@@ -74,27 +68,34 @@ class WeatherForecastTemperaturePage extends WeatherForecastBasePage {
           WeatherHelper.convertCelsiusToFahrenheit(maxTemperature!);
     }
 
-    print("after min temperature: " +
-        minTemperature.toString() +
-        " maxTemperature: " +
-        maxTemperature.toString());
+    final minTemperatureFormatted = WeatherHelper.formatTemperature(
+        temperature: minTemperature,
+        positions: 1,
+        round: false,
+        metricUnits: isMetricUnits);
+    final maxTemperatureFormatted = WeatherHelper.formatTemperature(
+        temperature: maxTemperature,
+        positions: 1,
+        round: false,
+        metricUnits: isMetricUnits);
 
     return RichText(
-        key: Key("weather_forecast_temperature_page_subtitle"),
-        textDirection: TextDirection.ltr,
-        text: TextSpan(children: [
+      key: const Key("weather_forecast_temperature_page_subtitle"),
+      textDirection: TextDirection.ltr,
+      text: TextSpan(
+        children: [
           TextSpan(text: 'min ', style: Theme.of(context).textTheme.bodyText1),
           TextSpan(
-              text:
-                  "${WeatherHelper.formatTemperature(temperature: minTemperature, positions: 1, round: false, metricUnits: isMetricUnits)}",
+              text: minTemperatureFormatted,
               style: Theme.of(context).textTheme.subtitle2),
           TextSpan(
               text: '   max ', style: Theme.of(context).textTheme.bodyText1),
           TextSpan(
-              text:
-                  "${WeatherHelper.formatTemperature(temperature: maxTemperature, positions: 1, round: false, metricUnits: isMetricUnits)}",
+              text: maxTemperatureFormatted,
               style: Theme.of(context).textTheme.subtitle2)
-        ]));
+        ],
+      ),
+    );
   }
 
   @override

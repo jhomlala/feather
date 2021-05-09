@@ -38,12 +38,14 @@ class CurrentWeatherWidgetState extends AnimatedState<CurrentWeatherWidget> {
     return BlocBuilder(
       bloc: _appBloc,
       builder: (context, snapshot) {
-        return buildWeatherContainer(widget.weatherResponse!, widget.forecastListResponse!);
+        return buildWeatherContainer(
+            widget.weatherResponse!, widget.forecastListResponse!);
       },
     );
   }
 
-  Widget buildWeatherContainer(WeatherResponse response, WeatherForecastListResponse weatherForecastListResponse) {
+  Widget buildWeatherContainer(WeatherResponse response,
+      WeatherForecastListResponse weatherForecastListResponse) {
     var currentTemperature = response.mainWeatherData!.temp;
 
     if (!_appBloc.isMetricUnits()) {
@@ -57,7 +59,7 @@ class CurrentWeatherWidgetState extends AnimatedState<CurrentWeatherWidget> {
         noAnimation: true,
       ),
       child: Container(
-        key: Key("weather_current_widget_container"),
+        key: const Key("weather_current_widget_container"),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -73,12 +75,12 @@ class CurrentWeatherWidgetState extends AnimatedState<CurrentWeatherWidget> {
                     temperature: currentTemperature,
                     metricUnits: _appBloc.isMetricUnits(),
                   ),
-                  key: Key("weather_current_widget_temperature"),
+                  key: const Key("weather_current_widget_temperature"),
                   textDirection: TextDirection.ltr,
                   style: Theme.of(context).textTheme.headline5),
               const SizedBox(height: 32),
               Text(_getMaxMinTemperatureRow(response),
-                  key: Key("weather_current_widget_min_max_temperature"),
+                  key: const Key("weather_current_widget_min_max_temperature"),
                   textDirection: TextDirection.ltr,
                   style: Theme.of(context).textTheme.subtitle2),
               const SizedBox(height: 4),
@@ -87,7 +89,7 @@ class CurrentWeatherWidgetState extends AnimatedState<CurrentWeatherWidget> {
               WeatherForecastThumbnailListWidget(
                   system: response.system,
                   forecastListResponse: weatherForecastListResponse,
-                  key: Key("weather_current_widget_thumbnail_list")),
+                  key: const Key("weather_current_widget_thumbnail_list")),
               const SizedBox(height: 24),
             ],
           ),
@@ -103,16 +105,19 @@ class CurrentWeatherWidgetState extends AnimatedState<CurrentWeatherWidget> {
       maxTemperature = WeatherHelper.convertCelsiusToFahrenheit(maxTemperature);
       minTemperature = WeatherHelper.convertCelsiusToFahrenheit(minTemperature);
     }
+    final formattedMaxTemperature = WeatherHelper.formatTemperature(
+        temperature: maxTemperature, metricUnits: _appBloc.isMetricUnits());
+    final formattedMinTemperature = WeatherHelper.formatTemperature(
+        temperature: minTemperature, metricUnits: _appBloc.isMetricUnits());
 
-    return "↑${WeatherHelper.formatTemperature(temperature: maxTemperature, metricUnits: _appBloc.isMetricUnits())}" +
-        " ↓${WeatherHelper.formatTemperature(temperature: minTemperature, metricUnits: _appBloc.isMetricUnits())}";
+    return "↑$formattedMaxTemperature ↓$formattedMinTemperature";
   }
 
   Widget _getPressureAndHumidityRow(WeatherResponse weatherResponse) {
-    var applicationLocalization = ApplicationLocalization.of(context)!;
+    final applicationLocalization = ApplicationLocalization.of(context)!;
     return RichText(
       textDirection: TextDirection.ltr,
-      key: Key("weather_current_widget_pressure_humidity"),
+      key: const Key("weather_current_widget_pressure_humidity"),
       text: TextSpan(
         children: [
           TextSpan(
@@ -123,7 +128,7 @@ class CurrentWeatherWidgetState extends AnimatedState<CurrentWeatherWidget> {
                   weatherResponse.mainWeatherData!.pressure,
                   _appBloc.isMetricUnits()),
               style: Theme.of(context).textTheme.subtitle2),
-          TextSpan(
+          const TextSpan(
             text: "  ",
           ),
           TextSpan(
@@ -139,9 +144,9 @@ class CurrentWeatherWidgetState extends AnimatedState<CurrentWeatherWidget> {
   }
 
   String _getWeatherImage(WeatherResponse weatherResponse) {
-    OverallWeatherData overallWeatherData =
+    final OverallWeatherData overallWeatherData =
         weatherResponse.overallWeatherData![0];
-    int code = overallWeatherData.id!;
+    final int code = overallWeatherData.id!;
     return WeatherHelper.getWeatherIcon(code);
   }
 

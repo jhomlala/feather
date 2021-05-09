@@ -10,17 +10,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class WeatherForecastWindPage extends WeatherForecastBasePage {
-  WeatherForecastWindPage(
-      WeatherForecastHolder? holder, double? width, double? height, bool isMetricUnits)
-      : super(holder: holder, width: width, height: height, isMetricUnits: isMetricUnits);
+  const WeatherForecastWindPage(
+    WeatherForecastHolder? holder,
+    double? width,
+    double? height,
+    bool isMetricUnits, {
+    Key? key,
+  }) : super(
+          holder: holder,
+          width: width,
+          height: height,
+          isMetricUnits: isMetricUnits,
+          key: key,
+        );
 
   @override
   Row getBottomRowWidget(BuildContext context) {
-    List<Widget> rowElements = [];
-    List<Point> points = getChartData().points!;
+    final List<Widget> rowElements = [];
+    final List<Point> points = getChartData().points!;
     if (points.length > 2) {
-      double padding = points[1].x - points[0].x - 30;
-      for (String direction in holder!.getWindDirectionList()) {
+      final double padding = points[1].x - points[0].x - 30;
+      for (final String direction in holder!.getWindDirectionList()) {
         rowElements.add(SizedBox(
             width: 30,
             child: Center(
@@ -32,14 +42,16 @@ class WeatherForecastWindPage extends WeatherForecastBasePage {
       rowElements.removeLast();
     }
     return Row(
-        key: Key("weather_forecast_wind_page_bottom_row"),
+        key: const Key("weather_forecast_wind_page_bottom_row"),
         mainAxisAlignment: MainAxisAlignment.center,
         children: rowElements);
   }
 
   @override
   ChartData getChartData() {
-    return super.holder!.setupChartData(ChartDataType.wind, width!, height!,isMetricUnits);
+    return super
+        .holder!
+        .setupChartData(ChartDataType.wind, width!, height!, isMetricUnits);
   }
 
   @override
@@ -49,31 +61,35 @@ class WeatherForecastWindPage extends WeatherForecastBasePage {
 
   @override
   RichText getPageSubtitleWidget(BuildContext context) {
-
-
     var minWind = holder!.minWind;
     var maxWind = holder!.maxWind;
-    if (isMetricUnits){
-      minWind = WeatherHelper.convertMetersPerSecondToKilometersPerHour(minWind);
-      maxWind = WeatherHelper.convertMetersPerSecondToKilometersPerHour(maxWind);
+    if (isMetricUnits) {
+      minWind =
+          WeatherHelper.convertMetersPerSecondToKilometersPerHour(minWind);
+      maxWind =
+          WeatherHelper.convertMetersPerSecondToKilometersPerHour(maxWind);
     } else {
       minWind = WeatherHelper.convertMetersPerSecondToMilesPerHour(minWind);
       maxWind = WeatherHelper.convertMetersPerSecondToMilesPerHour(maxWind);
     }
 
     return RichText(
-        key: Key("weather_forecast_wind_page_subtitle"),
-        textDirection: TextDirection.ltr,
-        text: TextSpan(children: [
+      key: const Key("weather_forecast_wind_page_subtitle"),
+      textDirection: TextDirection.ltr,
+      text: TextSpan(
+        children: [
           TextSpan(text: 'min ', style: Theme.of(context).textTheme.bodyText1),
           TextSpan(
-              text: WeatherHelper.formatWind(minWind,isMetricUnits),
+              text: WeatherHelper.formatWind(minWind, isMetricUnits),
               style: Theme.of(context).textTheme.subtitle2),
-          TextSpan(text: '   max ', style: Theme.of(context).textTheme.bodyText1),
           TextSpan(
-              text: WeatherHelper.formatWind(maxWind,isMetricUnits),
+              text: '   max ', style: Theme.of(context).textTheme.bodyText1),
+          TextSpan(
+              text: WeatherHelper.formatWind(maxWind, isMetricUnits),
               style: Theme.of(context).textTheme.subtitle2)
-        ]));
+        ],
+      ),
+    );
   }
 
   @override
