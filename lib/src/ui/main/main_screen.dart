@@ -5,6 +5,9 @@ import 'package:feather/src/resources/application_localization.dart';
 import 'package:feather/src/resources/config/application_colors.dart';
 import 'package:feather/src/resources/config/dimensions.dart';
 import 'package:feather/src/resources/config/ids.dart';
+import 'package:feather/src/ui/app/app_bloc.dart';
+import 'package:feather/src/ui/app/app_event.dart';
+import 'package:feather/src/ui/app/app_state.dart';
 import 'package:feather/src/ui/main/main_screen_bloc.dart';
 import 'package:feather/src/ui/main/main_screen_event.dart';
 import 'package:feather/src/ui/main/main_screen_state.dart';
@@ -30,12 +33,15 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   final Map<String, Widget?> _pageMap = <String, Widget?>{};
+  late AppBloc _appBloc;
   late MainScreenBloc _mainScreenBloc;
   late NavigationBloc _navigationBloc;
 
   @override
   void initState() {
     super.initState();
+    _appBloc = BlocProvider.of(context);
+    _appBloc.add(LoadSettingsAppEvent());
     _mainScreenBloc = BlocProvider.of(context);
     _mainScreenBloc.add(LocationCheckMainScreenEvent());
     _navigationBloc = BlocProvider.of(context);
@@ -47,31 +53,31 @@ class _MainScreenState extends State<MainScreen> {
       body: Stack(
         children: <Widget>[
           BlocBuilder<MainScreenBloc, MainScreenState>(
-            builder: (context, state) {
-              return Stack(
-                children: [
-                  if (state is InitialMainScreenState ||
-                      state is LoadingMainScreenState ||
-                      state is CheckingLocationState) ...[
-                    const AnimatedGradientWidget(),
-                    const LoadingWidget(),
-                  ] else ...[
-                    _buildGradientWidget(),
-                    if (state is LocationServiceDisabledMainScreenState)
-                      _buildLocationServiceDisabledWidget()
-                    else if (state is PermissionNotGrantedMainScreenState)
-                      _buildPermissionNotGrantedWidget()
-                    else if (state is SuccessLoadMainScreenState)
-                      _buildWeatherWidget(state.weatherResponse)
-                    else if (state is FailedLoadMainScreenState)
-                      _buildFailedToLoadDataWidget(state.applicationError)
-                    else
-                      const SizedBox()
-                  ]
-                ],
-              );
-            },
-          ),
+              builder: (context, state) {
+                return Stack(
+                  children: [
+                    if (state is InitialMainScreenState ||
+                        state is LoadingMainScreenState ||
+                        state is CheckingLocationState) ...[
+                      const AnimatedGradientWidget(),
+                      const LoadingWidget(),
+                    ] else ...[
+                      _buildGradientWidget(),
+                      if (state is LocationServiceDisabledMainScreenState)
+                        _buildLocationServiceDisabledWidget()
+                      else if (state is PermissionNotGrantedMainScreenState)
+                        _buildPermissionNotGrantedWidget()
+                      else if (state is SuccessLoadMainScreenState)
+                        _buildWeatherWidget(state.weatherResponse)
+                      else if (state is FailedLoadMainScreenState)
+                        _buildFailedToLoadDataWidget(state.applicationError)
+                      else
+                        const SizedBox()
+                    ]
+                  ],
+                );
+              },
+            ),
           _buildOverflowMenu()
         ],
       ),
@@ -119,8 +125,8 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Widget _buildSwiperWidget(WeatherResponse weatherResponse) {
+    print("BUILD SWIPER WIDGET");
     return Swiper(
-      key: const Key("weather_main_swiper"),
       itemBuilder: (BuildContext context, int index) {
         if (index == 0) {
           return _getPage(
@@ -180,9 +186,7 @@ class _MainScreenState extends State<MainScreen> {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Theme(
-          data: Theme.of(context).copyWith(
-            cardColor: Colors.white
-          ),
+          data: Theme.of(context).copyWith(cardColor: Colors.white),
           child: PopupMenuButton<PopupMenuElement>(
             onSelected: (PopupMenuElement element) {
               _onMenuElementClicked(element, context);

@@ -3,10 +3,12 @@ import 'package:feather/src/models/remote/overall_weather_data.dart';
 import 'package:feather/src/models/remote/weather_response.dart';
 import 'package:feather/src/resources/application_localization.dart';
 import 'package:feather/src/resources/weather_helper.dart';
+import 'package:feather/src/ui/app/app_bloc.dart';
 import 'package:feather/src/ui/screen/base/animated_state.dart';
 import 'package:feather/src/ui/widget/weather_forecast_thumbnail_list_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CurrentWeatherWidget extends StatefulWidget {
   final WeatherResponse? weatherResponse;
@@ -21,6 +23,14 @@ class CurrentWeatherWidget extends StatefulWidget {
 }
 
 class CurrentWeatherWidgetState extends AnimatedState<CurrentWeatherWidget> {
+  late AppBloc _appBloc;
+
+  @override
+  void initState() {
+    _appBloc = BlocProvider.of(context);
+    super.initState();
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -29,12 +39,20 @@ class CurrentWeatherWidgetState extends AnimatedState<CurrentWeatherWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return buildWeatherContainer(widget.weatherResponse!);
+
+    return BlocBuilder(
+        bloc: _appBloc,
+        builder: (context,snapshot){
+          print("BUILD WEATHER CONTAINER");
+      return buildWeatherContainer(widget.weatherResponse!);
+    });
   }
 
   Widget buildWeatherContainer(WeatherResponse response) {
     var currentTemperature = response.mainWeatherData!.temp;
-    if (!applicationBloc.isMetricUnits()) {
+    
+    
+    if (!_appBloc.isMetricUnits()) {
       currentTemperature =
           WeatherHelper.convertCelsiusToFahrenheit(currentTemperature);
     }
@@ -58,7 +76,7 @@ class CurrentWeatherWidgetState extends AnimatedState<CurrentWeatherWidget> {
               Text(
                   WeatherHelper.formatTemperature(
                     temperature: currentTemperature,
-                    metricUnits: applicationBloc.isMetricUnits(),
+                    metricUnits: _appBloc.isMetricUnits(),
                   ),
                   key: Key("weather_current_widget_temperature"),
                   textDirection: TextDirection.ltr,
@@ -85,13 +103,13 @@ class CurrentWeatherWidgetState extends AnimatedState<CurrentWeatherWidget> {
   String _getMaxMinTemperatureRow(WeatherResponse weatherResponse) {
     var maxTemperature = weatherResponse.mainWeatherData!.tempMax;
     var minTemperature = weatherResponse.mainWeatherData!.tempMin;
-    if (!applicationBloc.isMetricUnits()) {
+    if (!_appBloc.isMetricUnits()) {
       maxTemperature = WeatherHelper.convertCelsiusToFahrenheit(maxTemperature);
       minTemperature = WeatherHelper.convertCelsiusToFahrenheit(minTemperature);
     }
 
-    return "↑${WeatherHelper.formatTemperature(temperature: maxTemperature, metricUnits: applicationBloc.isMetricUnits())}" +
-        " ↓${WeatherHelper.formatTemperature(temperature: minTemperature, metricUnits: applicationBloc.isMetricUnits())}";
+    return "↑${WeatherHelper.formatTemperature(temperature: maxTemperature, metricUnits: _appBloc.isMetricUnits())}" +
+        " ↓${WeatherHelper.formatTemperature(temperature: minTemperature, metricUnits: _appBloc.isMetricUnits())}";
   }
 
   Widget _getPressureAndHumidityRow(WeatherResponse weatherResponse) {

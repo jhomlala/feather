@@ -7,6 +7,7 @@ import 'package:feather/src/resources/repository/local/application_local_reposit
 import 'package:feather/src/resources/repository/local/weather_local_repository.dart';
 import 'package:feather/src/resources/repository/remote/weather_remote_repository.dart';
 import 'package:feather/src/ui/about/about_screen_bloc.dart';
+import 'package:feather/src/ui/app/app_bloc.dart';
 import 'package:feather/src/ui/main/main_screen.dart';
 import 'package:feather/src/ui/main/main_screen_bloc.dart';
 import 'package:feather/src/ui/navigation/navigation.dart';
@@ -38,7 +39,7 @@ class MyApp extends StatelessWidget {
     WidgetsFlutterBinding.ensureInitialized();
     SystemChrome.setEnabledSystemUIOverlays([]);
     _navigation.defineRoutes();
-    _configureLogger();
+
     _configureTimeago();
     applicationBloc.loadSavedUnit();
     applicationBloc.loadSavedRefreshTime();
@@ -48,6 +49,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider<AppBloc>(
+          create: (context) => AppBloc(
+            _applicationLocalRepository,
+          ),
+        ),
         BlocProvider<NavigationBloc>(
           create: (context) => NavigationBloc(_navigation, _navigatorKey),
         ),
@@ -58,7 +64,9 @@ class MyApp extends StatelessWidget {
               _weatherRemoteRepository,
               _applicationLocalRepository),
         ),
-        BlocProvider<AboutScreenBloc>(create: (context) => AboutScreenBloc()),
+        BlocProvider<AboutScreenBloc>(
+          create: (context) => AboutScreenBloc(),
+        ),
         BlocProvider<SettingsScreenBloc>(
           create: (context) => SettingsScreenBloc(_applicationLocalRepository),
         )
@@ -67,29 +75,21 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         navigatorKey: _navigatorKey,
         theme: _configureThemeData(),
-        localizationsDelegates: [
-          const ApplicationLocalizationDelegate(),
+        localizationsDelegates: const [
+          ApplicationLocalizationDelegate(),
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
         ],
-        supportedLocales: [
-          const Locale("en"),
-          const Locale("pl"),
+        supportedLocales: const [
+          Locale("en"),
+          Locale("pl"),
         ],
         onGenerateRoute: _navigation.router.generator,
       ),
     );
   }
 
-  void _configureLogger() {
-    Logger.root.level = Level.ALL;
-    Logger.root.onRecord.listen((LogRecord rec) {
-      if (ApplicationConfig.isDebug) {
-        print(
-            '[${rec.level.name}][${rec.time}][${rec.loggerName}]: ${rec.message}');
-      }
-    });
-  }
+
 
   ThemeData _configureThemeData() {
     return ThemeData(

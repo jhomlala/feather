@@ -1,8 +1,8 @@
-import 'package:feather/src/blocs/application_bloc.dart';
 import 'package:feather/src/models/internal/overflow_menu_element.dart';
 import 'package:feather/src/models/internal/unit.dart';
 import 'package:feather/src/resources/application_localization.dart';
-import 'package:feather/src/resources/config/application_colors.dart';
+import 'package:feather/src/ui/app/app_bloc.dart';
+import 'package:feather/src/ui/app/app_event.dart';
 import 'package:feather/src/ui/settings/settings_screen_bloc.dart';
 import 'package:feather/src/ui/settings/settings_screen_event.dart';
 import 'package:feather/src/ui/settings/settings_screen_state.dart';
@@ -27,14 +27,14 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  bool unitImperial = !applicationBloc.isMetricUnits();
-  int refreshTime = applicationBloc.refreshTime;
   late SettingsScreenBloc _settingsScreenBloc;
+  late AppBloc _appBloc;
 
   @override
   void initState() {
     _settingsScreenBloc = BlocProvider.of(context);
     _settingsScreenBloc.add(LoadSettingsScreenEvent());
+    _appBloc = BlocProvider.of(context);
     super.initState();
   }
 
@@ -47,8 +47,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
           duration: const Duration(seconds: 3),
           startGradientColors: widget.startGradientColors,
         ),
-        BlocBuilder(
+        BlocConsumer(
           bloc: _settingsScreenBloc,
+          listener: (BuildContext context, state) {
+            print("TRIGGERR APP EVENT");
+            _appBloc.add(LoadSettingsAppEvent());
+          },
           builder: (context, state) {
             if (state is InitialSettingsScreenState ||
                 state is LoadingSettingsScreenState) {

@@ -22,10 +22,12 @@ class MainScreenBloc extends Bloc<MainScreenEvent, MainScreenState> {
   final ApplicationLocalRepository _applicationLocalRepository;
   Timer? _refreshTimer;
 
-  MainScreenBloc(this._locationManager,
-      this._weatherLocalRepository,
-      this._weatherRemoteRepository,
-      this._applicationLocalRepository,) : super(InitialMainScreenState());
+  MainScreenBloc(
+    this._locationManager,
+    this._weatherLocalRepository,
+    this._weatherRemoteRepository,
+    this._applicationLocalRepository,
+  ) : super(InitialMainScreenState());
 
   @override
   Stream<MainScreenState> mapEventToState(MainScreenEvent event) async* {
@@ -51,7 +53,7 @@ class MainScreenBloc extends Bloc<MainScreenEvent, MainScreenState> {
     Log.i("Got geo position: $position");
     if (position != null) {
       final WeatherResponse? response =
-      await _fetchWeather(position.lat, position.long);
+          await _fetchWeather(position.lat, position.long);
       _saveLastRefreshTime();
       if (response != null) {
         if (response.errorCode != null) {
@@ -105,18 +107,18 @@ class MainScreenBloc extends Bloc<MainScreenEvent, MainScreenState> {
     }
   }
 
-  Future<WeatherResponse?> _fetchWeather(double? latitude,
-      double? longitude) async {
+  Future<WeatherResponse?> _fetchWeather(
+      double? latitude, double? longitude) async {
     Log.i("Fetch weather");
     final WeatherResponse weatherResponse =
-    await _weatherRemoteRepository.fetchWeather(latitude, longitude);
+        await _weatherRemoteRepository.fetchWeather(latitude, longitude);
     if (weatherResponse.errorCode == null) {
       _weatherLocalRepository.saveWeather(weatherResponse);
       return weatherResponse;
     } else {
       Log.i("Selected weather from storage");
       final WeatherResponse? weatherResponseStorage =
-      await _weatherLocalRepository.getWeather();
+          await _weatherLocalRepository.getWeather();
       if (weatherResponseStorage != null) {
         return weatherResponseStorage;
       } else {
