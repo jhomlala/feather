@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:feather/src/resources/weather_helper.dart';
+import 'package:feather/src/data/repository/local/weather_helper.dart';
 import 'package:feather/src/ui/screen/base/animated_state.dart';
 import 'package:feather/src/utils/date_time_helper.dart';
 import 'package:flutter/material.dart';

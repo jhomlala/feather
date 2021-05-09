@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:feather/src/model/remote/system.dart';
-import 'package:feather/src/resources/application_localization.dart';
-import 'package:feather/src/resources/weather_helper.dart';
+import 'package:feather/src/data/model/remote/system.dart';
+import 'package:feather/src/data/repository/local/application_localization.dart';
+import 'package:feather/src/data/repository/local/weather_helper.dart';
 import 'package:feather/src/ui/widget/animated_text_widget.dart';
 import 'package:feather/src/ui/widget/sun_path_widget.dart';
 import 'package:feather/src/ui/widget/widget_helper.dart';

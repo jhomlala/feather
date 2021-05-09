@@ -1,8 +1,9 @@
-import 'package:feather/src/resources/application_localization_delegate.dart';
-import 'package:feather/src/resources/location_manager.dart';
-import 'package:feather/src/resources/repository/local/application_local_repository.dart';
-import 'package:feather/src/resources/repository/local/weather_local_repository.dart';
-import 'package:feather/src/resources/repository/remote/weather_remote_repository.dart';
+import 'package:feather/src/data/repository/local/application_localization_delegate.dart';
+import 'package:feather/src/data/repository/local/storage_manager.dart';
+import 'package:feather/src/data/repository/local/location_manager.dart';
+import 'package:feather/src/data/repository/local/application_local_repository.dart';
+import 'package:feather/src/data/repository/local/weather_local_repository.dart';
+import 'package:feather/src/data/repository/remote/weather_remote_repository.dart';
 import 'package:feather/src/ui/about/about_screen_bloc.dart';
 import 'package:feather/src/ui/app/app_bloc.dart';
 import 'package:feather/src/ui/main/main_screen_bloc.dart';
@@ -21,14 +22,15 @@ class FeatherApp extends StatelessWidget {
   final Navigation _navigation = Navigation();
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey();
   final LocationManager _locationManager = LocationManager();
-  final WeatherLocalRepository _weatherLocalRepository =
-      WeatherLocalRepository();
+  final StorageManager _storageManager = StorageManager();
+  late WeatherLocalRepository _weatherLocalRepository;
   final WeatherRemoteRepository _weatherRemoteRepository =
       WeatherRemoteRepository();
-  final ApplicationLocalRepository _applicationLocalRepository =
-      ApplicationLocalRepository();
+  late ApplicationLocalRepository _applicationLocalRepository;
 
   FeatherApp({Key? key}) : super(key: key) {
+    _weatherLocalRepository = WeatherLocalRepository(_storageManager);
+    _applicationLocalRepository = ApplicationLocalRepository(_storageManager);
     WidgetsFlutterBinding.ensureInitialized();
     SystemChrome.setEnabledSystemUIOverlays([]);
     _navigation.defineRoutes();

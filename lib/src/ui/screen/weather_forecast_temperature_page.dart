@@ -1,9 +1,9 @@
-import 'package:feather/src/model/internal/chart_data.dart';
-import 'package:feather/src/model/internal/point.dart';
-import 'package:feather/src/model/internal/weather_forecast_holder.dart';
-import 'package:feather/src/resources/application_localization.dart';
+import 'package:feather/src/data/model/internal/chart_data.dart';
+import 'package:feather/src/data/model/internal/point.dart';
+import 'package:feather/src/data/model/internal/weather_forecast_holder.dart';
+import 'package:feather/src/data/repository/local/application_localization.dart';
 import 'package:feather/src/resources/config/assets.dart';
-import 'package:feather/src/resources/weather_helper.dart';
+import 'package:feather/src/data/repository/local/weather_helper.dart';
 import 'package:feather/src/ui/screen/base/weather_forecast_base_page.dart';
 import 'package:feather/src/ui/widget/widget_helper.dart';
 import 'package:flutter/material.dart';

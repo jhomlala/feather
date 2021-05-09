@@ -1,8 +1,10 @@
-import 'package:feather/src/model/internal/unit.dart';
-import 'package:feather/src/resources/repository/local/storage_manager.dart';
+import 'package:feather/src/data/model/internal/unit.dart';
+import 'package:feather/src/data/repository/local/storage_manager.dart';
 
 class ApplicationLocalRepository {
-  final StorageManager _storageManager = StorageManager();
+  final StorageManager _storageManager;
+
+  ApplicationLocalRepository(this._storageManager);
 
   Future<Unit> getSavedUnit() async {
     return _storageManager.getUnit();

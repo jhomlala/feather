@@ -1,7 +1,7 @@
-// import 'package:feather/src/model/remote/weather_forecast_list_response.dart';
-// import 'package:feather/src/model/remote/weather_forecast_response.dart';
-// import 'package:feather/src/model/remote/weather_response.dart';
-// import 'package:feather/src/resources/repository/remote/weather_remote_repository.dart';
+// import 'package:feather/src/data/model/remote/weather_forecast_list_response.dart';
+// import 'package:feather/src/data/model/remote/weather_forecast_response.dart';
+// import 'package:feather/src/data/model/remote/weather_response.dart';
+// import 'package:feather/src/data/repository/remote/weather_remote_repository.dart';
 // import 'package:test/test.dart';
 //
 // main() {

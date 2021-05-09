@@ -1,4 +1,4 @@
-// import 'package:feather/src/model/remote/weather_forecast_response.dart';
+// import 'package:feather/src/data/model/remote/weather_forecast_response.dart';
 // import 'package:feather/src/resources/weather_helper.dart';
 // import 'package:test/test.dart';
 //

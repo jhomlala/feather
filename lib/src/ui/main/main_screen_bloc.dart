@@ -1,13 +1,13 @@
 import 'dart:async';
 
-import 'package:feather/src/model/internal/application_error.dart';
-import 'package:feather/src/model/internal/geo_position.dart';
-import 'package:feather/src/model/remote/weather_forecast_list_response.dart';
-import 'package:feather/src/model/remote/weather_response.dart';
-import 'package:feather/src/resources/location_manager.dart';
-import 'package:feather/src/resources/repository/local/application_local_repository.dart';
-import 'package:feather/src/resources/repository/local/weather_local_repository.dart';
-import 'package:feather/src/resources/repository/remote/weather_remote_repository.dart';
+import 'package:feather/src/data/model/internal/application_error.dart';
+import 'package:feather/src/data/model/internal/geo_position.dart';
+import 'package:feather/src/data/model/remote/weather_forecast_list_response.dart';
+import 'package:feather/src/data/model/remote/weather_response.dart';
+import 'package:feather/src/data/repository/local/location_manager.dart';
+import 'package:feather/src/data/repository/local/application_local_repository.dart';
+import 'package:feather/src/data/repository/local/weather_local_repository.dart';
+import 'package:feather/src/data/repository/remote/weather_remote_repository.dart';
 import 'package:feather/src/ui/main/main_screen_event.dart';
 import 'package:feather/src/utils/app_logger.dart';
 import 'package:feather/src/utils/date_time_helper.dart';

@@ -1,9 +1,9 @@
-import 'package:feather/src/model/internal/application_error.dart';
-import 'package:feather/src/model/internal/weather_forecast_holder.dart';
-import 'package:feather/src/model/remote/system.dart';
-import 'package:feather/src/model/remote/weather_forecast_list_response.dart';
-import 'package:feather/src/model/remote/weather_forecast_response.dart';
-import 'package:feather/src/resources/weather_helper.dart';
+import 'package:feather/src/data/model/internal/application_error.dart';
+import 'package:feather/src/data/model/internal/weather_forecast_holder.dart';
+import 'package:feather/src/data/model/remote/system.dart';
+import 'package:feather/src/data/model/remote/weather_forecast_list_response.dart';
+import 'package:feather/src/data/model/remote/weather_forecast_response.dart';
+import 'package:feather/src/data/repository/local/weather_helper.dart';
 import 'package:feather/src/ui/app/app_bloc.dart';
 import 'package:feather/src/ui/widget/weather_forecast_thumbnail_widget.dart';
 import 'package:feather/src/ui/widget/widget_helper.dart';

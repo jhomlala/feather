@@ -1,4 +1,4 @@
-import 'package:feather/src/resources/repository/local/application_local_repository.dart';
+import 'package:feather/src/data/repository/local/application_local_repository.dart';
 import 'package:feather/src/ui/settings/settings_screen_event.dart';
 import 'package:feather/src/ui/settings/settings_screen_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

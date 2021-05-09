@@ -1,6 +1,6 @@
-import 'package:feather/src/model/internal/application_error.dart';
-import 'package:feather/src/model/remote/city.dart';
-import 'package:feather/src/model/remote/weather_forecast_response.dart';
+import 'package:feather/src/data/model/internal/application_error.dart';
+import 'package:feather/src/data/model/remote/city.dart';
+import 'package:feather/src/data/model/remote/weather_forecast_response.dart';
 
 class WeatherForecastListResponse {
   final List<WeatherForecastResponse>? list;

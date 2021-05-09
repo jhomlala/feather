@@ -1,6 +1,5 @@
-import 'dart:collection';
-import 'package:feather/src/model/remote/system.dart';
-import 'package:feather/src/model/remote/weather_forecast_response.dart';
+import 'package:feather/src/data/model/remote/system.dart';
+import 'package:feather/src/data/model/remote/weather_forecast_response.dart';
 import 'package:feather/src/resources/config/assets.dart';
 
 class WeatherHelper {
@@ -28,10 +27,10 @@ class WeatherHelper {
 
   static Map<String, List<WeatherForecastResponse>> mapForecastsForSameDay(
       List<WeatherForecastResponse> forecastList) {
-    Map<String, List<WeatherForecastResponse>> map = new LinkedHashMap();
+    final Map<String, List<WeatherForecastResponse>> map = {};
     for (int i = 0; i < forecastList.length; i++) {
-      WeatherForecastResponse response = forecastList[i];
-      String dayKey = _getDayKey(response.dateTime);
+      final WeatherForecastResponse response = forecastList[i];
+      final String dayKey = _getDayKey(response.dateTime);
       if (!map.containsKey(dayKey)) {
         map[dayKey] = <WeatherForecastResponse>[];
       }
@@ -44,22 +43,24 @@ class WeatherHelper {
     return "${dateTime.day.toString()}-${dateTime.month.toString()}-${dateTime.year.toString()}";
   }
 
-  static String formatTemperature(
-      {double? temperature,
-      int positions = 0,
-      round = true,
-      metricUnits = true}) {
+  static String formatTemperature({
+    double? temperature,
+    int positions = 0,
+    bool round = true,
+    bool metricUnits = true,
+  }) {
     var unit = "°C";
+    var temperatureValue = temperature;
 
     if (!metricUnits) {
       unit = "°F";
     }
 
     if (round) {
-      temperature = temperature!.floor().toDouble();
+      temperatureValue = temperature!.floor().toDouble();
     }
 
-    return "${temperature!.toStringAsFixed(positions)} $unit";
+    return "${temperatureValue!.toStringAsFixed(positions)} $unit";
   }
 
   static double convertCelsiusToFahrenheit(double temperature) {
@@ -111,13 +112,13 @@ class WeatherHelper {
   }
 
   static int getDayMode(System system) {
-    int sunrise = system.sunrise! * 1000;
-    int sunset = system.sunset! * 1000;
+    final int sunrise = system.sunrise! * 1000;
+    final int sunset = system.sunset! * 1000;
     return getDayModeFromSunriseSunset(sunrise, sunset);
   }
 
   static int getDayModeFromSunriseSunset(int sunrise, int? sunset) {
-    int now = DateTime.now().millisecondsSinceEpoch;
+    final int now = DateTime.now().millisecondsSinceEpoch;
     if (now >= sunrise && now <= sunset!) {
       return 0;
     } else if (now >= sunrise) {

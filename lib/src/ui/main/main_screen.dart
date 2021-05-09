@@ -1,8 +1,8 @@
-import 'package:feather/src/model/internal/application_error.dart';
-import 'package:feather/src/model/internal/overflow_menu_element.dart';
-import 'package:feather/src/model/remote/weather_forecast_list_response.dart';
-import 'package:feather/src/model/remote/weather_response.dart';
-import 'package:feather/src/resources/application_localization.dart';
+import 'package:feather/src/data/model/internal/application_error.dart';
+import 'package:feather/src/data/model/internal/overflow_menu_element.dart';
+import 'package:feather/src/data/model/remote/weather_forecast_list_response.dart';
+import 'package:feather/src/data/model/remote/weather_response.dart';
+import 'package:feather/src/data/repository/local/application_localization.dart';
 import 'package:feather/src/resources/config/application_colors.dart';
 import 'package:feather/src/resources/config/dimensions.dart';
 import 'package:feather/src/resources/config/ids.dart';

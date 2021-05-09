@@ -1,13 +1,13 @@
-// import 'package:feather/src/model/remote/clouds.dart';
-// import 'package:feather/src/model/remote/coordinates.dart';
-// import 'package:feather/src/model/remote/main_weather_data.dart';
-// import 'package:feather/src/model/remote/overall_weather_data.dart';
-// import 'package:feather/src/model/remote/system.dart';
-// import 'package:feather/src/model/remote/weather_forecast_list_response.dart';
-// import 'package:feather/src/model/remote/weather_forecast_response.dart';
-// import 'package:feather/src/model/remote/weather_response.dart';
-// import 'package:feather/src/model/remote/wind.dart';
-// import 'package:feather/src/resources/repository/remote/weather_api_provider.dart';
+// import 'package:feather/src/data/model/remote/clouds.dart';
+// import 'package:feather/src/data/model/remote/coordinates.dart';
+// import 'package:feather/src/data/model/remote/main_weather_data.dart';
+// import 'package:feather/src/data/model/remote/overall_weather_data.dart';
+// import 'package:feather/src/data/model/remote/system.dart';
+// import 'package:feather/src/data/model/remote/weather_forecast_list_response.dart';
+// import 'package:feather/src/data/model/remote/weather_forecast_response.dart';
+// import 'package:feather/src/data/model/remote/weather_response.dart';
+// import 'package:feather/src/data/model/remote/wind.dart';
+// import 'package:feather/src/data/repository/remote/weather_api_provider.dart';
 // import 'package:test/test.dart';
 //
 // void main() {

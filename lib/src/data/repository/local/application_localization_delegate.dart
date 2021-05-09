@@ -1,4 +1,4 @@
-import 'package:feather/src/resources/application_localization.dart';
+import 'package:feather/src/data/repository/local/application_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 

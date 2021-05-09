@@ -1,12 +1,12 @@
 import 'dart:math';
 import 'dart:ui';
 
-import 'package:feather/src/model/internal/chart_line.dart';
-import 'package:feather/src/model/internal/point.dart';
-import 'package:feather/src/model/internal/weather_forecast_holder.dart';
-import 'package:feather/src/model/remote/weather_forecast_response.dart';
+import 'package:feather/src/data/model/internal/chart_line.dart';
+import 'package:feather/src/data/model/internal/point.dart';
+import 'package:feather/src/data/model/internal/weather_forecast_holder.dart';
+import 'package:feather/src/data/model/remote/weather_forecast_response.dart';
 import 'package:feather/src/resources/config/dimensions.dart';
-import 'package:feather/src/resources/weather_helper.dart';
+import 'package:feather/src/data/repository/local/weather_helper.dart';
 
 class ChartData {
   List<Point>? _points;

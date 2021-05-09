@@ -1,9 +1,9 @@
-import 'package:feather/src/model/internal/chart_data.dart';
-import 'package:feather/src/model/remote/city.dart';
-import 'package:feather/src/model/remote/system.dart';
-import 'package:feather/src/model/remote/weather_forecast_response.dart';
-import 'package:feather/src/resources/application_localization.dart';
-import 'package:feather/src/resources/weather_helper.dart';
+import 'package:feather/src/data/model/internal/chart_data.dart';
+import 'package:feather/src/data/model/remote/city.dart';
+import 'package:feather/src/data/model/remote/system.dart';
+import 'package:feather/src/data/model/remote/weather_forecast_response.dart';
+import 'package:feather/src/data/repository/local/application_localization.dart';
+import 'package:feather/src/data/repository/local/weather_helper.dart';
 import 'package:flutter/material.dart';
 
 class WeatherForecastHolder {

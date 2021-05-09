@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
-import 'package:feather/src/model/internal/application_error.dart';
-import 'package:feather/src/model/internal/unit.dart';
-import 'package:feather/src/model/remote/weather_forecast_list_response.dart';
-import 'package:feather/src/model/remote/weather_response.dart';
+import 'package:feather/src/data/model/internal/application_error.dart';
+import 'package:feather/src/data/model/internal/unit.dart';
+import 'package:feather/src/data/model/remote/weather_forecast_list_response.dart';
+import 'package:feather/src/data/model/remote/weather_response.dart';
 
 abstract class MainScreenState extends Equatable {
   final Unit? unit;

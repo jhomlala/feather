@@ -1,6 +1,6 @@
-import 'package:feather/src/model/internal/overflow_menu_element.dart';
-import 'package:feather/src/model/internal/unit.dart';
-import 'package:feather/src/resources/application_localization.dart';
+import 'package:feather/src/data/model/internal/overflow_menu_element.dart';
+import 'package:feather/src/data/model/internal/unit.dart';
+import 'package:feather/src/data/repository/local/application_localization.dart';
 import 'package:feather/src/ui/app/app_bloc.dart';
 import 'package:feather/src/ui/app/app_event.dart';
 import 'package:feather/src/ui/settings/settings_screen_bloc.dart';

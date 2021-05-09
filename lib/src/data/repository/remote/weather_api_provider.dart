@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
-import 'package:feather/src/model/internal/application_error.dart';
-import 'package:feather/src/model/remote/weather_forecast_list_response.dart';
-import 'package:feather/src/model/remote/weather_response.dart';
+import 'package:feather/src/data/model/internal/application_error.dart';
+import 'package:feather/src/data/model/remote/weather_forecast_list_response.dart';
+import 'package:feather/src/data/model/remote/weather_response.dart';
 import 'package:feather/src/resources/config/application_config.dart';
-import 'package:logging/logging.dart';
+import 'package:feather/src/utils/app_logger.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class WeatherApiProvider {
@@ -11,32 +11,20 @@ class WeatherApiProvider {
   final String _apiPath = "/data/2.5";
   final String _apiWeatherEndpoint = "/weather";
   final String _apiWeatherForecastEndpoint = "/forecast";
-  final Logger _logger = new Logger("WeatherApiProvider");
   final Dio _dio = Dio();
-
-  static final WeatherApiProvider _instance = WeatherApiProvider._internal();
-
-  WeatherApiProvider._internal() {
-    setupInterceptors();
-  }
-
-  factory WeatherApiProvider() {
-    return _instance;
-  }
 
   Future<WeatherResponse> fetchWeather(
       double? latitude, double? longitude) async {
     try {
-      Uri uri = buildUri(_apiWeatherEndpoint, latitude, longitude);
-      Response response = await _dio.get(uri.toString());
+      final Uri uri = buildUri(_apiWeatherEndpoint, latitude, longitude);
+      final Response response = await _dio.get<Response>(uri.toString());
       if (response.statusCode == 200) {
-        return WeatherResponse.fromJson(response.data);
+        return WeatherResponse.fromJson(response.data as Map<String, dynamic>);
       } else {
         return WeatherResponse.withErrorCode(ApplicationError.apiError);
       }
     } catch (exc, stacktrace) {
-      _logger.log(Level.INFO,
-          "Exception occured: $exc stack trace: ${stacktrace.toString()}");
+      Log.e("Exception occurred: $exc stack trace: ${stacktrace.toString()}");
 
       return WeatherResponse.withErrorCode(ApplicationError.connectionError);
     }
@@ -47,7 +35,7 @@ class WeatherApiProvider {
         scheme: "https",
         host: _apiBaseUrl,
         path: "$_apiPath$endpoint",
-        queryParameters: {
+        queryParameters: <String, dynamic>{
           "lat": latitude.toString(),
           "lon": longitude.toString(),
           "apiKey": ApplicationConfig.apiKey,
@@ -58,16 +46,18 @@ class WeatherApiProvider {
   Future<WeatherForecastListResponse> fetchWeatherForecast(
       double? latitude, double? longitude) async {
     try {
-      Uri uri = buildUri(_apiWeatherForecastEndpoint, latitude, longitude);
-      Response response = await _dio.get(uri.toString());
+      final Uri uri =
+          buildUri(_apiWeatherForecastEndpoint, latitude, longitude);
+      final Response response = await _dio.get<Response>(uri.toString());
       if (response.statusCode == 200) {
-        return WeatherForecastListResponse.fromJson(response.data);
+        return WeatherForecastListResponse.fromJson(
+            response.data as Map<String, dynamic>);
       } else {
         return WeatherForecastListResponse.withErrorCode(
             ApplicationError.apiError);
       }
-    } catch (exc) {
-      _logger.log(Level.INFO, "Exception occured: " + exc.toString());
+    } catch (exc, stackTrace) {
+      Log.e("Exception occured: $exc $stackTrace");
       return WeatherForecastListResponse.withErrorCode(
           ApplicationError.connectionError);
     }

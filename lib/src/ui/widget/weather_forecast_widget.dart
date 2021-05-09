@@ -1,6 +1,6 @@
 import 'dart:core';
 
-import 'package:feather/src/model/internal/weather_forecast_holder.dart';
+import 'package:feather/src/data/model/internal/weather_forecast_holder.dart';
 import 'package:feather/src/resources/config/ids.dart';
 import 'package:feather/src/ui/screen/base/weather_forecast_base_page.dart';
 import 'package:feather/src/ui/screen/weather_forecast_pressure_page.dart';

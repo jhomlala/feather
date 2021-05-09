@@ -1,4 +1,4 @@
 class Dimensions{
-  static final int chartPadding = 15;
-  static final double weatherMainWidgetSwiperHeight = 450;
+  static const int chartPadding = 15;
+  static const double weatherMainWidgetSwiperHeight = 450;
 }
