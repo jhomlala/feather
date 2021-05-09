@@ -1,4 +1,3 @@
-import 'package:feather/src/blocs/application_bloc.dart';
 import 'package:feather/src/models/remote/overall_weather_data.dart';
 import 'package:feather/src/models/remote/weather_response.dart';
 import 'package:feather/src/resources/application_localization.dart';
@@ -32,26 +31,18 @@ class CurrentWeatherWidgetState extends AnimatedState<CurrentWeatherWidget> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-    applicationBloc.currentWeatherWidgetAnimationState = false;
-  }
-
-  @override
   Widget build(BuildContext context) {
-
     return BlocBuilder(
-        bloc: _appBloc,
-        builder: (context,snapshot){
-          print("BUILD WEATHER CONTAINER");
-      return buildWeatherContainer(widget.weatherResponse!);
-    });
+      bloc: _appBloc,
+      builder: (context, snapshot) {
+        return buildWeatherContainer(widget.weatherResponse!);
+      },
+    );
   }
 
   Widget buildWeatherContainer(WeatherResponse response) {
     var currentTemperature = response.mainWeatherData!.temp;
-    
-    
+
     if (!_appBloc.isMetricUnits()) {
       currentTemperature =
           WeatherHelper.convertCelsiusToFahrenheit(currentTemperature);
@@ -59,8 +50,9 @@ class CurrentWeatherWidgetState extends AnimatedState<CurrentWeatherWidget> {
 
     return FadeTransition(
       opacity: setupAnimation(
-          duration: 3000,
-          noAnimation: !applicationBloc.currentWeatherWidgetAnimationState),
+        duration: 1000,
+        noAnimation: true,
+      ),
       child: Container(
         key: Key("weather_current_widget_container"),
         child: Center(
