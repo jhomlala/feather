@@ -1,30 +1,30 @@
-import 'package:feather/src/utils/optional.dart';
+import 'package:feather/src/utils/app_logger.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:logging/logging.dart';
 
 class LocationManager {
-  Logger _logger = Logger("LocationManager");
   Position? _lastPosition;
 
   static final LocationManager _instance = LocationManager._internal();
+
   LocationManager._internal();
 
-  factory LocationManager(){
+  factory LocationManager() {
     return _instance;
   }
 
-  Future<Optional<Position?>> getLocation() async {
+  Future<Position?> getLocation() async {
     try {
       if (_lastPosition != null) {
-        return Optional.of(_lastPosition);
+        return _lastPosition;
       }
-      Position positionSelected = await Geolocator
-          .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-      _lastPosition = positionSelected;
-      return Optional.of(_lastPosition);
+
+      // ignore: join_return_with_assignment
+      _lastPosition = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
+      return _lastPosition;
     } catch (exc, stackTrace) {
-      _logger.warning("Excepton occured: $exc in $stackTrace");
-      return Optional.absent();
+      Log.e("Exception occurred: $exc in $stackTrace");
+      return null;
     }
   }
 }

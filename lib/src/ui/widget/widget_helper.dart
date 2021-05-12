@@ -16,7 +16,7 @@ class WidgetHelper {
     return LinearGradient(
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
-      stops: [0.2, 0.99],
+      stops: const [0.2, 0.99],
       colors: [
         // Colors are easy thanks to Flutter's Colors class.
         startColor,
@@ -26,10 +26,10 @@ class WidgetHelper {
   }
 
   static Widget buildProgressIndicator() {
-    return Center(
+    return const Center(
         key: Key("progress_indicator"),
         child: CircularProgressIndicator(
-          valueColor: new AlwaysStoppedAnimation<Color>(Colors.white),
+          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
         ));
   }
 
@@ -39,7 +39,7 @@ class WidgetHelper {
       VoidCallback? voidCallback,
       required bool withRetryButton}) {
     String? errorText = "";
-    ApplicationLocalization? localization = ApplicationLocalization.of(context);
+    final ApplicationLocalization? localization = ApplicationLocalization.of(context);
     if (applicationError == ApplicationError.locationNotSelectedError) {
       errorText = localization!.getText("error_location_not_selected");
     } else if (applicationError == ApplicationError.connectionError) {
@@ -49,7 +49,7 @@ class WidgetHelper {
     } else {
       errorText = localization!.getText("error_unknown");
     }
-    List<Widget> widgets = [];
+    final List<Widget> widgets = [];
     widgets.add(Text(
       errorText,
       textDirection: TextDirection.ltr,
@@ -57,16 +57,16 @@ class WidgetHelper {
     ));
     if (withRetryButton) {
       widgets.add(TextButton(
+        onPressed: voidCallback,
         child: Text(ApplicationLocalization.of(context)!.getText("retry"),
             style: Theme.of(context).textTheme.subtitle2),
-        onPressed: voidCallback,
       ));
     }
 
     return Directionality(
         textDirection: TextDirection.ltr,
         child: Center(
-            key: Key("error_widget"),
+            key: const Key("error_widget"),
             child: SizedBox(
                 width: 250,
                 child: Column(
@@ -75,16 +75,16 @@ class WidgetHelper {
   }
 
 static LinearGradient buildGradientBasedOnDayCycle(int sunrise, int sunset) {
-    DateTime now = new DateTime.now();
-    int nowMs = now.millisecondsSinceEpoch;
-    int sunriseMs = sunrise * 1000;
-    int sunsetMs = sunset * 1000;
+    final DateTime now = DateTime.now();
+    final int nowMs = now.millisecondsSinceEpoch;
+    final int sunriseMs = sunrise * 1000;
+    final int sunsetMs = sunset * 1000;
 
     if (nowMs < sunriseMs) {
-      int lastMidnight = new DateTime(now.year, now.month, now.day).millisecondsSinceEpoch;
+      final int lastMidnight = DateTime(now.year, now.month, now.day).millisecondsSinceEpoch;
       return getNightGradient((sunriseMs - nowMs) / (sunriseMs - lastMidnight));
     } else if (nowMs > sunsetMs) {
-      int nextMidnight = new DateTime(now.year, now.month, now.day + 1).millisecondsSinceEpoch;
+      final int nextMidnight = DateTime(now.year, now.month, now.day + 1).millisecondsSinceEpoch;
       return getNightGradient((nowMs - sunsetMs) / (nextMidnight - sunsetMs));
     } else {
       return getDayGradient((nowMs - sunriseMs) / (sunsetMs - sunriseMs));

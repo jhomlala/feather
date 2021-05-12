@@ -1,4 +1,3 @@
-import 'package:feather/src/data/model/internal/application_error.dart';
 import 'package:feather/src/data/model/internal/weather_forecast_holder.dart';
 import 'package:feather/src/data/model/remote/system.dart';
 import 'package:feather/src/data/model/remote/weather_forecast_list_response.dart';
@@ -47,7 +46,6 @@ class WeatherForecastThumbnailListWidgetState
     } else {
       return WidgetHelper.buildErrorWidget(
           context: context,
-          applicationError: null,
           voidCallback: () => () {},
           withRetryButton: false);
     }
@@ -55,10 +53,10 @@ class WeatherForecastThumbnailListWidgetState
 
   Widget buildForecastWeatherContainer(
       WeatherForecastListResponse forecastListResponse) {
-    List<WeatherForecastResponse> forecastList = forecastListResponse.list!;
-    var map = WeatherHelper.mapForecastsForSameDay(forecastList);
+    final List<WeatherForecastResponse> forecastList = forecastListResponse.list!;
+    final map = WeatherHelper.mapForecastsForSameDay(forecastList);
     return Row(
-      key: Key("weather_forecast_thumbnail_list_widget_container"),
+      key: const Key("weather_forecast_thumbnail_list_widget_container"),
       textDirection: TextDirection.ltr,
       mainAxisAlignment: MainAxisAlignment.center,
       children: buildForecastWeatherWidgets(map, forecastListResponse),
@@ -68,7 +66,7 @@ class WeatherForecastThumbnailListWidgetState
   List<Widget> buildForecastWeatherWidgets(
       Map<String, List<WeatherForecastResponse>> map,
       WeatherForecastListResponse? data) {
-    List<Widget> forecastWidgets = [];
+    final List<Widget> forecastWidgets = [];
     map.forEach((key, value) {
       forecastWidgets.add(WeatherForecastThumbnailWidget(
         WeatherForecastHolder(value, data!.city, widget.system),

@@ -50,7 +50,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
         BlocConsumer(
           bloc: _settingsScreenBloc,
           listener: (BuildContext context, state) {
-            print("TRIGGERR APP EVENT");
             _appBloc.add(LoadSettingsAppEvent());
           },
           builder: (context, state) {

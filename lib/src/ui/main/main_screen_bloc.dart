@@ -94,10 +94,9 @@ class MainScreenBloc extends Bloc<MainScreenEvent, MainScreenState> {
 
   Future<GeoPosition?> _getPosition() async {
     try {
-      final positionOptional = await _locationManager.getLocation();
-      if (positionOptional.isPresent) {
+      final position = await _locationManager.getLocation();
+      if (position != null) {
         Log.i("Position is present!");
-        final position = positionOptional.value!;
         final GeoPosition geoPosition = GeoPosition.fromPosition(position);
         _weatherLocalRepository.saveLocation(geoPosition);
         return geoPosition;
@@ -155,7 +154,7 @@ class MainScreenBloc extends Bloc<MainScreenEvent, MainScreenState> {
     if (weatherForecastResponse.errorCode == null) {
       _weatherLocalRepository.saveWeatherForecast(weatherForecastResponse);
     } else {
-      WeatherForecastListResponse? weatherForecastResponseStorage =
+      final WeatherForecastListResponse? weatherForecastResponseStorage =
           await _weatherLocalRepository.getWeatherForecast();
       if (weatherForecastResponseStorage != null) {
         weatherForecastResponse = weatherForecastResponseStorage;

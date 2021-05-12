@@ -6,7 +6,7 @@ class AnimatedTextWidget extends StatefulWidget {
   final String? textBefore;
   final double? maxValue;
 
-  AnimatedTextWidget({this.textBefore, this.maxValue, Key? key})
+  const AnimatedTextWidget({this.textBefore, this.maxValue, Key? key})
       : super(key: key);
 
   @override
@@ -19,7 +19,7 @@ class _AnimatedTextWidgetState extends AnimatedState<AnimatedTextWidget> {
   @override
   void initState() {
     super.initState();
-    animateTween(start: 0, end: widget.maxValue, duration: 2000);
+    animateTween(end: widget.maxValue, duration: 2000);
   }
 
   @override

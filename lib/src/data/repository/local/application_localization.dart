@@ -12,7 +12,7 @@ class ApplicationLocalization {
         context, ApplicationLocalization);
   }
 
-  static Map<String, Map<String, String>> _localizedValues = {
+  static final Map<String, Map<String, String>> _localizedValues = {
     'pl': {
       "error_location_not_selected":
           "Nie udało się pobrać lokalizacji. Sprawdź czy nadałeś aplikacji odpowiednie pozwolenia.",

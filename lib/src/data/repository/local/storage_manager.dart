@@ -7,7 +7,6 @@ import 'package:feather/src/data/model/remote/weather_response.dart';
 import 'package:feather/src/resources/config/ids.dart';
 import 'package:feather/src/utils/app_logger.dart';
 import 'package:feather/src/utils/date_time_helper.dart';
-import 'package:logging/logging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class StorageManager {
