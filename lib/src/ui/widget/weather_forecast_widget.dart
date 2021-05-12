@@ -7,18 +7,18 @@ import 'package:feather/src/ui/screen/base/weather_forecast_base_page.dart';
 import 'package:feather/src/ui/forecast/weather_forecast_pressure_page.dart';
 import 'package:feather/src/ui/forecast/weather_forecast_rain_page.dart';
 import 'package:feather/src/ui/forecast/weather_forecast_temperature_page.dart';
+import 'package:feather/src/utils/app_logger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
-import 'package:logging/logging.dart';
 
 class WeatherForecastWidget extends StatelessWidget {
   final WeatherForecastHolder? holder;
   final double? width;
   final double? height;
-  final Map<String, WeatherForecastBasePage?> _pageMap = {} ;
+  final Map<String, WeatherForecastBasePage?> _pageMap = {};
+
   final bool isMetricUnits;
-  final Logger _logger = Logger("WeatherForecastWidget");
 
   WeatherForecastWidget({
     Key? key,
@@ -31,7 +31,7 @@ class WeatherForecastWidget extends StatelessWidget {
   WeatherForecastBasePage? _getPage(String key, WeatherForecastHolder? holder,
       double? width, double? height) {
     if (_pageMap.containsKey(key)) {
-      _logger.log(Level.INFO, "Get page from map with key: $key");
+      Log.d("Get page from map with key: $key");
       return _pageMap[key];
     } else {
       WeatherForecastBasePage? page;

@@ -17,7 +17,6 @@ dependencies:
   dio: ^4.0.0
   rxdart: ^0.26.0
   intl: ^0.17.0
-  logging: ^1.0.1
   logger: ^1.0.0
   flutter_swiper_null_safety:
     git: https://github.com/lianyagang/flutter_swiper_null_safety.git
