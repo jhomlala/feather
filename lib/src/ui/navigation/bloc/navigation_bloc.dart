@@ -1,9 +1,9 @@
 import 'package:feather/src/data/model/internal/forecast_navigation_params.dart';
 import 'package:feather/src/data/model/internal/settings_navigation_params.dart';
 import 'package:feather/src/data/model/internal/navigation_route.dart';
+import 'package:feather/src/ui/navigation/bloc/navigation_event.dart';
 import 'package:feather/src/ui/navigation/navigation.dart';
-import 'package:feather/src/ui/navigation/navigation_event.dart';
-import 'package:feather/src/ui/navigation/navigation_state.dart';
+import 'package:feather/src/ui/navigation/bloc/navigation_state.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

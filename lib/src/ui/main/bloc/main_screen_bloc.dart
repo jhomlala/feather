@@ -8,13 +8,12 @@ import 'package:feather/src/data/repository/local/location_manager.dart';
 import 'package:feather/src/data/repository/local/application_local_repository.dart';
 import 'package:feather/src/data/repository/local/weather_local_repository.dart';
 import 'package:feather/src/data/repository/remote/weather_remote_repository.dart';
-import 'package:feather/src/ui/main/main_screen_event.dart';
+import 'package:feather/src/ui/main/bloc/main_screen_event.dart';
+import 'package:feather/src/ui/main/bloc/main_screen_state.dart';
 import 'package:feather/src/utils/app_logger.dart';
 import 'package:feather/src/utils/date_time_helper.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
-
-import 'main_screen_state.dart';
 
 class MainScreenBloc extends Bloc<MainScreenEvent, MainScreenState> {
   final LocationManager _locationManager;

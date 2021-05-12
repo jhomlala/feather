@@ -1,10 +1,10 @@
 import 'package:feather/src/data/model/internal/overflow_menu_element.dart';
 import 'package:feather/src/data/model/internal/weather_forecast_holder.dart';
 import 'package:feather/src/ui/app/app_bloc.dart';
-import 'package:feather/src/ui/navigation/navigation_bloc.dart';
-import 'package:feather/src/ui/navigation/navigation_event.dart';
+import 'package:feather/src/ui/navigation/bloc/navigation_bloc.dart';
+import 'package:feather/src/ui/navigation/bloc/navigation_event.dart';
 import 'package:feather/src/ui/widget/transparent_app_bar.dart';
-import 'package:feather/src/ui/widget/weather_forecast_widget.dart';
+import 'package:feather/src/ui/forecast/widget/weather_forecast_widget.dart';
 import 'package:feather/src/ui/widget/widget_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

@@ -1,7 +1,7 @@
 import 'package:feather/src/data/model/internal/weather_forecast_holder.dart';
 import 'package:feather/src/data/repository/local/weather_helper.dart';
-import 'package:feather/src/ui/navigation/navigation_bloc.dart';
-import 'package:feather/src/ui/navigation/navigation_event.dart';
+import 'package:feather/src/ui/navigation/bloc/navigation_bloc.dart';
+import 'package:feather/src/ui/navigation/bloc/navigation_event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

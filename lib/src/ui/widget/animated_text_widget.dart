@@ -1,4 +1,4 @@
-import 'package:feather/src/ui/screen/base/animated_state.dart';
+import 'package:feather/src/ui/widget/animated_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 

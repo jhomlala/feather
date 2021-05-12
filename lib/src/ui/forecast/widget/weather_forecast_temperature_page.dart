@@ -4,7 +4,7 @@ import 'package:feather/src/data/model/internal/weather_forecast_holder.dart';
 import 'package:feather/src/data/repository/local/application_localization.dart';
 import 'package:feather/src/resources/config/assets.dart';
 import 'package:feather/src/data/repository/local/weather_helper.dart';
-import 'package:feather/src/ui/screen/base/weather_forecast_base_page.dart';
+import 'package:feather/src/ui/forecast/widget/weather_forecast_base_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 

@@ -1,7 +1,7 @@
 import 'package:feather/src/data/repository/local/application_localization.dart';
 import 'package:feather/src/resources/config/assets.dart';
-import 'package:feather/src/ui/about/about_screen_bloc.dart';
-import 'package:feather/src/ui/about/about_screen_state.dart';
+import 'package:feather/src/ui/about/bloc/about_screen_bloc.dart';
+import 'package:feather/src/ui/about/bloc/about_screen_state.dart';
 import 'package:feather/src/ui/widget/animated_gradient.dart';
 import 'package:feather/src/ui/widget/transparent_app_bar.dart';
 import 'package:flutter/material.dart';

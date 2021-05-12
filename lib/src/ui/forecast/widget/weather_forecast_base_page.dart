@@ -1,6 +1,6 @@
 import 'package:feather/src/data/model/internal/chart_data.dart';
 import 'package:feather/src/data/model/internal/weather_forecast_holder.dart';
-import 'package:feather/src/ui/widget/chart_widget.dart';
+import 'package:feather/src/ui/forecast/widget/chart_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
