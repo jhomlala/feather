@@ -1,4 +1,7 @@
-import 'package:feather/src/data/model/internal/navigation_params.dart';
+import 'package:feather/src/data/model/internal/forecast_navigation_params.dart';
+import 'package:feather/src/data/model/internal/settings_navigation_params.dart';
+import 'package:feather/src/data/model/internal/weather_forecast_holder.dart';
+import 'package:feather/src/ui/forecast/weather_forecast_screen.dart';
 import 'package:feather/src/ui/main/main_screen.dart';
 import 'package:feather/src/ui/about/about_screen.dart';
 import 'package:feather/src/ui/settings/settings_screen.dart';
@@ -15,20 +18,38 @@ class Navigation {
 
   final _forecastScreenHandler = Handler(
       handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
-    return const SizedBox();
+    WeatherForecastHolder? holder;
+    if (context?.arguments != null) {
+      final ForecastNavigationParams navigationParams =
+          context!.arguments! as ForecastNavigationParams;
+      holder = navigationParams.weatherForecastHolder;
+    }
+    if (holder != null) {
+      return WeatherForecastScreen(holder);
+    } else {
+      throw ArgumentError("WeatherForecastHolder can't be null");
+    }
   });
   final _aboutScreenHandler = Handler(
       handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
-    return const AboutScreen();
+    List<Color> startGradientColors = [];
+    if (context?.arguments != null) {
+      final SettingsNavigationParams navigationParams =
+          context!.arguments! as SettingsNavigationParams;
+      startGradientColors = navigationParams.startGradientColors!;
+    }
+    return AboutScreen(
+      startGradientColors: startGradientColors,
+    );
   });
 
   final _settingsScreenHandler = Handler(
       handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
     List<Color> startGradientColors = [];
     if (context?.arguments != null) {
-      final NavigationParams navigationParams =
-          context!.arguments! as NavigationParams;
-      startGradientColors = navigationParams.startGradientColors;
+      final SettingsNavigationParams navigationParams =
+          context!.arguments! as SettingsNavigationParams;
+      startGradientColors = navigationParams.startGradientColors!;
     }
     return SettingsScreen(
       startGradientColors: startGradientColors,

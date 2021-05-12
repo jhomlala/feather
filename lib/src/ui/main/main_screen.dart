@@ -13,7 +13,7 @@ import 'package:feather/src/ui/main/main_screen_event.dart';
 import 'package:feather/src/ui/main/main_screen_state.dart';
 import 'package:feather/src/ui/navigation/navigation_bloc.dart';
 import 'package:feather/src/ui/navigation/navigation_event.dart';
-import 'package:feather/src/ui/screen/weather_main_sun_path_page.dart';
+import 'package:feather/src/ui/widget/weather_main_sun_path_widget.dart';
 import 'package:feather/src/ui/widget/animated_gradient.dart';
 import 'package:feather/src/ui/widget/current_weather_widget.dart';
 import 'package:feather/src/ui/widget/loading_widget.dart';
@@ -163,7 +163,7 @@ class _MainScreenState extends State<MainScreen> {
           forecastListResponse: weatherForecastListResponse,
         );
       } else if (key == Ids.weatherMainSunPathPage) {
-        page = WeatherMainSunPathPage(
+        page = WeatherMainSunPathWidget(
           system: response.system,
         );
       } else {

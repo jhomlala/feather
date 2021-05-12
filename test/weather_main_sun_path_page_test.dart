@@ -1,5 +1,5 @@
 // import 'package:feather/src/data/model/remote/system.dart';
-// import 'package:feather/src/ui/screen/weather_main_sun_path_page.dart';
+// import 'package:feather/src/ui/screen/weather_main_sun_path_widget.dart';
 // import 'package:flutter/widgets.dart';
 // import 'package:flutter_test/flutter_test.dart';
 //
