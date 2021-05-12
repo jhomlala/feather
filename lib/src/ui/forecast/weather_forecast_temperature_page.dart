@@ -27,14 +27,16 @@ class WeatherForecastTemperaturePage extends WeatherForecastBasePage {
     final List<Widget> widgets = [];
     if (points.length > 2) {
       final double padding = points[1].x - points[0].x - 30;
-      widgets.add(WidgetHelper.buildPadding(top: 5));
+      widgets.add(const SizedBox(
+        height: 4,
+      ));
       for (int index = 0; index < points.length; index++) {
         widgets.add(Image.asset(
             WeatherHelper.getWeatherIcon(
                 holder!.forecastList![index].overallWeatherData![0].id!),
             width: 30,
             height: 30));
-        widgets.add(WidgetHelper.buildPadding(left: padding));
+        widgets.add(SizedBox(width: padding));
       }
       widgets.removeLast();
     }

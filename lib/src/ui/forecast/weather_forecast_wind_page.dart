@@ -5,7 +5,6 @@ import 'package:feather/src/data/repository/local/application_localization.dart'
 import 'package:feather/src/resources/config/assets.dart';
 import 'package:feather/src/data/repository/local/weather_helper.dart';
 import 'package:feather/src/ui/screen/base/weather_forecast_base_page.dart';
-import 'package:feather/src/ui/widget/widget_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -31,20 +30,25 @@ class WeatherForecastWindPage extends WeatherForecastBasePage {
     if (points.length > 2) {
       final double padding = points[1].x - points[0].x - 30;
       for (final String direction in holder!.getWindDirectionList()) {
-        rowElements.add(SizedBox(
+        rowElements.add(
+          SizedBox(
             width: 30,
             child: Center(
-                child: Text(direction,
-                    textDirection: TextDirection.ltr,
-                    style: Theme.of(context).textTheme.bodyText1))));
-        rowElements.add(WidgetHelper.buildPadding(left: padding));
+              child: Text(direction,
+                  textDirection: TextDirection.ltr,
+                  style: Theme.of(context).textTheme.bodyText1),
+            ),
+          ),
+        );
+        rowElements.add(SizedBox(width: padding));
       }
       rowElements.removeLast();
     }
     return Row(
-        key: const Key("weather_forecast_wind_page_bottom_row"),
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: rowElements);
+      key: const Key("weather_forecast_wind_page_bottom_row"),
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: rowElements,
+    );
   }
 
   @override

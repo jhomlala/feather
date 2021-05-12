@@ -16,9 +16,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-void main() => runApp(FeatherApp());
+void main() => runApp(const FeatherApp());
 
-class FeatherApp extends StatelessWidget {
+class FeatherApp extends StatefulWidget {
+  const FeatherApp({Key? key}) : super(key: key);
+
+  @override
+  _FeatherAppState createState() => _FeatherAppState();
+}
+
+class _FeatherAppState extends State<FeatherApp> {
   final Navigation _navigation = Navigation();
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey();
   final LocationManager _locationManager = LocationManager();
@@ -28,7 +35,9 @@ class FeatherApp extends StatelessWidget {
       WeatherRemoteRepository();
   late ApplicationLocalRepository _applicationLocalRepository;
 
-  FeatherApp({Key? key}) : super(key: key) {
+  @override
+  void initState() {
+    super.initState();
     _weatherLocalRepository = WeatherLocalRepository(_storageManager);
     _applicationLocalRepository = ApplicationLocalRepository(_storageManager);
     WidgetsFlutterBinding.ensureInitialized();

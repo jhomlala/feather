@@ -9,22 +9,21 @@ abstract class AnimatedState<T extends StatefulWidget> extends State<T>
   late StreamController _streamController;
   StreamSubscription? subscription;
 
-  Widget build(BuildContext context);
-
-  animateTween(
-      {double start = 0.0,
-      double? end = 1.0,
-      int duration: 1000,
-      Curve curve = Curves.easeInOut}) {
+  void animateTween({
+    double start = 0.0,
+    double? end = 1.0,
+    int duration = 1000,
+    Curve curve = Curves.easeInOut,
+  }) {
     controller = _getAnimationController(this, duration);
-    Animation animation = _getCurvedAnimation(controller!, curve);
+    final Animation animation = _getCurvedAnimation(controller!, curve);
     _streamController = StreamController<double>();
 
-    Animation<double> tween = _getTween(start, end, animation);
-    var valueListener = () {
+    final Animation<double> tween = _getTween(start, end, animation);
+
+    tween.addListener(() {
       _streamController.sink.add(tween.value);
-    };
-    tween..addListener(valueListener);
+    });
     tween.addStatusListener((status) {
       if (status == AnimationStatus.completed ||
           status == AnimationStatus.dismissed) {
@@ -32,7 +31,7 @@ abstract class AnimatedState<T extends StatefulWidget> extends State<T>
       }
     });
     subscription = _streamController.stream
-        .listen((value) => onAnimatedValue(value as double));
+        .listen((dynamic value) => onAnimatedValue(value as double));
     controller!.forward();
   }
 
@@ -40,9 +39,7 @@ abstract class AnimatedState<T extends StatefulWidget> extends State<T>
       {Curve curve = Curves.easeInOut,
       int duration = 2000,
       bool noAnimation = false}) {
-    if (controller == null) {
-      controller = _getAnimationController(this, duration);
-    }
+    controller ??= _getAnimationController(this, duration);
     controller!.forward();
     if (!noAnimation) {
       return _getCurvedAnimation(controller!, curve) as Animation<double>;

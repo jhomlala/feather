@@ -5,12 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class WidgetHelper {
-  static Padding buildPadding(
-      {double left = 0, double top = 0, double right = 0, double bottom = 0}) {
-    return Padding(
-        padding: buildEdgeInsets(
-            left: left, top: top, right: right, bottom: bottom));
-  }
+
 
   static EdgeInsets buildEdgeInsets(
       {double left = 0, double top = 0, double right = 0, double bottom = 0}) {

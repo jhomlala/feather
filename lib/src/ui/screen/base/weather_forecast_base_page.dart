@@ -21,29 +21,37 @@ abstract class WeatherForecastBasePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ChartData chartData = getChartData();
+    final ChartData chartData = getChartData();
     return Center(
-        child: Column(children: [
-      getPageIconWidget(),
-      getPageTitleWidget(context),
-      WidgetHelper.buildPadding(top: 20),
-      getPageSubtitleWidget(context),
-      WidgetHelper.buildPadding(top: 40),
-      ChartWidget(
-          key: Key("weather_forecast_base_page_chart"), chartData: chartData),
-      WidgetHelper.buildPadding(top: 10),
-      getBottomRowWidget(context)
-    ]));
+      child: Column(
+        children: [
+          getPageIconWidget(),
+          getPageTitleWidget(context),
+          const SizedBox(height: 20),
+          getPageSubtitleWidget(context),
+          const SizedBox(height: 40),
+          ChartWidget(
+              key: const Key("weather_forecast_base_page_chart"),
+              chartData: chartData),
+          const SizedBox(height: 10),
+          getBottomRowWidget(context)
+        ],
+      ),
+    );
   }
 
   Image getPageIconWidget() {
-    return Image.asset(getIcon(),
-        key: Key("weather_forecast_base_page_icon"), width: 100, height: 100);
+    return Image.asset(
+      getIcon(),
+      key: const Key("weather_forecast_base_page_icon"),
+      width: 100,
+      height: 100,
+    );
   }
 
   Widget getPageTitleWidget(BuildContext context) {
     return Text(getTitleText(context)!,
-        key: Key("weather_forecast_base_page_title"),
+        key: const Key("weather_forecast_base_page_title"),
         textDirection: TextDirection.ltr,
         style: Theme.of(context).textTheme.subtitle2);
   }

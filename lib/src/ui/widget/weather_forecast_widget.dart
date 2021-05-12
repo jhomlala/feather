@@ -21,13 +21,13 @@ class WeatherForecastWidget extends StatelessWidget {
   final bool isMetricUnits;
   final Logger _logger = Logger("WeatherForecastWidget");
 
-  WeatherForecastWidget(
-      {Key? key,
-      this.holder,
-      this.width,
-      this.height,
-      required this.isMetricUnits})
-      : super(key: key);
+  WeatherForecastWidget({
+    Key? key,
+    this.holder,
+    this.width,
+    this.height,
+    required this.isMetricUnits,
+  }) : super(key: key);
 
   WeatherForecastBasePage? _getPage(String key, WeatherForecastHolder? holder,
       double? width, double? height) {
@@ -55,30 +55,30 @@ class WeatherForecastWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-        child: new SingleChildScrollView(
+        child: SingleChildScrollView(
             child: Directionality(
       textDirection: TextDirection.ltr,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        key: Key("weather_forecast_container"),
+        key: const Key("weather_forecast_container"),
         children: <Widget>[
           Text(
             holder!.getLocationName(context)!,
             textDirection: TextDirection.ltr,
-            key: Key("weather_forecast_location_name"),
+            key: const Key("weather_forecast_location_name"),
             style: Theme.of(context).textTheme.headline6,
           ),
           Text(
             holder!.dateFullFormatted!,
             textDirection: TextDirection.ltr,
-            key: Key("weather_forecast_date_formatted"),
+            key: const Key("weather_forecast_date_formatted"),
             style: Theme.of(context).textTheme.subtitle2,
           ),
-          WidgetHelper.buildPadding(top: 20),
+          const SizedBox(height: 20),
           SizedBox(
               height: 450,
               child: Swiper(
-                key: Key("weather_forecast_swiper"),
+                key: const Key("weather_forecast_swiper"),
                 itemBuilder: (BuildContext context, int index) {
                   if (index == 0) {
                     return _getPage(
@@ -93,9 +93,12 @@ class WeatherForecastWidget extends StatelessWidget {
                 },
                 loop: false,
                 itemCount: 4,
-                pagination: SwiperPagination(
-                    builder: new DotSwiperPaginationBuilder(
-                        color: Colors.white54, activeColor: Colors.white)),
+                pagination: const SwiperPagination(
+                  builder: DotSwiperPaginationBuilder(
+                    color: Colors.white54,
+                    activeColor: Colors.white,
+                  ),
+                ),
               ))
         ],
       ),

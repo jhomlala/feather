@@ -2,7 +2,6 @@ import 'package:feather/src/data/model/internal/weather_forecast_holder.dart';
 import 'package:feather/src/data/repository/local/weather_helper.dart';
 import 'package:feather/src/ui/navigation/navigation_bloc.dart';
 import 'package:feather/src/ui/navigation/navigation_event.dart';
-import 'package:feather/src/ui/widget/widget_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,9 +10,11 @@ class WeatherForecastThumbnailWidget extends StatefulWidget {
   final WeatherForecastHolder _holder;
   final bool _isMetricUnits;
 
-  const WeatherForecastThumbnailWidget(this._holder, this._isMetricUnits,
-      {Key? key})
-      : super(key: key);
+  const WeatherForecastThumbnailWidget(
+    this._holder,
+    this._isMetricUnits, {
+    Key? key,
+  }) : super(key: key);
 
   @override
   _WeatherForecastThumbnailWidgetState createState() =>
@@ -46,28 +47,28 @@ class _WeatherForecastThumbnailWidgetState
         child: InkWell(
           onTap: _onWeatherForecastClicked,
           child: Container(
-            padding: WidgetHelper.buildEdgeInsets(left: 5, right: 5, top: 10),
+            padding: const EdgeInsets.only(left: 4, right: 4, top: 8),
             child: Column(
               children: <Widget>[
                 Text(holder.dateShortFormatted!,
                     key: const Key("weather_forecast_thumbnail_date"),
                     textDirection: TextDirection.ltr,
                     style: Theme.of(context).textTheme.bodyText2),
-                WidgetHelper.buildPadding(top: 5),
+                const SizedBox(height: 4),
                 Image.asset(holder.weatherCodeAsset!,
                     key: const Key("weather_forecast_thumbnail_icon"),
                     width: 30,
                     height: 30),
-                WidgetHelper.buildPadding(top: 5),
+                const SizedBox(height: 4),
                 Text(
                     WeatherHelper.formatTemperature(
                       temperature: temperature,
                       metricUnits: widget._isMetricUnits,
                     ),
-                    key: const Key("weather_forecast_thumbnai_temperature"),
+                    key: const Key("weather_forecast_thumbnail_temperature"),
                     textDirection: TextDirection.ltr,
                     style: Theme.of(context).textTheme.bodyText2),
-                WidgetHelper.buildPadding(top: 5),
+                const SizedBox(height: 4),
               ],
             ),
           ),
