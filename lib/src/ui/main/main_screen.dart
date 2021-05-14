@@ -218,21 +218,22 @@ class _MainScreenState extends State<MainScreen> {
 
   Widget _buildLocationServiceDisabledWidget() {
     return _buildErrorWidget(
-        "Your location service is disabled. Please enable it and try again.",
-        () {
+        AppLocalizations.of(context)!.error_location_disabled, () {
       _mainScreenBloc.add(LocationCheckMainScreenEvent());
     });
   }
 
   Widget _buildPermissionNotGrantedWidget() {
     return _buildErrorWidget(
-        "Permissions not granted. Please accept permission.", () {
+        AppLocalizations.of(context)!.error_permissions_not_granted, () {
       _mainScreenBloc.add(LocationCheckMainScreenEvent());
     });
   }
 
   Widget _buildFailedToLoadDataWidget(ApplicationError error) {
-    return _buildErrorWidget("Failed to load weather data. $error", () {
+    return _buildErrorWidget(
+        "${AppLocalizations.of(context)!.error_failed_to_load_weather_data} $error",
+        () {
       _mainScreenBloc.add(LoadWeatherDataMainScreenEvent());
     });
   }
@@ -270,13 +271,11 @@ class _MainScreenState extends State<MainScreen> {
     final applicationLocalization = AppLocalizations.of(context)!;
     final List<PopupMenuElement> menuList = [];
     menuList.add(PopupMenuElement(
-      key: const Key("menu_overflow_settings"),
-      title: applicationLocalization.settings
-    ));
+        key: const Key("menu_overflow_settings"),
+        title: applicationLocalization.settings));
     menuList.add(PopupMenuElement(
-      key: const Key("menu_overflow_about"),
-      title: applicationLocalization.about
-    ));
+        key: const Key("menu_overflow_about"),
+        title: applicationLocalization.about));
     return menuList;
   }
 
