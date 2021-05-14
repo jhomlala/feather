@@ -1,6 +1,6 @@
 import 'package:feather/src/data/model/internal/chart_data.dart';
 import 'package:feather/src/data/model/internal/weather_forecast_holder.dart';
-import 'package:feather/src/data/repository/local/application_localization.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:feather/src/resources/config/assets.dart';
 import 'package:feather/src/data/repository/local/weather_helper.dart';
 import 'package:feather/src/ui/forecast/widget/weather_forecast_base_page.dart';
@@ -45,9 +45,10 @@ class WeatherForecastPressurePage extends WeatherForecastBasePage {
   @override
   RichText getPageSubtitleWidget(BuildContext context) {
     return RichText(
-        key: const Key("weather_forecast_pressure_page_subtitle"),
-        textDirection: TextDirection.ltr,
-        text: TextSpan(children: [
+      key: const Key("weather_forecast_pressure_page_subtitle"),
+      textDirection: TextDirection.ltr,
+      text: TextSpan(
+        children: [
           TextSpan(text: 'min ', style: Theme.of(context).textTheme.bodyText1),
           TextSpan(
               text: WeatherHelper.formatPressure(
@@ -59,11 +60,13 @@ class WeatherForecastPressurePage extends WeatherForecastBasePage {
               text: WeatherHelper.formatPressure(
                   holder!.maxPressure!, isMetricUnits),
               style: Theme.of(context).textTheme.subtitle2)
-        ]));
+        ],
+      ),
+    );
   }
 
   @override
   String? getTitleText(BuildContext context) {
-    return ApplicationLocalization.of(context)!.getText("pressure");
+    return AppLocalizations.of(context)!.pressure;
   }
 }

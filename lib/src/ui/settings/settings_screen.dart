@@ -1,6 +1,6 @@
 import 'package:feather/src/data/model/internal/overflow_menu_element.dart';
 import 'package:feather/src/data/model/internal/unit.dart';
-import 'package:feather/src/data/repository/local/application_localization.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:feather/src/ui/app/app_bloc.dart';
 import 'package:feather/src/ui/app/app_event.dart';
 import 'package:feather/src/ui/settings/bloc/settings_screen_bloc.dart';
@@ -73,7 +73,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Widget _getSettingsContainer(LoadedSettingsScreenState state) {
     final dateTime = DateTime.fromMillisecondsSinceEpoch(state.lastRefreshTime);
-    final applicationLocalization = ApplicationLocalization.of(context)!;
+    final applicationLocalization = AppLocalizations.of(context)!;
     return Container(
       padding: const EdgeInsets.only(left: 24, right: 24),
       child: Column(
@@ -83,7 +83,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           _buildUnitsChangeWidget(
               applicationLocalization, state.unit == Unit.imperial),
           Text(
-            applicationLocalization.getText("units_description"),
+            applicationLocalization.units_description,
             style: Theme.of(context).textTheme.bodyText1,
           ),
           const SizedBox(height: 30),
@@ -91,13 +91,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
               applicationLocalization, state.refreshTime),
           const SizedBox(height: 10),
           Text(
-            applicationLocalization.getText("refresh_time_description"),
+            applicationLocalization.refresh_time_description,
             style: Theme.of(context).textTheme.bodyText1,
           ),
           const SizedBox(height: 30),
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             Text(
-              "${applicationLocalization.getText("last_refresh_time")}:",
+              "${applicationLocalization.last_refresh_time}:",
               style: Theme.of(context).textTheme.subtitle2,
             ),
           ]),
@@ -111,17 +111,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   Widget _buildUnitsChangeWidget(
-      ApplicationLocalization applicationLocalization, bool unitImperial) {
+      AppLocalizations applicationLocalization, bool unitImperial) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          "${applicationLocalization.getText("units")}:",
+          "${applicationLocalization.units}:",
           style: Theme.of(context).textTheme.subtitle2,
         ),
         Row(
           children: [
-            Text(applicationLocalization.getText("metric")),
+            Text(applicationLocalization.metric),
             Switch(
                 value: unitImperial,
                 activeColor: Colors.grey,
@@ -129,7 +129,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 inactiveTrackColor: Colors.white,
                 inactiveThumbColor: Colors.grey,
                 onChanged: onChangedUnitState),
-            Text(applicationLocalization.getText("imperial")),
+            Text(applicationLocalization.imperial),
             const SizedBox(height: 10),
           ],
         )
@@ -138,12 +138,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   Widget _buildRefreshTimePickerWidget(
-      ApplicationLocalization applicationLocalization, int refreshTime) {
+      AppLocalizations applicationLocalization, int refreshTime) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          "${applicationLocalization.getText("refresh_time")}:",
+          "${applicationLocalization.refresh_time}:",
           style: Theme.of(context).textTheme.subtitle2,
         ),
         Center(
@@ -185,23 +185,23 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   List<PopupMenuElement> _getRefreshTimeMenu(BuildContext context) {
-    final applicationLocalization = ApplicationLocalization.of(context)!;
+    final applicationLocalization = AppLocalizations.of(context)!;
     final List<PopupMenuElement> menuList = [];
     menuList.add(PopupMenuElement(
       key: const Key("menu_settings_refresh_time_10_minutes"),
-      title: "10 ${applicationLocalization.getText("minutes")}",
+      title: "10 ${applicationLocalization.minutes}",
     ));
     menuList.add(PopupMenuElement(
       key: const Key("menu_settings_refresh_time_15_minutes"),
-      title: "15 ${applicationLocalization.getText("minutes")}",
+      title: "15 ${applicationLocalization.minutes}",
     ));
     menuList.add(PopupMenuElement(
       key: const Key("menu_settings_refresh_time_30_minutes"),
-      title: "30 ${applicationLocalization.getText("minutes")}",
+      title: "30 ${applicationLocalization.minutes}",
     ));
     menuList.add(PopupMenuElement(
       key: const Key("menu_settings_refresh_time_60_minutes"),
-      title: "60 ${applicationLocalization.getText("minutes")}",
+      title: "60 ${applicationLocalization.minutes}",
     ));
 
     return menuList;
@@ -218,18 +218,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   String _getSelectedMenuElementText(int refreshTime) {
-    final applicationLocalization = ApplicationLocalization.of(context);
+    final applicationLocalization = AppLocalizations.of(context)!;
     switch (refreshTime) {
       case 600000:
-        return "10 ${applicationLocalization!.getText("minutes")}";
+        return "10 ${applicationLocalization.minutes}";
       case 900000:
-        return "15${applicationLocalization!.getText("minutes")}";
+        return "15${applicationLocalization.minutes}";
       case 1800000:
-        return "30 ${applicationLocalization!.getText("minutes")}";
+        return "30 ${applicationLocalization.minutes}";
       case 3600000:
-        return "60 ${applicationLocalization!.getText("minutes")}";
+        return "60 ${applicationLocalization.minutes}";
       default:
-        return "10 ${applicationLocalization!.getText("minutes")}";
+        return "10 ${applicationLocalization.minutes}";
     }
   }
 

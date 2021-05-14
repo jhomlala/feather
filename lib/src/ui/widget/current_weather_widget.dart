@@ -1,7 +1,7 @@
 import 'package:feather/src/data/model/remote/overall_weather_data.dart';
 import 'package:feather/src/data/model/remote/weather_forecast_list_response.dart';
 import 'package:feather/src/data/model/remote/weather_response.dart';
-import 'package:feather/src/data/repository/local/application_localization.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:feather/src/data/repository/local/weather_helper.dart';
 import 'package:feather/src/ui/app/app_bloc.dart';
 import 'package:feather/src/ui/widget/animated_state.dart';
@@ -114,14 +114,14 @@ class CurrentWeatherWidgetState extends AnimatedState<CurrentWeatherWidget> {
   }
 
   Widget _getPressureAndHumidityRow(WeatherResponse weatherResponse) {
-    final applicationLocalization = ApplicationLocalization.of(context)!;
+    final applicationLocalization = AppLocalizations.of(context)!;
     return RichText(
       textDirection: TextDirection.ltr,
       key: const Key("weather_current_widget_pressure_humidity"),
       text: TextSpan(
         children: [
           TextSpan(
-              text: "${applicationLocalization.getText("pressure")}: ",
+              text: "${applicationLocalization.pressure}: ",
               style: Theme.of(context).textTheme.bodyText1),
           TextSpan(
               text: WeatherHelper.formatPressure(
@@ -132,7 +132,7 @@ class CurrentWeatherWidgetState extends AnimatedState<CurrentWeatherWidget> {
             text: "  ",
           ),
           TextSpan(
-              text: "${applicationLocalization.getText("humidity")}: ",
+              text: "${applicationLocalization.humidity}: ",
               style: Theme.of(context).textTheme.bodyText1),
           TextSpan(
               text: WeatherHelper.formatHumidity(

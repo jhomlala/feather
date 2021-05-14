@@ -1,4 +1,3 @@
-import 'package:feather/src/data/repository/local/application_localization_delegate.dart';
 import 'package:feather/src/data/repository/local/storage_manager.dart';
 import 'package:feather/src/data/repository/local/location_manager.dart';
 import 'package:feather/src/data/repository/local/application_local_repository.dart';
@@ -15,6 +14,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() => runApp(const FeatherApp());
 
@@ -77,9 +77,10 @@ class _FeatherAppState extends State<FeatherApp> {
         navigatorKey: _navigatorKey,
         theme: _configureThemeData(),
         localizationsDelegates: const [
-          ApplicationLocalizationDelegate(),
+          AppLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
         ],
         supportedLocales: const [
           Locale("en"),

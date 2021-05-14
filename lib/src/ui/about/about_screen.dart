@@ -1,4 +1,4 @@
-import 'package:feather/src/data/repository/local/application_localization.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:feather/src/resources/config/assets.dart';
 import 'package:feather/src/ui/about/bloc/about_screen_bloc.dart';
 import 'package:feather/src/ui/about/bloc/about_screen_state.dart';
@@ -54,7 +54,7 @@ class _AboutScreenState extends State<AboutScreen> {
   }
 
   Widget _buildMainWidget(BuildContext context) {
-    final applicationLocalization = ApplicationLocalization.of(context)!;
+    final applicationLocalization = AppLocalizations.of(context)!;
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -65,19 +65,19 @@ class _AboutScreenState extends State<AboutScreen> {
               style: Theme.of(context).textTheme.headline6),
           _buildVersionWidget(),
           const SizedBox(height: 20),
-          Text("${applicationLocalization.getText("contributors")}:",
+          Text("${applicationLocalization.contributors}:",
               key: const Key("about_screen_contributors"),
               style: Theme.of(context).textTheme.subtitle2),
           const SizedBox(height: 10),
           const Text("Jakub Homlala (jhomlala)"),
           const SizedBox(height: 20),
-          Text("${applicationLocalization.getText("credits")}:",
+          Text("${applicationLocalization.credits}:",
               key: const Key("about_screen_credits"),
               style: Theme.of(context).textTheme.subtitle2),
           const SizedBox(height: 10),
-          Text(applicationLocalization.getText("weather_data")),
+          Text(applicationLocalization.weather_data),
           const SizedBox(height: 2),
-          Text(applicationLocalization.getText("icon_data"))
+          Text(applicationLocalization.icon_data)
         ],
       ),
     );
@@ -85,18 +85,19 @@ class _AboutScreenState extends State<AboutScreen> {
 
   Widget _buildLogoWidget() {
     return Material(
-        type: MaterialType.circle,
-        clipBehavior: Clip.hardEdge,
-        color: Colors.white10,
-        child: InkWell(
-          onTap: () => _onLogoClicked(),
-          child: Image.asset(
-            Assets.iconLogo,
-            key: const Key("about_screen_logo"),
-            width: 256,
-            height: 256,
-          ),
-        ));
+      type: MaterialType.circle,
+      clipBehavior: Clip.hardEdge,
+      color: Colors.white10,
+      child: InkWell(
+        onTap: () => _onLogoClicked(),
+        child: Image.asset(
+          Assets.iconLogo,
+          key: const Key("about_screen_logo"),
+          width: 256,
+          height: 256,
+        ),
+      ),
+    );
   }
 
   Widget _buildVersionWidget() {

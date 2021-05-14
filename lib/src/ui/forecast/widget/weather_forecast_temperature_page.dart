@@ -1,7 +1,7 @@
 import 'package:feather/src/data/model/internal/chart_data.dart';
 import 'package:feather/src/data/model/internal/point.dart';
 import 'package:feather/src/data/model/internal/weather_forecast_holder.dart';
-import 'package:feather/src/data/repository/local/application_localization.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:feather/src/resources/config/assets.dart';
 import 'package:feather/src/data/repository/local/weather_helper.dart';
 import 'package:feather/src/ui/forecast/widget/weather_forecast_base_page.dart';
@@ -101,6 +101,6 @@ class WeatherForecastTemperaturePage extends WeatherForecastBasePage {
 
   @override
   String? getTitleText(BuildContext context) {
-    return ApplicationLocalization.of(context)!.getText("temperature");
+    return AppLocalizations.of(context)!.temperature;
   }
 }

@@ -2,7 +2,7 @@ import 'package:feather/src/data/model/internal/application_error.dart';
 import 'package:feather/src/data/model/internal/overflow_menu_element.dart';
 import 'package:feather/src/data/model/remote/weather_forecast_list_response.dart';
 import 'package:feather/src/data/model/remote/weather_response.dart';
-import 'package:feather/src/data/repository/local/application_localization.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:feather/src/resources/config/application_colors.dart';
 import 'package:feather/src/resources/config/dimensions.dart';
 import 'package:feather/src/resources/config/ids.dart';
@@ -267,15 +267,15 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   List<PopupMenuElement> _getOverflowMenu(BuildContext context) {
-    final applicationLocalization = ApplicationLocalization.of(context)!;
+    final applicationLocalization = AppLocalizations.of(context)!;
     final List<PopupMenuElement> menuList = [];
     menuList.add(PopupMenuElement(
       key: const Key("menu_overflow_settings"),
-      title: applicationLocalization.getText("settings"),
+      title: applicationLocalization.settings
     ));
     menuList.add(PopupMenuElement(
       key: const Key("menu_overflow_about"),
-      title: applicationLocalization.getText("about"),
+      title: applicationLocalization.about
     ));
     return menuList;
   }

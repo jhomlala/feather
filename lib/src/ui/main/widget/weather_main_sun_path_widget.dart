@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:feather/src/data/model/remote/system.dart';
-import 'package:feather/src/data/repository/local/application_localization.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:feather/src/data/repository/local/weather_helper.dart';
 import 'package:feather/src/ui/widget/animated_text_widget.dart';
 import 'package:feather/src/ui/main/widget/sun_path_widget.dart';
@@ -68,14 +68,14 @@ class _WeatherMainSunPathWidgetState extends State<WeatherMainSunPathWidget> {
   }
 
   List<Widget> _buildDayWidgets() {
+    final applicationLocalization = AppLocalizations.of(context)!;
     return [
       AnimatedTextWidget(
-          textBefore: '${ApplicationLocalization.of(context)!.getText("day")}:',
+          textBefore: '${applicationLocalization.day}:',
           maxValue: _getPathPercentage(),
           key: const Key("weather_main_sun_path_percentage")),
       const SizedBox(height: 10),
-      Text(
-          "${ApplicationLocalization.of(context)!.getText("sunset_in")}: ${_getTimeUntilSunset()}",
+      Text("${applicationLocalization.sunset_in}: ${_getTimeUntilSunset()}",
           key: const Key("weather_main_sun_path_countdown"),
           textDirection: TextDirection.ltr,
           style: Theme.of(context).textTheme.subtitle2)
@@ -83,15 +83,14 @@ class _WeatherMainSunPathWidgetState extends State<WeatherMainSunPathWidget> {
   }
 
   List<Widget> _buildNightWidgets() {
+    final applicationLocalization = AppLocalizations.of(context)!;
     return [
       AnimatedTextWidget(
-          textBefore:
-              '${ApplicationLocalization.of(context)!.getText("night")}:',
+          textBefore: '${applicationLocalization.night}:',
           maxValue: _getPathPercentage(),
           key: const Key("weather_main_sun_path_percentage")),
       const SizedBox(height: 10),
-      Text(
-          "${ApplicationLocalization.of(context)!.getText("sunrise_in")}: ${_getTimeUntilSunrise()}",
+      Text("${applicationLocalization.sunrise_in}: ${_getTimeUntilSunrise()}",
           key: const Key("weather_main_sun_path_countdown"),
           textDirection: TextDirection.ltr,
           style: Theme.of(context).textTheme.subtitle2),
@@ -99,6 +98,7 @@ class _WeatherMainSunPathWidgetState extends State<WeatherMainSunPathWidget> {
   }
 
   List<Widget> _buildScreen(BuildContext context) {
+    final applicationLocalizations = AppLocalizations.of(context)!;
     final List<Widget> widgets = [];
     widgets.add(const SizedBox(height: 30));
     widgets.add(SunPathWidget(
@@ -116,16 +116,18 @@ class _WeatherMainSunPathWidgetState extends State<WeatherMainSunPathWidget> {
     }
 
     widgets.add(const SizedBox(height: 30));
-    widgets.add(Text(
-        "${ApplicationLocalization.of(context)!.getText("sunrise")}: ${_getSunriseTime()}",
-        key: const Key("weather_main_sun_path_sunrise"),
-        textDirection: TextDirection.ltr,
-        style: Theme.of(context).textTheme.bodyText2));
-    widgets.add(Text(
-        "${ApplicationLocalization.of(context)!.getText("sunset")}: ${_getSunsetTime()}",
-        key: const Key("weather_main_sun_path_sunset"),
-        textDirection: TextDirection.ltr,
-        style: Theme.of(context).textTheme.bodyText2));
+    widgets.add(
+      Text("${applicationLocalizations.sunrise}: ${_getSunriseTime()}",
+          key: const Key("weather_main_sun_path_sunrise"),
+          textDirection: TextDirection.ltr,
+          style: Theme.of(context).textTheme.bodyText2),
+    );
+    widgets.add(
+      Text("${applicationLocalizations.sunset}: ${_getSunsetTime()}",
+          key: const Key("weather_main_sun_path_sunset"),
+          textDirection: TextDirection.ltr,
+          style: Theme.of(context).textTheme.bodyText2),
+    );
 
     return widgets;
   }

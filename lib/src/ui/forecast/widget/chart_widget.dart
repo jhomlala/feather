@@ -1,7 +1,7 @@
 import 'package:feather/src/data/model/internal/chart_data.dart';
 import 'package:feather/src/data/model/internal/chart_line.dart';
 import 'package:feather/src/data/model/internal/point.dart';
-import 'package:feather/src/data/repository/local/application_localization.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:feather/src/ui/widget/animated_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -58,9 +58,10 @@ class _ChartWidgetState extends AnimatedState<ChartWidget> {
     return Center(
       key: const Key("chart_widget_unavailable"),
       child: Text(
-          ApplicationLocalization.of(context)!.getText("chart_unavailable"),
-          textDirection: TextDirection.ltr,
-          style: Theme.of(context).textTheme.bodyText2),
+        AppLocalizations.of(context)!.chart_unavailable,
+        textDirection: TextDirection.ltr,
+        style: Theme.of(context).textTheme.bodyText2,
+      ),
     );
   }
 

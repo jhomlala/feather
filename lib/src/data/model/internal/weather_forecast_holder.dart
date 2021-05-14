@@ -2,9 +2,9 @@ import 'package:feather/src/data/model/internal/chart_data.dart';
 import 'package:feather/src/data/model/remote/city.dart';
 import 'package:feather/src/data/model/remote/system.dart';
 import 'package:feather/src/data/model/remote/weather_forecast_response.dart';
-import 'package:feather/src/data/repository/local/application_localization.dart';
 import 'package:feather/src/data/repository/local/weather_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class WeatherForecastHolder {
   List<double>? _temperatures;
@@ -142,7 +142,7 @@ class WeatherForecastHolder {
     if (city != null && city!.name != null && city!.name!.isNotEmpty) {
       return city!.name;
     } else {
-      return ApplicationLocalization.of(context)!.getText("your_location");
+      return AppLocalizations.of(context)!.your_location;
     }
   }
 
