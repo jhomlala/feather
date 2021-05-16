@@ -38,18 +38,20 @@ class _WeatherForecastScreenState extends State<WeatherForecastScreen> {
       body: Stack(
         children: <Widget>[
           BlocBuilder(
-              bloc: _appBloc,
-              builder: (context, state) {
-                return Container(
-                    key: const Key("weather_main_screen_container"),
-                    decoration: BoxDecoration(gradient: gradient),
-                    child: WeatherForecastWidget(
-                      holder: widget._holder,
-                      width: 300,
-                      height: 150,
-                      isMetricUnits: _appBloc.isMetricUnits(),
-                    ));
-              }),
+            bloc: _appBloc,
+            builder: (context, state) {
+              return Container(
+                key: const Key("weather_main_screen_container"),
+                decoration: BoxDecoration(gradient: gradient),
+                child: WeatherForecastWidget(
+                  holder: widget._holder,
+                  width: 300,
+                  height: 150,
+                  isMetricUnits: _appBloc.isMetricUnits(),
+                ),
+              );
+            },
+          ),
           TransparentAppBar(
             withPopupMenu: true,
             onPopupMenuClicked: _onMenuElementClicked,

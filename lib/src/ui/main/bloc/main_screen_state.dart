@@ -19,7 +19,11 @@ class CheckingLocationState extends MainScreenState {}
 
 class LocationServiceDisabledMainScreenState extends MainScreenState {}
 
-class PermissionNotGrantedMainScreenState extends MainScreenState {}
+class PermissionNotGrantedMainScreenState extends MainScreenState {
+  final bool permanentlyDeniedPermission;
+
+  PermissionNotGrantedMainScreenState(this.permanentlyDeniedPermission);
+}
 
 class LoadingMainScreenState extends MainScreenState {}
 
@@ -27,7 +31,8 @@ class SuccessLoadMainScreenState extends MainScreenState {
   final WeatherResponse weatherResponse;
   final WeatherForecastListResponse weatherForecastListResponse;
 
-  const SuccessLoadMainScreenState(this.weatherResponse, this.weatherForecastListResponse);
+  const SuccessLoadMainScreenState(
+      this.weatherResponse, this.weatherForecastListResponse);
 
   @override
   List<Object?> get props => [unit, weatherResponse];

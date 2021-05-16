@@ -35,10 +35,13 @@ class MainScreenBloc extends Bloc<MainScreenEvent, MainScreenState> {
       yield CheckingLocationState();
       if (!await _checkLocationServiceEnabled()) {
         yield LocationServiceDisabledMainScreenState();
-      } else if (!await _checkPermission()) {
-        yield PermissionNotGrantedMainScreenState();
       } else {
-        yield* _selectWeatherData();
+        final permissionState = await _checkPermission();
+        if (permissionState == null){
+          yield* _selectWeatherData();
+        } else {
+          yield permissionState;
+        }
       }
     }
     if (event is LoadWeatherDataMainScreenEvent) {
@@ -81,16 +84,21 @@ class MainScreenBloc extends Bloc<MainScreenEvent, MainScreenState> {
     return Geolocator.isLocationServiceEnabled();
   }
 
-  Future<bool> _checkPermission() async {
-    var permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      return permission == LocationPermission.always ||
-          permission == LocationPermission.whileInUse;
-    } else if (permission == LocationPermission.deniedForever) {
-      return false;
+  Future<PermissionNotGrantedMainScreenState?> _checkPermission() async {
+    final permissionCheck = await Geolocator.checkPermission();
+    if (permissionCheck == LocationPermission.denied) {
+      final permissionRequest = await Geolocator.requestPermission();
+      if (permissionRequest == LocationPermission.always ||
+          permissionRequest == LocationPermission.whileInUse) {
+        return null;
+      } else {
+        return PermissionNotGrantedMainScreenState(
+            permissionRequest == LocationPermission.deniedForever);
+      }
+    } else if (permissionCheck == LocationPermission.deniedForever) {
+      return PermissionNotGrantedMainScreenState(true);
     } else {
-      return true;
+      return null;
     }
   }
 

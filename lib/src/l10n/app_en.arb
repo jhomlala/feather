@@ -5,6 +5,7 @@
           "error_unknown": "Unknown error. Please contact with developer.",
           "error_location_disabled": "Your location service is disabled. Please enable it and try again.",
           "error_permissions_not_granted": "Permissions not granted. Please accept permission.",
+          "error_permissions_not_granted_permanently": "Permissions not granted permanently. Please open app settings and accept permission.",
           "error_failed_to_load_weather_data": "Failed to load weather data.",
           "pressure": "Pressure",
           "rain": "Rain",
@@ -34,5 +35,6 @@
           "credits": "Credits",
           "weather_data": "Weather data: OpenWeatherAPI",
           "icon_data": "Icons: Icons8, Freepik/Flaticon",
-          "retry":"Retry"
+          "retry":"Retry",
+          "open_app_settings":"Open app settings",
 }

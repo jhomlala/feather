@@ -23,6 +23,7 @@ import 'package:feather/src/utils/date_time_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
+import 'package:app_settings/app_settings.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -66,7 +67,8 @@ class _MainScreenState extends State<MainScreen> {
                     if (state is LocationServiceDisabledMainScreenState)
                       _buildLocationServiceDisabledWidget()
                     else if (state is PermissionNotGrantedMainScreenState)
-                      _buildPermissionNotGrantedWidget()
+                      _buildPermissionNotGrantedWidget(
+                          state.permanentlyDeniedPermission)
                     else if (state is SuccessLoadMainScreenState)
                       _buildWeatherWidget(state.weatherResponse,
                           state.weatherForecastListResponse)
@@ -226,16 +228,47 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
-  Widget _buildPermissionNotGrantedWidget() {
-    return _buildErrorWidget(
-        AppLocalizations.of(context)!.error_permissions_not_granted, () {
-      _mainScreenBloc.add(LocationCheckMainScreenEvent());
-    });
+  Widget _buildPermissionNotGrantedWidget(bool permanentlyDeniedPermission) {
+    final AppLocalizations appLocalizations = AppLocalizations.of(context)!;
+    final String text = permanentlyDeniedPermission
+        ? appLocalizations.error_permissions_not_granted_permanently
+        : appLocalizations.error_permissions_not_granted;
+    return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+      _buildErrorWidget(text, () {
+        _mainScreenBloc.add(LocationCheckMainScreenEvent());
+      }),
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: TextButton(
+          onPressed: () {
+            AppSettings.openAppSettings();
+          },
+          child: Text(
+            appLocalizations.open_app_settings,
+            style: const TextStyle(color: Colors.white),
+          ),
+        ),
+      ),
+    ]);
   }
 
   Widget _buildFailedToLoadDataWidget(ApplicationError error) {
+    final appLocalizations = AppLocalizations.of(context)!;
+    String detailedDescription = "";
+    switch (error) {
+      case ApplicationError.apiError:
+        detailedDescription = appLocalizations.error_api;
+        break;
+      case ApplicationError.connectionError:
+        detailedDescription = appLocalizations.error_server_connection;
+        break;
+      case ApplicationError.locationNotSelectedError:
+        detailedDescription = appLocalizations.error_location_not_selected;
+        break;
+    }
+
     return _buildErrorWidget(
-        "${AppLocalizations.of(context)!.error_failed_to_load_weather_data} $error",
+        "${appLocalizations.error_failed_to_load_weather_data} $detailedDescription",
         () {
       _mainScreenBloc.add(LoadWeatherDataMainScreenEvent());
     });
