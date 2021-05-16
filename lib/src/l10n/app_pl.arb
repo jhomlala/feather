@@ -33,5 +33,6 @@
           "contributors": "Współtwórcy",
           "credits": "Podziękowania",
           "weather_data": "Dane pogodowe: OpenWeatherAPI",
-          "icon_data": "Ikony: Icons8, Freepik/Flaticon"
+          "icon_data": "Ikony: Icons8, Freepik/Flaticon",
+          "retry":"Ponów"
 }

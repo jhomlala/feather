@@ -33,5 +33,6 @@
           "contributors": "Contributors",
           "credits": "Credits",
           "weather_data": "Weather data: OpenWeatherAPI",
-          "icon_data": "Icons: Icons8, Freepik/Flaticon"
+          "icon_data": "Icons: Icons8, Freepik/Flaticon",
+          "retry":"Retry"
 }

@@ -60,6 +60,9 @@ class MainScreenBloc extends Bloc<MainScreenEvent, MainScreenState> {
       if (weatherResponse != null && weatherForecastListResponse != null) {
         if (weatherResponse.errorCode != null) {
           yield FailedLoadMainScreenState(weatherResponse.errorCode!);
+        } else if (weatherForecastListResponse.errorCode != null) {
+          yield FailedLoadMainScreenState(
+              weatherForecastListResponse.errorCode!);
         } else {
           yield SuccessLoadMainScreenState(
               weatherResponse, weatherForecastListResponse);

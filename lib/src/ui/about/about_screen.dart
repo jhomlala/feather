@@ -38,16 +38,22 @@ class _AboutScreenState extends State<AboutScreen> {
             duration: const Duration(seconds: 3),
             startGradientColors: widget.startGradientColors,
           ),
-          BlocBuilder<AboutScreenBloc, AboutScreenState>(
-            bloc: _aboutScreenBloc,
-            builder: (context, state) {
-              return Container(
-                key: const Key("weather_main_screen_container"),
-                child: _buildMainWidget(context),
-              );
-            },
+          SafeArea(
+            child: Stack(
+              children: [
+                BlocBuilder<AboutScreenBloc, AboutScreenState>(
+                  bloc: _aboutScreenBloc,
+                  builder: (context, state) {
+                    return Container(
+                      key: const Key("weather_main_screen_container"),
+                      child: _buildMainWidget(context),
+                    );
+                  },
+                ),
+                const TransparentAppBar(),
+              ],
+            ),
           ),
-          const TransparentAppBar(),
         ],
       ),
     );

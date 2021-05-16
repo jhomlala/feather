@@ -186,33 +186,36 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Widget _buildOverflowMenu() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        Theme(
-          data: Theme.of(context).copyWith(cardColor: Colors.white),
-          child: PopupMenuButton<PopupMenuElement>(
-            onSelected: (PopupMenuElement element) {
-              _onMenuElementClicked(element, context);
-            },
-            icon: const Icon(
-              Icons.more_vert,
-              color: Colors.white,
+    return SafeArea(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Theme(
+            data: Theme.of(context).copyWith(cardColor: Colors.white),
+            child: PopupMenuButton<PopupMenuElement>(
+              onSelected: (PopupMenuElement element) {
+                _onMenuElementClicked(element, context);
+              },
+              icon: const Icon(
+                Icons.more_vert,
+                color: Colors.white,
+              ),
+              itemBuilder: (BuildContext context) {
+                return _getOverflowMenu(context)
+                    .map((PopupMenuElement element) {
+                  return PopupMenuItem<PopupMenuElement>(
+                    value: element,
+                    child: Text(
+                      element.title!,
+                      style: const TextStyle(color: Colors.black),
+                    ),
+                  );
+                }).toList();
+              },
             ),
-            itemBuilder: (BuildContext context) {
-              return _getOverflowMenu(context).map((PopupMenuElement element) {
-                return PopupMenuItem<PopupMenuElement>(
-                  value: element,
-                  child: Text(
-                    element.title!,
-                    style: const TextStyle(color: Colors.black),
-                  ),
-                );
-              }).toList();
-            },
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -254,9 +257,9 @@ class _MainScreenState extends State<MainScreen> {
                 ),
                 TextButton(
                   onPressed: onRetryClicked,
-                  child: const Text(
-                    "Retry",
-                    style: TextStyle(color: Colors.white),
+                  child: Text(
+                    AppLocalizations.of(context)!.retry,
+                    style: const TextStyle(color: Colors.white),
                   ),
                 )
               ],

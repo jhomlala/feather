@@ -41,34 +41,41 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Stack(
-      children: <Widget>[
-        AnimatedGradientWidget(
-          duration: const Duration(seconds: 3),
-          startGradientColors: widget.startGradientColors,
-        ),
-        BlocConsumer(
-          bloc: _settingsScreenBloc,
-          listener: (BuildContext context, state) {
-            _appBloc.add(LoadSettingsAppEvent());
-          },
-          builder: (context, state) {
-            if (state is InitialSettingsScreenState ||
-                state is LoadingSettingsScreenState) {
-              return const LoadingWidget();
-            } else if (state is LoadedSettingsScreenState) {
-              return Container(
-                key: const Key("weather_main_screen_container"),
-                child: _getSettingsContainer(state),
-              );
-            } else {
-              return const SizedBox();
-            }
-          },
-        ),
-        const TransparentAppBar(),
-      ],
-    ));
+      body: Stack(
+        children: <Widget>[
+          AnimatedGradientWidget(
+            duration: const Duration(seconds: 3),
+            startGradientColors: widget.startGradientColors,
+          ),
+          SafeArea(
+            child: Stack(
+              children: [
+                BlocConsumer(
+                  bloc: _settingsScreenBloc,
+                  listener: (BuildContext context, state) {
+                    _appBloc.add(LoadSettingsAppEvent());
+                  },
+                  builder: (context, state) {
+                    if (state is InitialSettingsScreenState ||
+                        state is LoadingSettingsScreenState) {
+                      return const LoadingWidget();
+                    } else if (state is LoadedSettingsScreenState) {
+                      return Container(
+                        key: const Key("weather_main_screen_container"),
+                        child: _getSettingsContainer(state),
+                      );
+                    } else {
+                      return const SizedBox();
+                    }
+                  },
+                ),
+                const TransparentAppBar(),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _getSettingsContainer(LoadedSettingsScreenState state) {

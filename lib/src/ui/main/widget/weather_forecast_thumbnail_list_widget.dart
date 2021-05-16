@@ -41,11 +41,12 @@ class WeatherForecastThumbnailListWidgetState
 
   @override
   Widget build(BuildContext context) {
+    ///If forecast list response is empty, then it won't be displayed.
+    ///MainScreen will present error to user.
     if (widget.forecastListResponse != null) {
       return buildForecastWeatherContainer(widget.forecastListResponse!);
     } else {
-      return WidgetHelper.buildErrorWidget(
-          context: context, voidCallback: () => () {}, withRetryButton: false);
+      return const SizedBox();
     }
   }
 

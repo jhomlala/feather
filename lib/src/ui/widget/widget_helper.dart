@@ -1,5 +1,3 @@
-import 'package:feather/src/data/model/internal/application_error.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:feather/src/resources/config/application_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -15,51 +13,6 @@ class WidgetHelper {
         startColor,
         endColor,
       ],
-    );
-  }
-
-  static Widget buildErrorWidget(
-      {required BuildContext context,
-      ApplicationError? applicationError,
-      VoidCallback? voidCallback,
-      required bool withRetryButton}) {
-    String? errorText = "";
-    final localization = AppLocalizations.of(context)!;
-    if (applicationError == ApplicationError.locationNotSelectedError) {
-      errorText = localization.error_location_not_selected;
-    } else if (applicationError == ApplicationError.connectionError) {
-      errorText = localization.error_server_connection;
-    } else if (applicationError == ApplicationError.apiError) {
-      errorText = localization.error_api;
-    } else {
-      errorText = localization.error_unknown;
-    }
-    final List<Widget> widgets = [];
-    widgets.add(Text(
-      errorText,
-      textDirection: TextDirection.ltr,
-      textAlign: TextAlign.center,
-    ));
-    if (withRetryButton) {
-      widgets.add(
-        TextButton(
-          onPressed: voidCallback,
-          child: Text(localization.retry,
-              style: Theme.of(context).textTheme.subtitle2),
-        ),
-      );
-    }
-
-    return Directionality(
-      textDirection: TextDirection.ltr,
-      child: Center(
-        key: const Key("error_widget"),
-        child: SizedBox(
-          width: 250,
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.center, children: widgets),
-        ),
-      ),
     );
   }
 
