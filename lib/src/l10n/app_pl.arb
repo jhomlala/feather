@@ -36,5 +36,5 @@
           "weather_data": "Dane pogodowe: OpenWeatherAPI",
           "icon_data": "Ikony: Icons8, Freepik/Flaticon",
           "retry":"Ponów",
-          "open_app_settings":"Otwórz ustawienia aplikacji",
+          "open_app_settings":"Otwórz ustawienia aplikacji"
 }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:feather/src/resources/config/application_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -33,6 +35,7 @@ class _AnimatedGradientWidgetState extends State<AnimatedGradientWidget> {
   Color topColor = ApplicationColors.midnightEndColor;
   Alignment begin = Alignment.bottomLeft;
   Alignment end = Alignment.topRight;
+  Timer? _startTimer;
 
   @override
   void initState() {
@@ -44,13 +47,22 @@ class _AnimatedGradientWidgetState extends State<AnimatedGradientWidget> {
       bottomColor = widget.startGradientColors[1];
     }
 
-    Future.delayed(const Duration(seconds: 1), () {
+    _startTimer = Timer(const Duration(seconds: 1), (){
       if (mounted) {
         setState(() {
           bottomColor = colorList[1];
         });
       }
+      _startTimer?.cancel();
+      _startTimer = null;
     });
+  }
+
+  @override
+  void dispose() {
+    _startTimer?.cancel();
+    _startTimer = null;
+    super.dispose();
   }
 
   @override

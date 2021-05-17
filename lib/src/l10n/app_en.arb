@@ -36,5 +36,5 @@
           "weather_data": "Weather data: OpenWeatherAPI",
           "icon_data": "Icons: Icons8, Freepik/Flaticon",
           "retry":"Retry",
-          "open_app_settings":"Open app settings",
+          "open_app_settings":"Open app settings"
 }

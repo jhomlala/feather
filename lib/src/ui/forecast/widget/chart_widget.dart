@@ -44,14 +44,15 @@ class _ChartWidgetState extends AnimatedState<ChartWidget> {
 
   Widget _getChartWidget() {
     return CustomPaint(
-        key: const Key("chart_widget_custom_paint"),
-        painter: _ChartPainter(
-            widget.chartData!.points,
-            widget.chartData!.pointLabels,
-            widget.chartData!.width,
-            widget.chartData!.height,
-            widget.chartData!.axes,
-            _fraction));
+      key: const Key("chart_widget_custom_paint"),
+      painter: _ChartPainter(
+          widget.chartData!.points,
+          widget.chartData!.pointLabels,
+          widget.chartData!.width,
+          widget.chartData!.height,
+          widget.chartData!.axes,
+          _fraction),
+    );
   }
 
   Widget _getChartUnavailableWidget(BuildContext context) {
@@ -146,15 +147,16 @@ class _ChartPainter extends CustomPainter {
         Color.fromARGB((220 * alphaFraction).floor(), 255, 255, 255);
     if (textShadow) {
       return TextStyle(
-          color: color,
-          fontSize: 10,
-          letterSpacing: 0,
-          shadows: const [
-            Shadow(offset: Offset(-1.0, -1.0)),
-            Shadow(offset: Offset(1.0, -1.0)),
-            Shadow(offset: Offset(1.0, 1.0)),
-            Shadow(offset: Offset(-1.0, 1.0)),
-          ]);
+        color: color,
+        fontSize: 10,
+        letterSpacing: 0,
+        shadows: const [
+          Shadow(offset: Offset(-1.0, -1.0)),
+          Shadow(offset: Offset(1.0, -1.0)),
+          Shadow(offset: Offset(1.0, 1.0)),
+          Shadow(offset: Offset(-1.0, 1.0)),
+        ],
+      );
     } else {
       return TextStyle(color: color, fontSize: 10, letterSpacing: 0);
     }
