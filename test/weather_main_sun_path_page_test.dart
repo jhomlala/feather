@@ -1,27 +1,32 @@
-// import 'package:feather/src/data/model/remote/system.dart';
-// import 'package:feather/src/ui/screen/weather_main_sun_path_widget.dart';
-// import 'package:flutter/widgets.dart';
-// import 'package:flutter_test/flutter_test.dart';
-//
-// import 'test_helper.dart';
-//
-// main() {
-//   testWidgets("Weather widget should show widgets",
-//       (WidgetTester tester) async {
-//
-//     WeatherMainSunPathPage page = WeatherMainSunPathPage(
-//       system: setupSystem(),
-//     );
-//
-//     await tester.pumpWidget( TestHelper.wrapWidgetWithLocalizationApp(page));
-//     expect(find.byKey(Key("weather_main_sun_path_widget")), findsOneWidget);
-//     expect(find.byKey(Key("weather_main_sun_path_percentage")), findsOneWidget);
-//     expect(find.byKey(Key("weather_main_sun_path_countdown")), findsOneWidget);
-//     expect(find.byKey(Key("weather_main_sun_path_sunrise")), findsOneWidget);
-//     expect(find.byKey(Key("weather_main_sun_path_sunset")), findsOneWidget);
-//   });
-// }
-//
-// System setupSystem() {
-//   return System("", 0, 0);
-// }
+import 'package:feather/src/data/model/remote/system.dart';
+import 'package:feather/src/ui/main/widget/sun_path_widget.dart';
+import 'package:feather/src/ui/main/widget/weather_main_sun_path_widget.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_test/flutter_test.dart';
+
+import 'test_helper.dart';
+
+void main() {
+  testWidgets("Weather widget should show widgets",
+      (WidgetTester tester) async {
+    WeatherMainSunPathWidget widget = WeatherMainSunPathWidget(
+      system: setupSystem(),
+    );
+
+    await tester.pumpWidget(TestHelper.wrapWidgetWithLocalizationApp(widget));
+    expect(
+        find.byKey(const Key("weather_main_sun_path_widget")), findsOneWidget);
+    expect(find.byKey(const Key("weather_main_sun_path_percentage")),
+        findsOneWidget);
+    expect(find.byKey(const Key("weather_main_sun_path_countdown")),
+        findsOneWidget);
+    expect(
+        find.byKey(const Key("weather_main_sun_path_sunrise")), findsOneWidget);
+    expect(
+        find.byKey(const Key("weather_main_sun_path_sunset")), findsOneWidget);
+  });
+}
+
+System setupSystem() {
+  return System("", 0, 0);
+}
