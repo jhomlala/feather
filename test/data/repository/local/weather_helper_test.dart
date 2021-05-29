@@ -4,7 +4,7 @@ import 'package:feather/src/data/repository/local/weather_helper.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test("Should return valid weather icon code", () {
+  test("Get weather returns valid weather icon code", () {
     expect(WeatherHelper.getWeatherIcon(0), "assets/icon_cloud.png");
     expect(WeatherHelper.getWeatherIcon(200), "assets/icon_thunder.png");
     expect(WeatherHelper.getWeatherIcon(250), "assets/icon_thunder.png");
@@ -29,27 +29,24 @@ void main() {
   });
 
   test("Should map forecasts for same day", () {
-    List<WeatherForecastResponse> list = [];
-    list.add(new WeatherForecastResponse(
+    final List<WeatherForecastResponse> list = [];
+    list.add(WeatherForecastResponse(
         null, null, null, null, DateTime.now(), null, null));
-    list.add(new WeatherForecastResponse(
+    list.add(WeatherForecastResponse(
         null, null, null, null, DateTime.now(), null, null));
-    list.add(new WeatherForecastResponse(
+    list.add(WeatherForecastResponse(
         null, null, null, null, DateTime.now(), null, null));
-    list.add(new WeatherForecastResponse(null, null, null, null,
+    list.add(WeatherForecastResponse(null, null, null, null,
         DateTime.parse("1969-07-20 20:18:04Z"), null, null));
 
-    var map = WeatherHelper.mapForecastsForSameDay(list);
-    //expect(map != null, true);
+    final map = WeatherHelper.getMapForecastsForSameDay(list);
     expect(map.length, 2);
-    for (var element in map.entries) {
-      //expect(element.key != null && element.key.length >0 , true);
-      //expect(element.value != null, true);
-      expect(element.value.length > 0, true);
+    for (final element in map.entries) {
+      expect(element.value.isNotEmpty, true);
     }
   });
 
-  test("Format temperature should return valid formatted string", () {
+  test("Format temperature returns valid formatted string", () {
     expect(WeatherHelper.formatTemperature(temperature: 0.0), "0 °C");
     expect(WeatherHelper.formatTemperature(temperature: 5.531), "5 °C");
     expect(
@@ -62,5 +59,37 @@ void main() {
         WeatherHelper.formatTemperature(
             temperature: 5.555, positions: 2, round: false),
         "5.55 °C");
+  });
+
+  test("Convert celsius to fahrenheit returns valid values", () {
+    expect(WeatherHelper.convertCelsiusToFahrenheit(0), 32);
+    expect(WeatherHelper.convertCelsiusToFahrenheit(10), 50);
+    expect(WeatherHelper.convertCelsiusToFahrenheit(50), 122);
+    expect(WeatherHelper.convertCelsiusToFahrenheit(100), 212);
+  });
+
+  test("Convert fahrenheit to celsius returns valid values", () {
+    expect(WeatherHelper.convertFahrenheitToCelsius(32), 0);
+    expect(WeatherHelper.convertFahrenheitToCelsius(50), 10);
+    expect(WeatherHelper.convertFahrenheitToCelsius(122), 50);
+    expect(WeatherHelper.convertFahrenheitToCelsius(212), 100);
+  });
+
+  test("Convert meters per second to kilometers per hour returns valid values",
+      () {
+    expect(WeatherHelper.convertMetersPerSecondToKilometersPerHour(0), 0);
+    expect(WeatherHelper.convertMetersPerSecondToKilometersPerHour(10), 36);
+    expect(WeatherHelper.convertMetersPerSecondToKilometersPerHour(50), 180);
+    expect(WeatherHelper.convertMetersPerSecondToKilometersPerHour(100), 360);
+  });
+
+  test("Convert meters per second to miles per hour returns valid values", () {
+    expect(WeatherHelper.convertMetersPerSecondToMilesPerHour(0), 0);
+    expect(WeatherHelper.convertMetersPerSecondToMilesPerHour(10).round(),
+        22.3694.round());
+    expect(WeatherHelper.convertMetersPerSecondToMilesPerHour(50).round(),
+        111.847.round());
+    expect(WeatherHelper.convertMetersPerSecondToMilesPerHour(100).round(),
+        223.694.round());
   });
 }

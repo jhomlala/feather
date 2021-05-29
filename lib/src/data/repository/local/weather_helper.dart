@@ -25,7 +25,7 @@ class WeatherHelper {
     return asset;
   }
 
-  static Map<String, List<WeatherForecastResponse>> mapForecastsForSameDay(
+  static Map<String, List<WeatherForecastResponse>> getMapForecastsForSameDay(
       List<WeatherForecastResponse> forecastList) {
     final Map<String, List<WeatherForecastResponse>> map = {};
     for (int i = 0; i < forecastList.length; i++) {
@@ -67,6 +67,19 @@ class WeatherHelper {
     return 32 + temperature * 1.8;
   }
 
+
+  static double convertFahrenheitToCelsius(double temperature) {
+    return (temperature - 32) * 5/9;
+  }
+
+  static String formatPressure(double pressure, bool isMetricUnits) {
+    String unit = "hPa";
+    if (!isMetricUnits) {
+      unit = "mbar";
+    }
+    return "${pressure.toStringAsFixed(0)} $unit";
+  }
+
   static double convertMetersPerSecondToKilometersPerHour(double? speed) {
     if (speed != null) {
       return speed * 3.6;
@@ -81,18 +94,6 @@ class WeatherHelper {
     } else {
       return 0;
     }
-  }
-
-  static double convertFahrenheitToCelsius(double temperature) {
-    return (temperature - 32) * 0.55;
-  }
-
-  static String formatPressure(double pressure, bool isMetricUnits) {
-    String unit = "hPa";
-    if (!isMetricUnits) {
-      unit = "mbar";
-    }
-    return "${pressure.toStringAsFixed(0)} $unit";
   }
 
   static String formatRain(double rain) {

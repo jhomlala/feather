@@ -54,7 +54,7 @@ class WeatherForecastThumbnailListWidgetState
       WeatherForecastListResponse forecastListResponse) {
     final List<WeatherForecastResponse> forecastList =
         forecastListResponse.list!;
-    final map = WeatherHelper.mapForecastsForSameDay(forecastList);
+    final map = WeatherHelper.getMapForecastsForSameDay(forecastList);
     return Row(
       key: const Key("weather_forecast_thumbnail_list_widget_container"),
       textDirection: TextDirection.ltr,
