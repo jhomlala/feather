@@ -28,13 +28,14 @@ dependencies:
   timeago: ^3.0.2
   app_settings: 4.1.0
 
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
   test: ^1.16.5
   lint: ^1.5.3
   bloc_test: ^8.0.0
+  mockito: ^5.0.9
+  build_runner: ^2.0.4
 
 
 flutter:

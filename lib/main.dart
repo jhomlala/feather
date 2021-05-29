@@ -1,3 +1,4 @@
+import 'package:feather/src/data/repository/local/location_provider.dart';
 import 'package:feather/src/data/repository/local/storage_manager.dart';
 import 'package:feather/src/data/repository/local/location_manager.dart';
 import 'package:feather/src/data/repository/local/application_local_repository.dart';
@@ -28,7 +29,7 @@ class FeatherApp extends StatefulWidget {
 class _FeatherAppState extends State<FeatherApp> {
   final Navigation _navigation = Navigation();
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey();
-  final LocationManager _locationManager = LocationManager();
+  final LocationManager _locationManager = LocationManager(LocationProvider());
   final StorageManager _storageManager = StorageManager();
   late WeatherLocalRepository _weatherLocalRepository;
   final WeatherRemoteRepository _weatherRemoteRepository =
