@@ -1,5 +1,7 @@
+import 'package:feather/src/data/model/remote/system.dart';
 import 'package:feather/src/data/model/remote/weather_forecast_response.dart';
 import 'package:feather/src/data/repository/local/weather_helper.dart';
+import 'package:feather/src/utils/app_logger.dart';
 
 import 'package:test/test.dart';
 
@@ -91,5 +93,67 @@ void main() {
         111.847.round());
     expect(WeatherHelper.convertMetersPerSecondToMilesPerHour(100).round(),
         223.694.round());
+  });
+
+  test("Format rain returns formatted value", () {
+    expect(WeatherHelper.formatRain(0), "0.00 mm/h");
+    expect(WeatherHelper.formatRain(1.56), "1.56 mm/h");
+    expect(WeatherHelper.formatRain(10), "10.00 mm/h");
+    expect(WeatherHelper.formatRain(100.23), "100.23 mm/h");
+    expect(WeatherHelper.formatRain(1000.10234), "1000.10 mm/h");
+    expect(WeatherHelper.formatRain(1000.10634), "1000.11 mm/h");
+  });
+
+  test("Format wind returns formatted value", () {
+    expect(WeatherHelper.formatWind(0, true), "0.0 km/h");
+    expect(WeatherHelper.formatWind(1.56, true), "1.6 km/h");
+    expect(WeatherHelper.formatWind(10, true), "10.0 km/h");
+    expect(WeatherHelper.formatWind(100.23, true), "100.2 km/h");
+    expect(WeatherHelper.formatWind(1000.10234, true), "1000.1 km/h");
+    expect(WeatherHelper.formatWind(1000.10634, true), "1000.1 km/h");
+
+    expect(WeatherHelper.formatWind(0, false), "0.0 mi/h");
+    expect(WeatherHelper.formatWind(1.56, false), "1.6 mi/h");
+    expect(WeatherHelper.formatWind(10, false), "10.0 mi/h");
+    expect(WeatherHelper.formatWind(100.23, false), "100.2 mi/h");
+    expect(WeatherHelper.formatWind(1000.10234, false), "1000.1 mi/h");
+    expect(WeatherHelper.formatWind(1000.10634, false), "1000.1 mi/h");
+  });
+
+  test("Format humidity returns formatted value", () {
+    expect(WeatherHelper.formatHumidity(0), "0%");
+    expect(WeatherHelper.formatHumidity(1.56), "2%");
+    expect(WeatherHelper.formatHumidity(10), "10%");
+    expect(WeatherHelper.formatHumidity(100.23), "100%");
+    expect(WeatherHelper.formatHumidity(1000.10234), "1000%");
+    expect(WeatherHelper.formatHumidity(1000.10634), "1000%");
+  });
+
+  test("Get day mode returns valid value", () {
+    final sunrise = DateTime.now().add(const Duration(hours: 1));
+    final sunset = DateTime.now().add(const Duration(hours: 8));
+    final System system = System(
+        "", sunrise.millisecondsSinceEpoch, sunset.millisecondsSinceEpoch);
+    expect(WeatherHelper.getDayMode(system), -1);
+  });
+
+  test("get day mode from sunrise sunset returns valid value", () {
+    final sunrise =
+        DateTime.now().add(const Duration(hours: 1)).millisecondsSinceEpoch;
+    final sunset =
+        DateTime.now().add(const Duration(hours: 8)).millisecondsSinceEpoch;
+    expect(WeatherHelper.getDayModeFromSunriseSunset(sunrise, sunset), -1);
+
+    final sunriseLowerThaNow = DateTime.now()
+        .subtract(const Duration(hours: 1))
+        .millisecondsSinceEpoch;
+    expect(
+        WeatherHelper.getDayModeFromSunriseSunset(sunriseLowerThaNow, sunset),
+        0);
+
+    expect(
+        WeatherHelper.getDayModeFromSunriseSunset(
+            sunriseLowerThaNow, sunriseLowerThaNow),
+        1);
   });
 }
