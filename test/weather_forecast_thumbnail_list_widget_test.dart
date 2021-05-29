@@ -9,6 +9,7 @@ import 'package:feather/src/data/model/remote/weather_forecast_response.dart';
 import 'package:feather/src/data/model/remote/wind.dart';
 import 'package:feather/src/data/repository/local/application_local_repository.dart';
 import 'package:feather/src/data/repository/local/storage_manager.dart';
+import 'package:feather/src/data/repository/local/storage_provider.dart';
 import 'package:feather/src/ui/app/app_bloc.dart';
 import 'package:feather/src/ui/main/widget/weather_forecast_thumbnail_list_widget.dart';
 import 'package:feather/src/ui/navigation/bloc/navigation_bloc.dart';
@@ -34,7 +35,7 @@ void main() {
             BlocProvider<AppBloc>(
               create: (context) => AppBloc(
                 ApplicationLocalRepository(
-                  StorageManager(),
+                  StorageManager(StorageProvider()),
                 ),
               ),
             ),

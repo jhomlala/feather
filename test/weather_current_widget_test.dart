@@ -1,4 +1,5 @@
 import 'package:feather/src/data/model/remote/city.dart';
+import 'package:feather/src/data/model/remote/coordinates.dart';
 import 'package:feather/src/data/model/remote/main_weather_data.dart';
 import 'package:feather/src/data/model/remote/overall_weather_data.dart';
 import 'package:feather/src/data/model/remote/system.dart';
@@ -7,6 +8,7 @@ import 'package:feather/src/data/model/remote/weather_response.dart';
 import 'package:feather/src/data/model/remote/wind.dart';
 import 'package:feather/src/data/repository/local/application_local_repository.dart';
 import 'package:feather/src/data/repository/local/storage_manager.dart';
+import 'package:feather/src/data/repository/local/storage_provider.dart';
 import 'package:feather/src/ui/app/app_bloc.dart';
 import 'package:feather/src/ui/widget/current_weather_widget.dart';
 import 'package:flutter/widgets.dart';
@@ -22,7 +24,7 @@ void main() {
       BlocProvider<AppBloc>(
         create: (context) => AppBloc(
           ApplicationLocalRepository(
-            StorageManager(),
+            StorageManager(StorageProvider()),
           ),
         ),
         child: TestHelper.wrapWidgetWithLocalizationApp(
@@ -48,6 +50,7 @@ void main() {
 }
 
 WeatherResponse setupWeatherResponse() {
+  final Coordinates coordiantes = Coordinates(0, 0);
   final Wind wind = Wind(5, 200);
   final MainWeatherData mainWeatherData = MainWeatherData(0, 0, 0, 0, 0, 0, 0);
   final OverallWeatherData overallWeatherData =
@@ -56,6 +59,7 @@ WeatherResponse setupWeatherResponse() {
   list.add(overallWeatherData);
   final System system = System("", 0, 0);
   final WeatherResponse weatherResponse = WeatherResponse(
+      cord: coordiantes,
       wind: wind,
       mainWeatherData: mainWeatherData,
       overallWeatherData: list,

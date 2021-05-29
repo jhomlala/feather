@@ -4,17 +4,20 @@ import 'package:feather/src/data/model/internal/geo_position.dart';
 import 'package:feather/src/data/model/internal/unit.dart';
 import 'package:feather/src/data/model/remote/weather_forecast_list_response.dart';
 import 'package:feather/src/data/model/remote/weather_response.dart';
+import 'package:feather/src/data/repository/local/storage_provider.dart';
 import 'package:feather/src/resources/config/ids.dart';
 import 'package:feather/src/utils/app_logger.dart';
 import 'package:feather/src/utils/date_time_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class StorageManager {
+  final StorageProvider _storageProvider;
+
+  StorageManager(this._storageProvider);
 
   Future<Unit> getUnit() async {
     try {
-      final sharedPreferences = await SharedPreferences.getInstance();
-      final int? unit = sharedPreferences.getInt(Ids.storageUnitKey);
+      final int? unit = await _storageProvider.getInt(Ids.storageUnitKey);
       if (unit == null) {
         return Unit.metric;
       } else {
@@ -30,9 +33,8 @@ class StorageManager {
     }
   }
 
-  Future saveUnit(Unit unit) async {
+  Future<bool> saveUnit(Unit unit) async {
     try {
-      final sharedPreferences = await SharedPreferences.getInstance();
       Log.d("Store unit $unit");
       int unitValue = 0;
       if (unit == Unit.metric) {
@@ -41,27 +43,34 @@ class StorageManager {
         unitValue = 1;
       }
 
-      sharedPreferences.setInt(Ids.storageUnitKey, unitValue);
+      final result =
+          await _storageProvider.setInt(Ids.storageUnitKey, unitValue);
+      Log.d("Saved with result: $result");
+
+      return result;
     } catch (exc, stackTrace) {
       Log.e("Exception: $exc stack trace: $stackTrace");
+      return false;
     }
   }
 
-  void saveRefreshTime(int refreshTime) async {
+  Future<bool> saveRefreshTime(int refreshTime) async {
     try {
-      final sharedPreferences = await SharedPreferences.getInstance();
       Log.d("Save refresh time: $refreshTime");
-
-      sharedPreferences.setInt(Ids.storageRefreshTimeKey, refreshTime);
+      final result =
+          await _storageProvider.setInt(Ids.storageRefreshTimeKey, refreshTime);
+      Log.d("Saved with result: $result");
+      return result;
     } catch (exc, stackTrace) {
       Log.e("Exception: $exc stack trace: $stackTrace");
+      return false;
     }
   }
 
   Future<int> getRefreshTime() async {
     try {
-      final sharedPreferences = await SharedPreferences.getInstance();
-      int? refreshTime = sharedPreferences.getInt(Ids.storageRefreshTimeKey);
+      int? refreshTime =
+          await _storageProvider.getInt(Ids.storageRefreshTimeKey);
       if (refreshTime == null || refreshTime == 0) {
         refreshTime = 600000;
       }
@@ -72,21 +81,23 @@ class StorageManager {
     }
   }
 
-  void saveLastRefreshTime(int lastRefreshTime) async {
+  Future<bool> saveLastRefreshTime(int lastRefreshTime) async {
     try {
-      final sharedPreferences = await SharedPreferences.getInstance();
       Log.d("Save refresh time: $lastRefreshTime");
-      sharedPreferences.setInt(Ids.storageLastRefreshTimeKey, lastRefreshTime);
+      final result = await _storageProvider.setInt(
+          Ids.storageLastRefreshTimeKey, lastRefreshTime);
+      Log.d("Saved with result: $result");
+      return result;
     } catch (exc, stackTrace) {
       Log.e("Exception: $exc stack trace: $stackTrace");
+      return false;
     }
   }
 
   Future<int> getLastRefreshTime() async {
     try {
-      final sharedPreferences = await SharedPreferences.getInstance();
       int? lastRefreshTime =
-          sharedPreferences.getInt(Ids.storageLastRefreshTimeKey);
+          await _storageProvider.getInt(Ids.storageLastRefreshTimeKey);
       if (lastRefreshTime == null || lastRefreshTime == 0) {
         lastRefreshTime = DateTimeHelper.getCurrentTime();
       }
@@ -97,22 +108,23 @@ class StorageManager {
     }
   }
 
-  Future saveLocation(GeoPosition geoPosition) async {
+  Future<bool> saveLocation(GeoPosition geoPosition) async {
     try {
-      final sharedPreferences = await SharedPreferences.getInstance();
       Log.d("Store location: $geoPosition");
-      sharedPreferences.setString(
+      final result = await _storageProvider.setString(
           Ids.storageLocationKey, json.encode(geoPosition));
+      Log.d("Saved with result: $result");
+      return result;
     } catch (exc, stackTrace) {
       Log.e("Exception: $exc stack trace: $stackTrace");
+      return false;
     }
   }
 
   Future<GeoPosition?> getLocation() async {
     try {
-      final sharedPreferences = await SharedPreferences.getInstance();
       final String? jsonData =
-          sharedPreferences.getString(Ids.storageLocationKey);
+          await _storageProvider.getString(Ids.storageLocationKey);
       Log.d("Returned user location: $jsonData");
       if (jsonData != null) {
         return GeoPosition.fromJson(
@@ -126,21 +138,23 @@ class StorageManager {
     }
   }
 
-  Future saveWeather(WeatherResponse response) async {
+  Future<bool> saveWeather(WeatherResponse response) async {
     try {
-      final sharedPreferences = await SharedPreferences.getInstance();
       Log.d("Store weather: ${json.encode(response)}");
-      sharedPreferences.setString(Ids.storageWeatherKey, json.encode(response));
+      final result = await _storageProvider.setString(
+          Ids.storageWeatherKey, json.encode(response));
+      Log.d("Saved with result: $result");
+      return result;
     } catch (exc, stackTrace) {
       Log.e("Exception: $exc stack trace: $stackTrace");
+      return false;
     }
   }
 
   Future<WeatherResponse?> getWeather() async {
     try {
-      final sharedPreferences = await SharedPreferences.getInstance();
       final String? jsonData =
-          sharedPreferences.getString(Ids.storageWeatherKey);
+          await _storageProvider.getString(Ids.storageWeatherKey);
       Log.d("Returned weather data: $jsonData");
       if (jsonData != null) {
         return WeatherResponse.fromJson(
@@ -154,22 +168,23 @@ class StorageManager {
     }
   }
 
-  Future saveWeatherForecast(WeatherForecastListResponse response) async {
+  Future<bool> saveWeatherForecast(WeatherForecastListResponse response) async {
     try {
-      final sharedPreferences = await SharedPreferences.getInstance();
       Log.d("Store weather forecast ${json.encode(response)}");
-      sharedPreferences.setString(
+      final result = _storageProvider.setString(
           Ids.storageWeatherForecastKey, json.encode(response));
+      Log.d("Saved with result: $result");
+      return result;
     } catch (exc, stackTrace) {
       Log.e("Exception: $exc stack trace: $stackTrace");
+      return false;
     }
   }
 
   Future<WeatherForecastListResponse?> getWeatherForecast() async {
     try {
-      final sharedPreferences = await SharedPreferences.getInstance();
       final String? jsonData =
-          sharedPreferences.getString(Ids.storageWeatherForecastKey);
+          await _storageProvider.getString(Ids.storageWeatherForecastKey);
       Log.d("Returned weather forecast data: $jsonData");
       if (jsonData != null) {
         return WeatherForecastListResponse.fromJson(

@@ -4,6 +4,7 @@ import 'package:feather/src/data/model/remote/city.dart';
 import 'package:feather/src/data/model/remote/weather_forecast_list_response.dart';
 import 'package:feather/src/data/model/remote/weather_response.dart';
 import 'package:feather/src/data/repository/local/storage_manager.dart';
+import 'package:feather/src/data/repository/local/storage_provider.dart';
 
 ///Fake class which mocks StorageManager
 class FakeStorageManager extends StorageManager {
@@ -15,19 +16,23 @@ class FakeStorageManager extends StorageManager {
   WeatherForecastListResponse _weatherForecastListResponse =
       WeatherForecastListResponse([], City(0, ""));
 
+  FakeStorageManager() : super(StorageProvider());
+
   @override
   Future<Unit> getUnit() async {
     return _unit;
   }
 
   @override
-  Future saveUnit(Unit unit) async {
+  Future<bool> saveUnit(Unit unit) async {
     _unit = unit;
+    return true;
   }
 
   @override
-  void saveRefreshTime(int refreshTime) {
+  Future<bool> saveRefreshTime(int refreshTime) async {
     _refreshTime = refreshTime;
+    return true;
   }
 
   @override
@@ -36,8 +41,9 @@ class FakeStorageManager extends StorageManager {
   }
 
   @override
-  void saveLastRefreshTime(int lastRefreshTime) {
+  Future<bool> saveLastRefreshTime(int lastRefreshTime) async {
     _lastRefreshTime = lastRefreshTime;
+    return true;
   }
 
   @override
@@ -46,8 +52,9 @@ class FakeStorageManager extends StorageManager {
   }
 
   @override
-  Future saveLocation(GeoPosition geoPosition) async {
+  Future<bool> saveLocation(GeoPosition geoPosition) async {
     _geoPosition = geoPosition;
+    return true;
   }
 
   @override
@@ -56,8 +63,9 @@ class FakeStorageManager extends StorageManager {
   }
 
   @override
-  Future saveWeather(WeatherResponse weatherResponse) async {
+  Future<bool> saveWeather(WeatherResponse weatherResponse) async {
     _weatherResponse = weatherResponse;
+    return true;
   }
 
   @override
@@ -66,9 +74,10 @@ class FakeStorageManager extends StorageManager {
   }
 
   @override
-  Future saveWeatherForecast(
+  Future<bool> saveWeatherForecast(
       WeatherForecastListResponse weatherForecastListResponse) async {
     _weatherForecastListResponse = weatherForecastListResponse;
+    return true;
   }
 
   @override

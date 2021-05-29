@@ -2,6 +2,7 @@ import 'package:feather/src/data/repository/local/location_provider.dart';
 import 'package:feather/src/data/repository/local/storage_manager.dart';
 import 'package:feather/src/data/repository/local/location_manager.dart';
 import 'package:feather/src/data/repository/local/application_local_repository.dart';
+import 'package:feather/src/data/repository/local/storage_provider.dart';
 import 'package:feather/src/data/repository/local/weather_local_repository.dart';
 import 'package:feather/src/data/repository/remote/weather_remote_repository.dart';
 import 'package:feather/src/ui/about/bloc/about_screen_bloc.dart';
@@ -30,7 +31,7 @@ class _FeatherAppState extends State<FeatherApp> {
   final Navigation _navigation = Navigation();
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey();
   final LocationManager _locationManager = LocationManager(LocationProvider());
-  final StorageManager _storageManager = StorageManager();
+  final StorageManager _storageManager = StorageManager(StorageProvider());
   late WeatherLocalRepository _weatherLocalRepository;
   final WeatherRemoteRepository _weatherRemoteRepository =
       WeatherRemoteRepository();
