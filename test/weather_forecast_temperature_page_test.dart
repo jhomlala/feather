@@ -45,9 +45,9 @@ void main() {
     expect(textSpan.text == null, true);
     expect(textSpan.children!.length == 4, true);
     expect(textSpan.children![0].toPlainText().contains("min"), true);
-    expect(textSpan.children![1].toPlainText().contains("C"), true);
+    expect(textSpan.children![1].toPlainText().contains("F"), true);
     expect(textSpan.children![2].toPlainText().contains("max"), true);
-    expect(textSpan.children![3].toPlainText().contains("C"), true);
+    expect(textSpan.children![3].toPlainText().contains("F"), true);
 
     final Row bottomRow = tester.widget(
         find.byKey(const Key("weather_forecast_temperature_page_bottom_row")));

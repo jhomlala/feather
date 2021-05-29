@@ -10,13 +10,6 @@ import 'package:feather/src/utils/date_time_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class StorageManager {
-  static final StorageManager _instance = StorageManager._internal();
-
-  StorageManager._internal();
-
-  factory StorageManager() {
-    return _instance;
-  }
 
   Future<Unit> getUnit() async {
     try {
