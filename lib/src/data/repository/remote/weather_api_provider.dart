@@ -4,6 +4,7 @@ import 'package:feather/src/data/model/remote/weather_forecast_list_response.dar
 import 'package:feather/src/data/model/remote/weather_response.dart';
 import 'package:feather/src/resources/config/application_config.dart';
 import 'package:feather/src/utils/app_logger.dart';
+import 'package:flutter/material.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 // ignore: argument_type_not_assignable
 
@@ -17,7 +18,7 @@ class WeatherApiProvider {
   Future<WeatherResponse> fetchWeather(
       double? latitude, double? longitude) async {
     try {
-      final Uri uri = buildUri(_apiWeatherEndpoint, latitude, longitude);
+      final Uri uri = _buildUri(_apiWeatherEndpoint, latitude, longitude);
       final Response<Map<String, dynamic>> response =
           await _dio.get(uri.toString());
       if (response.statusCode == 200) {
@@ -32,24 +33,11 @@ class WeatherApiProvider {
     }
   }
 
-  Uri buildUri(String endpoint, double? latitude, double? longitude) {
-    return Uri(
-        scheme: "https",
-        host: _apiBaseUrl,
-        path: "$_apiPath$endpoint",
-        queryParameters: <String, dynamic>{
-          "lat": latitude.toString(),
-          "lon": longitude.toString(),
-          "apiKey": ApplicationConfig.apiKey,
-          "units": "metric"
-        });
-  }
-
   Future<WeatherForecastListResponse> fetchWeatherForecast(
       double? latitude, double? longitude) async {
     try {
       final Uri uri =
-          buildUri(_apiWeatherForecastEndpoint, latitude, longitude);
+          _buildUri(_apiWeatherForecastEndpoint, latitude, longitude);
       final Response<Map<String, dynamic>> response =
           await _dio.get(uri.toString());
       if (response.statusCode == 200) {
@@ -65,7 +53,24 @@ class WeatherApiProvider {
     }
   }
 
+  Uri _buildUri(String endpoint, double? latitude, double? longitude) {
+    return Uri(
+      scheme: "https",
+      host: _apiBaseUrl,
+      path: "$_apiPath$endpoint",
+      queryParameters: <String, dynamic>{
+        "lat": latitude.toString(),
+        "lon": longitude.toString(),
+        "apiKey": ApplicationConfig.apiKey,
+        "units": "metric"
+      },
+    );
+  }
+
   void setupInterceptors() {
     _dio.interceptors.add(PrettyDioLogger());
   }
+
+  @visibleForTesting
+  Dio get dio => _dio;
 }
