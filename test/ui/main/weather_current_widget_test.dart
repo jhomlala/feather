@@ -15,7 +15,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'test_helper.dart';
+import '../../test_helper.dart';
 
 void main() {
   testWidgets("Weather widget should show widgets",

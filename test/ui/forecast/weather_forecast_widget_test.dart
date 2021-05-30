@@ -10,7 +10,7 @@ import 'package:feather/src/ui/forecast/widget/weather_forecast_widget.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'test_helper.dart';
+import '../../test_helper.dart';
 
 void main() {
   testWidgets("Wind page should contains widgets", (WidgetTester tester) async {

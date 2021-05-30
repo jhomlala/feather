@@ -10,7 +10,7 @@ import 'package:feather/src/ui/forecast/widget/weather_forecast_temperature_page
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'test_helper.dart';
+import '../../test_helper.dart';
 
 void main() {
   testWidgets("Temperature page should contains widgets",

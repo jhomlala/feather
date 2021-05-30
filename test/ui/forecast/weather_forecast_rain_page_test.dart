@@ -7,11 +7,10 @@ import 'package:feather/src/data/model/remote/system.dart';
 import 'package:feather/src/data/model/remote/weather_forecast_response.dart';
 import 'package:feather/src/data/model/remote/wind.dart';
 import 'package:feather/src/ui/forecast/widget/weather_forecast_rain_page.dart';
-import 'package:feather/src/ui/screen/weather_forecast_rain_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'test_helper.dart';
+import '../../test_helper.dart';
 
 void main() {
   testWidgets("Rain page should contains widgets", (WidgetTester tester) async {

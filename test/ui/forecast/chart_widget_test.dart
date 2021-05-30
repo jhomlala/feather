@@ -11,7 +11,7 @@ import 'package:feather/src/ui/forecast/widget/chart_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'test_helper.dart';
+import '../../test_helper.dart';
 
 void main() {
   testWidgets("Chart widget should display chart", (WidgetTester tester) async {
