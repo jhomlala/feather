@@ -9,7 +9,7 @@ import 'package:feather/src/data/model/remote/weather_response.dart';
 import 'package:feather/src/data/model/remote/wind.dart';
 
 class WeatherUtils {
-  static WeatherResponse getWeather() {
+  static WeatherResponse getWeather({int id = 0}) {
     final Wind wind = Wind(5, 200);
     final MainWeatherData mainWeatherData =
         MainWeatherData(0, 0, 0, 0, 0, 0, 0);
@@ -28,14 +28,15 @@ class WeatherUtils {
       overallWeatherData: list,
       name: "",
       system: system,
-      id: 0,
+      id: id,
       cod: 0,
       station: "",
     );
     return weatherResponse;
   }
 
-  static WeatherForecastListResponse getWeatherForecastListResponse() {
-    return WeatherForecastListResponse([], City(0, ""));
+  static WeatherForecastListResponse getWeatherForecastListResponse(
+      {int id = 0}) {
+    return WeatherForecastListResponse([], City(id, ""));
   }
 }

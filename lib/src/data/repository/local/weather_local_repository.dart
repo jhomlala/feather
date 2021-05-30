@@ -8,7 +8,7 @@ class WeatherLocalRepository {
 
   WeatherLocalRepository(this._storageManager);
 
-  void saveLocation(GeoPosition geoPosition) async {
+  Future saveLocation(GeoPosition geoPosition) async {
     await _storageManager.saveLocation(geoPosition);
   }
 
@@ -16,7 +16,7 @@ class WeatherLocalRepository {
     return _storageManager.getLocation();
   }
 
-  void saveWeather(WeatherResponse response) async {
+  Future saveWeather(WeatherResponse response) async {
     await _storageManager.saveWeather(response);
   }
 
@@ -24,7 +24,7 @@ class WeatherLocalRepository {
     return _storageManager.getWeather();
   }
 
-  void saveWeatherForecast(WeatherForecastListResponse response) async {
+  Future saveWeatherForecast(WeatherForecastListResponse response) async {
     await _storageManager.saveWeatherForecast(response);
   }
 

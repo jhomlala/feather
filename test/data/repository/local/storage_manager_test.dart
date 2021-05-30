@@ -1,9 +1,9 @@
 import 'package:feather/src/data/model/internal/geo_position.dart';
 import 'package:feather/src/data/model/internal/unit.dart';
-import 'package:feather/src/data/repository/local/fake_storage_provider.dart';
 import 'package:feather/src/data/repository/local/storage_manager.dart';
 import 'package:flutter_test/flutter_test.dart';
 import '../../model/weather_utils.dart';
+import 'fake_storage_provider.dart';
 
 void main() {
   late StorageManager _storageManager;
@@ -104,7 +104,7 @@ void main() {
       await _storageManager.saveWeather(weatherResponse);
       final weather = await _storageManager.getWeather();
       expect(weather != null, true);
-      expect(weather?.id == 0, true);
+      expect(weather?.id, 0);
     });
 
     test("Save weather returns true", () async {

@@ -4,7 +4,9 @@ import 'package:feather/src/data/model/remote/city.dart';
 import 'package:feather/src/data/model/remote/weather_forecast_list_response.dart';
 import 'package:feather/src/data/model/remote/weather_response.dart';
 import 'package:feather/src/data/repository/local/storage_manager.dart';
-import 'package:feather/src/data/repository/local/storage_provider.dart';
+
+import '../../model/weather_utils.dart';
+import 'fake_storage_provider.dart';
 
 ///Fake class which mocks StorageManager
 class FakeStorageManager extends StorageManager {
@@ -12,11 +14,11 @@ class FakeStorageManager extends StorageManager {
   int _refreshTime = 0;
   int _lastRefreshTime = 0;
   GeoPosition _geoPosition = GeoPosition(0, 0);
-  WeatherResponse _weatherResponse = WeatherResponse();
+  WeatherResponse _weatherResponse = WeatherUtils.getWeather();
   WeatherForecastListResponse _weatherForecastListResponse =
-      WeatherForecastListResponse([], City(0, ""));
+      WeatherUtils.getWeatherForecastListResponse();
 
-  FakeStorageManager() : super(StorageProvider());
+  FakeStorageManager() : super(FakeStorageProvider());
 
   @override
   Future<Unit> getUnit() async {
