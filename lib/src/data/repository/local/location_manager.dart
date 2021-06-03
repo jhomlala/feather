@@ -24,6 +24,19 @@ class LocationManager {
     }
   }
 
+  Future<bool> isLocationEnabled() {
+    return _locationProvider.isLocationEnabled();
+  }
+
+  Future<LocationPermission> checkLocationPermission() async{
+    return _locationProvider.checkLocationPermission();
+  }
+
+  Future<LocationPermission> requestLocationPermission() async{
+    return _locationProvider.requestLocationPermission();
+  }
+
+
   @visibleForTesting
   Position? get lastPosition => _lastPosition;
 }

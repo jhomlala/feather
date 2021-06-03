@@ -3,7 +3,6 @@ import 'package:geolocator/geolocator.dart';
 
 ///Fake location provider which always return fake data.
 class FakeLocationProvider extends LocationProvider {
-
   final bool useSecondDataSet;
 
   FakeLocationProvider({this.useSecondDataSet = false});
@@ -20,5 +19,20 @@ class FakeLocationProvider extends LocationProvider {
         floor: 0,
         speed: 0.0,
         speedAccuracy: 0.0);
+  }
+
+  @override
+  Future<bool> isLocationEnabled() async {
+    return true;
+  }
+
+  @override
+  Future<LocationPermission> checkLocationPermission() async {
+    return LocationPermission.always;
+  }
+
+  @override
+  Future<LocationPermission> requestLocationPermission() async {
+    return Geolocator.requestPermission();
   }
 }

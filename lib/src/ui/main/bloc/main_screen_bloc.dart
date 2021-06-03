@@ -37,7 +37,7 @@ class MainScreenBloc extends Bloc<MainScreenEvent, MainScreenState> {
         yield LocationServiceDisabledMainScreenState();
       } else {
         final permissionState = await _checkPermission();
-        if (permissionState == null){
+        if (permissionState == null) {
           yield* _selectWeatherData();
         } else {
           yield permissionState;
@@ -81,13 +81,14 @@ class MainScreenBloc extends Bloc<MainScreenEvent, MainScreenState> {
   }
 
   Future<bool> _checkLocationServiceEnabled() async {
-    return Geolocator.isLocationServiceEnabled();
+    return _locationManager.isLocationEnabled();
   }
 
   Future<PermissionNotGrantedMainScreenState?> _checkPermission() async {
-    final permissionCheck = await Geolocator.checkPermission();
+    final permissionCheck = await _locationManager.checkLocationPermission();
     if (permissionCheck == LocationPermission.denied) {
-      final permissionRequest = await Geolocator.requestPermission();
+      final permissionRequest =
+          await _locationManager.requestLocationPermission();
       if (permissionRequest == LocationPermission.always ||
           permissionRequest == LocationPermission.whileInUse) {
         return null;
