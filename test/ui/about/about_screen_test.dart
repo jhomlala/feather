@@ -9,13 +9,14 @@ void main() {
   testWidgets("About screen should display widgets",
       (WidgetTester tester) async {
     await tester.pumpWidget(
-        BlocProvider<AboutScreenBloc>(
-          create: (context) => AboutScreenBloc(),
-          child: TestHelper.wrapWidgetWithLocalizationApp(
-            const AboutScreen(),
-          ),
+      BlocProvider<AboutScreenBloc>(
+        create: (context) => AboutScreenBloc(),
+        child: TestHelper.wrapWidgetWithLocalizationApp(
+          const AboutScreen(),
         ),
-        const Duration(seconds: 2));
+      ),
+      const Duration(seconds: 2),
+    );
 
     expect(find.byKey(const Key("about_screen_logo")), findsOneWidget);
     expect(find.byKey(const Key("about_screen_app_name")), findsOneWidget);

@@ -17,3 +17,4 @@ linter:
     sized_box_for_whitespace: false
     invalid_dependency: false
     sort_pub_dependencies: false
+    implicit-dynamic: false
