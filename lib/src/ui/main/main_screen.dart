@@ -189,6 +189,7 @@ class _MainScreenState extends State<MainScreen> {
 
   Widget _buildOverflowMenu() {
     return SafeArea(
+      key: const Key("main_screen_overflow_menu"),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [

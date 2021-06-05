@@ -14,7 +14,7 @@ void main() {
 
   setUpAll(() {
     _fakeStorageManager = FakeStorageManager();
-    _appBloc = AppBloc(ApplicationLocalRepository(_fakeStorageManager));
+    _appBloc = buildAppBloc(fakeStorageManager: _fakeStorageManager);
   });
 
   group("Initial unit settings", () {
@@ -57,4 +57,12 @@ void main() {
       ],
     );
   });
+}
+
+AppBloc buildAppBloc({FakeStorageManager? fakeStorageManager}) {
+  return AppBloc(
+    ApplicationLocalRepository(
+      fakeStorageManager ?? FakeStorageManager(),
+    ),
+  );
 }
