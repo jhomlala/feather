@@ -5,6 +5,11 @@ import 'package:geolocator/geolocator.dart';
 class FakeLocationProvider extends LocationProvider {
   final bool useSecondDataSet;
 
+  LocationPermission _locationPermission = LocationPermission.always;
+
+  LocationPermission _requestedLocationPermission = LocationPermission.always;
+  bool _locationEnabled = true;
+
   FakeLocationProvider({this.useSecondDataSet = false});
 
   @override
@@ -23,16 +28,31 @@ class FakeLocationProvider extends LocationProvider {
 
   @override
   Future<bool> isLocationEnabled() async {
-    return true;
+    return _locationEnabled;
   }
 
   @override
   Future<LocationPermission> checkLocationPermission() async {
-    return LocationPermission.always;
+    return _locationPermission;
   }
 
   @override
   Future<LocationPermission> requestLocationPermission() async {
-    return Geolocator.requestPermission();
+    return _requestedLocationPermission;
+  }
+
+  // ignore: avoid_setters_without_getters
+  set locationPermission(LocationPermission value) {
+    _locationPermission = value;
+  }
+
+  // ignore: avoid_setters_without_getters
+  set locationEnabled(bool value) {
+    _locationEnabled = value;
+  }
+
+  // ignore: avoid_setters_without_getters
+  set requestedLocationPermission(LocationPermission value) {
+    _requestedLocationPermission = value;
   }
 }

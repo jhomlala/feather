@@ -59,7 +59,7 @@ class _MainScreenState extends State<MainScreen> {
                 children: [
                   if (state is InitialMainScreenState ||
                       state is LoadingMainScreenState ||
-                      state is CheckingLocationState) ...[
+                      state is CheckingLocationMainScreenState) ...[
                     const AnimatedGradientWidget(),
                     const LoadingWidget(),
                   ] else ...[

@@ -32,7 +32,7 @@ class MainScreenBloc extends Bloc<MainScreenEvent, MainScreenState> {
   @override
   Stream<MainScreenState> mapEventToState(MainScreenEvent event) async* {
     if (event is LocationCheckMainScreenEvent) {
-      yield CheckingLocationState();
+      yield CheckingLocationMainScreenState();
       if (!await _checkLocationServiceEnabled()) {
         yield LocationServiceDisabledMainScreenState();
       } else {

@@ -15,14 +15,14 @@ abstract class MainScreenState extends Equatable {
 
 class InitialMainScreenState extends MainScreenState {}
 
-class CheckingLocationState extends MainScreenState {}
+class CheckingLocationMainScreenState extends MainScreenState {}
 
 class LocationServiceDisabledMainScreenState extends MainScreenState {}
 
 class PermissionNotGrantedMainScreenState extends MainScreenState {
   final bool permanentlyDeniedPermission;
 
-  PermissionNotGrantedMainScreenState(this.permanentlyDeniedPermission);
+  const PermissionNotGrantedMainScreenState(this.permanentlyDeniedPermission);
 }
 
 class LoadingMainScreenState extends MainScreenState {}

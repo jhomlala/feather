@@ -1,6 +1,5 @@
 import 'package:feather/src/data/model/internal/geo_position.dart';
 import 'package:feather/src/data/model/internal/unit.dart';
-import 'package:feather/src/data/model/remote/city.dart';
 import 'package:feather/src/data/model/remote/weather_forecast_list_response.dart';
 import 'package:feather/src/data/model/remote/weather_response.dart';
 import 'package:feather/src/data/repository/local/storage_manager.dart';
@@ -14,8 +13,8 @@ class FakeStorageManager extends StorageManager {
   int _refreshTime = 0;
   int _lastRefreshTime = 0;
   GeoPosition _geoPosition = GeoPosition(0, 0);
-  WeatherResponse _weatherResponse = WeatherUtils.getWeather();
-  WeatherForecastListResponse _weatherForecastListResponse =
+  WeatherResponse? _weatherResponse = WeatherUtils.getWeather();
+  WeatherForecastListResponse? _weatherForecastListResponse =
       WeatherUtils.getWeatherForecastListResponse();
 
   FakeStorageManager() : super(FakeStorageProvider());
@@ -85,5 +84,14 @@ class FakeStorageManager extends StorageManager {
   @override
   Future<WeatherForecastListResponse?> getWeatherForecast() async {
     return _weatherForecastListResponse;
+  }
+
+  // ignore: avoid_setters_without_getters
+  set weatherResponse(WeatherResponse? value) {
+    _weatherResponse = value;
+  }
+// ignore: avoid_setters_without_getters
+  set weatherForecastListResponse(WeatherForecastListResponse? value) {
+    _weatherForecastListResponse = value;
   }
 }
