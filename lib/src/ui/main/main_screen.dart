@@ -92,7 +92,7 @@ class _MainScreenState extends State<MainScreen> {
     return Directionality(
       textDirection: TextDirection.ltr,
       child: Container(
-        key: const Key("weather_main_widget_container"),
+        key: const Key("main_screen_weather_widget_container"),
         decoration: BoxDecoration(
           gradient: WidgetHelper.getGradient(
             sunriseTime: weatherResponse.system!.sunrise,
@@ -105,13 +105,13 @@ class _MainScreenState extends State<MainScreen> {
             children: <Widget>[
               Text(
                 weatherResponse.name!,
-                key: const Key("weather_main_widget_city_name"),
+                key: const Key("main_screen_weather_widget_city_name"),
                 textDirection: TextDirection.ltr,
                 style: Theme.of(context).textTheme.headline6,
               ),
               Text(
                 DateTimeHelper.formatDateTime(DateTime.now()),
-                key: const Key("weather_main_widget_date"),
+                key: const Key("main_screen_weather_widget_date"),
                 textDirection: TextDirection.ltr,
                 style: Theme.of(context).textTheme.subtitle2,
               ),
@@ -179,10 +179,12 @@ class _MainScreenState extends State<MainScreen> {
 
   Widget _buildGradientWidget() {
     return Container(
-      key: const Key("weather_main_screen_container"),
+      key: const Key("main_screen_gradient_widget"),
       decoration: BoxDecoration(
         gradient: WidgetHelper.buildGradient(
-            ApplicationColors.nightStartColor, ApplicationColors.nightEndColor),
+          ApplicationColors.nightStartColor,
+          ApplicationColors.nightEndColor,
+        ),
       ),
     );
   }
