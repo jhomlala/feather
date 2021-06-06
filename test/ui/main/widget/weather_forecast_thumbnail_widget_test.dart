@@ -8,7 +8,7 @@ import 'package:feather/src/data/model/remote/weather_forecast_response.dart';
 import 'package:feather/src/data/model/remote/wind.dart';
 import 'package:feather/src/ui/main/widget/weather_forecast_thumbnail_widget.dart';
 import 'package:feather/src/ui/navigation/bloc/navigation_bloc.dart';
-import 'package:feather/src/ui/navigation/navigation.dart';
+import 'package:feather/src/ui/navigation/navigation_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -18,7 +18,7 @@ void main() {
       (WidgetTester tester) async {
     await tester.pumpWidget(
       BlocProvider<NavigationBloc>(
-        create: (context) => NavigationBloc(Navigation(), GlobalKey()),
+        create: (context) => NavigationBloc(NavigationProvider(), GlobalKey()),
         child:
             WeatherForecastThumbnailWidget(setupWeatherForecastHolder(), false),
       ),

@@ -65,6 +65,9 @@ class WeatherForecastHolder {
     _system = system;
   }
 
+  @visibleForTesting
+  WeatherForecastHolder.empty();
+
   List<double> _getTemperaturesList() {
     final List<double> temperatures = [];
     for (final WeatherForecastResponse response in forecastList!) {

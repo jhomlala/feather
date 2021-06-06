@@ -8,7 +8,7 @@ import 'package:feather/src/ui/settings/settings_screen.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 
-class Navigation {
+class NavigationProvider {
   final router = FluroRouter();
 
   final _mainScreenHandler = Handler(
@@ -61,5 +61,19 @@ class Navigation {
     router.define("/forecast", handler: _forecastScreenHandler);
     router.define("/about", handler: _aboutScreenHandler);
     router.define("/settings", handler: _settingsScreenHandler);
+  }
+
+  void navigateToPath(
+    String path,
+    GlobalKey<NavigatorState> navigatorKey, {
+    RouteSettings? routeSettings,
+  }) {
+    router.navigateTo(
+      navigatorKey.currentState!.context,
+      path,
+      routeSettings: routeSettings,
+      transition: TransitionType.material,
+      transitionDuration: const Duration(milliseconds: 300),
+    );
   }
 }

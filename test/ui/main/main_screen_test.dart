@@ -12,7 +12,7 @@ import '../../data/repository/local/fake_storage_manager.dart';
 import '../../data/repository/remote/fake_weather_api_provider.dart';
 import '../../test_helper.dart';
 import '../app/app_bloc_test.dart';
-import '../navigation/navigation_bloc_test.dart';
+import '../navigation/bloc/navigation_bloc_test.dart';
 import 'bloc/main_screen_bloc_test.dart';
 
 void main() {

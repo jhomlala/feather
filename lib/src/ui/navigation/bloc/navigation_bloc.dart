@@ -2,19 +2,18 @@ import 'package:feather/src/data/model/internal/forecast_navigation_params.dart'
 import 'package:feather/src/data/model/internal/settings_navigation_params.dart';
 import 'package:feather/src/data/model/internal/navigation_route.dart';
 import 'package:feather/src/ui/navigation/bloc/navigation_event.dart';
-import 'package:feather/src/ui/navigation/navigation.dart';
+import 'package:feather/src/ui/navigation/navigation_provider.dart';
 import 'package:feather/src/ui/navigation/bloc/navigation_state.dart';
-import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
-  final Navigation navigation;
-  final GlobalKey<NavigatorState> navigatorKey;
+  final NavigationProvider _navigationProvider;
+  final GlobalKey<NavigatorState> _navigatorKey;
 
   NavigationBloc(
-    this.navigation,
-    this.navigatorKey,
+    this._navigationProvider,
+    this._navigatorKey,
   ) : super(const NavigationState(NavigationRoute.mainScreen));
 
   @override
@@ -55,12 +54,7 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
   }
 
   void _navigateToPath(String path, {RouteSettings? routeSettings}) {
-    navigation.router.navigateTo(
-      navigatorKey.currentState!.context,
-      path,
-      routeSettings: routeSettings,
-      transition: TransitionType.material,
-      transitionDuration: const Duration(milliseconds: 300),
-    );
+    _navigationProvider.navigateToPath(path, _navigatorKey,
+        routeSettings: routeSettings);
   }
 }

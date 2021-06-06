@@ -13,7 +13,7 @@ import 'package:feather/src/data/repository/local/storage_provider.dart';
 import 'package:feather/src/ui/app/app_bloc.dart';
 import 'package:feather/src/ui/main/widget/weather_forecast_thumbnail_list_widget.dart';
 import 'package:feather/src/ui/navigation/bloc/navigation_bloc.dart';
-import 'package:feather/src/ui/navigation/navigation.dart';
+import 'package:feather/src/ui/navigation/navigation_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -40,7 +40,7 @@ void main() {
               ),
             ),
             BlocProvider<NavigationBloc>(
-              create: (context) => NavigationBloc(Navigation(), GlobalKey()),
+              create: (context) => NavigationBloc(NavigationProvider(), GlobalKey()),
             )
           ],
           child: TestHelper.wrapWidgetWithLocalizationApp(widget),

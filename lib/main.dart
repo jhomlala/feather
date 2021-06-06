@@ -10,7 +10,7 @@ import 'package:feather/src/ui/about/bloc/about_screen_bloc.dart';
 import 'package:feather/src/ui/app/app_bloc.dart';
 import 'package:feather/src/ui/main/bloc/main_screen_bloc.dart';
 import 'package:feather/src/ui/navigation/bloc/navigation_bloc.dart';
-import 'package:feather/src/ui/navigation/navigation.dart';
+import 'package:feather/src/ui/navigation/navigation_provider.dart';
 import 'package:feather/src/ui/settings/bloc/settings_screen_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -29,7 +29,7 @@ class FeatherApp extends StatefulWidget {
 }
 
 class _FeatherAppState extends State<FeatherApp> {
-  final Navigation _navigation = Navigation();
+  final NavigationProvider _navigation = NavigationProvider();
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey();
   final LocationManager _locationManager = LocationManager(LocationProvider());
   final StorageManager _storageManager = StorageManager(StorageProvider());
