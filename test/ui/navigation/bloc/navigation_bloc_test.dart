@@ -10,75 +10,72 @@ import 'package:flutter_test/flutter_test.dart';
 import 'fake_navigation_provider.dart';
 
 void main() {
-  group("Should navigate to forecast screen", () {
+  late FakeNavigationProvider fakeNavigationProvider;
+  late NavigationBloc navigationBloc;
 
-    test("some test", () {
-      final FakeNavigationProvider fakeNavigationProvider =
-      FakeNavigationProvider();
-      final NavigationBloc navigationBloc =
-      buildNavigationBloc(fakeNavigationProvider: fakeNavigationProvider);
-
-      testBloc<NavigationBloc, NavigationState>(
-          build: () {
-            return navigationBloc;
-          },
-          act: (bloc) =>
-              bloc.add(
-                ForecastScreenNavigationEvent(
-                  WeatherForecastHolder.empty(),
-                ),
-              ),
-          expect: () =>
-          [
-            const NavigationState(NavigationRoute.forecastScreen),
-          ],
-          verify: (_) {
-            expect(fakeNavigationProvider.path, "/forecast");
-          });
-    });
-
-    test("test",(){});
+  setUp(() {
+    fakeNavigationProvider = FakeNavigationProvider();
+    navigationBloc =
+        buildNavigationBloc(fakeNavigationProvider: fakeNavigationProvider);
   });
 
-  /*group("Navigation testes", () {
-    test("Should navigate to main screen", () {
-      final FakeNavigationProvider fakeNavigationProvider =
-          FakeNavigationProvider();
-      final NavigationBloc navigationBloc =
-          buildNavigationBloc(fakeNavigationProvider: fakeNavigationProvider);
+  test("Should navigate to forecast screen", () async {
+    navigationBloc.add(ForecastScreenNavigationEvent(
+      WeatherForecastHolder.empty(),
+    ));
 
-      testBloc<NavigationBloc, NavigationState>(
-          build: () {
-            return navigationBloc;
-          },
-          act: (bloc) => bloc.add(MainScreenNavigationEvent()),
-          expect: () => [
-                const NavigationState(NavigationRoute.mainScreen),
-              ],
-          verify: (_) {
-            expect(fakeNavigationProvider.path, "/");
-          });
-    });
+    await expectLater(
+      navigationBloc.stream,
+      emitsInOrder(
+        <NavigationState>[
+          const NavigationState(NavigationRoute.forecastScreen)
+        ],
+      ),
+    );
 
-    test("Should navigate to about screen", () {
-      final FakeNavigationProvider fakeNavigationProvider =
-          FakeNavigationProvider();
-      final NavigationBloc navigationBloc =
-          buildNavigationBloc(fakeNavigationProvider: fakeNavigationProvider);
+    expect(fakeNavigationProvider.path, "/forecast");
+  });
 
-      testBloc<NavigationBloc, NavigationState>(
-          build: () {
-            return navigationBloc;
-          },
-          act: (bloc) => bloc.add(AboutScreenNavigationEvent([])),
-          expect: () => [
-                const NavigationState(NavigationRoute.mainScreen),
-              ],
-          verify: (_) {
-            expect(fakeNavigationProvider.path, "/");
-          });
-    });
-  });*/
+  test("Should navigate to main screen", () async {
+    navigationBloc.add(MainScreenNavigationEvent());
+
+    await expectLater(
+      navigationBloc.stream,
+      emitsInOrder(
+        <NavigationState>[const NavigationState(NavigationRoute.mainScreen)],
+      ),
+    );
+
+    expect(fakeNavigationProvider.path, "/");
+  });
+
+  test("Should navigate to about screen", () async {
+    navigationBloc.add(AboutScreenNavigationEvent(const []));
+
+    await expectLater(
+      navigationBloc.stream,
+      emitsInOrder(
+        <NavigationState>[const NavigationState(NavigationRoute.aboutScreen)],
+      ),
+    );
+
+    expect(fakeNavigationProvider.path, "/about");
+  });
+
+  test("Should navigate to settings screen", () async {
+    navigationBloc.add(SettingsScreenNavigationEvent(const []));
+
+    await expectLater(
+      navigationBloc.stream,
+      emitsInOrder(
+        <NavigationState>[
+          const NavigationState(NavigationRoute.settingsScreen)
+        ],
+      ),
+    );
+
+    expect(fakeNavigationProvider.path, "/settings");
+  });
 }
 
 NavigationBloc buildNavigationBloc(
