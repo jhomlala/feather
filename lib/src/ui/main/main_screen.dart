@@ -226,9 +226,14 @@ class _MainScreenState extends State<MainScreen> {
 
   Widget _buildLocationServiceDisabledWidget() {
     return _buildErrorWidget(
-        AppLocalizations.of(context)!.error_location_disabled, () {
-      _mainScreenBloc.add(LocationCheckMainScreenEvent());
-    });
+      AppLocalizations.of(context)!.error_location_disabled,
+      () {
+        _mainScreenBloc.add(
+          LocationCheckMainScreenEvent(),
+        );
+      },
+      key: const Key("main_screen_location_service_disabled_widget"),
+    );
   }
 
   Widget _buildPermissionNotGrantedWidget(bool permanentlyDeniedPermission) {
@@ -236,23 +241,26 @@ class _MainScreenState extends State<MainScreen> {
     final String text = permanentlyDeniedPermission
         ? appLocalizations.error_permissions_not_granted_permanently
         : appLocalizations.error_permissions_not_granted;
-    return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-      _buildErrorWidget(text, () {
-        _mainScreenBloc.add(LocationCheckMainScreenEvent());
-      }),
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: TextButton(
-          onPressed: () {
-            AppSettings.openAppSettings();
-          },
-          child: Text(
-            appLocalizations.open_app_settings,
-            style: const TextStyle(color: Colors.white),
+    return Column(
+        key: const Key("main_screen_permissions_not_granted_widget"),
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          _buildErrorWidget(text, () {
+            _mainScreenBloc.add(LocationCheckMainScreenEvent());
+          }),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: TextButton(
+              onPressed: () {
+                AppSettings.openAppSettings();
+              },
+              child: Text(
+                appLocalizations.open_app_settings,
+                style: const TextStyle(color: Colors.white),
+              ),
+            ),
           ),
-        ),
-      ),
-    ]);
+        ]);
   }
 
   Widget _buildFailedToLoadDataWidget(ApplicationError error) {
@@ -271,14 +279,21 @@ class _MainScreenState extends State<MainScreen> {
     }
 
     return _buildErrorWidget(
-        "${appLocalizations.error_failed_to_load_weather_data} $detailedDescription",
-        () {
-      _mainScreenBloc.add(LoadWeatherDataMainScreenEvent());
-    });
+      "${appLocalizations.error_failed_to_load_weather_data} $detailedDescription",
+      () {
+        _mainScreenBloc.add(LoadWeatherDataMainScreenEvent());
+      },
+      key: const Key("main_screen_failed_to_load_data_widget"),
+    );
   }
 
-  Widget _buildErrorWidget(String errorMessage, Function() onRetryClicked) {
+  Widget _buildErrorWidget(
+    String errorMessage,
+    Function() onRetryClicked, {
+    Key? key,
+  }) {
     return Padding(
+      key: key,
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,

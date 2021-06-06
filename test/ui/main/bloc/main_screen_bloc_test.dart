@@ -36,7 +36,7 @@ void main() {
       );
     });
 
-    test("Location is disabled ", () async {
+    test("Location service is disabled ", () async {
       testBloc<MainScreenBloc, MainScreenState>(
         build: () {
           final FakeLocationProvider fakeLocationProvider =
