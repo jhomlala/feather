@@ -61,7 +61,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       return const LoadingWidget();
                     } else if (state is LoadedSettingsScreenState) {
                       return Container(
-                        key: const Key("weather_main_screen_container"),
+                        key: const Key("settings_screen_container"),
                         child: _getSettingsContainer(state),
                       );
                     } else {
@@ -111,6 +111,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           const SizedBox(height: 10),
           Text(
               "$dateTime (${timeago.format(dateTime, locale: Localizations.localeOf(context).languageCode)})",
+              key: const Key("settings_screen_last_refresh_time"),
               style: Theme.of(context).textTheme.bodyText1),
         ],
       ),
@@ -120,6 +121,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget _buildUnitsChangeWidget(
       AppLocalizations applicationLocalization, bool unitImperial) {
     return Row(
+      key: const Key("settings_screen_units_picker"),
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
@@ -147,6 +149,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget _buildRefreshTimePickerWidget(
       AppLocalizations applicationLocalization, int refreshTime) {
     return Row(
+      key: const Key("settings_screen_refresh_timer"),
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
