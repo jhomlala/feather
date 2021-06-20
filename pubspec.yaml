@@ -16,7 +16,6 @@ dependencies:
   equatable: ^2.0.0
   geolocator: ^7.0.3
   dio: ^4.0.0
-  rxdart: ^0.26.0
   logger: ^1.0.0
   flutter_swiper_null_safety:
     git: https://github.com/lianyagang/flutter_swiper_null_safety.git
