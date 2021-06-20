@@ -1,12 +1,12 @@
-import 'package:feather/src/ui/screen/base/animated_state.dart';
+import 'package:feather/src/ui/widget/animated_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class AnimatedTextWidget extends StatefulWidget {
-  final String textBefore;
-  final double maxValue;
+  final String? textBefore;
+  final double? maxValue;
 
-  AnimatedTextWidget({this.textBefore, this.maxValue, Key key})
+  const AnimatedTextWidget({this.textBefore, this.maxValue, Key? key})
       : super(key: key);
 
   @override
@@ -19,7 +19,7 @@ class _AnimatedTextWidgetState extends AnimatedState<AnimatedTextWidget> {
   @override
   void initState() {
     super.initState();
-    animateTween(start: 0, end: widget.maxValue, duration: 2000);
+    animateTween(end: widget.maxValue, duration: 2000);
   }
 
   @override
@@ -27,7 +27,7 @@ class _AnimatedTextWidgetState extends AnimatedState<AnimatedTextWidget> {
     return Text(
       "${widget.textBefore} ${_value.toStringAsFixed(0)}%",
       textDirection: TextDirection.ltr,
-      style: Theme.of(context).textTheme.title,
+      style: Theme.of(context).textTheme.headline6,
     );
   }
 
