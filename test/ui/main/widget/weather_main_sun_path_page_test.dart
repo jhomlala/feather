@@ -1,5 +1,4 @@
 import 'package:feather/src/data/model/remote/system.dart';
-import 'package:feather/src/ui/main/widget/sun_path_widget.dart';
 import 'package:feather/src/ui/main/widget/weather_main_sun_path_widget.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -9,7 +8,7 @@ import '../../../test_helper.dart';
 void main() {
   testWidgets("Weather widget should show widgets",
       (WidgetTester tester) async {
-    WeatherMainSunPathWidget widget = WeatherMainSunPathWidget(
+    final WeatherMainSunPathWidget widget = WeatherMainSunPathWidget(
       system: setupSystem(),
     );
 

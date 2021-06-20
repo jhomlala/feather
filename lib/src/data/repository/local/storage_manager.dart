@@ -8,7 +8,6 @@ import 'package:feather/src/data/repository/local/storage_provider.dart';
 import 'package:feather/src/resources/config/ids.dart';
 import 'package:feather/src/utils/app_logger.dart';
 import 'package:feather/src/utils/date_time_helper.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class StorageManager {
   final StorageProvider _storageProvider;

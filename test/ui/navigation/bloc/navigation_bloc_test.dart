@@ -1,4 +1,3 @@
-import 'package:bloc_test/bloc_test.dart';
 import 'package:feather/src/data/model/internal/navigation_route.dart';
 import 'package:feather/src/data/model/internal/weather_forecast_holder.dart';
 import 'package:feather/src/ui/navigation/bloc/navigation_bloc.dart';

@@ -97,7 +97,7 @@ class MainScreenBloc extends Bloc<MainScreenEvent, MainScreenState> {
             permissionRequest == LocationPermission.deniedForever);
       }
     } else if (permissionCheck == LocationPermission.deniedForever) {
-      return PermissionNotGrantedMainScreenState(true);
+      return const PermissionNotGrantedMainScreenState(true);
     } else {
       return null;
     }

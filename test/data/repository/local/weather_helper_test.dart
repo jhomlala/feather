@@ -1,7 +1,6 @@
 import 'package:feather/src/data/model/remote/system.dart';
 import 'package:feather/src/data/model/remote/weather_forecast_response.dart';
 import 'package:feather/src/data/repository/local/weather_helper.dart';
-import 'package:feather/src/utils/app_logger.dart';
 
 import 'package:test/test.dart';
 
